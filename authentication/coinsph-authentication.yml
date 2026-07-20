@@ -1,0 +1,40 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/coinsph-account-openapi.json, openapi/coinsph-account-validation-openapi.json,
+  openapi/coinsph-convert-openapi.json, openapi/coinsph-payment-openapi.json, openapi/coinsph-ramp-openapi.json,
+  openapi/coinsph-spot-openapi.json, openapi/coinsph-sub-account-openapi.json, openapi/coinsph-wallet-openapi.json
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-COINS-APIKEY
+  sources:
+  - openapi/coinsph-account-openapi.json
+  - openapi/coinsph-account-validation-openapi.json
+  - openapi/coinsph-convert-openapi.json
+  - openapi/coinsph-payment-openapi.json
+  - openapi/coinsph-ramp-openapi.json
+  - openapi/coinsph-spot-openapi.json
+  - openapi/coinsph-sub-account-openapi.json
+  - openapi/coinsph-wallet-openapi.json
+- name: TimestampAuth
+  type: apiKey
+  in: header
+  parameter: Timestamp
+  description: Unix timestamp of the request
+  sources:
+  - openapi/coinsph-payment-openapi.json
+  - openapi/coinsph-ramp-openapi.json
+- name: SignatureAuth
+  type: apiKey
+  in: header
+  parameter: Signature
+  description: HMAC-SHA256 signature of the request
+  sources:
+  - openapi/coinsph-payment-openapi.json
+  - openapi/coinsph-ramp-openapi.json
