@@ -1,0 +1,402 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Tokenized Checkout API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Tokenized Checkout
+  description: Password-free (auto-debit) checkout
+paths:
+  /openapi/fiat/v1/auto-debit/token-apply:
+    post:
+      tags:
+      - Tokenized Checkout
+      summary: Apply for Token
+      description: Create an auto-debit authorization link. Once authorized by the user, it can be used for future payments without requiring authorization each time.
+      operationId: tokenApply
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenApplyRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/TokenApplyResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/auto-debit/token-query:
+    post:
+      tags:
+      - Tokenized Checkout
+      summary: Query Payment Token
+      description: Check the status of a current token, whether it is valid, expired, or revoked.
+      operationId: tokenQuery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenQueryRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/TokenQueryResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/auto-debit/token-remove:
+    post:
+      tags:
+      - Tokenized Checkout
+      summary: Remove Payment Token
+      description: Revoke an authorized token so it can no longer be used for subsequent payments.
+      operationId: removePaymentToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - customerId
+              - tokenId
+              properties:
+                customerId:
+                  type: string
+                  maxLength: 64
+                  description: Customer ID.
+                  example: customer_12345
+                tokenId:
+                  type: string
+                  maxLength: 64
+                  description: Token ID.
+                  example: token_abc123def456
+                removeReason:
+                  type: string
+                  maxLength: 256
+                  description: Reason for deletion.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        customerId:
+                          type: string
+                        tokenId:
+                          type: string
+                        tokenStatus:
+                          type: string
+                          example: REVOKED
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/auto-debit/token-pay:
+    post:
+      tags:
+      - Tokenized Checkout
+      summary: Pay with Token
+      description: Initiate an auto-debit payment using an authorized token.
+      operationId: payWithToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenPayRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/TokenPayResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+    ProductDetail:
+      type: object
+      required:
+      - name
+      - type
+      - amount
+      properties:
+        name:
+          type: string
+          example: iPhone 15 Pro
+        type:
+          type: string
+          enum:
+          - retail_goods
+          - food_and_beverage
+          - transportation
+          - utilities_and_bills
+          - digital_goods
+          - ecommerce_vouchers
+          - online_subscriptions
+          - mobile_load
+          - gaming_and_gambling
+          - cash_equivalents
+          - high_value_goods
+          - others
+        quantity:
+          type: string
+          example: '1'
+        code:
+          type: string
+          example: IPHONE-256GB-BLUE
+        desc:
+          type: string
+          example: iPhone 15 Pro 256GB Blue
+        amount:
+          type: string
+          example: '100.00'
+    TokenQueryResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+        currency:
+          type: string
+        tokenId:
+          type: string
+        tokenStatus:
+          type: string
+          enum:
+          - PENDING
+          - ACTIVE
+          - EXPIRED
+          - REVOKED
+        tokenCreateTime:
+          type: string
+        tokenExpireTime:
+          type: integer
+          description: Unix timestamp in seconds.
+        accountDisplay:
+          type: string
+    TokenApplyRequest:
+      type: object
+      required:
+      - requestId
+      - currency
+      - customerId
+      - redirectUrl
+      properties:
+        requestId:
+          type: string
+          maxLength: 64
+        currency:
+          type: string
+          example: PHP
+        customerId:
+          type: string
+          maxLength: 64
+        redirectUrl:
+          type: object
+          required:
+          - success
+          - failure
+          - cancel
+          properties:
+            success:
+              type: string
+            failure:
+              type: string
+            cancel:
+              type: string
+    CheckoutRedirectUrl:
+      type: object
+      required:
+      - defaultUrl
+      properties:
+        success:
+          type: string
+          example: https://merchant.example.com/payment/success
+        failure:
+          type: string
+          example: https://merchant.example.com/payment/failure
+        cancel:
+          type: string
+          example: https://merchant.example.com/payment/cancel
+        defaultUrl:
+          type: string
+          example: https://merchant.example.com/payment/default
+    TokenQueryRequest:
+      type: object
+      properties:
+        tokenId:
+          type: string
+          description: Token ID (either tokenId or requestId must be provided).
+        requestId:
+          type: string
+          description: Request ID used when applying for the token.
+    TokenPayResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+        status:
+          type: string
+        paymentStatus:
+          type: string
+          enum:
+          - INIT
+          - PROCESSING
+          - SUCCEEDED
+          - FAILED
+        needManualPay:
+          type: boolean
+          description: If true, checkoutUrl is provided for manual payment.
+        failReason:
+          type: string
+        orderId:
+          type: string
+        checkoutUrl:
+          type: string
+        checkoutDeeplinkUrl:
+          type: string
+        customerId:
+          type: string
+    TokenApplyResponse:
+      type: object
+      properties:
+        tokenId:
+          type: string
+          example: token_abc123def456
+        tokenStatus:
+          type: string
+          example: PENDING
+        redirectUrl:
+          type: string
+          example: https://payment.example.com/auth?token=...
+        token:
+          type: string
+          example: tk_1234567890abcdef
+    TokenPayRequest:
+      type: object
+      required:
+      - requestId
+      - totalAmount
+      - amount
+      - redirectUrl
+      - customerId
+      - token
+      properties:
+        requestId:
+          type: string
+          maxLength: 64
+        totalAmount:
+          type: string
+        amount:
+          type: string
+        feeAmount:
+          type: string
+        currency:
+          type: string
+        subMerchantId:
+          type: string
+        subMerchantReqRefNo:
+          type: string
+        merchantName:
+          type: string
+        merchantIcon:
+          type: string
+        redirectUrl:
+          $ref: '#/components/schemas/CheckoutRedirectUrl'
+        productDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetail'
+        expireSeconds:
+          type: string
+        remark:
+          type: string
+        extendInfo:
+          type: string
+          description: Extended information (JSON string format).
+        customerId:
+          type: string
+          maxLength: 64
+        storePaymentMethod:
+          type: boolean
+        token:
+          type: string
+          description: Authorization token for passwordless (auto-debit) payment.
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

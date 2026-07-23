@@ -1,0 +1,480 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Disbursements API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Disbursements
+  description: Cash-out and disbursement operations
+paths:
+  /openapi/fiat/v1/support-channel:
+    post:
+      tags:
+      - Disbursements
+      summary: Support Channel
+      description: Return the supported channels for cash-out methods.
+      operationId: getSupportChannel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - transactionType
+              - currency
+              - amount
+              properties:
+                transactionType:
+                  type: string
+                  description: Set to -1 to indicate a cash-out transaction.
+                  example: '-1'
+                currency:
+                  type: string
+                  enum:
+                  - PHP
+                  description: Only the Philippine peso is supported.
+                transactionChannel:
+                  type: string
+                  description: Filter by first-level channel.
+                  enum:
+                  - INSTAPAY
+                  - SWIFTPAY_PESONET
+                  - INSTAPAY_BUSINESS
+                transactionSubject:
+                  type: string
+                  example: Gcash
+                  description: Filter by secondary channels (e.g., Gcash).
+                amount:
+                  type: string
+                  description: Used to match the fee rate. Default is 0.
+                  example: '0'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupportChannelItem'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/decode/kyb_qr_code:
+    post:
+      tags:
+      - Disbursements
+      summary: Decode QRPH
+      description: Returns a structured breakdown of the information contained in the QR code.
+      operationId: decodeQRPH
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - codeMsg
+              properties:
+                codeMsg:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                  description: QR code string.
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        qrType:
+                          type: string
+                          example: ph.ppmi.p2m
+                        channel:
+                          type: string
+                          enum:
+                          - INSTAPAY_QR
+                        channelSubject:
+                          type: string
+                          example: gcash
+                        channelQRCodeMap:
+                          type: object
+                          additionalProperties: true
+  /openapi/fiat/v1/cash-out:
+    post:
+      tags:
+      - Disbursements
+      summary: Initiate Cash-out
+      description: Disbursement to external financial institutions.
+      operationId: initiateCashOut
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - currency
+              - amount
+              - channelName
+              - channelSubject
+              - extendInfo
+              properties:
+                internalOrderId:
+                  type: string
+                  minLength: 10
+                  maxLength: 60
+                  description: Unique string assigned by the partner. Required for Coins users, optional for external users.
+                  example: 3C1706X9619A7614YWS
+                currency:
+                  type: string
+                  enum:
+                  - PHP
+                  description: Only the Philippine peso is supported.
+                amount:
+                  type: number
+                  format: decimal
+                  description: The amount represented by the cash-out order.
+                  example: 200.99
+                channelName:
+                  type: string
+                  enum:
+                  - INSTAPAY
+                  - INSTAPAY_QR
+                  - INSTAPAY_BUSINESS
+                  - SWIFTPAY_PESONET
+                  - COINS
+                  description: Type of payment channel.
+                channelSubject:
+                  type: string
+                  description: 'Example: PH：unionbank, Coins_PHP_balance (COINS internal transfer) BR：basspago, basspago_bank Abbreviated name of the Receiving Financial Institution (RFI). (Check openapi/fiat/v1/support-channel for complete list, refer to parameter: transactionSubject)'
+                  example: unionbank
+                extendInfo:
+                  type: object
+                  additionalProperties: true
+                  description: Additional information regarding cashout
+                  properties:
+                    recipientName:
+                      type: string
+                      description: Recipient's name. Required for bank/e-wallet/QRPH/Coins internal transfers.
+                      example: sandyopenapitest
+                    recipientAccountNumber:
+                      type: string
+                      description: Recipient's account number. Required for bank/e-wallet/QRPH/Coins internal transfers.
+                      example: '123456789'
+                    customSenderName:
+                      type: string
+                      description: KYB custom display name for the sender.
+                      example: KYB custom Display name
+                    merchantMobileNumber:
+                      type: string
+                      description: Merchant mobile number (QRPH).
+                    amount:
+                      type: string
+                      description: Amount from QR code (QRPH).
+                    merchantCity:
+                      type: string
+                      description: Merchant city (QRPH).
+                      example: Mandaluyong
+                    purpose:
+                      type: string
+                      description: Purpose of the transaction (QRPH).
+                    referenceLabel:
+                      type: string
+                      description: Reference label from QR code (QRPH).
+                      example: '217050000037058984159'
+                    tfrName:
+                      type: string
+                      description: Transfer name (QRPH).
+                      example: Inihaw X 4766
+                    tfrBnkCode:
+                      type: string
+                      description: Transfer bank code (QRPH).
+                      example: GXCHPHM2XXX
+                    proxyNotify:
+                      type: string
+                      description: Proxy notification flag (QRPH).
+                      example: '000'
+                    storeLabel:
+                      type: string
+                      description: Store label (QRPH).
+                      example: INIX0002
+                    paymentType:
+                      type: string
+                      description: Payment type (QRPH).
+                    customerLabel:
+                      type: string
+                      description: Customer label (QRPH).
+                    terminalLabel:
+                      type: string
+                      description: Terminal label (QRPH).
+                      example: GEN00001
+                    merchantId:
+                      type: string
+                      description: Merchant ID (QRPH).
+                      example: '217020000037063469158'
+                    merchantCategoryCode:
+                      type: string
+                      description: Merchant category code (QRPH).
+                      example: '5814'
+                    tfrAcctNo:
+                      type: string
+                      description: Transfer account number (QRPH).
+                      example: '217020000037063469158'
+                    acqInfo:
+                      type: string
+                      description: Acquirer information (QRPH).
+                    postCode:
+                      type: string
+                      description: Postal code (QRPH).
+                      example: '1550'
+                    uniqueId:
+                      type: string
+                      description: Unique identifier from QR code (QRPH).
+                      example: ph.ppmi.p2m
+                    loyaltyNumber:
+                      type: string
+                      description: Loyalty number (QRPH).
+                    ispb:
+                      type: string
+                      description: ISPB code of the bank (BR bank account).
+                      example: '45246410'
+                    issuer:
+                      type: string
+                      description: Issuer code (BR bank account).
+                      example: '0001'
+                    number:
+                      type: string
+                      description: Account number (BR bank account).
+                      example: '43607160'
+                    accountType:
+                      type: string
+                      description: Account type (BR bank account).
+                      example: CACC
+                    document:
+                      type: string
+                      description: Document number, CPF or CNPJ (BR bank account).
+                      example: '46919983000165'
+                    name:
+                      type: string
+                      description: Recipient name (BR bank account).
+                      example: Coins.Xyz Digital Markets Ltda
+                    pixKey:
+                      type: string
+                      description: PIX key value (BR pixkey).
+                      example: '91351359720'
+                    pixKeyType:
+                      type: string
+                      description: PIX key type (BR pixkey).
+                      enum:
+                      - cpf
+                      - cnpj
+                      - email
+                      - phone
+                      - evp
+                      example: cpf
+                    remarks:
+                      type: string
+                      description: Remarks or notes for the cash-out transaction.
+                      example: Payment for services
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  externalOrderId:
+                    type: string
+                    description: Server generated external order id.
+                    example: '1950928204919496214'
+                  internalOrderId:
+                    type: string
+                    description: Previously provided by the partner.
+                    example: 3C1706X9619A7614YWS
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/wallet/v1/withdraw/apply:
+    post:
+      tags:
+      - Disbursements
+      summary: Crypto Apply Withdrawal
+      description: Make a crypto withdrawal to an external wallet.
+      operationId: cryptoApplyWithdrawal
+      parameters:
+      - name: coin
+        in: query
+        required: true
+        schema:
+          type: string
+        example: USDT
+      - name: network
+        in: query
+        required: true
+        schema:
+          type: string
+        example: XRP
+      - name: address
+        in: query
+        required: true
+        schema:
+          type: string
+        example: rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC
+      - name: addressTag
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1119001253'
+      - name: amount
+        in: query
+        required: true
+        schema:
+          type: number
+          format: decimal
+        example: 200.64
+      - name: withdrawOrderId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Assigned by the partner.
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: timestamp
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the withdrawal request.
+                    example: '459165282044051456'
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+    SupportChannelItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        transactionChannel:
+          type: string
+        transactionChannelName:
+          type: string
+        transactionSubject:
+          type: string
+        transactionSubjectType:
+          type: string
+        transactionSubjectTypeLabel:
+          type: string
+        transactionSubjectName:
+          type: string
+        transactionType:
+          type: integer
+          description: 1 = cash in, -1 = cash out
+        paymentMethod:
+          type: string
+          example: BANK_TRANSFER
+        channelIcon:
+          type: string
+          format: uri
+        subjectIcon:
+          type: string
+          format: uri
+        maximum:
+          type: string
+        minimum:
+          type: string
+        dailyLimit:
+          type: string
+        monthlyLimit:
+          type: string
+        annualLimit:
+          type: string
+        remainingDailyLimit:
+          type: string
+        remainingMonthlyLimit:
+          type: string
+        remainingAnnualLimit:
+          type: string
+        precision:
+          type: string
+        fee:
+          type: string
+        feeType:
+          type: string
+          enum:
+          - FIXED
+          - PERCENTAGE
+        status:
+          type: string
+          description: 1 = available, 0 = maintenance
+        maxWithdrawBalance:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

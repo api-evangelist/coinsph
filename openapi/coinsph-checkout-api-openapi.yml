@@ -1,0 +1,272 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Checkout API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Checkout
+  description: Checkout creation and management
+paths:
+  /openapi/fiat/v1/checkout/create-checkout:
+    post:
+      tags:
+      - Checkout
+      summary: Create Checkout
+      description: Create an instance of a checkout.
+      operationId: createCheckout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckoutRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/CreateCheckoutResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/checkout/status-check:
+    get:
+      tags:
+      - Checkout
+      summary: Get Checkout Status
+      description: Returns the current status of a previously created checkout.
+      operationId: getCheckoutStatus
+      parameters:
+      - name: checkoutId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Server generated checkout id. This takes first priority.
+        example: '1984059672474453473'
+      - name: refundId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Server generated checkout id. This takes first priority.
+        example: '1984059672474453473'
+      - name: requestId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Assigned by the partner. This takes second priority.
+        example: 3C1706X9619A7614YWS
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/CheckoutStatusResponse'
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+    ProductDetail:
+      type: object
+      required:
+      - name
+      - type
+      - amount
+      properties:
+        name:
+          type: string
+          example: iPhone 15 Pro
+        type:
+          type: string
+          enum:
+          - retail_goods
+          - food_and_beverage
+          - transportation
+          - utilities_and_bills
+          - digital_goods
+          - ecommerce_vouchers
+          - online_subscriptions
+          - mobile_load
+          - gaming_and_gambling
+          - cash_equivalents
+          - high_value_goods
+          - others
+        quantity:
+          type: string
+          example: '1'
+        code:
+          type: string
+          example: IPHONE-256GB-BLUE
+        desc:
+          type: string
+          example: iPhone 15 Pro 256GB Blue
+        amount:
+          type: string
+          example: '100.00'
+    CreateCheckoutResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+        checkoutId:
+          type: string
+          example: '1984059672474453473'
+        checkoutUrl:
+          type: string
+          description: Redirect URL to the Coins hosted checkout page.
+        checkoutDeeplinkUrl:
+          type: string
+          description: Deep link URL to open the Coins app.
+    CheckoutRedirectUrl:
+      type: object
+      required:
+      - defaultUrl
+      properties:
+        success:
+          type: string
+          example: https://merchant.example.com/payment/success
+        failure:
+          type: string
+          example: https://merchant.example.com/payment/failure
+        cancel:
+          type: string
+          example: https://merchant.example.com/payment/cancel
+        defaultUrl:
+          type: string
+          example: https://merchant.example.com/payment/default
+    CheckoutStatusResponse:
+      type: object
+      properties:
+        checkoutId:
+          type: string
+        checkoutUrl:
+          type: string
+          nullable: true
+        requestId:
+          type: string
+        subMerchantId:
+          type: string
+        merchantName:
+          type: string
+        subMerchantReqRefNo:
+          type: string
+        totalAmount:
+          type: string
+        feeAmount:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - CANCELED
+          - EXPIRED
+        completedAt:
+          type: string
+          description: UNIX timestamp of checkout reaching final status.
+        errorCode:
+          type: string
+          nullable: true
+        errorMsg:
+          type: string
+          nullable: true
+    CreateCheckoutRequest:
+      type: object
+      required:
+      - requestId
+      - totalAmount
+      - amount
+      - redirectUrl
+      - productDetails
+      properties:
+        requestId:
+          type: string
+          minLength: 15
+          maxLength: 19
+        totalAmount:
+          type: string
+          description: Amount including fees.
+          example: '100.12'
+        amount:
+          type: string
+          description: Amount excluding fees.
+          example: '100.00'
+        feeAmount:
+          type: string
+          description: Fee amount.
+          example: '0.12'
+        currency:
+          type: string
+          example: PHP
+        subMerchantId:
+          type: string
+          maxLength: 64
+        subMerchantReqRefNo:
+          type: string
+          maxLength: 64
+        merchantName:
+          type: string
+          maxLength: 128
+        redirectUrl:
+          $ref: '#/components/schemas/CheckoutRedirectUrl'
+        productDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetail'
+        expireSeconds:
+          type: string
+          description: Seconds before order expires. Range 300-1800, default 1800.
+          example: '600'
+        remark:
+          type: string
+          maxLength: 256
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

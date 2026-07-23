@@ -1,0 +1,467 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Transfers API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Transfers
+paths:
+  /openapi/transfer/v4/transfers:
+    post:
+      tags:
+      - Transfers
+      summary: Transfers (USER_DATA)
+      description: 'Transfer funds between two accounts.
+
+
+        **Key Notes**
+
+
+        - `client_transfer_id` is used as an idempotency key — do not send duplicate IDs.
+
+        - `account` can be either a token symbol (e.g., PHP, BTC) or a Balance ID.
+
+        - `target_address` is the recipient''s phone number or email address.
+
+        - If `client_transfer_id` or `id` is passed in, the `type` parameter is invalid.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 50
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Idempotency Management** — Always use `client_transfer_id` for production transfers to prevent duplicate transfers.
+
+        - **Recipient Validation** — Transfer to a recipient by phone number or email.
+
+        - **Multi-Asset Transfers** — Transfer any supported token or fiat currency.
+
+
+        **Best Practices**
+
+
+        - Always use `client_transfer_id` for production transfers; store it in your database before making the API call.
+
+        - Retry with the same `client_transfer_id` on network errors — the system prevents duplicate transfers.
+
+        - Validate the recipient email/phone exists before initiating a transfer.
+
+        - Use string format for amounts to preserve precision.
+
+        '
+      operationId: post_transfers
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - account
+              - target_address
+              - amount
+              - timestamp
+              - signature
+              properties:
+                client_transfer_id:
+                  type: string
+                  maxLength: 100
+                  example: TRANSFER_20231201_001
+                  description: Client Transfer ID for idempotency. Cannot send duplicate ID.
+                account:
+                  type: string
+                  example: BTC
+                  description: Either the token (e.g., PHP, BTC, ETH) or the Balance ID to be transferred.
+                target_address:
+                  type: string
+                  example: recipient@coins.ph
+                  description: The phone number or email for the recipient account.
+                amount:
+                  type: string
+                  example: '1232'
+                  description: The amount being transferred. Must be greater than 0.
+                message:
+                  type: string
+                  maxLength: 500
+                  example: Payment for services
+                  description: The message sent to the recipient account.
+                customSenderName:
+                  type: string
+                  example: My Company
+                  description: Custom sender name displayed to the recipient.
+                recvWindow:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  maximum: 60000
+                  example: 5000
+                  description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+                timestamp:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  example: 1638253478000
+                  description: Unix timestamp in milliseconds.
+                signature:
+                  type: string
+                  description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Transfer with idempotency key
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/transfer/v4/transfers'' \
+
+          --header ''X-COINS-APIKEY: <your api key>'' \
+
+          --data-urlencode ''client_transfer_id=TRANSFER_20231201_001'' \
+
+          --data-urlencode ''account=BTC'' \
+
+          --data-urlencode ''target_address=recipient@coins.ph'' \
+
+          --data-urlencode ''amount=0.001'' \
+
+          --data-urlencode ''timestamp=1638253478000'' \
+
+          --data-urlencode ''signature=<calculated_signature>''
+
+          '
+      responses:
+        '200':
+          description: Transfer submitted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: 'Transfer status: received, completed, com_pending, success, failed.'
+                    example: completed
+                  account:
+                    type: string
+                    description: Account identifier used for transfer.
+                    example: '14514312308890900352'
+                  target_address:
+                    type: string
+                    description: Recipient's phone number or email address.
+                    example: recipient@coins.ph
+                  amount:
+                    type: string
+                    description: Amount transferred.
+                    example: '1232'
+                  exchange:
+                    type: string
+                    description: Exchange rate applied (if applicable).
+                    example: '1'
+                  payment:
+                    type: string
+                    description: Payment transaction identifier.
+                    example: payment_id_12345
+                  client_transfer_id:
+                    type: string
+                    description: Client-provided transfer ID.
+                    example: TRANSFER_20231201_001
+                  message:
+                    type: string
+                    description: Message sent with the transfer.
+                    example: Payment for services
+                  errorMessage:
+                    type: string
+                    description: Error message if transfer fails.
+                    example: ''
+              examples:
+                success:
+                  summary: Transfer completed
+                  value:
+                    status: completed
+                    account: '14514312308890900352'
+                    target_address: recipient@coins.ph
+                    amount: '1232'
+                    exchange: '1'
+                    payment: payment_id_12345
+                    client_transfer_id: TRANSFER_20231201_001
+                    message: Payment for services
+                    errorMessage: ''
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1003 | Duplicate client_transfer_id |
+
+            | -20012 | The transfer request id is duplicate |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/transfer/v3/transfers:
+    get:
+      tags:
+      - Transfers
+      summary: Query Transfers (USER_DATA)
+      description: 'If an ID is provided, retrieves an existing transfer record; otherwise, returns a paginated list of transfers.
+
+        Supports querying by ID, client transfer ID, sender/recipient addresses, and pagination parameters.
+
+
+        **Key Notes**
+
+
+        - If both `id` (path) and `client_transfer_id` are passed, `id` takes precedence.
+
+        - `from_address` and `to_address` cannot be used simultaneously.
+
+        - Email addresses must be URL-encoded (e.g., test@gmail.com → test%40gmail.com).
+
+        - Default and maximum `per_page` is 2000.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 10
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Single Transfer Lookup** — Use `id` or `client_transfer_id` for precise lookup.
+
+        - **Transfer History** — Use pagination to retrieve transfer history.
+
+        - **Directional Filtering** — Filter by `from_address` or `to_address` to scope results.
+
+
+        **Best Practices**
+
+
+        - Use `client_transfer_id` for quick lookup of specific transfers you initiated.
+
+        - Avoid querying all transfers repeatedly — cache recent results.
+
+        - Use `meta.next_page` to determine if more pages exist.
+
+        '
+      operationId: get_transfers
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: client_transfer_id
+        required: false
+        schema:
+          type: string
+          example: TRANSFER_20231201_001
+        description: Client Transfer ID for querying a specific transfer. Maximum length 100.
+      - in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+          example: 1
+        description: 'Current page number for pagination. Default: 1.'
+      - in: query
+        name: per_page
+        required: false
+        schema:
+          type: integer
+          example: 50
+        description: Quantity per page. Default 2000, maximum 2000.
+      - in: query
+        name: from_address
+        required: false
+        schema:
+          type: string
+          example: sender@coins.ph
+        description: The phone number or email for the sender account. Cannot be used with to_address.
+      - in: query
+        name: to_address
+        required: false
+        schema:
+          type: string
+          example: recipient@coins.ph
+        description: The phone number or email for the recipient account. Cannot be used with from_address.
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+          example: 5000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1638253478000
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Query Transfers
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/transfer/v3/transfers?page=1&per_page=50&timestamp=1638253478000&signature=<calculated_signature>'' \
+
+          --header ''X-COINS-APIKEY: <your api key>''
+
+          '
+      - lang: Shell
+        label: Query Specific Transfer by Client ID
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/transfer/v3/transfers?client_transfer_id=TRANSFER_20231201_001&timestamp=1638253478000&signature=<calculated_signature>'' \
+
+          --header ''X-COINS-APIKEY: <your api key>''
+
+          '
+      responses:
+        '200':
+          description: Transfer records or paginated list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: System-generated transfer ID.
+                          example: '14514312308890900352'
+                        client_transfer_id:
+                          type: string
+                          description: Client-provided transfer ID.
+                          example: TRANSFER_20231201_001
+                        status:
+                          type: string
+                          description: 'Transfer status: received, completed, com_pending, success, failed.'
+                          example: completed
+                        account:
+                          type: string
+                          description: Account identifier used for transfer.
+                          example: '14514312308890900352'
+                        target_address:
+                          type: string
+                          description: Recipient's phone number or email address.
+                          example: recipient@coins.ph
+                        amount:
+                          type: string
+                          description: Amount transferred.
+                          example: '1232'
+                        message:
+                          type: string
+                          description: Message sent with the transfer.
+                          example: Payment for services
+                        created_at:
+                          type: string
+                          description: Transfer creation timestamp.
+                          example: '2023-12-01T00:00:00Z'
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        description: Current page number.
+                        example: 1
+                      per_page:
+                        type: integer
+                        description: Records per page.
+                        example: 50
+                      total:
+                        type: integer
+                        description: Total number of records.
+                        example: 1
+                      next_page:
+                        type: integer
+                        nullable: true
+                        description: Next page number, null if no more pages.
+                        example: null
+              examples:
+                success:
+                  summary: Transfer list result
+                  value:
+                    data:
+                    - id: '14514312308890900352'
+                      client_transfer_id: TRANSFER_20231201_001
+                      status: completed
+                      account: '14514312308890900352'
+                      target_address: recipient@coins.ph
+                      amount: '1232'
+                      message: Payment for services
+                      created_at: '2023-12-01T00:00:00Z'
+                    meta:
+                      page: 1
+                      per_page: 50
+                      total: 1
+                      next_page: null
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1102 | Mandatory parameter was not sent, was empty/null, or malformed |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

@@ -1,0 +1,189 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Refund API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Refund
+  description: Refund operations
+paths:
+  /openapi/fiat/v1/refund/pay-in-refund:
+    post:
+      tags:
+      - Refund
+      summary: Cash-in Refund
+      description: Initiate a refund for a cash-in transaction (only QRPH refund is supported).
+      operationId: cashInRefund
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashInRefundRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        requestId:
+                          type: string
+                          description: Merchant refund request ID.
+                        originalOrderId:
+                          type: string
+                          description: Original order ID.
+                        referenceId:
+                          type: string
+                          description: Coins-generated reference ID.
+                        refundAmount:
+                          type: string
+                          description: Refund amount.
+                        refundCurrency:
+                          type: string
+                          description: Refund currency.
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/refund/account:
+    get:
+      tags:
+      - Refund
+      summary: Get Payer Account
+      description: Retrieve payer account information for a specific reference ID.
+      operationId: getPayerAccount
+      parameters:
+      - name: referenceId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Reference ID for the transaction.
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        requestId:
+                          type: string
+                        referenceId:
+                          type: string
+                        senderAccountName:
+                          type: string
+                        senderAccountNumber:
+                          type: string
+                        senderChannel:
+                          type: string
+                        senderSubject:
+                          type: string
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+    ReceiveAccount:
+      type: object
+      required:
+      - tfrAcctNo
+      - tfrName
+      - receiveChannel
+      - receiveSubject
+      properties:
+        tfrAcctNo:
+          type: string
+          maxLength: 64
+          description: Recipient account number without spaces.
+        tfrName:
+          type: string
+          maxLength: 64
+          description: Recipient account name.
+        receiveChannel:
+          type: string
+          maxLength: 64
+          description: Payment channel (e.g., INSTAPAY, GCASH)
+        receiveSubject:
+          type: string
+          maxLength: 64
+          description: Payment provider/bank name.
+    CashInRefundRequest:
+      type: object
+      required:
+      - requestId
+      - originalOrderId
+      - amount
+      - currency
+      - reason
+      - method
+      properties:
+        requestId:
+          type: string
+          minLength: 10
+          maxLength: 60
+        originalOrderId:
+          type: string
+          maxLength: 64
+        amount:
+          type: string
+          maxLength: 64
+        currency:
+          type: string
+          example: PHP
+        reason:
+          type: string
+          maxLength: 200
+        method:
+          type: string
+          enum:
+          - '1'
+          - '2'
+          description: 1 = original route, 2 = manual input
+        receiveAccount:
+          $ref: '#/components/schemas/ReceiveAccount'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

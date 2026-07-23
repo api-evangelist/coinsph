@@ -1,0 +1,224 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Utility API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Utility
+  description: Account balance, transfers, and utility endpoints
+paths:
+  /openapi/v1/account:
+    get:
+      tags:
+      - Utility
+      summary: Account Balance
+      description: Obtain the current balance of the account.
+      operationId: getAccountBalance
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds. Default 5000, max 60000.
+      - name: timestamp
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: Unix timestamp indicating when the request was made.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalanceResponse'
+  /openapi/transfer/v3/transfers:
+    post:
+      tags:
+      - Utility
+      summary: P2P Transfers
+      description: Conduct transfer of funds between two Coins.ph accounts.
+      operationId: p2pTransfer
+      parameters:
+      - name: client_transfer_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Assigned by the partner.
+      - name: account
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The currency to be transferred.
+        example: PHP
+      - name: target_address
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The registered phone number or email of the recipient.
+        example: +63 9686490252
+      - name: amount
+        in: query
+        required: true
+        schema:
+          type: number
+          format: decimal
+        description: The amount to be transferred.
+        example: 200.99
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: timestamp
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: message
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 99
+        description: Message to be sent to the recipient account.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transfer:
+                    $ref: '#/components/schemas/TransferResponse'
+  /openapi/v1/user/ip:
+    get:
+      tags:
+      - Utility
+      summary: Get User IP
+      description: Returns the current IP address.
+      operationId: getUserIP
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ip:
+                    type: string
+                    example: 35.75.185.122
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+components:
+  schemas:
+    LimitPeriod:
+      type: object
+      properties:
+        cashInLimit:
+          type: string
+        cashInRemaining:
+          type: string
+        cashOutLimit:
+          type: string
+        cashOutRemaining:
+          type: string
+        totalWithdrawLimit:
+          type: string
+        totalWithdrawRemaining:
+          type: string
+    TransferResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - success
+        account:
+          type: string
+        amount:
+          type: string
+        exchange:
+          type: string
+          nullable: true
+          deprecated: true
+        payment:
+          type: string
+          deprecated: true
+        message:
+          type: string
+        errorMessage:
+          type: string
+          nullable: true
+        target_address:
+          type: string
+        client_transfer_id:
+          type: string
+    AccountBalanceResponse:
+      type: object
+      properties:
+        canTrade:
+          type: boolean
+        canDeposit:
+          type: boolean
+        canWithdraw:
+          type: boolean
+        accountType:
+          type: string
+          example: SPOT
+        updateTime:
+          type: integer
+          format: int64
+        balances:
+          type: array
+          items:
+            type: object
+            properties:
+              asset:
+                type: string
+              free:
+                type: string
+              locked:
+                type: string
+        token:
+          type: string
+          description: Denomination for limits.
+          example: PHP
+        daily:
+          $ref: '#/components/schemas/LimitPeriod'
+        monthly:
+          $ref: '#/components/schemas/LimitPeriod'
+        annually:
+          $ref: '#/components/schemas/LimitPeriod'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

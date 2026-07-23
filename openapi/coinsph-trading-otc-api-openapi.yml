@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Trading - OTC API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Trading - OTC
+  description: OTC trading for Business Account
+paths:
+  /openapi/otc-trade/v1/get-supported-trading-pairs:
+    post:
+      tags:
+      - Trading - OTC
+      summary: OTC Get Supported Trading Pairs
+      description: Returns a list of all available OTC trading pairs. Business Account only.
+      operationId: getOTCSupportedTradingPairs
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/OTCTradingPair'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/otc-trade/v1/create-rfq:
+    post:
+      tags:
+      - Trading - OTC
+      summary: Create RFQ
+      description: Returns a quote for a specified source and target currency pair. Business Account only.
+      operationId: createRFQ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - sourceCurrency
+              - targetCurrency
+              - settlementType
+              properties:
+                sourceCurrency:
+                  type: string
+                  description: The currency the user holds.
+                targetCurrency:
+                  type: string
+                  description: The currency the user would like to obtain.
+                sourceAmount:
+                  type: string
+                  description: Amount of sourceCurrency. Only fill one of sourceAmount or targetAmount.
+                targetAmount:
+                  type: string
+                  description: Amount of targetCurrency. Only fill one of sourceAmount or targetAmount.
+                settlementType:
+                  type: string
+                  enum:
+                  - INSTANT
+                  - MANUAL_DEFER
+                  - AUTO_DEFER
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        quoteId:
+                          type: string
+                        sourceCurrency:
+                          type: string
+                        targetCurrency:
+                          type: string
+                        sourceAmount:
+                          type: string
+                        targetAmount:
+                          type: string
+                        price:
+                          type: string
+                        expiry:
+                          type: string
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/otc-trade/v1/accept-rfq:
+    post:
+      tags:
+      - Trading - OTC
+      summary: Accept RFQ
+      description: Accept the quote and receive the result instantly. Business Account only.
+      operationId: acceptRFQ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - quoteId
+              properties:
+                quoteId:
+                  type: string
+                  description: The ID assigned to the quote.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        orderId:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                          - SUCCEEDED
+                          - PROCESSING
+                        deferredSettlementExpiryUntil:
+                          type: string
+                          description: Unix timestamp for deferred settlement expiry. Only when settlementType is MANUAL_DEFER or AUTO_DEFER.
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/otc-trade/v1/manual-settle:
+    post:
+      tags:
+      - Trading - OTC
+      summary: Manual Settle
+      description: Manually settle deferred-settlement orders. Business Account only.
+      operationId: manualSettle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - quoteId
+              properties:
+                quoteId:
+                  type: string
+                  description: The ID assigned to the quote.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                          - SUCCEEDED
+                          - FAILED
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+    OTCTradingPair:
+      type: object
+      properties:
+        sourceCurrency:
+          type: string
+        targetCurrency:
+          type: string
+        minSourceAmount:
+          type: string
+        maxSourceAmount:
+          type: string
+        precision:
+          type: string
+        settlementType:
+          type: array
+          items:
+            type: string
+            enum:
+            - INSTANT
+            - MANUAL_DEFER
+            - AUTO_DEFER
+        expiry:
+          type: string
+        deferredSettlementExpiry:
+          type: string
+        dailySettlementLimit:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

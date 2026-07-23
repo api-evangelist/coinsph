@@ -1,0 +1,1213 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Wallet API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Wallet
+  description: Convert, Deposit, Withdraw, Transfers, and Sub Account Transfer operations.
+paths:
+  /openapi/wallet/v1/config/getall:
+    get:
+      tags:
+      - Wallet
+      summary: All Coins' Information (USER_DATA)
+      description: 'Returns configuration information for all coins, including deposit/withdrawal
+
+        status, available balances, network details, and fee information.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 10
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Network Selection** — Enumerate available networks for a coin before generating a deposit address or submitting a withdrawal
+
+        - **Fee Preview** — Check withdrawal fees and minimum amounts for a coin/network before submitting a withdrawal request
+
+        - **Deposit/Withdrawal Availability** — Check whether deposits or withdrawals are enabled for a specific coin and network before proceeding
+
+        - **Balance Overview** — Retrieve free and locked balances for all assets in one call
+
+
+        **Best Practices**
+
+
+        - Cache this response and refresh every few minutes; configuration changes infrequently
+
+        - Check `depositEnable` and `withdrawEnable` on the specific network before generating addresses or submitting withdrawals
+
+        - Use `memoRegex` to validate whether an `addressTag` is required for a coin (e.g., XRP, XLM)
+
+        '
+      operationId: wallet_get_all_coins_info
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Get All Coins Info
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/wallet/v1/config/getall?timestamp=1700000000000&signature=your_signature'' \
+
+          --header ''X-COINS-APIKEY: your_api_key''
+
+          '
+      responses:
+        '200':
+          description: List of all coin configuration details.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    coin:
+                      type: string
+                      description: Coin ticker symbol.
+                      example: BTC
+                    name:
+                      type: string
+                      description: Full coin name.
+                      example: Bitcoin
+                    depositAllEnable:
+                      type: boolean
+                      description: Whether deposits are enabled for this coin.
+                      example: true
+                    withdrawAllEnable:
+                      type: boolean
+                      description: Whether withdrawals are enabled for this coin.
+                      example: true
+                    free:
+                      type: string
+                      description: Available balance.
+                      example: '0.00500000'
+                    locked:
+                      type: string
+                      description: Locked balance.
+                      example: '0.00000000'
+                    networkList:
+                      type: array
+                      description: List of available networks for this coin.
+                      items:
+                        type: object
+                        properties:
+                          network:
+                            type: string
+                            description: Network identifier.
+                            example: BTC
+                          name:
+                            type: string
+                            description: Network display name.
+                            example: Bitcoin
+                          depositEnable:
+                            type: boolean
+                            description: Whether deposits are enabled on this network.
+                            example: true
+                          withdrawEnable:
+                            type: boolean
+                            description: Whether withdrawals are enabled on this network.
+                            example: true
+                          withdrawFee:
+                            type: string
+                            description: Withdrawal fee on this network.
+                            example: '0.0005'
+                          withdrawMin:
+                            type: string
+                            description: Minimum withdrawal amount.
+                            example: '0.001'
+                          withdrawMax:
+                            type: string
+                            description: Maximum withdrawal amount.
+                            example: '100'
+                          minConfirm:
+                            type: integer
+                            description: Minimum confirmations required for deposit.
+                            example: 1
+                          unLockConfirm:
+                            type: integer
+                            description: Confirmations required to unlock deposited funds.
+                            example: 2
+                          memoRegex:
+                            type: string
+                            description: Regex pattern for validating address memo/tag.
+                            example: ''
+                          sameAddress:
+                            type: boolean
+                            description: Whether the same address is reused for deposits.
+                            example: false
+                    legalMoney:
+                      type: boolean
+                      description: Whether this coin is a fiat/legal tender currency.
+                      example: false
+              examples:
+                success:
+                  summary: BTC coin info
+                  value:
+                  - coin: BTC
+                    name: Bitcoin
+                    depositAllEnable: true
+                    withdrawAllEnable: true
+                    free: '0.00500000'
+                    locked: '0.00000000'
+                    networkList:
+                    - network: BTC
+                      name: Bitcoin
+                      depositEnable: true
+                      withdrawEnable: true
+                      withdrawFee: '0.0005'
+                      withdrawMin: '0.001'
+                      withdrawMax: '100'
+                      minConfirm: 1
+                      unLockConfirm: 2
+                      memoRegex: ''
+                      sameAddress: false
+                    legalMoney: false
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1022 | Signature for this request is not valid |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/wallet/v1/deposit/address:
+    get:
+      tags:
+      - Wallet
+      summary: Deposit Address (USER_DATA)
+      description: "Fetch the deposit address for a specific coin and network.\n\n**Key Notes**\n\n- An `addressTag` (memo/tag) is required for certain coins such as XRP and XLM.\n  Check the `memoRegex` field from the coin info endpoint to determine if a tag is needed.\n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Deposit Address Lookup** — Fetch the deposit address for a specific coin and network before directing an inbound transfer\n- **Multi-Network Deposits** — Fetch addresses for different networks (e.g., ERC-20 vs BEP-20 for USDT) to support multiple chains\n\n**Best Practices**\n\n- Always specify the correct `network`; depositing on the wrong network may result in permanent loss of funds\n- Check `memoRegex` from the coin info endpoint first; if non-empty, an `addressTag` is required\n- Cache the address per coin+network — it does not change frequently\n"
+      operationId: wallet_get_deposit_address
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: coin
+        required: true
+        schema:
+          type: string
+          example: BTC
+        description: The coin ticker symbol.
+      - in: query
+        name: network
+        required: true
+        schema:
+          type: string
+          example: BTC
+        description: The network to use for the deposit.
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Get Deposit Address
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/wallet/v1/deposit/address?coin=BTC&network=BTC&timestamp=1700000000000&signature=your_signature'' \
+
+          --header ''X-COINS-APIKEY: your_api_key''
+
+          '
+      responses:
+        '200':
+          description: Deposit address details for the specified coin and network.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  coin:
+                    type: string
+                    description: Coin ticker symbol.
+                    example: BTC
+                  address:
+                    type: string
+                    description: Deposit address.
+                    example: 1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+                  addressTag:
+                    type: string
+                    description: Address memo or tag (required for some coins like XRP, XLM).
+                    example: ''
+                  network:
+                    type: string
+                    description: Network used for this address.
+                    example: BTC
+                  url:
+                    type: string
+                    description: URL to view the deposit address on a block explorer.
+                    example: https://btcscan.org/address/1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+              examples:
+                success:
+                  summary: BTC deposit address
+                  value:
+                    coin: BTC
+                    address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+                    addressTag: ''
+                    network: BTC
+                    url: https://btcscan.org/address/1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1102 | Mandatory parameter was not sent, was empty/null, or malformed |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/wallet/v1/deposit/history:
+    get:
+      tags:
+      - Wallet
+      summary: Deposit History (USER_DATA)
+      description: 'Retrieve the deposit history for the authenticated account.
+
+
+        **Key Notes**
+
+
+        - If `startTime` is not provided, defaults to 90 days before the current time.
+
+        - Maximum query window is 90 days.
+
+        - Default and maximum limit is 1000 records.
+
+        - `statuses` and `status` cannot be used simultaneously.
+
+
+        **Deposit Status Codes**
+
+
+        | Status | Description |
+
+        |---|---|
+
+        | 0 | Processing |
+
+        | 1 | Success |
+
+        | 2 | Failed |
+
+        | 3 | Need Fill Data (travel rule information required) |
+
+
+        **Transfer Type Codes**
+
+
+        | transferType | Description |
+
+        |---|---|
+
+        | 0 | External transfer |
+
+        | 1 | Internal transfer |
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 2 (IP)
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Deposit Confirmation** — Check if a specific deposit has been completed.
+
+        - **Balance Reconciliation** — Match incoming deposits against balance increases to ensure all funds are accounted for.
+
+        - **Audit Trail** — Export deposit history for a given time range to support accounting or compliance reporting.
+
+
+        **Best Practices**
+
+
+        - Always filter by `coin` to reduce response size when you only need a specific asset.
+
+        - Use `startTime` and `endTime` for time-range queries to avoid fetching the full default 90-day window.
+
+        '
+      operationId: get_deposit_history
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: coin
+        required: false
+        schema:
+          type: string
+          example: BTC
+        description: Filter by coin symbol.
+      - in: query
+        name: txId
+        required: false
+        schema:
+          type: string
+          example: abc123txhash
+        description: Filter by on-chain transaction ID.
+      - in: query
+        name: status
+        required: false
+        schema:
+          type: integer
+          example: 1
+        description: 'Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data.'
+      - in: query
+        name: startTime
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1640995200000
+        description: Start time in milliseconds. If not provided, defaults to 90 days before the current time.
+      - in: query
+        name: endTime
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1641081600000
+        description: End time in milliseconds. Maximum query window is 90 days.
+      - in: query
+        name: statuses
+        required: false
+        schema:
+          type: string
+          example: 0,1
+        description: 'Comma-separated list of deposit status values to filter by. Cannot be used together with `status`. Valid values: 0=Processing, 1=Success, 2=Failed.
+
+          '
+      - in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+          example: 100
+        description: 'Number of records to return. Default and maximum: 1000.'
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+          example: 5000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1641000000000
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Deposit History
+        source: 'curl --location ''https://api.coins.ph/openapi/wallet/v1/deposit/history?coin=BTC&timestamp=1641000000000&signature=<signature>'' \
+
+          --header ''X-COINS-APIKEY: <api_key>''
+
+          '
+      responses:
+        '200':
+          description: Deposit history records.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: On-chain transaction ID.
+                      example: abc123txhash
+                    insertTime:
+                      type: integer
+                      format: int64
+                      description: Deposit creation time in milliseconds.
+                      example: 1641000000000
+                    amount:
+                      type: string
+                      description: Deposited amount.
+                      example: '0.001'
+                    coin:
+                      type: string
+                      description: Coin symbol.
+                      example: BTC
+                    address:
+                      type: string
+                      description: Deposit address.
+                      example: 1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+                    addressTag:
+                      type: string
+                      description: Address tag or memo (for applicable coins).
+                      example: ''
+                    transferType:
+                      type: integer
+                      description: 'Transfer type: 0=External, 1=Internal.'
+                      example: 0
+                    status:
+                      type: integer
+                      description: 'Deposit status: 0=Processing, 1=Success, 2=Failed.'
+                      example: 1
+                    confirmTimes:
+                      type: string
+                      description: Current confirmation count.
+                      example: 3/2
+                    unlockConfirm:
+                      type: integer
+                      description: Required confirmations to unlock the deposit.
+                      example: 2
+                    walletType:
+                      type: integer
+                      description: 'Wallet type: 0=Spot, 1=Funding.'
+                      example: 0
+              examples:
+                success:
+                  summary: BTC deposit record
+                  value:
+                  - txId: abc123txhash
+                    insertTime: 1641000000000
+                    amount: '0.001'
+                    coin: BTC
+                    address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+                    addressTag: ''
+                    transferType: 0
+                    status: 1
+                    confirmTimes: 3/2
+                    unlockConfirm: 2
+                    walletType: 0
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1102 | Mandatory parameter was not sent, was empty/null, or malformed |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/wallet/v1/withdraw/apply:
+    post:
+      tags:
+      - Wallet
+      summary: Withdraw (USER_DATA)
+      description: 'Submit a cryptocurrency withdrawal request to an external address.
+
+
+        **Key Notes**
+
+
+        - `coin` and `network` must match a valid combination returned by `/openapi/wallet/v1/config/getall`.
+
+        - Verify `withdrawEnable=true` for the selected coin and network before submitting.
+
+        - For memo-based coins (e.g., XRP, XLM, EOS), `addressTag` is required.
+
+        - `withdrawOrderId` can be used as a client-generated idempotency key (max 30 characters).
+
+        - The `coin`, `network`, `address`, and `addressTag` combination must exist in your withdrawal address whitelist. You can use the Withdraw Address Whitelist endpoint to verify or add addresses.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 100 (UID)
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Crypto Withdrawal** — Send cryptocurrency to an external wallet address on a specified network.
+
+        - **Programmatic Payouts** — Automate bulk withdrawal payouts with client-tracked IDs for idempotency.
+
+        - **Network-Specific Send** — Specify the exact network for multi-chain tokens (e.g., USDT on ERC-20 vs BEP-20).
+
+
+        **Best Practices**
+
+
+        - Use `withdrawOrderId` for idempotency so duplicate requests return the same result.
+
+        - Verify `withdrawEnable=true` for the target coin and network using the config endpoint before submitting.
+
+        - Always include `addressTag` for memo-based coins to prevent loss of funds.
+
+        - Double-check the destination address and network before submitting — withdrawals are irreversible.
+
+        '
+      operationId: post_withdraw_apply
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - coin
+              - address
+              - amount
+              - network
+              - timestamp
+              - signature
+              properties:
+                coin:
+                  type: string
+                  example: BTC
+                  description: Coin symbol to withdraw.
+                address:
+                  type: string
+                  example: 1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+                  description: Destination wallet address.
+                amount:
+                  type: string
+                  example: '0.001'
+                  description: Withdrawal amount.
+                network:
+                  type: string
+                  example: BTC
+                  description: 'Network to use for the withdrawal. Must match a network returned by /openapi/wallet/v1/config/getall. Required.
+
+                    '
+                addressTag:
+                  type: string
+                  example: '12345'
+                  description: Memo or tag for memo-based coins (e.g., XRP, XLM).
+                withdrawOrderId:
+                  type: string
+                  maxLength: 30
+                  example: my-withdrawal-001
+                  description: Client-generated withdrawal order ID for idempotency. Maximum 30 characters.
+                recvWindow:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  maximum: 60000
+                  description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+                timestamp:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  example: 1641000000000
+                  description: Unix timestamp in milliseconds.
+                signature:
+                  type: string
+                  description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      x-codeSamples:
+      - lang: Shell
+        label: Withdraw BTC
+        source: 'curl --location ''https://api.coins.ph/openapi/wallet/v1/withdraw/apply'' \
+
+          --header ''X-COINS-APIKEY: <api_key>'' \
+
+          --data-urlencode ''coin=BTC'' \
+
+          --data-urlencode ''address=1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna'' \
+
+          --data-urlencode ''amount=0.001'' \
+
+          --data-urlencode ''timestamp=1641000000000'' \
+
+          --data-urlencode ''signature=<signature>''
+
+          '
+      responses:
+        '200':
+          description: Withdrawal request submitted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: System-generated withdrawal request ID.
+                    example: 7213fea8e94b4a5593d507237e5a555b
+              examples:
+                success:
+                  summary: Withdrawal submitted
+                  value:
+                    id: 7213fea8e94b4a5593d507237e5a555b
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1102 | Mandatory parameter was not sent, was empty/null, or malformed |
+
+            | -1112 | No assets are available for withdrawal |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/wallet/v1/withdraw/history:
+    get:
+      tags:
+      - Wallet
+      summary: Withdraw History (USER_DATA)
+      description: 'Retrieve the withdrawal history for the authenticated account.
+
+
+        **Key Notes**
+
+
+        - If `startTime` and `endTime` are not provided, defaults to 90 days before the current time.
+
+        - If `withdrawOrderId` is provided without `startTime`/`endTime`, defaults to the last 7 days.
+
+        - The maximum interval between `startTime` and `endTime` is 90 days (7 days when `withdrawOrderId` is provided).
+
+        - Default and maximum limit is 1000 records.
+
+
+        **Withdrawal Status Codes**
+
+
+        | Status | Description |
+
+        |---|---|
+
+        | 0 | PROCESSING |
+
+        | 1 | SUCCESS |
+
+        | 2 | FAILED |
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 2 (IP)
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Withdrawal Tracking** — Monitor the status of pending or in-progress withdrawals to determine when they complete.
+
+        - **Reconciliation** — Match withdrawal records against outgoing transaction IDs on-chain to confirm delivery.
+
+        - **Fee Audit** — Track transaction fees paid per withdrawal for cost reporting.
+
+
+        **Best Practices**
+
+
+        - Use the `coin` filter to narrow results when you only care about a specific asset.
+
+        - Store the returned `txId` for independent blockchain verification.
+
+        '
+      operationId: get_withdraw_history
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: coin
+        required: false
+        schema:
+          type: string
+          example: BTC
+        description: Filter by coin symbol.
+      - in: query
+        name: withdrawOrderId
+        required: false
+        schema:
+          type: string
+          example: my-withdrawal-001
+        description: Filter by client-generated withdrawal order ID.
+      - in: query
+        name: status
+        required: false
+        schema:
+          type: integer
+          example: 6
+        description: 'Filter by withdrawal status: 0=Email Sent, 1=Cancelled, 2=Awaiting Approval, 3=Rejected, 4=Processing, 5=Failure, 6=Completed.'
+      - in: query
+        name: startTime
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1640995200000
+        description: 'Start time in milliseconds. If not provided, defaults to 90 days before the current time (or 7 days before endTime when `withdrawOrderId` is also provided).
+
+          '
+      - in: query
+        name: endTime
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1641081600000
+        description: 'End time in milliseconds. The maximum interval between `startTime` and `endTime` is 90 days (or 7 days when `withdrawOrderId` is provided).
+
+          '
+      - in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+          example: 100
+        description: 'Number of records to return. Default and maximum: 1000.'
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+          example: 5000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1641000000000
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Withdraw History
+        source: 'curl --location ''https://api.coins.ph/openapi/wallet/v1/withdraw/history?coin=BTC&timestamp=1641000000000&signature=<signature>'' \
+
+          --header ''X-COINS-APIKEY: <api_key>''
+
+          '
+      responses:
+        '200':
+          description: Withdrawal history records.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: System-generated withdrawal ID.
+                      example: 7213fea8e94b4a5593d507237e5a555b
+                    withdrawOrderId:
+                      type: string
+                      description: Client-generated withdrawal order ID.
+                      example: my-withdrawal-001
+                    amount:
+                      type: string
+                      description: Withdrawal amount.
+                      example: '0.001'
+                    transactionFee:
+                      type: string
+                      description: Transaction fee paid.
+                      example: '0.0001'
+                    coin:
+                      type: string
+                      description: Coin symbol.
+                      example: BTC
+                    status:
+                      type: integer
+                      description: Withdrawal status code.
+                      example: 6
+                    address:
+                      type: string
+                      description: Destination address.
+                      example: 1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+                    txId:
+                      type: string
+                      description: On-chain transaction ID.
+                      example: abc123txhash
+                    applyTime:
+                      type: string
+                      description: Withdrawal application time.
+                      example: '2022-01-01 00:00:00'
+                    network:
+                      type: string
+                      description: Network used.
+                      example: BTC
+                    transferType:
+                      type: integer
+                      description: 'Transfer type: 0=External, 1=Internal.'
+                      example: 0
+                    info:
+                      type: string
+                      description: Additional information (e.g., rejection reason).
+                      example: ''
+                    confirmNo:
+                      type: integer
+                      description: Number of confirmations for the withdrawal transaction.
+                      example: 3
+                    walletType:
+                      type: integer
+                      description: 'Wallet type: 0=Spot, 1=Funding.'
+                      example: 0
+                    txKey:
+                      type: string
+                      description: Transaction key.
+                      example: ''
+              examples:
+                success:
+                  summary: Completed BTC withdrawal
+                  value:
+                  - id: 7213fea8e94b4a5593d507237e5a555b
+                    withdrawOrderId: my-withdrawal-001
+                    amount: '0.001'
+                    transactionFee: '0.0001'
+                    coin: BTC
+                    status: 2
+                    address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna
+                    txId: abc123txhash
+                    applyTime: '2022-01-01 00:00:00'
+                    network: BTC
+                    transferType: 0
+                    info: ''
+                    confirmNo: 3
+                    walletType: 0
+                    txKey: ''
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1102 | Mandatory parameter was not sent, was empty/null, or malformed |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/wallet/v1/withdraw/address-whitelist:
+    get:
+      tags:
+      - Wallet
+      summary: Withdraw Address Whitelist (USER_DATA)
+      description: 'Get the withdrawal address whitelist for the authenticated user. Returns all whitelisted
+
+        withdrawal addresses configured for the account, with optional filtering by coin, network,
+
+        or specific address.
+
+
+        **Key Notes**
+
+
+        - Returns addresses saved in the account''s withdrawal address whitelist.
+
+        - The coin/network/address/addressTag combination **must** be in the whitelist before a withdrawal can be submitted.
+
+        - Use the `coin`, `network`, or `address` filters to narrow results.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Pre-Withdrawal Verification** — Confirm that the target address is whitelisted before submitting a withdrawal request.
+
+
+        **Best Practices**
+
+
+        - Use the `coin` filter to retrieve only relevant addresses and reduce response payload size.
+
+        - Always verify addresses are whitelisted before attempting withdrawals to avoid rejections.
+
+        - Cache the whitelist response temporarily (5-10 minutes) and refresh after adding or removing addresses
+
+        '
+      operationId: get_withdraw_address_whitelist
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: coin
+        required: false
+        schema:
+          type: string
+          example: TRX
+        description: Filter by coin symbol.
+      - in: query
+        name: network
+        required: false
+        schema:
+          type: string
+          example: TRX
+        description: Filter by network identifier.
+      - in: query
+        name: address
+        required: false
+        schema:
+          type: string
+          example: TYDzsYUEpvnYmQk4zGP9sWWcTEd2MiAtW6
+        description: Filter by specific withdrawal address.
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+          example: 5000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1638253478000
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Get Withdraw Address Whitelist
+        source: 'curl --get --location ''https://api.pro.coins.ph/openapi/wallet/v1/withdraw/address-whitelist'' \
+
+          --header ''X-COINS-APIKEY: <your api key>'' \
+
+          --data-urlencode ''timestamp=1638253478000'' \
+
+          --data-urlencode ''signature=<calculated_signature>''
+
+          '
+      responses:
+        '200':
+          description: List of whitelisted withdrawal addresses.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                      description: Whitelisted withdrawal address.
+                      example: TYDzsYUEpvnYmQk4zGP9sWWcTEd2MiAtW6
+                    addressName:
+                      type: string
+                      description: User-defined name for this address.
+                      example: TRX address
+                    addressTag:
+                      type: string
+                      description: Address tag or memo (for coins that require it, e.g., XRP, XLM).
+                      example: ''
+                    coin:
+                      type: string
+                      description: Coin symbol.
+                      example: TRX
+                    network:
+                      type: string
+                      description: Network identifier.
+                      example: TRX
+              examples:
+                success:
+                  summary: Whitelisted address list
+                  value:
+                  - address: TYDzsYUEpvnYmQk4zGP9sWWcTEd2MiAtW6
+                    addressName: TRX address
+                    addressTag: ''
+                    coin: TRX
+                    network: TRX
+                  - address: '0x1dce8f2494b77bb4e1c5851a109360135ba84ac2'
+                    addressName: USDT address
+                    addressTag: ''
+                    coin: USDT
+                    network: ETH
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1022 | Signature for this request is not valid |
+
+            | -1102 | Mandatory parameter was not sent, was empty/null, or malformed |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

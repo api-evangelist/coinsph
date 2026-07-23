@@ -1,0 +1,535 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Collections - QRPH API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Collections - QRPH
+  description: QRPH code generation and management
+paths:
+  /openapi/fiat/v1/generate_qr_code:
+    post:
+      tags:
+      - Collections - QRPH
+      summary: Generate Dynamic QRPH
+      description: Returns a dynamic QRPH code.
+      operationId: generateDynamicQRPH
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - requestId
+              - source
+              - amount
+              - currency
+              properties:
+                requestId:
+                  type: string
+                  minLength: 15
+                  maxLength: 19
+                  description: Unique string assigned by the partner for idempotency validation.
+                  example: 3C1706X9619A7614YWS
+                type:
+                  type: string
+                  enum:
+                  - DYNAMIC
+                  description: Can only be DYNAMIC. Going to be deprecated soon.
+                source:
+                  type: string
+                  minLength: 1
+                  maxLength: 30
+                  description: Assigned by the partner. Usually the abbreviation of the initiating party.
+                  example: CUSTOMIZABLE
+                amount:
+                  type: number
+                  format: decimal
+                  description: The amount represented by the QR code.
+                  example: 200.99
+                currency:
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+                  description: Only the Philippine peso is supported.
+                  example: PHP
+                remark:
+                  type: string
+                  maxLength: 99
+                  description: Assigned by the partner.
+                  example: CUSTOMIZABLE
+                expiredSeconds:
+                  type: integer
+                  description: Default QR code expiry is 900 seconds, maximum expiry can be up to 1800 seconds.
+                  example: 1200
+                qrCodeMerchantName:
+                  type: string
+                  maxLength: 64
+                  deprecated: true
+                  description: Usually used to replace the default name of the client.
+                  example: CUSTOMIZABLE
+                merchantId:
+                  type: string
+                  maxLength: 64
+                  description: Server generated sub merchant id.
+                  example: '6904028542363648'
+                subMerchantId:
+                  type: string
+                  maxLength: 64
+                  description: Sub-merchant ID.
+                  example: '2904028542363648'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/DynamicQRPHResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/cancel_qr_code:
+    post:
+      tags:
+      - Collections - QRPH
+      summary: Cancel Dynamic QRPH
+      description: Cancels a previously created dynamic QRPH code.
+      operationId: cancelDynamicQRPH
+      parameters:
+      - name: referenceId
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 15
+          maxLength: 19
+        description: Server generated reference id.
+        example: '1950928204919496214'
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/CancelQRPHResponse'
+  /openapi/fiat/v1/generate/static/qr_code:
+    post:
+      tags:
+      - Collections - QRPH
+      summary: Generate Static QRPH
+      description: Returns a static QRPH code.
+      operationId: generateStaticQRPH
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - requestId
+              - source
+              - currency
+              properties:
+                requestId:
+                  type: string
+                  minLength: 15
+                  maxLength: 19
+                  description: Assigned by the partner for idempotency validation.
+                  example: 3C1706X9619A7614YWS
+                source:
+                  type: string
+                  minLength: 1
+                  maxLength: 30
+                  description: Assigned by the partner.
+                  example: CUSTOMIZABLE
+                currency:
+                  type: string
+                  minLength: 3
+                  maxLength: 3
+                  description: Only the Philippine peso is supported.
+                  example: PHP
+                remark:
+                  type: string
+                  maxLength: 99
+                  description: Assigned by the partner.
+                qrCodeMerchantName:
+                  type: string
+                  maxLength: 64
+                  deprecated: true
+                  description: Usually used to replace the default name of the client.
+                merchantId:
+                  type: string
+                  maxLength: 64
+                  description: Server generated sub merchant id.
+                subMerchantId:
+                  type: string
+                  maxLength: 64
+                  description: Sub-merchant ID.
+                  example: '2904028542363648'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/StaticQRPHResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/update/qr_code:
+    post:
+      tags:
+      - Collections - QRPH
+      summary: Update Static QRPH
+      description: Change the state of a previously created static QRPH code.
+      operationId: updateStaticQRPH
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - requestId
+              - status
+              properties:
+                requestId:
+                  type: string
+                  minLength: 15
+                  maxLength: 19
+                  description: Assigned by the partner for idempotency validation.
+                status:
+                  type: string
+                  enum:
+                  - ACTIVE
+                  - SUSPEND
+                  description: State of the QR code.
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        requestId:
+                          type: string
+                          example: 3C1706X9619A7614YWS
+                        referenceId:
+                          type: string
+                          example: '1950928204919496214'
+                        type:
+                          type: string
+                          enum:
+                          - STATIC
+                        qrCodeMerchantName:
+                          type: string
+                          example: CUSTOMIZABLE
+                        status:
+                          type: string
+                          enum:
+                          - ACTIVE
+                          - SUSPEND
+  /openapi/fiat/v1/get_qr_code/static/list:
+    get:
+      tags:
+      - Collections - QRPH
+      summary: Get Static QRPH List
+      description: Returns a list of static QR codes previously created.
+      operationId: getStaticQRPHList
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ACTIVE
+          - SUSPEND
+        description: Filter by state of the QR code.
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          requestId:
+                            type: string
+                            example: 3C1706X9619A7614YWS
+                          qrCode:
+                            type: string
+                            description: QR code string.
+                          status:
+                            type: string
+                            enum:
+                            - ACTIVE
+                            - SUSPEND
+                          qrCodeMerchantName:
+                            type: string
+                            example: CUSTOMIZABLE
+  /openapi/fiat/v1/get_qr_code:
+    get:
+      tags:
+      - Collections - QRPH
+      summary: Get QRPH Status
+      description: Returns the current status of a previously created QRPH code.
+      operationId: getQRPHStatus
+      parameters:
+      - name: requestId
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 15
+          maxLength: 19
+        description: Assigned by the partner for idempotency validation.
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/QRPHStatusResponse'
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+    QRPHStatusResponse:
+      type: object
+      properties:
+        qrCode:
+          type: string
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        expiredTime:
+          type: string
+          description: Unix timestamp. 0 for static QR (never expires).
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - CANCELED
+          - ACTIVE
+          - SUSPEND
+        errorCode:
+          type: string
+          nullable: true
+        errorMsg:
+          type: string
+          nullable: true
+        remark:
+          type: string
+        channelInvoiceNo:
+          type: string
+          nullable: true
+        cashInBank:
+          type: string
+          nullable: true
+        settleDate:
+          type: string
+          nullable: true
+    StaticQRPHResponse:
+      type: object
+      properties:
+        qrCode:
+          type: string
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - SUSPEND
+        qrCodeType:
+          type: string
+          enum:
+          - STATIC
+    DynamicQRPHResponse:
+      type: object
+      properties:
+        qrCode:
+          type: string
+          description: QR code string.
+        requestId:
+          type: string
+        referenceId:
+          type: string
+          description: Server generated reference id.
+        expiredTime:
+          type: string
+          description: Unix timestamp when the QR code expires.
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+        errorCode:
+          type: string
+          nullable: true
+        errorMsg:
+          type: string
+          nullable: true
+        remark:
+          type: string
+        channelInvoiceNo:
+          type: string
+          nullable: true
+          description: 6-digit unique identifier upon payment.
+        cashInBank:
+          type: string
+          nullable: true
+          description: Abbreviated name of the OFI.
+        settleDate:
+          type: string
+          nullable: true
+          description: Unix timestamp when the transaction reached final status.
+    CancelQRPHResponse:
+      type: object
+      properties:
+        requestStatus:
+          type: string
+          enum:
+          - SUCCEEDED
+          - FAILED
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        qrcodeStatus:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - CANCELED
+          - ACTIVE
+          - SUSPEND
+        createdTime:
+          type: string
+        updatedTime:
+          type: string
+        completionTime:
+          type: string
+        errorCode:
+          type: string
+          nullable: true
+        errorMsg:
+          type: string
+          nullable: true
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

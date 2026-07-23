@@ -1,0 +1,229 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Checkout Refund API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Checkout Refund
+  description: Checkout refund operations
+paths:
+  /openapi/fiat/v1/checkout/refund:
+    post:
+      tags:
+      - Checkout Refund
+      summary: Checkout Refund
+      description: 'This Endpoint allows Merchants to initiate a refund for a Checkout transaction.
+
+
+        **Webhook:** ✅ Supported (requires Coins'' configuration)'
+      operationId: checkoutRefund
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - requestId
+              - checkoutId
+              - amount
+              - currency
+              - reason
+              - method
+              properties:
+                requestId:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+                  description: Unique Merchant refund request identifier (idempotency key).
+                  example: REQ123456789
+                checkoutId:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+                  description: Original Checkout order ID to refund.
+                  example: CHK20240101000001
+                amount:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+                  description: Refund amount. Must be a valid decimal with up to 2 decimal places.
+                  example: '100.00'
+                currency:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+                  description: Currency code.
+                  example: PHP
+                reason:
+                  type: string
+                  minLength: 1
+                  maxLength: 200
+                  description: Reason for refund.
+                  example: Customer requested refund
+                method:
+                  type: string
+                  enum:
+                  - '1'
+                  description: Refund method. "1" = original route.
+                  example: '1'
+            example:
+              requestId: REQ123456789
+              checkoutId: CHK20240101000001
+              amount: '100.00'
+              currency: PHP
+              reason: Customer requested refund
+              method: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: 0 = success, non-zero = error code.
+                    example: 0
+                  data:
+                    $ref: '#/components/schemas/CheckoutRefundData'
+              example:
+                status: 0
+                data:
+                  refundId: RFD987654321
+                  checkoutId: CHK20240101000001
+                  requestId: REQ123456789
+                  amount: '100.00'
+                  currency: PHP
+                  status: PROCESSING
+                  refundReferenceId: RREF202401150001
+                  paymentReferenceId: PREF202401100001
+                  completedAt: null
+                  createdAt: '2024-01-15T10:30:00Z'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/checkout/refund/status-check:
+    get:
+      tags:
+      - Checkout Refund
+      summary: Refund Status Check
+      description: This Endpoint allows Merchants to query the status of a Checkout refund by either `refundId` or `requestId`. At least one of the two must be provided.
+      operationId: checkoutRefundStatusCheck
+      parameters:
+      - name: refundId
+        in: query
+        required: false
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 64
+        description: Coins-generated refund ID. At least one of `refundId` or `requestId` must be provided.
+        example: RFD987654321
+      - name: requestId
+        in: query
+        required: false
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 64
+        description: Merchant refund request ID (idempotency key). At least one of `refundId` or `requestId` must be provided.
+        example: REQ123456789
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: 0 = success, non-zero = error code.
+                    example: 0
+                  data:
+                    $ref: '#/components/schemas/CheckoutRefundData'
+              example:
+                status: 0
+                data:
+                  refundId: RFD987654321
+                  checkoutId: CHK20240101000001
+                  requestId: REQ123456789
+                  amount: '100.00'
+                  currency: PHP
+                  status: SUCCESS
+                  refundReferenceId: RREF202401150001
+                  paymentReferenceId: PREF202401100001
+                  completedAt: '2024-01-15T11:00:00Z'
+                  createdAt: '2024-01-15T10:30:00Z'
+components:
+  schemas:
+    CheckoutRefundData:
+      type: object
+      properties:
+        refundId:
+          type: string
+          description: Coins-generated refund ID.
+          example: RFD987654321
+        checkoutId:
+          type: string
+          description: The original Checkout order ID.
+          example: CHK20240101000001
+        requestId:
+          type: string
+          description: Merchant refund request ID.
+          example: REQ123456789
+        amount:
+          type: string
+          description: Refund amount.
+          example: '100.00'
+        currency:
+          type: string
+          description: Refund currency.
+          example: PHP
+        status:
+          type: string
+          description: Refund status.
+          example: PROCESSING
+        refundReferenceId:
+          type: string
+          description: Coins-generated refund reference ID.
+          example: RREF202401150001
+        paymentReferenceId:
+          type: string
+          description: Original payment reference ID.
+          example: PREF202401100001
+        completedAt:
+          type: string
+          nullable: true
+          description: Refund completion time.
+          example: '2024-01-15T11:00:00Z'
+        createdAt:
+          type: string
+          description: Refund creation time.
+          example: '2024-01-15T10:30:00Z'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

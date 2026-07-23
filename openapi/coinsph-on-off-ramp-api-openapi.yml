@@ -1,0 +1,503 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account ON/OFF Ramp API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: ON/OFF Ramp
+  description: Fiat-to-crypto and crypto-to-fiat ramp operations
+paths:
+  /openapi/ramp/v1/paymentConfigurations:
+    post:
+      tags:
+      - ON/OFF Ramp
+      summary: Ramp Get Payment Configurations
+      description: Returns a list of supported token pairs and network information for a given ramp type and country.
+      operationId: getRampPaymentConfigurations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - rampType
+              - country
+              properties:
+                rampType:
+                  type: string
+                  enum:
+                  - ON_RAMP
+                  - OFF_RAMP
+                  description: ON_RAMP for fiat-to-crypto, OFF_RAMP for crypto-to-fiat.
+                country:
+                  type: string
+                  description: Country code.
+                  example: PH
+                toToken:
+                  type: string
+                  description: Target token symbol. Applicable when rampType is ON_RAMP.
+                  example: USDT
+                fromToken:
+                  type: string
+                  description: Source token symbol. Applicable when rampType is OFF_RAMP.
+                  example: USDT
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RampPaymentConfigResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/ramp/v1/trialPrice:
+    post:
+      tags:
+      - ON/OFF Ramp
+      summary: Ramp Trial Price
+      description: Returns a price estimation for a ramp transaction. This is a trial quote and does not create a persistent quote record.
+      operationId: getRampTrialPrice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - rampType
+              - country
+              - sourceCurrency
+              - targetCurrency
+              - network
+              - address
+              properties:
+                rampType:
+                  type: string
+                  enum:
+                  - ON_RAMP
+                  - OFF_RAMP
+                country:
+                  type: string
+                  example: PH
+                sourceCurrency:
+                  type: string
+                  description: The currency that the merchant holds.
+                  example: PHP
+                targetCurrency:
+                  type: string
+                  description: The currency that the merchant wishes to obtain.
+                  example: USDT
+                sourceAmount:
+                  type: string
+                  description: Amount to convert from. targetAmount must not be filled when this is filled.
+                  example: '5000'
+                targetAmount:
+                  type: string
+                  description: Amount to convert to. sourceAmount must not be filled when this is filled.
+                  example: '84.68'
+                network:
+                  type: string
+                  description: Blockchain network (e.g., ETHEREUM, SOLANA, BSC, POLYGON, BASE).
+                  example: ETHEREUM
+                address:
+                  type: string
+                  description: Target wallet address.
+                  example: '0x1234567890abcdef1234567890abcdef12345678'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RampTrialPriceResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/ramp/v1/confirmOnChainFunding:
+    post:
+      tags:
+      - ON/OFF Ramp
+      summary: Ramp Confirm On-Chain Funding
+      description: After the merchant completes the on-chain crypto transfer (for OFF_RAMP), call this endpoint to confirm the funding and provide the transaction ID.
+      operationId: confirmOnChainFunding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - quoteId
+              - txId
+              properties:
+                quoteId:
+                  type: string
+                  description: The quote ID associated with this transaction.
+                  example: QT202604210001
+                txId:
+                  type: string
+                  description: The on-chain transaction ID (hash) of the crypto transfer.
+                  example: '0xabc123def456789abcdef123456789abcdef1234567890abcdef1234567890ab'
+                remark:
+                  type: string
+                  description: Optional remark or memo.
+                  maxLength: 256
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: '000000'
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: boolean
+                    example: true
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/ramp/v1/orderDetail:
+    post:
+      tags:
+      - ON/OFF Ramp
+      summary: Ramp Get Order Detail
+      description: Returns the detail and current status of a specific order.
+      operationId: getRampOrderDetail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - orderId
+              properties:
+                orderId:
+                  type: string
+                  description: The order ID to query.
+                  example: 21378276707306408966convert
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RampOrderDetailResponse'
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/ramp/outbound/initOnChainFund:
+    post:
+      tags:
+      - ON/OFF Ramp
+      summary: Ramp Init On-Chain Fund
+      description: Notify merchant to prepare on-chain fund transfer. The gateway will forward the request to the merchant's webhook URL with HMAC signature headers, and return the merchant's response containing a deposit ID.
+      operationId: initOnChainFund
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - quoteId
+              - webhookUrl
+              properties:
+                quoteId:
+                  type: string
+                  description: The quote identifier for this on-chain fund request.
+                  example: QT20260427000001
+                  minLength: 1
+                  maxLength: 128
+                webhookUrl:
+                  type: string
+                  description: Merchant webhook URL to receive the notification.
+                  example: https://merchant.example.com/callback/onchain
+                  minLength: 1
+                  maxLength: 512
+                callbackKey:
+                  type: string
+                  description: API key for HMAC signature verification. If blank, signature is skipped.
+                  example: ak_xxxxxxxx
+                  maxLength: 128
+                merchantId:
+                  type: string
+                  description: Merchant user ID used for signature context. Required when callbackKey is provided.
+                  example: '100001'
+                  maxLength: 64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitOnChainFundResponse'
+              examples:
+                success:
+                  summary: Successful response
+                  value:
+                    code: '000000'
+                    message: success
+                    data:
+                      depositId: DEP20260427000001
+                      errorCode: null
+                      errorMessage: null
+                error:
+                  summary: Error response
+                  value:
+                    code: '500'
+                    message: InitOnChainFund callback failed
+                    data: null
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+components:
+  schemas:
+    OnRampTokenPair:
+      type: object
+      properties:
+        toToken:
+          type: string
+        fromToken:
+          type: string
+        fromTokenIcon:
+          type: string
+        toTokenIcon:
+          type: string
+        balance:
+          type: string
+        fromTokenName:
+          type: string
+        toTokenName:
+          type: string
+        limits:
+          type: object
+          properties:
+            perOrder:
+              type: object
+              properties:
+                toTokenAmount:
+                  $ref: '#/components/schemas/AmountLimit'
+                fromTokenAmount:
+                  $ref: '#/components/schemas/AmountLimit'
+    RampOrderDetailResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - CREATE
+              - PROCESSING
+              - SUCCEEDED
+              - FAILED
+              - CANCELLED
+              - REFUNDED
+              - EXPIRED
+              - MANUAL_REVIEW
+            orderId:
+              type: string
+            sourceCurrency:
+              type: string
+            targetCurrency:
+              type: string
+            sourceAmount:
+              type: string
+            targetAmount:
+              type: string
+            orderCreatedTime:
+              type: integer
+              format: int64
+            fee:
+              type: string
+            pollingInterval:
+              type: integer
+              format: int64
+              description: Recommended polling interval in milliseconds.
+            maxPollingCount:
+              type: integer
+              description: Maximum number of polling attempts.
+    AmountLimit:
+      type: object
+      properties:
+        min:
+          type: string
+        max:
+          type: string
+        precision:
+          type: integer
+    OffRampTokenPair:
+      type: object
+      properties:
+        fromToken:
+          type: string
+        toToken:
+          type: string
+        fromTokenIcon:
+          type: string
+        toTokenIcon:
+          type: string
+        fromTokenName:
+          type: string
+        toTokenName:
+          type: string
+        limits:
+          type: object
+          properties:
+            perOrder:
+              type: object
+              properties:
+                fromToken:
+                  $ref: '#/components/schemas/AmountLimit'
+                toToken:
+                  $ref: '#/components/schemas/AmountLimit'
+    RampPaymentConfigResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            supportedNetworksByToken:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  networks:
+                    type: array
+                    items:
+                      type: string
+            onRampFormTokenList:
+              type: array
+              nullable: true
+              items:
+                $ref: '#/components/schemas/OnRampTokenPair'
+            offRampToTokenList:
+              type: array
+              nullable: true
+              items:
+                $ref: '#/components/schemas/OffRampTokenPair'
+    RampTrialPriceResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            sourceCurrency:
+              type: string
+            targetCurrency:
+              type: string
+            sourceAmount:
+              type: string
+            targetAmount:
+              type: string
+            price:
+              type: string
+            fee:
+              type: string
+            feeCurrency:
+              type: string
+            resultAmount:
+              type: string
+            totalCostAmount:
+              type: string
+            expiry:
+              type: integer
+              description: Validity of the quote in seconds.
+            inversePrice:
+              type: string
+            expiryTime:
+              type: integer
+              format: int64
+              description: Quote expiry timestamp (epoch millis).
+    InitOnChainFundResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          nullable: true
+          properties:
+            depositId:
+              type: string
+              description: Deposit identifier returned by the merchant.
+              example: DEP20260427000001
+            errorCode:
+              type: string
+              nullable: true
+              description: Error code returned by the merchant (if any).
+              example: INVALID_QUOTE
+            errorMessage:
+              type: string
+              nullable: true
+              description: Error message returned by the merchant (if any).
+              example: Quote has expired
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

@@ -1,0 +1,824 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Scan to Pay API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Scan to Pay
+  description: QR code scan-to-pay payment operations
+paths:
+  /openapi/v1/scan-to-pay/payment-preview:
+    post:
+      tags:
+      - Scan to Pay
+      summary: Payment QRCode Decode
+      description: Decode a QR code string and return payment preview information.
+      operationId: paymentQRCodeDecode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - clientUserId
+              - codeMsg
+              properties:
+                clientUserId:
+                  type: string
+                  description: Client user id.
+                codeMsg:
+                  type: string
+                  description: QR code string.
+                  example: 00020101021228600011ph.ppmi.p2m0111DCPHPHM1XXX0319213710352267898651205030115204601653036085402605802PH5909sand+90016007Boliney62380011ph.ppmi.p2m0519197338345306306048063047EAA
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/PaymentPreviewResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    status: 0
+                    error: OK
+                    data:
+                      qrType: com.p2pqrpay
+                      channel: PAYMENT_INTERNAL_P2P
+                      channelSubject: DYNAMIC_QRPH
+                      minLimit: '1'
+                      maxLimit: '50000'
+                      channelQRCodeMap:
+                        clientUserId: '2136450830863779072'
+                        amount: '60'
+                        recipientAccountNumber: 1*****************6
+                        fee: '0'
+                        clientReqId: QRPH_P2M2139420973710274822
+                        recipientName: xuqi-9001  z.
+                        subQrType: DYNAMIC
+                        recipientAddress: sa•••@coins.ph
+                        productType: SCAN_TO_PAY
+                        token: ee0b06d9b66e4931810907fe0ac7aa31
+                    params: null
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/v1/scan-to-pay/payment-execution:
+    post:
+      tags:
+      - Scan to Pay
+      summary: Execute Payment
+      description: Execute a scan-to-pay payment using the information returned from the payment-preview API.
+      operationId: executeScanToPayPayment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - internalOrderId
+              - currency
+              - amount
+              - channelName
+              - channelSubject
+              - extendInfo
+              properties:
+                internalOrderId:
+                  type: string
+                  description: KYB internal order id.
+                currency:
+                  type: string
+                  description: Payment currency.
+                  example: PHP
+                amount:
+                  type: string
+                  description: Payment amount.
+                  example: '50'
+                channelName:
+                  type: string
+                  description: Payment channel returned from the /payment-preview API.
+                  example: PAYMENT_INTERNAL_P2P
+                channelSubject:
+                  type: string
+                  description: Payment channel subject returned from the /payment-preview API.
+                  example: DYNAMIC_QRPH
+                extendInfo:
+                  $ref: '#/components/schemas/ChannelQRCodeMap'
+                  description: QR channel Info returned from the /payment-preview API. Must include all fields in the channelQRCodeMap.
+            example:
+              internalOrderId: '20260130200000'
+              currency: PHP
+              amount: '50'
+              channelName: PAYMENT_INTERNAL_P2P
+              channelSubject: DYNAMIC_QRPH
+              extendInfo:
+                clientUserId: '2136450830863779072'
+                amount: '60'
+                recipientAccountNumber: 1*****************6
+                fee: '0'
+                clientReqId: QRPH_P2M2139420973710274822
+                recipientName: xuqi-9001  z.
+                subQrType: DYNAMIC
+                recipientAddress: sa•••@coins.ph
+                productType: SCAN_TO_PAY
+                token: ee0b06d9b66e4931810907fe0ac7aa31
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/PaymentExecutionResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    status: 0
+                    error: OK
+                    data:
+                      externalOrderId: '2139421355786203399'
+                      internalOrderId: '20260130200000'
+                      status: SUCCEEDED
+                    params: null
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/v1/scan-to-pay/get-payment-result:
+    get:
+      tags:
+      - Scan to Pay
+      summary: Get Payment Result
+      description: Retrieve the result of a scan-to-pay payment by internal order id.
+      operationId: getScanToPayPaymentResult
+      parameters:
+      - name: internalOrderId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: ID of the order for which the user wishes to retrieve details.
+        example: '20260130200000'
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/PaymentResultResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    status: 0
+                    error: OK
+                    data:
+                      externalOrderId: '2139421355786203399'
+                      internalOrderId: '20260130200000'
+                      paymentOrderId: ''
+                      fiatCurrency: PHP
+                      fiatAmount: '51.11'
+                      transactionType: -1
+                      transactionChannel: PAYMENT_INTERNAL_P2P
+                      transactionSubject: DYNAMIC_QRPH
+                      transactionChannelName: payment_internal_p2p
+                      transactionSubjectName: ''
+                      transactionSubjectType: ''
+                      feeCurrency: PHP
+                      channelFee: '0'
+                      platformFee: '1.11'
+                      status: SUCCEEDED
+                      errorCode: ''
+                      errorMessage: ''
+                      completedTime: '2026-01-30T12:08:20.000+00:00'
+                      source: OPEN_API
+                      createdAt: '2026-01-30T12:08:20.000+00:00'
+                      orderExtendedMap:
+                        clientUserId: '2136450830863779072'
+                        amount: '60'
+                        fromUserId: '1442669428718174721'
+                        linkOrderFee: '0.09'
+                        fee: '0'
+                        clientReqId: QRPH_P2M2139420973710274822
+                        subQrType: DYNAMIC
+                        linkOrderId: '2139421359040983304'
+                        toUserId: '1864422461483746816'
+                        orgId: '9001'
+                        token: ee0b06d9b66e4931810907fe0ac7aa31
+                        userIpCountry: Japan
+                        recipientAccountNumber: '1864422461483746816'
+                        x-user-ip: 35.75.185.122
+                        dualWriteMode: DUAL_WRITE_LEGACY_PRIMARY
+                        recipientName: xuqi-9001  z.
+                        userIp: 35.75.185.122
+                        taxFee: '0'
+                        recipientAddress: sa•••@coins.ph
+                        productType: SCAN_TO_PAY
+                      dealCancel: false
+                    params: null
+  /openapi/v1/account/create-account:
+    post:
+      tags:
+      - Scan to Pay
+      summary: Create Account
+      description: 'Create a KYC account for scan-to-pay user.
+
+
+        **Note:** Parameters need to be passed using Query String; form-data and json methods cannot be used. The contentType must be multipart/form-data.'
+      operationId: createKycAccount
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - requestId
+              - customerId
+              - callbackDefaultUrl
+              - customerIp
+              - customerSource
+              - customerUserAgent
+              - firstName
+              - lastName
+              - gender
+              - dateOfBirth
+              - country
+              - nationality
+              - state
+              - city
+              - street
+              - postalCode
+              - employmentStatus
+              - purposeOfAccount
+              - idType
+              - idNumber
+              - expireDate
+              - frontIdImage
+              - facePhoto
+              - frontIdImageMd5
+              - facePhotoMd5
+              properties:
+                requestId:
+                  type: string
+                  description: Unique order ID generated by the merchant.
+                customerId:
+                  type: string
+                  description: Customer ID on the merchant side.
+                email:
+                  type: string
+                  description: Customer's email, at least one of the email or phone numbers must be provided.
+                phone:
+                  type: string
+                  description: 'The customer''s mobile phone number must be formatted as [country code] [local number], for example: +63 9271234567.'
+                notifyUrl:
+                  type: string
+                  description: User creation result notification URL.
+                callbackDefaultUrl:
+                  type: string
+                  description: Default URL to redirect users based on registration results.
+                callbackSuccessUrl:
+                  type: string
+                  description: URL for redirecting users after successful registration.
+                callbackFailureUrl:
+                  type: string
+                  description: URL for redirecting upon registration failure.
+                callbackCancelUrl:
+                  type: string
+                  description: URL for user cancellation of registration redirection.
+                customerIp:
+                  type: string
+                  description: Customer's own IP address.
+                customerSource:
+                  type: string
+                  enum:
+                  - WEB
+                  - IOS
+                  - ANDROID
+                  description: The source of the customer's device.
+                customerUserAgent:
+                  type: string
+                  description: Customer's user-agent.
+                firstName:
+                  type: string
+                  description: First name.
+                middleName:
+                  type: string
+                  description: Middle name.
+                lastName:
+                  type: string
+                  description: Last name.
+                gender:
+                  type: integer
+                  enum:
+                  - 0
+                  - 1
+                  - 2
+                  description: 'Gender: 0 - Other, 1 - Male, 2 - Female.'
+                dateOfBirth:
+                  type: string
+                  description: 'The format is: yyyy-MM-dd.'
+                  example: '1990-01-01'
+                country:
+                  type: string
+                  description: Current country of residence. Refer to CountryEnum, use the code field value.
+                nationality:
+                  type: string
+                  description: Nationality. Refer to CountryEnum, use the code field value.
+                state:
+                  type: string
+                  description: Current state (province) of residence.
+                city:
+                  type: string
+                  description: Current city of residence.
+                street:
+                  type: string
+                  description: Current residential address.
+                postalCode:
+                  type: string
+                  description: Current residence postal code.
+                employmentStatus:
+                  type: string
+                  enum:
+                  - employed
+                  - self_e
+                  - freelance
+                  - unemployed
+                  - retired
+                  - student
+                  description: Employment status. Refer to EmploymentStatusEnum.
+                industry:
+                  type: string
+                  description: Industry. If employmentStatus is employed, this field is required.
+                companyName:
+                  type: string
+                  description: Company Name. If employmentStatus is employed, this field is required.
+                jobTitle:
+                  type: string
+                  description: Position. If employmentStatus is employed, this field is required.
+                purposeOfAccount:
+                  type: string
+                  enum:
+                  - legal
+                  - crypto
+                  - both
+                  description: Account purposes.
+                idType:
+                  type: string
+                  description: 'Type of ID, e.g.: passport. Refer to IdTypeEnum.'
+                idNumber:
+                  type: string
+                  description: ID number.
+                expireDate:
+                  type: string
+                  description: 'ID expiration date, the format is: yyyy-MM-dd.'
+                  example: '2030-12-31'
+                frontIdImage:
+                  type: string
+                  format: binary
+                  description: 'Image of the front of the id. Supported formats: jpg, png, jpeg. Max size: 2M.'
+                backIdImage:
+                  type: string
+                  format: binary
+                  description: 'Backside photo of the evidence. Supported formats: jpg, png, jpeg. Max size: 2M.'
+                facePhoto:
+                  type: string
+                  format: binary
+                  description: 'Selfie photo. Supported formats: jpg, png, jpeg. Max size: 2M.'
+                frontIdImageMd5:
+                  type: string
+                  description: MD5 value of the frontIdImage file.
+                backIdImageMd5:
+                  type: string
+                  description: MD5 value of the backIdImage file.
+                facePhotoMd5:
+                  type: string
+                  description: MD5 value of the facePhoto file.
+                businessScenarios:
+                  type: string
+                  description: Scan to Pay need input scan_to_pay.
+                  example: scan_to_pay
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAccountResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    status: PENDING
+                    requestId: '2021697969472158281'
+                    customerId: xxxxxx
+                    coinsUserId: 0
+                    redirectUrl: https://pro.coins.ph/payment/auth?requestId=2021697969472158281
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/v1/account/get-create-account-request:
+    get:
+      tags:
+      - Scan to Pay
+      summary: Get Created User Request
+      description: Retrieve the status and details of a KYC account creation request.
+      operationId: getCreateAccountRequest
+      parameters:
+      - name: requestId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: requestId parameter when creating a user.
+      - name: customerId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: customerId parameter when creating a user.
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCreateAccountResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    requestId: '2021697969472158281'
+                    customerId: xxxx
+                    status: APPROVED
+                    coinsUserId: 2021697969472158200
+                    phone: +63 9271234567
+                    email: example@gmail.com
+                    firstName: ''
+                    lastName: ''
+                    middleName: ''
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+    ChannelQRCodeMap:
+      type: object
+      required:
+      - clientUserId
+      - amount
+      - subQrType
+      - productType
+      - clientReqId
+      - token
+      properties:
+        clientUserId:
+          type: string
+          description: Debit user id.
+        amount:
+          type: string
+          description: Amount.
+        recipientAccountNumber:
+          type: string
+          description: Recipient account number.
+        recipientName:
+          type: string
+          description: Recipient name.
+        recipientAddress:
+          type: string
+          description: Recipient address.
+        subQrType:
+          type: string
+          description: QR type.
+        productType:
+          type: string
+          description: 'Business product type: SCAN_TO_PAY.'
+          example: SCAN_TO_PAY
+        clientReqId:
+          type: string
+          description: Request id.
+        token:
+          type: string
+          description: Encrypted token.
+        tfrName:
+          type: string
+          description: Recipient name.
+        tfrBnkCode:
+          type: string
+          description: Recipient bank code.
+        tfrAcctNo:
+          type: string
+          description: Recipient account number.
+        fee:
+          type: string
+          description: Fee amount.
+    PaymentPreviewResponse:
+      type: object
+      required:
+      - qrType
+      - channel
+      - channelSubject
+      - channelQRCodeMap
+      properties:
+        qrType:
+          type: string
+          description: QR code type.
+          example: ph.ppmi.p2m
+        channel:
+          type: string
+          description: Payment channel.
+        channelSubject:
+          type: string
+          description: Payment channel subject.
+        minLimit:
+          type: string
+          description: Minimum transaction amount.
+        maxLimit:
+          type: string
+          description: Maximum transaction amount.
+        channelQRCodeMap:
+          $ref: '#/components/schemas/ChannelQRCodeMap'
+          description: QR channel Info.
+    CreateAccountResponse:
+      type: object
+      required:
+      - status
+      - requestId
+      - customerId
+      - redirectUrl
+      properties:
+        status:
+          type: string
+          enum:
+          - APPROVED
+          - FAILED
+          - REJECTED
+          - PENDING
+          - CANCELLED
+          description: 'Status, reference enumeration: StatusEnum.'
+        requestId:
+          type: string
+          description: The requestId passed in when the customer requests.
+        customerId:
+          type: string
+          description: customerId passed in when the customer requests.
+        coinsUserId:
+          type: integer
+          format: int64
+          description: The external user ID of the user in Coins, which is only available after successful registration.
+        redirectUrl:
+          type: string
+          description: Jump verification page.
+    PaymentResultResponse:
+      type: object
+      required:
+      - externalOrderId
+      - internalOrderId
+      - paymentOrderId
+      - fiatCurrency
+      - fiatAmount
+      - transactionType
+      - transactionChannel
+      - transactionSubject
+      - transactionSubjectType
+      - transactionChannelName
+      - transactionSubjectName
+      - feeCurrency
+      - channelFee
+      - platformFee
+      - status
+      - errorCode
+      - errorMessage
+      - completedTime
+      - source
+      - createdAt
+      - orderExtendedMap
+      - dealCancel
+      properties:
+        externalOrderId:
+          type: string
+          description: Coins internal ID.
+        internalOrderId:
+          type: string
+          description: The unique order id generated by the server.
+        paymentOrderId:
+          type: string
+          description: The payment order id generated by the channel.
+        fiatCurrency:
+          type: string
+          description: PHP as it is the only currency currently supported.
+        fiatAmount:
+          type: string
+          description: The order amount.
+        transactionType:
+          type: string
+          description: 1 means cash in, -1 means cash out.
+        transactionChannel:
+          type: string
+          description: The first-level channel to order it belongs.
+        transactionSubject:
+          type: string
+          description: The channel code of order.
+        transactionSubjectType:
+          type: string
+          description: Channel type.
+        transactionChannelName:
+          type: string
+          description: First level channel Name.
+        transactionSubjectName:
+          type: string
+          description: Channel Name.
+        feeCurrency:
+          type: string
+          description: PHP as it is the only currency currently supported.
+        channelFee:
+          type: string
+          description: The fee of order always 0. Deprecated, see platformFee.
+        platformFee:
+          type: string
+          description: The fee of order.
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - CANCEL
+          description: 'Indicates the current state of the order.
+
+            - PENDING: The order is still being processed and is not in a final state.
+
+            - SUCCEEDED: The order has been successfully processed.
+
+            - FAILED: The order processing has failed.
+
+            - CANCEL: The order has been canceled by the user and is considered equivalent to a failure.
+
+
+            Only orders in a final state (SUCCEEDED, FAILED, or CANCEL) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (PENDING) as their status may change.'
+        errorCode:
+          type: string
+          description: Order fail with errorCode.
+        errorMessage:
+          type: string
+          description: Order fail with error message.
+        completedTime:
+          type: string
+          description: The time of order completed.
+        source:
+          type: string
+          description: Order create client Type, such as WEB, ANDROID, IOS, open-api.
+        createdAt:
+          type: string
+          description: The time of order created.
+        orderExtendedMap:
+          type: object
+          description: The order extend data.
+          additionalProperties:
+            type: string
+        dealCancel:
+          type: boolean
+          description: If order can be canceled, value will be true.
+    GetCreateAccountResponse:
+      type: object
+      required:
+      - requestId
+      - customerId
+      - status
+      - firstName
+      - middleName
+      properties:
+        requestId:
+          type: string
+          description: The requestId passed in when the customer requests.
+        customerId:
+          type: string
+          description: customerId passed in when the customer requests.
+        status:
+          type: string
+          enum:
+          - APPROVED
+          - FAILED
+          - REJECTED
+          - PENDING
+          - CANCELLED
+          description: 'Status, reference enumeration: StatusEnum.'
+        coinsUserId:
+          type: integer
+          format: int64
+          description: The external user ID of the user in Coins, which is only available after successful registration.
+        phone:
+          type: string
+          description: Phone number.
+        email:
+          type: string
+          description: Email.
+        firstName:
+          type: string
+          description: First name.
+        lastName:
+          type: string
+          description: Last name.
+        middleName:
+          type: string
+          description: Middle name.
+    PaymentExecutionResponse:
+      type: object
+      required:
+      - externalOrderId
+      - internalOrderId
+      - status
+      properties:
+        externalOrderId:
+          type: string
+          description: Coin's internal ID.
+        internalOrderId:
+          type: string
+          description: The unique order id generated by the server or the passed internalOrderId.
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - CANCEL
+          description: 'Indicates the current state of the order.
+
+            - PENDING: The order is still being processed and is not in a final state.
+
+            - SUCCEEDED: The order has been successfully processed.
+
+            - FAILED: The order processing has failed.
+
+            - CANCEL: The order has been canceled by the user and is considered equivalent to a failure.
+
+
+            Only orders in a final state (SUCCEEDED, FAILED, or CANCEL) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (PENDING) as their status may change.'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

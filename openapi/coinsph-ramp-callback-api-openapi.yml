@@ -1,0 +1,320 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Ramp Callback API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Ramp Callback
+  description: Webhook callbacks sent to the merchant's configured callback URL when order status changes
+paths:
+  /openapi/ramp/callback:
+    post:
+      tags:
+      - Ramp Callback
+      summary: Ramp Callback API
+      description: 'A POST request will be sent to the callback URL configured by the merchant whenever the order status changes. This is NOT an endpoint you call — it documents the payload Coins.ph sends TO your server.
+
+
+        ## Order Status Values
+
+        - `CREATE` - Order created
+
+        - `RISK_REVIEW` - Risk review in progress
+
+        - `FUND_TRANSFER_PROCESSING` - Fund transfer in progress
+
+        - `QUOTE_ACCEPT_PROCESSING` - Quote acceptance in progress
+
+        - `REFUNDED_TRANSFER_PROCESSING` - Refund transfer in progress
+
+        - `QUOTE_ACCEPTED` - Quote accepted
+
+        - `WAITING_TX_ID` - Waiting for transaction ID from merchant
+
+        - `CRYPTO_DISBURSE_PENDING` - Crypto disbursement pending
+
+        - `CRYPTO_PENDING` - Waiting for crypto deposit
+
+        - `CRYPTO_SENT` - Crypto sent
+
+        - `CRYPTO_CONFIRMING` - Crypto confirming on chain
+
+        - `CRYPTO_CONFIRMED` - Crypto confirmed
+
+        - `CRYPTO_REFUND_PENDING` - Crypto refund pending
+
+        - `CRYPTO_REFUND` - Crypto refunded
+
+        - `PAYOUT_PROCESSING` - Payout processing
+
+        - `PAYOUT_FAILED` - Payout failed
+
+        - `REFUND_FAILED` - Refund failed
+
+        - `PAYOUT_CONFIRMED` - Payout confirmed
+
+        - `MANUAL_REVIEW` - Manual review required
+
+        - `FUND_TRANSFER_BACK` - Fund transferred back
+
+        - `EXPIRED` - Order expired
+
+        - `PROCESSING` - Processing
+
+        - `SUCCEEDED` - Succeeded (terminal)
+
+        - `FAILED` - Failed (terminal)
+
+        - `CANCELLED` - Cancelled (terminal)
+
+        - `REFUNDED` - Refunded (terminal)'
+      operationId: rampOrderStatusCallback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RampCallbackRequest'
+            example:
+              id: '2199397325237953280'
+              rampType: OFF_RAMP
+              orderId: '2199397325237953280'
+              orderStatus: QUOTE_ACCEPT_PROCESSING
+              txId: ''
+              errorCode: ''
+              errorMessage: ''
+              moreInfo:
+                createdAt: '2026-04-23T06:09:53Z'
+                quoteId: d20eaa5ecde942eeb48b5f40fe981a76
+                status: QUOTE_ACCEPT_PROCESSING
+                sourceAmount:
+                  amount: 1.2
+                  currency: USDT
+                  zero: false
+                  positive: true
+                targetAmount:
+                  amount: 1.196
+                  currency: USDC
+                  zero: false
+                  positive: true
+                sourceCurrency: USDT
+                targetCurrency: USDC
+                targetWalletAddress: rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC
+                targetUserId: '2142216666787644416'
+                targetWalletAddressTag: ''
+                errorCode: ''
+                errorMessage: ''
+                txId: ''
+                withdrawId: ''
+                orderId: '2199397325237953280'
+                rampTypeCode: OFF_RAMP
+              callbackKey: null
+              merchantId: null
+              timestamp: 1776924592732
+      responses:
+        '200':
+          description: Merchant acknowledges receipt of the callback
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RampCallbackResponse'
+              example:
+                code: '0'
+                message: success
+                data: {}
+components:
+  schemas:
+    RampCallbackRequest:
+      type: object
+      description: Callback payload sent to the merchant's configured callback URL when order status changes.
+      required:
+      - rampType
+      - orderId
+      - orderStatus
+      properties:
+        id:
+          type: string
+          description: Unique callback event identifier.
+          example: '2199397325237953280'
+        rampType:
+          type: string
+          enum:
+          - ON_RAMP
+          - OFF_RAMP
+          description: Type of ramp operation.
+          example: OFF_RAMP
+        orderId:
+          type: string
+          description: The order ID.
+          example: '2199397325237953280'
+        orderStatus:
+          type: string
+          enum:
+          - CREATE
+          - RISK_REVIEW
+          - FUND_TRANSFER_PROCESSING
+          - QUOTE_ACCEPT_PROCESSING
+          - REFUNDED_TRANSFER_PROCESSING
+          - QUOTE_ACCEPTED
+          - WAITING_TX_ID
+          - CRYPTO_DISBURSE_PENDING
+          - CRYPTO_PENDING
+          - CRYPTO_SENT
+          - CRYPTO_CONFIRMING
+          - CRYPTO_CONFIRMED
+          - CRYPTO_REFUND_PENDING
+          - CRYPTO_REFUND
+          - PAYOUT_PROCESSING
+          - PAYOUT_FAILED
+          - REFUND_FAILED
+          - PAYOUT_CONFIRMED
+          - MANUAL_REVIEW
+          - FUND_TRANSFER_BACK
+          - EXPIRED
+          - PROCESSING
+          - SUCCEEDED
+          - FAILED
+          - CANCELLED
+          - REFUNDED
+          description: 'Current order status. Terminal statuses: SUCCEEDED, FAILED, CANCELLED, REFUNDED.'
+          example: QUOTE_ACCEPT_PROCESSING
+        txId:
+          type: string
+          description: On-chain transaction ID (if applicable).
+          example: ''
+        errorCode:
+          type: string
+          description: Error code (if any).
+          example: ''
+        errorMessage:
+          type: string
+          description: Error message (if any).
+          example: ''
+        moreInfo:
+          type: object
+          description: Additional order information.
+          properties:
+            createdAt:
+              type: string
+              format: date-time
+              description: Order creation time in ISO 8601 format.
+              example: '2026-04-23T06:09:53Z'
+            quoteId:
+              type: string
+              description: Quote identifier.
+              example: d20eaa5ecde942eeb48b5f40fe981a76
+            status:
+              type: string
+              description: Status within moreInfo context.
+              example: QUOTE_ACCEPT_PROCESSING
+            sourceAmount:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  example: 1.2
+                currency:
+                  type: string
+                  example: USDT
+                zero:
+                  type: boolean
+                  example: false
+                positive:
+                  type: boolean
+                  example: true
+            targetAmount:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  example: 1.196
+                currency:
+                  type: string
+                  example: USDC
+                zero:
+                  type: boolean
+                  example: false
+                positive:
+                  type: boolean
+                  example: true
+            sourceCurrency:
+              type: string
+              example: USDT
+            targetCurrency:
+              type: string
+              example: USDC
+            targetWalletAddress:
+              type: string
+              description: Target wallet address for the transaction.
+              example: rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC
+            targetUserId:
+              type: string
+              description: Target user identifier.
+              example: '2142216666787644416'
+            targetWalletAddressTag:
+              type: string
+              description: Wallet address tag (if applicable).
+              example: ''
+            errorCode:
+              type: string
+              example: ''
+            errorMessage:
+              type: string
+              example: ''
+            txId:
+              type: string
+              description: On-chain transaction ID.
+              example: ''
+            withdrawId:
+              type: string
+              description: Withdrawal ID.
+              example: ''
+            orderId:
+              type: string
+              example: '2199397325237953280'
+            rampTypeCode:
+              type: string
+              enum:
+              - ON_RAMP
+              - OFF_RAMP
+              example: OFF_RAMP
+        callbackKey:
+          type: string
+          nullable: true
+          description: Callback key (if configured).
+        merchantId:
+          type: string
+          nullable: true
+          description: Merchant ID (if configured).
+        timestamp:
+          type: integer
+          format: int64
+          description: Callback timestamp (epoch millis).
+          example: 1776924592732
+    RampCallbackResponse:
+      type: object
+      description: Expected response from merchant after receiving the callback.
+      properties:
+        code:
+          type: string
+          description: Response code. '0' indicates success.
+          example: '0'
+        message:
+          type: string
+          description: Response message.
+          example: success
+        data:
+          type: object
+          description: Response data (can be empty).
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

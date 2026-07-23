@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Reconciliation API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Reconciliation
+  description: Reconciliation report
+paths:
+  /openapi/fiat/v1/apply/merchant_bill:
+    post:
+      tags:
+      - Reconciliation
+      summary: Apply for Report
+      description: Apply for the reconciliation report. The transaction statement file for the previous day is generated after 10:00 AM (UTC+8) each day.
+      operationId: applyForReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - requestId
+              - fileType
+              - billDate
+              properties:
+                requestId:
+                  type: string
+                  minLength: 15
+                  maxLength: 19
+                  description: Assigned by the partner for idempotency validation.
+                fileType:
+                  type: string
+                  description: Download file type enumeration.
+                  example: Transaction Report
+                billDate:
+                  type: string
+                  format: date
+                  description: 'Statistics on billing data date format: yyyy-MM-dd'
+                  example: '2026-02-02'
+                operateType:
+                  type: integer
+                  description: 1 = regenerate file
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FiatBaseResponse'
+                - type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        requestId:
+                          type: string
+                        downloadUrl:
+                          type: string
+                          description: URL for merchant to download the report.
+                        tips:
+                          type: string
+                          description: Reminders to merchant.
+      parameters:
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+  /openapi/fiat/v1/download/merchant_bill:
+    get:
+      tags:
+      - Reconciliation
+      summary: Retrieve the Report
+      description: Download the reconciliation report file (ZIP format). The download link is valid for 30 minutes.
+      operationId: retrieveReport
+      parameters:
+      - name: fileKey
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Unique download file key.
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: ZIP file download
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

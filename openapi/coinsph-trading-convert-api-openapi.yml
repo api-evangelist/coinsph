@@ -1,0 +1,186 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Trading - Convert API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Trading - Convert
+  description: Convert trading operations
+paths:
+  /openapi/convert/v1/get-supported-trading-pairs:
+    post:
+      tags:
+      - Trading - Convert
+      summary: Get Supported Convert Trading Pairs
+      description: Returns a list of all available trading pairs. You may need to be whitelisted for OTC-Convert mode.
+      operationId: getSupportedConvertTradingPairs
+      parameters:
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - OTC
+        description: Designed to support large trading volume with a minimum trade size of $20,000.
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sourceCurrency:
+                      type: string
+                      example: USDT
+                    targetCurrency:
+                      type: string
+                      example: PHP
+                    minSourceAmount:
+                      type: string
+                      example: '100'
+                    maxSourceAmount:
+                      type: string
+                      example: '1000'
+                    precision:
+                      type: string
+                      example: '2'
+  /openapi/convert/v1/get-quote:
+    post:
+      tags:
+      - Trading - Convert
+      summary: Convert Fetch Quote
+      description: Returns a quote for a specified source currency and target currency pair.
+      operationId: convertFetchQuote
+      parameters:
+      - name: sourceCurrency
+        in: query
+        required: true
+        schema:
+          type: string
+        example: USDT
+      - name: targetCurrency
+        in: query
+        required: true
+        schema:
+          type: string
+        example: PHP
+      - name: sourceAmount
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Amount to convert from. Target amount must not be filled when this is filled.
+      - name: targetAmount
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Amount to convert to. Source amount must not be filled when this is filled.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - OTC
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quoteId:
+                    type: string
+                    example: 2182b4fc18ff4556a18332245dba75ea
+                  sourceCurrency:
+                    type: string
+                  targetCurrency:
+                    type: string
+                  sourceAmount:
+                    type: string
+                  targetAmount:
+                    type: string
+                  price:
+                    type: string
+                  expiry:
+                    type: string
+                    description: Validity of the quote in seconds.
+  /openapi/convert/v1/accept-quote:
+    post:
+      tags:
+      - Trading - Convert
+      summary: Convert Accept Quote
+      description: Accept a quote for a specified source currency and target currency pair.
+      operationId: convertAcceptQuote
+      parameters:
+      - name: quoteId
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 32
+          maxLength: 32
+        description: Server generated id for the quote.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - OTC
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderId:
+                    type: string
+                    example: 49d10b74c60a475298c6bbed08dd58fa
+                  status:
+                    type: string
+                    enum:
+                    - SUCCESS
+                    - PROCESSING
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

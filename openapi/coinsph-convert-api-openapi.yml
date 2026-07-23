@@ -1,0 +1,755 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Convert API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Convert
+  description: Convert quote and acceptance operations.
+paths:
+  /openapi/convert/v1/get-supported-trading-pairs:
+    post:
+      tags:
+      - Convert
+      summary: Get Supported Trading Pairs (TRADE)
+      description: 'Returns all supported trading pairs available for the Convert feature.
+
+        Each pair includes the source and target currency, amount limits, and decimal precision.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Pre-conversion Validation** — Check if a desired currency pair is supported before requesting a quote
+
+        - **Limit Discovery** — Retrieve min/max source amounts to validate input before submitting
+
+
+        **Best Practices**
+
+
+        - Cache the response and refresh periodically; supported pairs change infrequently
+
+        - Use the `precision` field to format display amounts correctly for each pair
+
+        - Filter by `sourceCurrency` or `targetCurrency` client-side to reduce UI clutter
+
+        '
+      operationId: convert_get_supported_trading_pairs
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - timestamp
+              - signature
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - CONVERT
+                  - LIGHTNING
+                  - LIGHTNING_WITHDRAW
+                  - OTC
+                  description: "Conversion type filter. If omitted, returns all supported trading pairs. Accepted values:\n\n- `CONVERT` — Standard Convert mode\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n"
+                recvWindow:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  maximum: 60000
+                  description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+                timestamp:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Unix timestamp in milliseconds.
+                signature:
+                  type: string
+                  description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Get Supported Trading Pairs
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/convert/v1/get-supported-trading-pairs'' \
+
+          --header ''X-COINS-APIKEY: your_api_key'' \
+
+          --data-urlencode ''timestamp=1700000000000'' \
+
+          --data-urlencode ''signature=your_signature''
+
+          '
+      responses:
+        '200':
+          description: List of supported trading pairs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sourceCurrency:
+                      type: string
+                      description: The source currency of the trading pair.
+                      example: PHP
+                    targetCurrency:
+                      type: string
+                      description: The target currency of the trading pair.
+                      example: BTC
+                    minSourceAmount:
+                      type: string
+                      description: Minimum source amount allowed for conversion.
+                      example: '1000'
+                    maxSourceAmount:
+                      type: string
+                      description: Maximum source amount allowed for conversion.
+                      example: '15000'
+                    precision:
+                      type: string
+                      description: Decimal precision for the conversion amount.
+                      example: '2'
+              examples:
+                success:
+                  summary: PHP/BTC trading pair
+                  value:
+                  - sourceCurrency: PHP
+                    targetCurrency: BTC
+                    minSourceAmount: '1000'
+                    maxSourceAmount: '15000'
+                    precision: '2'
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1104 | Not all sent parameters were read |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/convert/v1/get-quote:
+    post:
+      tags:
+      - Convert
+      summary: Fetch a Quote (TRADE)
+      description: 'Fetch a real-time conversion quote for a given currency pair and amount.
+
+
+        Provide either `sourceAmount` or `targetAmount`, but not both. The quote is valid
+
+        for the number of seconds specified in the `expiry` field of the response.
+
+
+        **Key Notes**
+
+
+        - The quote `quoteId` must be used with the Accept Quote endpoint before expiry.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Large Volume Conversion (OTC Mode)** — Enable high-value conversions through our OTC desk, offering dedicated liquidity and execution for trades above **$20,000**. Access is available to whitelisted users only.
+
+
+        **Best Practices**
+
+
+        - Fetch a new quote immediately before accepting; quotes expire quickly (see `expiry` field)
+
+        - Use `sourceAmount` for fixed-spend conversions; use `targetAmount` for fixed-receive conversions
+
+        - Leave the `type` parameter empty or omit it entirely to perform a standard Convert transaction. Set `type` to `OTC` to execute the conversion through OTC Mode (whitelisted users only).
+
+        '
+      operationId: convert_get_quote
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - sourceCurrency
+              - targetCurrency
+              - timestamp
+              - signature
+              properties:
+                sourceCurrency:
+                  type: string
+                  description: The source currency for the conversion.
+                  example: PHP
+                targetCurrency:
+                  type: string
+                  description: The target currency for the conversion.
+                  example: BTC
+                sourceAmount:
+                  type: string
+                  description: Amount of source currency to convert. Provide this OR targetAmount, not both.
+                  example: '5000'
+                targetAmount:
+                  type: string
+                  description: Amount of target currency to receive. Provide this OR sourceAmount, not both.
+                type:
+                  type: string
+                  enum:
+                  - CONVERT
+                  - LIGHTNING
+                  - LIGHTNING_WITHDRAW
+                  - OTC
+                  example: CONVERT
+                  description: "Conversion type.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n"
+                recvWindow:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  maximum: 60000
+                  description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+                timestamp:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Unix timestamp in milliseconds.
+                signature:
+                  type: string
+                  description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Fetch a Quote
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/convert/v1/get-quote'' \
+
+          --header ''X-COINS-APIKEY: your_api_key'' \
+
+          --data-urlencode ''sourceCurrency=PHP'' \
+
+          --data-urlencode ''targetCurrency=BTC'' \
+
+          --data-urlencode ''sourceAmount=5000'' \
+
+          --data-urlencode ''timestamp=1700000000000'' \
+
+          --data-urlencode ''signature=your_signature''
+
+          '
+      responses:
+        '200':
+          description: Conversion quote details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quoteId:
+                    type: string
+                    description: Unique identifier for this quote.
+                    example: q_abc123
+                  sourceCurrency:
+                    type: string
+                    description: Source currency.
+                    example: PHP
+                  targetCurrency:
+                    type: string
+                    description: Target currency.
+                    example: BTC
+                  sourceAmount:
+                    type: string
+                    description: Source amount for this quote.
+                    example: '5000'
+                  price:
+                    type: string
+                    description: Exchange rate (source per target).
+                    example: '3500000'
+                  targetAmount:
+                    type: string
+                    description: Target amount to receive.
+                    example: '0.00142857'
+                  expiry:
+                    type: integer
+                    description: Number of seconds until this quote expires.
+                    example: 30
+              examples:
+                success:
+                  summary: PHP to BTC quote
+                  value:
+                    quoteId: q_abc123
+                    sourceCurrency: PHP
+                    targetCurrency: BTC
+                    sourceAmount: '5000'
+                    price: '3500000'
+                    targetAmount: '0.00142857'
+                    expiry: 30
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+            | -1102 | Mandatory parameter was not sent, was empty/null, or malformed |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/convert/v1/accept-quote:
+    post:
+      tags:
+      - Convert
+      summary: Accept the Quote (TRADE)
+      description: 'Accept a previously fetched conversion quote using its `quoteId`. The conversion
+
+        is executed immediately upon acceptance.
+
+
+        **Key Notes**
+
+
+        - The `type` parameter, if provided, must match the type used in the Get Quote request.
+
+        - Quotes expire after the number of seconds indicated by the `expiry` field in the quote response.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Instant Conversion** — Execute a currency swap immediately at the quoted rate
+
+        - **Two-Step Convert Flow** — Combine with Get Quote to build a confirm-then-execute UX
+
+        - **OTC Execution** — Accept large-volume OTC quotes by passing `type=OTC`
+
+
+        **Best Practices**
+
+
+        - Accept the quote immediately after confirming the rate to avoid expiry
+
+        - Store the returned `orderId` for reconciliation and support queries
+
+        '
+      operationId: convert_accept_quote
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - quoteId
+              - timestamp
+              - signature
+              properties:
+                quoteId:
+                  type: string
+                  description: The quote ID returned from the Get Quote endpoint.
+                  example: q_abc123
+                type:
+                  type: string
+                  enum:
+                  - CONVERT
+                  - LIGHTNING
+                  - LIGHTNING_WITHDRAW
+                  - OTC
+                  description: "Conversion type. Must match the type used when fetching the quote.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n"
+                recvWindow:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  maximum: 60000
+                  description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+                timestamp:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Unix timestamp in milliseconds.
+                signature:
+                  type: string
+                  description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Accept Quote
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/convert/v1/accept-quote'' \
+
+          --header ''X-COINS-APIKEY: your_api_key'' \
+
+          --data-urlencode ''quoteId=q_abc123'' \
+
+          --data-urlencode ''timestamp=1700000000000'' \
+
+          --data-urlencode ''signature=your_signature''
+
+          '
+      responses:
+        '200':
+          description: Quote accepted and conversion initiated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderId:
+                    type: string
+                    description: The order ID for the accepted conversion.
+                    example: ord_xyz789
+                  status:
+                    type: string
+                    enum:
+                    - TODO
+                    - PROCESSING
+                    - SUCCESS
+                    - FAILED
+                    description: 'The order status. Possible values are: `TODO`, `PROCESSING`, `SUCCESS`, and `FAILED`.
+
+                      `TODO` means the order is ready to process (pending execution).
+
+                      `PROCESSING` means the server is processing the order. `SUCCESS` means the order
+
+                      has been completed successfully. `FAILED` means the order processing failed.
+
+                      Please check the `errorMessage` field in the Order List API response for the
+
+                      detailed failure reason.
+
+                      '
+                    example: SUCCESS
+              examples:
+                success:
+                  summary: Quote accepted
+                  value:
+                    orderId: ord_xyz789
+                    status: SUCCESS
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | 10000003 | Too many requests. Try again later. (This endpoint supports a minimum refresh interval of 1000 ms) |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/convert/v1/query-order-history:
+    post:
+      tags:
+      - Convert
+      summary: Retrieve Order History (USER_DATA)
+      description: 'Query the history of convert orders for the authenticated account.
+
+
+        **Key Notes**
+
+
+        - Maximum query window is 180 days.
+
+        - Default page size is 10; maximum is 200 records per page.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Conversion Audit** — Review all past conversions for a given time period
+
+        - **Reconciliation** — Match convert orders against balance changes for accounting
+
+
+        **Best Practices**
+
+
+        - Use `startTime` and `endTime` to narrow queries and avoid fetching large datasets
+
+        - Filter by `status=PROCESSING` to identify orders that may need follow-up
+
+        - Paginate using `page` and `size` rather than fetching all records at once
+
+        '
+      operationId: convert_query_order_history
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - timestamp
+              - signature
+              properties:
+                startTime:
+                  type: integer
+                  format: int64
+                  description: Start time filter in Unix milliseconds.
+                endTime:
+                  type: integer
+                  format: int64
+                  description: End time filter in Unix milliseconds.
+                status:
+                  type: string
+                  enum:
+                  - TODO
+                  - PROCESSING
+                  - SUCCESS
+                  - FAILED
+                  description: 'Filter by order status. Possible values: `TODO`, `PROCESSING`, `SUCCESS`, `FAILED`. Please refer to [accept-quote API → order status] for the description of each status.'
+                page:
+                  type: integer
+                  description: 'Page number for pagination. Default: 1.'
+                  example: 1
+                size:
+                  type: integer
+                  description: 'Number of records per page. Default: 10, maximum: 200.'
+                  example: 10
+                type:
+                  type: string
+                  enum:
+                  - CONVERT
+                  - LIGHTNING
+                  - LIGHTNING_WITHDRAW
+                  - OTC
+                  description: Specifies the trading mode. Please refer to [get-quote API → type].
+                quoteId:
+                  type: string
+                  description: Filter by quote ID. Please refer to [accept-quote API → quoteId].
+                orderId:
+                  type: string
+                  description: Filter by order ID. Please refer to [accept-quote API → orderId].
+                recvWindow:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  maximum: 60000
+                  description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+                timestamp:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Unix timestamp in milliseconds.
+                signature:
+                  type: string
+                  description: HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Query Order History
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/convert/v1/query-order-history'' \
+
+          --header ''X-COINS-APIKEY: your_api_key'' \
+
+          --data-urlencode ''page=1'' \
+
+          --data-urlencode ''size=10'' \
+
+          --data-urlencode ''timestamp=1700000000000'' \
+
+          --data-urlencode ''signature=your_signature''
+
+          '
+      responses:
+        '200':
+          description: List of convert order history records.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Total number of records matching the query.
+                    example: 25
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique record ID.
+                          example: '12345'
+                        orderId:
+                          type: string
+                          description: Order ID generated by the server. Please refer to [accept-quote API → orderId].
+                          example: ord_xyz789
+                        quoteId:
+                          type: string
+                          description: Order reference quote Id. Please refer to [accept-quote API → quoteId].
+                          example: q_abc123
+                        sourceCurrency:
+                          type: string
+                          description: Source currency of the conversion.
+                          example: PHP
+                        targetCurrency:
+                          type: string
+                          description: Target currency of the conversion.
+                          example: BTC
+                        sourceAmount:
+                          type: string
+                          description: Source amount converted.
+                          example: '5000'
+                        targetAmount:
+                          type: string
+                          description: Target amount received.
+                          example: '0.00142857'
+                        price:
+                          type: string
+                          description: Exchange rate applied.
+                          example: '3500000'
+                        status:
+                          type: string
+                          enum:
+                          - TODO
+                          - PROCESSING
+                          - SUCCESS
+                          - FAILED
+                          description: 'Order status. Possible values: `TODO` (ready to process), `PROCESSING`, `SUCCESS`, `FAILED`. Please refer to [accept-quote API → order status] for the description of each status.'
+                          example: SUCCESS
+                        createdAt:
+                          type: integer
+                          format: int64
+                          description: Order creation time in Unix milliseconds.
+                          example: 1700000000000
+                        errorMessage:
+                          type: string
+                          description: Error message if the order failed.
+                          example: ''
+                        errorCode:
+                          type: string
+                          description: Error code if the order failed.
+                          example: ''
+                        inversePrice:
+                          type: string
+                          description: Inverse price (targetCurrency to sourceCurrency).
+                          example: '0.00000029'
+              examples:
+                success:
+                  summary: Order history result
+                  value:
+                    total: 25
+                    data:
+                    - id: '12345'
+                      orderId: ord_xyz789
+                      quoteId: q_abc123
+                      sourceCurrency: PHP
+                      targetCurrency: BTC
+                      sourceAmount: '5000'
+                      targetAmount: '0.00142857'
+                      price: '3500000'
+                      status: SUCCESS
+                      createdAt: 1700000000000
+                      errorMessage: ''
+                      errorCode: ''
+                      inversePrice: '0.00000029'
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1100 | Illegal characters found in parameter |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

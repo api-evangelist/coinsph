@@ -1,0 +1,609 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account General API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: General
+  description: General endpoints for connectivity, server time, system status, and user IP.
+paths:
+  /openapi/v1/ping:
+    get:
+      tags:
+      - General
+      summary: Test Connectivity
+      description: 'Test connectivity to the Rest API. This endpoint can be used to verify that the API
+
+        is reachable and responsive. It returns an empty object on success and requires no
+
+        parameters or authentication.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Health Check** — Verify API availability before executing trading logic.
+
+        - **Connection Monitoring** — Use in watchdog scripts to detect API outages.
+
+        - **Pre-flight Check** — Confirm connectivity before sending authenticated requests.
+
+
+        **Best Practices**
+
+
+        - Use response time as a latency indicator for your network connection to the API.
+
+        - Do not use this endpoint as a substitute for WebSocket keep-alive mechanisms.
+
+        '
+      operationId: test_connectivity
+      security: []
+      parameters: []
+      x-codeSamples:
+      - lang: Shell
+        label: Test connectivity
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/v1/ping''
+
+          '
+      responses:
+        '200':
+          description: API is reachable. Returns an empty object.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                example: {}
+              examples:
+                success:
+                  summary: Successful ping
+                  value: {}
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/v1/time:
+    get:
+      tags:
+      - General
+      summary: Check Server Time
+      description: 'Test connectivity to the Rest API and get the current server time. The returned
+
+        `serverTime` value is a Unix timestamp in milliseconds and can be used to synchronize
+
+        client-side clocks for accurate signature generation.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Clock Synchronization** — Align local system clock with server time before signing requests.
+
+        - **Signature Debugging** — Diagnose timestamp mismatch errors (-1021) by comparing server and local time.
+
+        - **Latency Calculation** — Measure round-trip time to estimate request delivery delay.
+
+
+        **Best Practices**
+
+
+        - Sync your local clock with `serverTime` at startup and periodically during long-running sessions.
+
+        - Account for network latency when calculating the effective timestamp offset.
+
+        - Use `serverTime` as the base when generating `timestamp` parameters for signed endpoints.
+
+        '
+      operationId: check_server_time
+      security: []
+      parameters: []
+      x-codeSamples:
+      - lang: Shell
+        label: Get server time
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/v1/time''
+
+          '
+      responses:
+        '200':
+          description: Current server time returned successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  serverTime:
+                    type: integer
+                    format: int64
+                    description: Current server time as a Unix timestamp in milliseconds.
+                    example: 1538323200000
+              examples:
+                success:
+                  summary: Server time response
+                  value:
+                    serverTime: 1538323200000
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/v1/user/ip:
+    get:
+      tags:
+      - General
+      summary: Get User IP
+      description: 'Get the IP address of the current request as seen by the API server. This endpoint
+
+        is useful for diagnosing connectivity issues, verifying the IP address that will be
+
+        validated against API key IP restrictions, and confirming the outbound IP when
+
+        operating behind proxies or NAT.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **IP Whitelist Verification** — Confirm the outbound IP before configuring API key IP restrictions.
+
+        - **Proxy/NAT Diagnosis** — Identify the effective public IP when operating behind a proxy or NAT gateway.
+
+        - **Security Audit** — Verify which IP address is being used for API calls in production.
+
+
+        **Best Practices**
+
+
+        - Call this endpoint after setting up a new server or VPN to confirm the correct IP is used.
+
+        - Use the returned IP to pre-populate the IP whitelist when creating or updating API key restrictions.
+
+        - Re-check after infrastructure changes (e.g., IP reassignment, new NAT gateway).
+
+        '
+      operationId: get_user_ip
+      security: []
+      parameters: []
+      x-codeSamples:
+      - lang: Shell
+        label: Get user IP
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/v1/user/ip''
+
+          '
+      responses:
+        '200':
+          description: User IP address returned successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ip:
+                    type: string
+                    description: The public IP address of the requesting client as seen by the API server.
+                    example: 57.181.16.43
+              examples:
+                success:
+                  summary: User IP response
+                  value:
+                    ip: 57.181.16.43
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/v1/check-sys-status:
+    get:
+      tags:
+      - General
+      summary: Check System Status
+      description: 'Check the system business status. Returns the current operational status for each
+
+        supported business type (SPOT, CONVERT). If no `businessType` parameter is provided,
+
+        the response includes the status for all business types. Use this endpoint to verify
+
+        service availability before placing orders or executing conversions.
+
+
+        **businessStatus Values**
+
+
+        - `on` — Business type is enabled and fully operational.
+
+        - `off` — Business type is disabled or under maintenance.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 2 (UID)
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Pre-Trade Verification** — Check SPOT status before placing orders to avoid unnecessary failures.
+
+        - **Maintenance Detection** — Detect planned or unplanned maintenance windows programmatically.
+
+        - **Multi-Business Monitoring** — Monitor status of both SPOT and CONVERT in one call.
+
+
+        **Best Practices**
+
+
+        - Check this endpoint before initiating critical trading or conversion workflows.
+
+        '
+      operationId: check_system_status
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+          example: VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK
+        description: API key for authentication.
+      - in: query
+        name: businessType
+        required: false
+        schema:
+          type: string
+          enum:
+          - SPOT
+          - CONVERT
+          example: SPOT
+        description: 'Business type to query. Optional values: SPOT, CONVERT. If not provided, returns status for all business types.
+
+          '
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1499827319559
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Check all business types
+        source: 'curl --get --location ''https://api.pro.coins.ph/openapi/v1/check-sys-status'' \
+
+          --header ''X-COINS-APIKEY: <your api key>'' \
+
+          --data-urlencode ''timestamp=1499827319559'' \
+
+          --data-urlencode ''signature=<calculated_signature>''
+
+          '
+      - lang: Shell
+        label: Check specific business type (SPOT)
+        source: 'curl --location ''https://api.pro.coins.ph/openapi/v1/check-sys-status?businessType=SPOT''
+
+          '
+      responses:
+        '200':
+          description: System business status returned successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    businessType:
+                      type: string
+                      description: 'Business type: SPOT or CONVERT.'
+                      example: SPOT
+                    businessStatus:
+                      type: string
+                      description: 'Business status: on (enabled) or off (disabled).'
+                      example: 'on'
+              examples:
+                all_types:
+                  summary: All business types
+                  value:
+                  - businessType: SPOT
+                    businessStatus: 'on'
+                  - businessType: CONVERT
+                    businessStatus: 'on'
+                spot_only:
+                  summary: SPOT status only
+                  value:
+                  - businessType: SPOT
+                    businessStatus: 'on'
+                system_maintenance:
+                  summary: CONVERT under maintenance
+                  value:
+                  - businessType: SPOT
+                    businessStatus: 'on'
+                  - businessType: CONVERT
+                    businessStatus: 'off'
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/v1/api-keys:
+    get:
+      tags:
+      - General
+      summary: Get API Keys (USER_DATA)
+      description: 'Retrieve all API keys associated with your account. You may have created multiple API keys
+
+        with different permissions and IP restrictions. This endpoint returns information about all
+
+        of them, with the API key values partially masked for security.
+
+
+        **Key Notes**
+
+
+        - Returns all API keys associated with your account.
+
+        - Each key includes its permission scopes (`apiType`), IP restrictions, and status.
+
+
+        **API Key Status Values**
+
+
+        | Status | Description |
+
+        |---|---|
+
+        | ENABLE | Active |
+
+        | NOT_ENABLE | Disabled |
+
+
+        **apiType Permission Values**
+
+
+        | Value | Description |
+
+        |---|---|
+
+        | Read only | Read-only access |
+
+        | Enable Spot | Spot trading |
+
+        | Enable Convert | Convert operations |
+
+        | Enable Crypto Wallet | Crypto wallet operations |
+
+        | Enable Fiat | Fiat operations |
+
+        | Enable Account | Account management |
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Key Management** — View all API keys and their configurations in one call.
+
+        - **Security Audit** — Review IP whitelist settings and permission levels across all keys.
+
+        - **Status Monitoring** — Check which keys are active or disabled.
+
+
+        **Best Practices**
+
+
+        - Periodically review API keys and disable any that are no longer needed.
+
+        - Verify IP whitelist settings are correctly configured for production environments.
+
+        - Use the `apiName` field to label keys for easier identification (e.g., "trading-bot", "read-only").
+
+        '
+      operationId: get_api_keys
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1499827319559
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Get all API keys
+        source: 'curl --get --location ''https://api.pro.coins.ph/openapi/v1/api-keys'' \
+
+          --header ''X-COINS-APIKEY: <your api key>'' \
+
+          --data-urlencode ''timestamp=1499827319559'' \
+
+          --data-urlencode ''signature=<calculated_signature>''
+
+          '
+      responses:
+        '200':
+          description: API keys retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    apiKey:
+                      type: string
+                      description: The API key value.
+                      example: QdGqqftMXzW3qKceYHqwR...
+                    apiName:
+                      type: string
+                      description: User-assigned name for the API key.
+                      example: trading-bot
+                    apiType:
+                      type: array
+                      items:
+                        type: string
+                      description: 'Permission scopes granted to this key. Possible values: "Read only", "Enable Spot", "Enable Convert", "Enable Crypto Wallet", "Enable Fiat", "Enable Account".
+
+                        '
+                      example:
+                      - Enable Spot
+                      - Enable Convert
+                    createTime:
+                      type: string
+                      description: Key creation time as a numeric string (Unix milliseconds).
+                      example: '1711520996538'
+                    ipAccessRestrictions:
+                      type: array
+                      items:
+                        type: string
+                      description: Whitelisted IP addresses. Empty array if unrestricted.
+                      example:
+                      - 57.181.16.43
+                      - 57.181.16.55
+                    status:
+                      type: string
+                      description: 'API key status: ENABLE = active, NOT_ENABLE = disabled.'
+                      example: ENABLE
+              examples:
+                success:
+                  summary: API keys response
+                  value:
+                  - apiKey: QdGqqftMXzW3qKceYHqwR...
+                    apiName: trading-bot
+                    apiType:
+                    - Enable Spot
+                    - Enable Convert
+                    createTime: '1711520996538'
+                    ipAccessRestrictions:
+                    - 57.181.16.43
+                    - 57.181.16.55
+                    status: ENABLE
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1022 | Signature for this request is not valid |
+
+            | -1021 | Timestamp for this request is outside of the recvWindow |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

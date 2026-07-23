@@ -1,0 +1,623 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Account
+  description: Account management APIs.
+paths:
+  /openapi/account/v3/crypto-accounts:
+    get:
+      tags:
+      - Account
+      summary: Query Balance - Crypto Accounts (USER_DATA)
+      description: 'Retrieve the current cryptocurrency balance for a specific currency or all supported
+
+        cryptocurrencies. Use this endpoint to query available and pending balances across
+
+        different crypto assets.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Pending Balance Explained**
+
+
+        The `pending_balance` represents funds that are not immediately available for trading or
+
+        withdrawal. This typically includes Deposit Confirmations, Pending Withdrawals,
+
+        Processing Transactions, and Order-Related Locks.
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Deposit Tracking** — Monitor pending balance to track deposit confirmations.
+
+        - **Withdrawal Verification** — Check pending balance before initiating new withdrawals.
+
+
+        **Best Practices**
+
+
+        - Use specific currency parameter when checking single asset.
+
+        - Cache results appropriately (30–60 seconds for pending balance).
+
+        - Don''t poll more frequently than necessary (respect rate limits).
+
+        - Use WebSocket for real-time balance updates if available.
+
+        '
+      operationId: query_crypto_account_balance
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+          example: VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK
+        description: API key for authentication.
+      - in: query
+        name: currency
+        required: false
+        schema:
+          type: string
+          example: BTC
+        description: 'The currency symbol for which the balance is being queried. If not provided, returns balances for all supported cryptocurrencies. Use standard cryptocurrency symbols (e.g., ''BTC'', ''ETH'', ''USDT''). Case-insensitive.
+
+          '
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1499827319559
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Query specific currency (BTC)
+        source: 'curl --get --location ''https://api.pro.coins.ph/openapi/account/v3/crypto-accounts'' \
+
+          --header ''X-COINS-APIKEY: <your api key>'' \
+
+          --data-urlencode ''currency=BTC'' \
+
+          --data-urlencode ''recvWindow=60000'' \
+
+          --data-urlencode ''timestamp=1707273549694'' \
+
+          --data-urlencode ''signature=<calculated_signature>''
+
+          '
+      - lang: Shell
+        label: Query all cryptocurrencies
+        source: 'curl --get --location ''https://api.pro.coins.ph/openapi/account/v3/crypto-accounts'' \
+
+          --header ''X-COINS-APIKEY: <your api key>'' \
+
+          --data-urlencode ''recvWindow=60000'' \
+
+          --data-urlencode ''timestamp=1707273549694'' \
+
+          --data-urlencode ''signature=<calculated_signature>''
+
+          '
+      responses:
+        '200':
+          description: Cryptocurrency account balance returned successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  crypto-accounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Account identifier.
+                          example: '1451431230880900352'
+                        name:
+                          type: string
+                          description: Cryptocurrency symbol (display name).
+                          example: BTC
+                        currency:
+                          type: string
+                          description: Cryptocurrency symbol.
+                          example: BTC
+                        balance:
+                          type: string
+                          description: Available balance.
+                          example: '1'
+                        pending_balance:
+                          type: string
+                          description: 'Funds in pending transactions, awaiting confirmation, or temporarily locked. Not immediately available for trading or withdrawal.
+
+                            '
+                          example: '0'
+              examples:
+                single_currency:
+                  summary: Single Currency Balance (BTC)
+                  value:
+                    crypto-accounts:
+                    - id: '1451431230880900352'
+                      name: BTC
+                      currency: BTC
+                      balance: '1'
+                      pending_balance: '0'
+                multiple_currencies:
+                  summary: Multiple Cryptocurrency Balances
+                  value:
+                    crypto-accounts:
+                    - id: '1451431230880900352'
+                      name: PHP
+                      currency: PHP
+                      balance: '100'
+                      pending_balance: '1'
+                    - id: '1451431230880900352'
+                      name: BTC
+                      currency: BTC
+                      balance: '1'
+                      pending_balance: '0'
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1121 | Invalid currency symbol. |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+  /openapi/v1/account:
+    get:
+      tags:
+      - Account
+      summary: Account Information (USER_DATA)
+      description: "Retrieve comprehensive information about trading account, including permissions,\nbalances, withdrawal limits (daily, monthly, annual), fee tier, and configuration settings.\nUse this endpoint to get a complete snapshot of account's current state for portfolio\nmanagement, compliance checks, and monitoring.\n\n**Permission Flags**\n\n- **canDeposit**: `true` = Account can receive deposits; `false` = Deposits are blocked\n  (reasons: pending verification, compliance hold, security review).\n- **canTrade**: `true` = Account can execute buy/sell orders; `false` = Trading is restricted\n  (reasons: KYC incomplete, account suspension, regulatory restrictions).\n- **canWithdraw**: `true` = Account can withdraw funds; `false` = Withdrawals are blocked\n  (reasons: security review, 2FA setup required, compliance hold).\n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Withdrawal Validation** — Check if withdrawal amount is within limits before submission.\n- **Trading Permission Check** — Verify account can trade before placing orders.\n- **Compliance Monitoring** — Track transaction limits for regulatory compliance.\n- **Balance Verification** — Confirm available balance before placing trades.\n\n**Best Practices**\n\n- Cache account information and refresh after transactions.\n- Use `updateTime` to track data freshness.\n- Always check `canTrade` before placing orders.\n- Always check `canWithdraw` before initiating withdrawals.\n- Check all three limit tiers (daily, monthly, annual).\n"
+      operationId: get_account_information
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+          example: VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK
+        description: API key for authentication.
+      - in: query
+        name: recvWindow
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 60000
+        description: 'Request validity window in milliseconds. Default: 5000, Maximum: 60000.'
+      - in: query
+        name: timestamp
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+          example: 1499827319559
+        description: Unix timestamp in milliseconds.
+      - in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        description: HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)
+      x-codeSamples:
+      - lang: Shell
+        label: Get account information
+        source: 'curl --get --location ''https://api.pro.coins.ph/openapi/v1/account'' \
+
+          --header ''X-COINS-APIKEY: <your api key>'' \
+
+          --data-urlencode ''recvWindow=60000'' \
+
+          --data-urlencode ''timestamp=1707273549694'' \
+
+          --data-urlencode ''signature=<calculated_signature>''
+
+          '
+      responses:
+        '200':
+          description: Account information returned successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountType:
+                    type: string
+                    description: Type of trading account. Currently only "SPOT" is supported.
+                    example: SPOT
+                  canDeposit:
+                    type: boolean
+                    description: Whether the account is allowed to deposit funds.
+                    example: true
+                  canTrade:
+                    type: boolean
+                    description: Whether the account is allowed to execute trades.
+                    example: true
+                  canWithdraw:
+                    type: boolean
+                    description: Whether the account is allowed to withdraw funds.
+                    example: true
+                  enableWithdrawWhitelist:
+                    type: boolean
+                    description: Whether the account's withdrawal address whitelist feature is enabled.
+                    example: false
+                  email:
+                    type: string
+                    description: Email address associated with the account.
+                    example: test@coins.ph
+                  feeTier:
+                    type: integer
+                    description: Current trading fee tier level for the account.
+                    example: 0
+                  balances:
+                    type: array
+                    description: Balance details for all assets.
+                    items:
+                      type: object
+                      properties:
+                        asset:
+                          type: string
+                          description: Asset currency (e.g., PHP, BTC).
+                          example: PHP
+                        free:
+                          type: string
+                          description: Available balance for trading or withdrawal.
+                          example: '100'
+                        locked:
+                          type: string
+                          description: Balance locked in pending orders or operations.
+                          example: '0'
+                  token:
+                    type: string
+                    description: Fiat currency token.
+                    example: PHP
+                  daily:
+                    type: object
+                    description: Daily transaction limits.
+                    properties:
+                      cashInLimit:
+                        type: string
+                        example: '500000'
+                      cashInRemaining:
+                        type: string
+                        example: '499994'
+                      cashOutLimit:
+                        type: string
+                        example: '500000'
+                      cashOutRemaining:
+                        type: string
+                        example: '500000'
+                      totalWithdrawLimit:
+                        type: string
+                        example: '500000'
+                      totalWithdrawRemaining:
+                        type: string
+                        example: '500000'
+                  monthly:
+                    type: object
+                    description: Monthly transaction limits.
+                    properties:
+                      cashInLimit:
+                        type: string
+                        example: '10000000'
+                      cashInRemaining:
+                        type: string
+                        example: '9999157'
+                      cashOutLimit:
+                        type: string
+                        example: '10000000'
+                      cashOutRemaining:
+                        type: string
+                        example: '10000000'
+                      totalWithdrawLimit:
+                        type: string
+                        example: '10000000'
+                      totalWithdrawRemaining:
+                        type: string
+                        example: '10000000'
+                  annually:
+                    type: object
+                    description: Annual transaction limits.
+                    properties:
+                      cashInLimit:
+                        type: string
+                        example: '120000000'
+                      cashInRemaining:
+                        type: string
+                        example: '119998487.97'
+                      cashOutLimit:
+                        type: string
+                        example: '120000000'
+                      cashOutRemaining:
+                        type: string
+                        example: '120000000'
+                      totalWithdrawLimit:
+                        type: string
+                        example: '120000000'
+                      totalWithdrawRemaining:
+                        type: string
+                        example: '120000000'
+                  p2pDaily:
+                    type: object
+                    description: Daily P2P transaction limits.
+                    properties:
+                      cashInLimit:
+                        type: string
+                        description: Fiat cash-in limit (Deposit). Corresponds to fiatInLimit.
+                        example: '500000'
+                      cashInRemaining:
+                        type: string
+                        description: Remaining fiat cash-in quota. Calculated as fiatInLimit - fiatInUsed - fiatInDailyLocked, where fiatInDailyLocked is the amount of PENDING deposit orders (in-transit funds) deducted from the available quota.
+                        example: '499994'
+                      cashOutLimit:
+                        type: string
+                        description: Fiat cash-out limit (Withdraw fiat). Corresponds to fiatOutLimit.
+                        example: '500000'
+                      cashOutRemaining:
+                        type: string
+                        description: Remaining fiat cash-out quota. Calculated as fiatOutLimit - fiatOutOccupied.
+                        example: '500000'
+                      totalWithdrawLimit:
+                        type: string
+                        description: Total withdrawal limit (fiat + crypto combined). Corresponds to allOutLimit.
+                        example: '500000'
+                      totalWithdrawRemaining:
+                        type: string
+                        description: Remaining total withdrawal quota. Calculated as allOutLimit - allOutOccupied.
+                        example: '500000'
+                  p2pMonthly:
+                    type: object
+                    description: Monthly P2P transaction limits.
+                    properties:
+                      cashInLimit:
+                        type: string
+                        description: Fiat cash-in limit (Deposit). Corresponds to fiatInLimit.
+                        example: '10000000'
+                      cashInRemaining:
+                        type: string
+                        description: Remaining fiat cash-in quota. Calculated as fiatInLimit - fiatInUsed - fiatInDailyLocked, where fiatInDailyLocked is the amount of PENDING deposit orders (in-transit funds) deducted from the available quota.
+                        example: '9999157'
+                      cashOutLimit:
+                        type: string
+                        description: Fiat cash-out limit (Withdraw fiat). Corresponds to fiatOutLimit.
+                        example: '10000000'
+                      cashOutRemaining:
+                        type: string
+                        description: Remaining fiat cash-out quota. Calculated as fiatOutLimit - fiatOutOccupied.
+                        example: '10000000'
+                      totalWithdrawLimit:
+                        type: string
+                        description: Total withdrawal limit (fiat + crypto combined). Corresponds to allOutLimit.
+                        example: '10000000'
+                      totalWithdrawRemaining:
+                        type: string
+                        description: Remaining total withdrawal quota. Calculated as allOutLimit - allOutOccupied.
+                        example: '10000000'
+                  p2pAnnually:
+                    type: object
+                    description: Annual P2P transaction limits.
+                    properties:
+                      cashInLimit:
+                        type: string
+                        description: Fiat cash-in limit (Deposit). Corresponds to fiatInLimit.
+                        example: '120000000'
+                      cashInRemaining:
+                        type: string
+                        description: Remaining fiat cash-in quota. Calculated as fiatInLimit - fiatInUsed - fiatInDailyLocked, where fiatInDailyLocked is the amount of PENDING deposit orders (in-transit funds) deducted from the available quota.
+                        example: '119998577'
+                      cashOutLimit:
+                        type: string
+                        description: Fiat cash-out limit (Withdraw fiat). Corresponds to fiatOutLimit.
+                        example: '120000000'
+                      cashOutRemaining:
+                        type: string
+                        description: Remaining fiat cash-out quota. Calculated as fiatOutLimit - fiatOutOccupied.
+                        example: '119999488'
+                      totalWithdrawLimit:
+                        type: string
+                        description: Total withdrawal limit (fiat + crypto combined). Corresponds to allOutLimit.
+                        example: '120000000'
+                      totalWithdrawRemaining:
+                        type: string
+                        description: Remaining total withdrawal quota. Calculated as allOutLimit - allOutOccupied.
+                        example: '119998487.97'
+                  updateTime:
+                    type: integer
+                    format: int64
+                    description: Unix timestamp (ms) of the last account update.
+                    example: 1707273549694
+              examples:
+                success_full:
+                  summary: Complete Account Information
+                  value:
+                    accountType: SPOT
+                    canDeposit: true
+                    canTrade: true
+                    canWithdraw: true
+                    email: test@coins.ph
+                    feeTier: 0
+                    balances:
+                    - asset: PHP
+                      free: '100'
+                      locked: '0'
+                    - asset: BTC
+                      free: '0.00123456'
+                      locked: '0'
+                    - asset: ETH
+                      free: '0.5'
+                      locked: '0.1'
+                    token: PHP
+                    daily:
+                      cashInLimit: '500000'
+                      cashInRemaining: '499994'
+                      cashOutLimit: '500000'
+                      cashOutRemaining: '500000'
+                      totalWithdrawLimit: '500000'
+                      totalWithdrawRemaining: '500000'
+                    monthly:
+                      cashInLimit: '10000000'
+                      cashInRemaining: '9999157'
+                      cashOutLimit: '10000000'
+                      cashOutRemaining: '10000000'
+                      totalWithdrawLimit: '10000000'
+                      totalWithdrawRemaining: '10000000'
+                    annually:
+                      cashInLimit: '120000000'
+                      cashInRemaining: '119998487.97'
+                      cashOutLimit: '120000000'
+                      cashOutRemaining: '120000000'
+                      totalWithdrawLimit: '120000000'
+                      totalWithdrawRemaining: '120000000'
+                    p2pDaily:
+                      cashInLimit: '500000'
+                      cashInRemaining: '499994'
+                      cashOutLimit: '500000'
+                      cashOutRemaining: '500000'
+                      totalWithdrawLimit: '500000'
+                      totalWithdrawRemaining: '500000'
+                    p2pMonthly:
+                      cashInLimit: '10000000'
+                      cashInRemaining: '9999157'
+                      cashOutLimit: '10000000'
+                      cashOutRemaining: '10000000'
+                      totalWithdrawLimit: '10000000'
+                      totalWithdrawRemaining: '10000000'
+                    p2pAnnually:
+                      cashInLimit: '120000000'
+                      cashInRemaining: '119998577'
+                      cashOutLimit: '120000000'
+                      cashOutRemaining: '119999488'
+                      totalWithdrawLimit: '120000000'
+                      totalWithdrawRemaining: '119998487.97'
+                    updateTime: 1707273549694
+                success_restricted:
+                  summary: Account with Restricted Permissions
+                  value:
+                    accountType: SPOT
+                    canDeposit: true
+                    canTrade: false
+                    canWithdraw: false
+                    email: restricted@example.com
+                    feeTier: 0
+                    balances:
+                    - asset: PHP
+                      free: '1000'
+                      locked: '0'
+                    token: PHP
+                    daily:
+                      cashInLimit: '100000'
+                      cashInRemaining: '100000'
+                      cashOutLimit: '0'
+                      cashOutRemaining: '0'
+                      totalWithdrawLimit: '0'
+                      totalWithdrawRemaining: '0'
+                    monthly:
+                      cashInLimit: '1000000'
+                      cashInRemaining: '1000000'
+                      cashOutLimit: '0'
+                      cashOutRemaining: '0'
+                      totalWithdrawLimit: '0'
+                      totalWithdrawRemaining: '0'
+                    annually:
+                      cashInLimit: '12000000'
+                      cashInRemaining: '12000000'
+                      cashOutLimit: '0'
+                      cashOutRemaining: '0'
+                      totalWithdrawLimit: '0'
+                      totalWithdrawRemaining: '0'
+                    p2pDaily:
+                      cashInLimit: '500000'
+                      cashInRemaining: '500000'
+                      cashOutLimit: '0'
+                      cashOutRemaining: '0'
+                      totalWithdrawLimit: '0'
+                      totalWithdrawRemaining: '0'
+                    p2pMonthly:
+                      cashInLimit: '10000000'
+                      cashInRemaining: '10000000'
+                      cashOutLimit: '0'
+                      cashOutRemaining: '0'
+                      totalWithdrawLimit: '0'
+                      totalWithdrawRemaining: '0'
+                    p2pAnnually:
+                      cashInLimit: '120000000'
+                      cashInRemaining: '120000000'
+                      cashOutLimit: '0'
+                      cashOutRemaining: '0'
+                      totalWithdrawLimit: '0'
+                      totalWithdrawRemaining: '0'
+                    updateTime: 1707273549694
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1022 | Signature for this request is not valid. |
+
+            | -1002 | Unauthorized. API key does not have permission. |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

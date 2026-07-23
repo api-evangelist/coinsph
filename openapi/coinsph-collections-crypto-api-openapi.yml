@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Collections - Crypto API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Collections - Crypto
+  description: Crypto deposit address
+paths:
+  /openapi/wallet/v1/deposit/address:
+    get:
+      tags:
+      - Collections - Crypto
+      summary: Crypto Get Deposit Address
+      description: Returns a crypto deposit address.
+      operationId: getCryptoDepositAddress
+      parameters:
+      - name: coin
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Abbreviated token name.
+        example: USDT
+      - name: network
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Abbreviated network name.
+        example: XRP
+      - name: recvWindow
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+        description: Validity duration of the request in milliseconds after the timestamp.
+      - name: timestamp
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: Unix timestamp indicating when the request was made.
+        example: 1747306565330
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  coin:
+                    type: string
+                    example: USDT
+                  address:
+                    type: string
+                    example: rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC
+                  addressTag:
+                    type: string
+                    example: '1119001253'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

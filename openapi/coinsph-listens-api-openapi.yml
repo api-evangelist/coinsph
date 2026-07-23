@@ -1,0 +1,369 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Listens API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Listens
+  description: Manage user data stream listenKeys for WebSocket connections. A listenKey is required to establish a private WebSocket connection for receiving real-time account updates (orders, balances, positions).
+paths:
+  /openapi/v1/userDataStream:
+    post:
+      tags:
+      - Listens
+      summary: Create a listenKey (USER_STREAM)
+      description: 'Start a new user data stream. The returned `listenKey` is used to establish a WebSocket
+
+        connection for receiving real-time account updates including order status changes,
+
+        balance updates, and position changes.
+
+
+        **Key Notes**
+
+
+        - The `listenKey` is valid for **60 minutes** from creation.
+
+        - After creation, connect to: `wss://stream.coins.ph/openapi/ws/<listenKey>`
+
+        - A single WebSocket connection is valid for a maximum of **24 hours**.
+
+        - Use the keepalive endpoint (PUT) every 30 minutes to maintain the stream.
+
+        - No request body or query parameters are required — only the API key header.
+
+
+        **Stream Connection**
+
+
+        After obtaining a `listenKey`, connect via WebSocket:
+
+        ```
+
+        wss://stream.coins.ph/openapi/ws/<listenKey>
+
+        ```
+
+
+        **Stream Events**
+
+
+        Once connected, you will receive real-time events:
+
+        - `outboundAccountPosition` — Account balance changes
+
+        - `balanceUpdate` — Non-trading fund activities (deposits, withdrawals, transfers)
+
+        - `executionReport` — Order status updates
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Real-Time Order Tracking** — Receive instant notifications when orders are filled, cancelled, or rejected
+
+        - **Balance Monitoring** — Get immediate updates on deposits, withdrawals, and trade settlements
+
+        - **Trading Bot Integration** — Feed live account data into automated trading strategies
+
+
+        **Best Practices**
+
+
+        - Create a new `listenKey` at application startup and maintain it with keepalive requests every 30 minutes
+
+        - Implement reconnection logic that creates a new `listenKey` if the WebSocket disconnects
+
+        - Close the `listenKey` during graceful application shutdown to release server resources
+
+        '
+      operationId: create_listen_key
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      x-codeSamples:
+      - lang: Shell
+        label: Create listenKey
+        source: 'curl -X POST ''https://api.pro.coins.ph/openapi/v1/userDataStream'' \
+
+          -H ''X-COINS-APIKEY: <your api key>''
+
+          '
+      responses:
+        '200':
+          description: listenKey created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  listenKey:
+                    type: string
+                    description: The key used to establish a WebSocket connection for user data stream updates. Valid for 60 minutes.
+                    example: iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg
+              examples:
+                success:
+                  summary: listenKey created
+                  value:
+                    listenKey: iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1022 | Signature for this request is not valid |
+
+            | -2015 | Invalid API-key, IP, or permissions for action |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+    put:
+      tags:
+      - Listens
+      summary: Ping / Keep-alive a listenKey (USER_STREAM)
+      description: 'Keep a user data stream alive to prevent timeout. User data streams automatically close
+
+        after **60 minutes** of inactivity. A keepalive request extends the `listenKey` validity
+
+        by another 60 minutes from the time the request is received.
+
+
+        **Key Notes**
+
+
+        - Each successful keepalive resets the 60-minute expiration timer.
+
+        - The 24-hour maximum WebSocket connection limit still applies regardless of keepalives.
+
+        - Returns an empty object `{}` on success.
+
+        - Returns error code `-1125` if the `listenKey` does not exist or has already expired.
+
+
+        **Keepalive Strategy**
+
+
+        - Send keepalive requests every **30 minutes** to maintain a safety margin before the 60-minute expiration.
+
+        - If a keepalive fails, create a new `listenKey` and re-establish the WebSocket connection.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Stream Keepalive** — Send periodic keepalive requests to prevent the listenKey from expiring during a long-running session
+
+        - **Health Check** — Verify that a `listenKey` is still valid before relying on the stream
+
+
+        **Best Practices**
+
+
+        - Schedule keepalive requests at fixed intervals (every 30 minutes) using a timer or cron job
+
+        - Implement error handling: if keepalive returns `-1125`, the stream has expired — create a new `listenKey`
+
+        - Log keepalive failures for monitoring and alerting purposes
+
+        '
+      operationId: keepalive_listen_key
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: listenKey
+        required: true
+        schema:
+          type: string
+        description: The listenKey to keep alive.
+        example: iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg
+      x-codeSamples:
+      - lang: Shell
+        label: Keep-alive listenKey
+        source: 'curl -X PUT ''https://api.pro.coins.ph/openapi/v1/userDataStream?listenKey=iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg'' \
+
+          -H ''X-COINS-APIKEY: <your api key>''
+
+          '
+      responses:
+        '200':
+          description: listenKey keepalive successful. Validity extended by 60 minutes.
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                success:
+                  summary: Keepalive successful
+                  value: {}
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1125 | This listenKey does not exist |
+
+            | -2015 | Invalid API-key, IP, or permissions for action |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+    delete:
+      tags:
+      - Listens
+      summary: Close a listenKey (USER_STREAM)
+      description: 'Explicitly close a user data stream. Once closed, the `listenKey` becomes invalid and
+
+        the associated WebSocket connection is immediately disconnected. A closed `listenKey`
+
+        **cannot be reused** — you must create a new one.
+
+
+        **Key Notes**
+
+
+        - The WebSocket connection associated with this `listenKey` is immediately terminated.
+
+        - Returns an empty object `{}` on success.
+
+        - Returns error code `-1125` if the `listenKey` does not exist or has already been closed.
+
+        - A closed `listenKey` cannot be revived — use the Create endpoint to generate a new one.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+
+
+        Weight: 1
+
+
+        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+
+
+        - **Graceful Shutdown** — Close the listenKey explicitly on exit to release server-side resources immediately rather than waiting for the 60-minute timeout
+
+        - **Stream Reset** — Terminate and recreate a stream if it enters an inconsistent state
+
+        - **Security** — Invalidate a `listenKey` immediately if the associated API key is compromised
+
+
+        **Best Practices**
+
+
+        - Always close listenKeys during application shutdown to release server-side resources
+
+        - Implement a shutdown hook that calls this endpoint before process termination
+
+        - After closing, clean up local references to the old `listenKey` and WebSocket connection
+
+        '
+      operationId: close_listen_key
+      parameters:
+      - in: header
+        name: X-COINS-APIKEY
+        required: true
+        schema:
+          type: string
+        description: API key for authentication.
+      - in: query
+        name: listenKey
+        required: true
+        schema:
+          type: string
+        description: The listenKey to close.
+        example: iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg
+      x-codeSamples:
+      - lang: Shell
+        label: Close listenKey
+        source: 'curl -X DELETE ''https://api.pro.coins.ph/openapi/v1/userDataStream?listenKey=iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg'' \
+
+          -H ''X-COINS-APIKEY: <your api key>''
+
+          '
+      responses:
+        '200':
+          description: listenKey closed successfully. The associated WebSocket connection is terminated.
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                success:
+                  summary: listenKey closed
+                  value: {}
+        default:
+          description: 'API error response. The `code` field contains the internal API error code (not an HTTP status code).
+
+
+            | Code | Description |
+
+            |---|---|
+
+            | -1125 | This listenKey does not exist |
+
+            | -2015 | Invalid API-key, IP, or permissions for action |
+
+
+            For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
+
+            '
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false

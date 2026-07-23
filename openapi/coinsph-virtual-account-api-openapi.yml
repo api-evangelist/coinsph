@@ -1,0 +1,1253 @@
+openapi: 3.0.0
+info:
+  title: TRADING Account Virtual Account API
+  version: 1.0.0
+  description: API reference for Account management — Coins.ph
+servers:
+- url: https://api.pro.coins.ph
+  description: Production
+- url: https://api.9001.pl-qa.coinsxyz.me
+  description: Sandbox
+tags:
+- name: Virtual Account
+  description: Virtual account creation and management
+paths:
+  /openapi/v1/virtual-account/create:
+    post:
+      tags:
+      - Virtual Account
+      summary: Create Virtual Account
+      description: 'Create a new virtual account.
+
+
+        **Webhook:** ✅ Supported (requires Coins.ph configuration)'
+      operationId: createVirtualAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vAccountType
+              - vAccountUsage
+              - cAccountNumber
+              - cAccountName
+              properties:
+                vAccountType:
+                  type: integer
+                  enum:
+                  - 0
+                  - 1
+                  description: 'Virtual Account Type. `0`: ENTERPRISE type, `1`: PERSONAL type.'
+                  example: 1
+                vAccountUsage:
+                  type: integer
+                  enum:
+                  - 0
+                  - 1
+                  description: 'Virtual Account Usage Type. `0`: ONE_TIME, `1`: MULTIPLE.'
+                  example: 1
+                validityPeriod:
+                  type: string
+                  enum:
+                  - D1
+                  - D2
+                  - D3
+                  - D4
+                  - D5
+                  - D6
+                  - D7
+                  description: 'Virtual Account Validity Period: Only applies to one-time transaction type. When vAccountUsage is ONE_TIME, validityPeriod is required.
+
+                    Enumeration Values:
+
+                    - `D1`: 1 day
+
+                    - `D2`: 2 days
+
+                    - `D3`: 3 days
+
+                    - `D4`: 4 days
+
+                    - `D5`: 5 days
+
+                    - `D6`: 6 days
+
+                    - `D7`: 7 days'
+                  example: D7
+                cAccountNumber:
+                  type: string
+                  description: User ID on other platforms (not Coins). Better be unique.
+                  example: '1234567890'
+                cAccountName:
+                  type: string
+                  description: User name on other platforms (not Coins).
+                  example: John Doe
+                coinsUserId:
+                  type: string
+                  description: Required for PERSONAL type. The user's Coins userId (external ID). **Must be passed as a string** to avoid large integer precision loss.
+                  example: '2248914299514407681'
+                requestId:
+                  type: string
+                  maxLength: 64
+                  description: Idempotency key for this creation request.
+                  example: SEC-EVATEST-Q20260630153000000022
+                businessScenario:
+                  type: string
+                  enum:
+                  - AUTO_ON_RAMP
+                  - AUTO_OFF_RAMP
+                  - AUTO_RAMP
+                  - ''
+                  description: 'Business scenario for automatic ramp.
+
+                    - `AUTO_ON_RAMP`: Fiat in → Crypto out (fiatDestination required)
+
+                    - `AUTO_OFF_RAMP`: Crypto in → Fiat out (cryptoDestination required)
+
+                    - `AUTO_RAMP`: Both directions (both destinations required)
+
+                    - ``: Non-auto scenario (default)'
+                  example: AUTO_ON_RAMP
+                fiatDestination:
+                  $ref: '#/components/schemas/FiatDestination'
+                  description: Required when businessScenario is AUTO_ON_RAMP or AUTO_RAMP.
+                cryptoDestination:
+                  $ref: '#/components/schemas/CryptoDestination'
+                  description: Required when businessScenario is AUTO_OFF_RAMP or AUTO_RAMP.
+                needStaticQrCode:
+                  type: boolean
+                  description: Whether to generate a QRPH static QR code simultaneously. Defaults to `false`.
+                  example: true
+                extend:
+                  type: object
+                  additionalProperties: true
+                  description: Extended fields with additional information. Key and value length must not exceed 1000 characters.
+                  example:
+                    accountAddress: test address
+                fiatSettings:
+                  type: array
+                  description: Fiat-related settings for the virtual account, including fiat currency types and corresponding channels. At least one of fiatSettings or cryptoSettings must be present.
+                  items:
+                    $ref: '#/components/schemas/CurrencyNetworkSetting'
+                  example:
+                  - token: PHP
+                    network: INSTAPAY
+                cryptoSettings:
+                  type: array
+                  description: Crypto-related settings for the virtual account, including crypto types and corresponding networks. Cannot be set when vAccountUsage is ONE_TIME.
+                  items:
+                    $ref: '#/components/schemas/CurrencyNetworkSetting'
+                  example:
+                  - token: USDT
+                    network: BSC
+            example:
+              vAccountType: 1
+              vAccountUsage: 1
+              cAccountNumber: EVA-SECVATEST-ACT-20260630-00022
+              cAccountName: SecTestAccount
+              coinsUserId: '2248914299514407681'
+              requestId: SEC-EVATEST-Q20260630153000000022
+              businessScenario: AUTO_RAMP
+              fiatSettings:
+              - token: PHP
+                network: INSTAPAY
+              fiatDestination:
+                token: USDT
+                network: BSC
+                address: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
+              cryptoSettings:
+              - token: USDT
+                network: BSC
+              cryptoDestination:
+                currency: PHP
+                transactionChannel: INSTAPAY
+                transactionSubject: gcash
+                recipientAccountNumber: 09123456789
+                recipientName: Juan Dela Cruz
+                recipientAddress: 123 Manila Street, Manila City, Philippines
+                remarks: Crypto withdrawal fund transfer
+              needStaticQrCode: true
+              extend:
+                accountAddress: test address
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/CreateVirtualAccountSuccess'
+                - $ref: '#/components/schemas/VAErrorResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    status: 0
+                    error: OK
+                    data:
+                      vAccountId: '2229106125796322048'
+                    params: null
+                error:
+                  summary: Error
+                  value:
+                    code: -70020005
+                    msg: Virtual account number already exists. Please use a different account number.
+  /openapi/v1/virtual-account/update:
+    post:
+      tags:
+      - Virtual Account
+      summary: Update Virtual Account
+      description: 'Update the fiat or crypto settings of an existing virtual account.
+
+
+        **Webhook:** ✅ Supported (requires Coins.ph configuration)'
+      operationId: updateVirtualAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vAccountId
+              properties:
+                vAccountId:
+                  type: string
+                  description: Virtual account ID.
+                  example: '2229106125796322048'
+                fiatSettings:
+                  type: array
+                  description: Fiat address settings to add.
+                  items:
+                    $ref: '#/components/schemas/CurrencyNetworkSetting'
+                cryptoSettings:
+                  type: array
+                  description: Crypto address settings to add.
+                  items:
+                    $ref: '#/components/schemas/CurrencyNetworkSetting'
+                idList:
+                  type: array
+                  description: ID list of fiat address settings to delete. from fiatSettings.id or cryptoSettings.id
+                  items:
+                    type: string
+                  example:
+                  - '101'
+                  - '102'
+                businessScenario:
+                  type: string
+                  enum:
+                  - AUTO_ON_RAMP
+                  - AUTO_OFF_RAMP
+                  - AUTO_RAMP
+                  - NA
+                  description: Update the business scenario.
+                  example: AUTO_RAMP
+                fiatDestination:
+                  $ref: '#/components/schemas/FiatDestination'
+                  description: Fiat destination to update. `null` = no change; empty object `{}` = clear; with value = overwrite.
+                cryptoDestination:
+                  $ref: '#/components/schemas/CryptoDestination'
+                  description: Crypto destination to update. `null` = no change; empty object `{}` = clear; with value = overwrite.
+                needStaticQrCode:
+                  type: boolean
+                  nullable: true
+                  description: '`null` = no action; `true` = activate or create static QR code; `false` = suspend static QR code.'
+                  example: true
+            example:
+              vAccountId: '2229106125796322048'
+              fiatSettings:
+              - token: PHP
+                network: SWIFTPAY_PESONET
+              idList:
+              - '101'
+              businessScenario: AUTO_RAMP
+              fiatDestination:
+                token: USDT
+                network: BSC
+                address: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
+              needStaticQrCode: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BooleanSuccessResponse'
+                - $ref: '#/components/schemas/VAErrorResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    data: true
+                    error: OK
+                    status: 0
+                error:
+                  summary: Error
+                  value:
+                    code: -70020006
+                    msg: One-time virtual account cannot be updated.
+  /openapi/v1/virtual-account/details:
+    post:
+      tags:
+      - Virtual Account
+      summary: Virtual Account Details
+      description: Retrieve the full details of virtual accounts. At least one of `vAccountId`, `cAccountNumber`, `requestId`, or `coinsUserId` must be provided. Returns a list.
+      operationId: getVirtualAccountDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vAccountId:
+                  type: string
+                  description: Virtual account ID.
+                  example: '2229106125796322048'
+                cAccountNumber:
+                  type: string
+                  maxLength: 64
+                  description: User ID on other platforms (not Coins).
+                  example: EVA-SECVATEST-ACT-20260630-00022
+                requestId:
+                  type: string
+                  maxLength: 64
+                  description: Idempotency key used when creating the virtual account.
+                  example: SEC-EVATEST-Q20260630153000000022
+                coinsUserId:
+                  type: string
+                  description: The user's Coins userId (PERSONAL type, external ID). Should be numeric string
+                  example: '2248914299514407681'
+            example:
+              requestId: SEC-EVATEST-Q20260630153000000022
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    status:
+                      type: integer
+                      example: 0
+                    error:
+                      type: string
+                      example: OK
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/VirtualAccountDetail'
+                - $ref: '#/components/schemas/VAErrorResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    status: 0
+                    error: OK
+                    data:
+                    - vAccountId: '2250248269847533312'
+                      cAccountNumber: EVA-SECVATEST-ACT-20260702-00075
+                      cAccountName: SecTestAccount
+                      vAccountType: 0
+                      vAccountUsage: 1
+                      validityPeriod: null
+                      userId: '1573829012941197056'
+                      coinsUserId: '0'
+                      status: 1
+                      fiatStatus: 1
+                      cryptoStatus: 1
+                      businessScenario: AUTO_OFF_RAMP
+                      requestId: SEC-EVATEST-Q202607015300000066
+                      fiatSettings:
+                      - id: '478'
+                        token: PHP
+                        network: SWIFTPAY_PESONET
+                        tokenLogo: https://static.pro.coins.xyz/upload/images/PHP.png
+                        networkLogo: https://static.pro.coins.xyz/upload/images/PESONet.png
+                        status: 1
+                        address: ''
+                      cryptoSettings:
+                      - id: '479'
+                        token: USDT
+                        network: BSC
+                        tokenLogo: https://static.pro.coins.xyz/upload/images/USDT-NEW.png
+                        networkLogo: https://static.pro.coins.xyz/resource/images/BNB.png
+                        status: 1
+                        address: '0x4905c1b6cc346dbc541f6a96c7d1f8ae7933e21c'
+                      fiatDestination:
+                        token: ETH
+                        network: ETH
+                        address: '0x72d367b5efeb5dbb364dfae83f245d1d6e35e6c9'
+                        tag: null
+                      cryptoDestination:
+                        currency: PHP
+                        transactionChannel: INSTAPAY
+                        transactionSubject: gcash
+                        recipientAccountNumber: 09123456789
+                        recipientName: Juan Dela Cruz
+                        recipientAddress: 123 Manila Street, Manila City, Philippines
+                        remarks: Crypto withdrawal fund transfer
+                      staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197489344632592819205030105204076353036085802PH5923COINS TEST ACCT QR NAME6006Taguig62380011ph.ppmi.p2m051922502482749783040026304CA52
+                      staticQrCodeStatus: ACTIVE
+                      extend:
+                        staticQrCodeRequestId: VA2250248274872309504
+                        staticQrCodeStatus: ACTIVE
+                        staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197489344632592819205030105204076353036085802PH5923COINS TEST ACCT QR NAME6006Taguig62380011ph.ppmi.p2m051922502482749783040026304CA52
+                      createTime: '2026-07-02 10:01:37'
+                      updateTime: '2026-07-02 10:01:38'
+                error:
+                  summary: Error
+                  value:
+                    code: -70020002
+                    msg: Virtual account does not exist.
+  /openapi/v1/virtual-account/list:
+    post:
+      tags:
+      - Virtual Account
+      summary: List Virtual Accounts
+      description: Paginate and filter all virtual accounts under the current merchant.
+      operationId: listVirtualAccounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pageNum:
+                  type: integer
+                  minimum: 1
+                  maximum: 1000
+                  description: Page number, default 1.
+                  example: 1
+                pageSize:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  description: Page size, default 20.
+                  example: 20
+                vAccountId:
+                  type: string
+                  description: Filter by virtual account ID.
+                  example: '2229106125796322048'
+                cAccountNumber:
+                  type: string
+                  maxLength: 64
+                  description: Filter by user ID on other platforms (not Coins).
+                  example: EVA-SECVATEST-ACT-20260630-00022
+                coinsUserId:
+                  type: string
+                  description: Filter by the user's Coins userId (PERSONAL type, external ID). **Must be passed as a string** to avoid large integer precision loss.
+                  example: '2248914299514407681'
+                vAccountType:
+                  type: integer
+                  enum:
+                  - 0
+                  - 1
+                  description: 'Filter by type. `0`: ENTERPRISE, `1`: PERSONAL.'
+                vAccountUsage:
+                  type: integer
+                  enum:
+                  - 0
+                  - 1
+                  description: 'Filter by usage. `0`: ONE_TIME, `1`: MULTIPLE.'
+                vAddressType:
+                  type: string
+                  enum:
+                  - FIAT
+                  - CRYPTO
+                  - ALL
+                  description: Filter by address type.
+                status:
+                  type: integer
+                  enum:
+                  - 1
+                  - 2
+                  description: 'Filter by status. `1`: ACTIVE, `2`: DEACTIVATED.'
+                start:
+                  type: string
+                  description: 'Creation time start (format: `yyyy-MM-dd HH:mm:ss`).'
+                  example: '2026-06-01 00:00:00'
+                end:
+                  type: string
+                  description: 'Creation time end (format: `yyyy-MM-dd HH:mm:ss`).'
+                  example: '2026-06-30 23:59:59'
+                containsAddress:
+                  type: boolean
+                  description: Whether to include address settings (`fiatSettings`/`cryptoSettings`) in the response. Defaults to `false`. When `true`, returns up to **100 ACTIVE** address entries per virtual account, ordered by update time descending.
+                  example: true
+            example:
+              pageNum: 1
+              pageSize: 20
+              vAccountType: 1
+              status: 1
+              cAccountNumber: EVA-SECVATEST-ACT-20260630-00022
+              containsAddress: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    status:
+                      type: integer
+                      example: 0
+                    error:
+                      type: string
+                      example: OK
+                    total:
+                      type: integer
+                      description: Total number of records.
+                      example: 3
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/VirtualAccountDetail'
+                - $ref: '#/components/schemas/VAErrorResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    status: 0
+                    error: OK
+                    total: 1
+                    data:
+                    - vAccountId: '2229106125796322048'
+                      cAccountNumber: EVA-SECVATEST-ACT-20260630-00022
+                      cAccountName: SecTestAccount
+                      vAccountType: 1
+                      vAccountUsage: 1
+                      status: 1
+                      fiatStatus: 1
+                      cryptoStatus: 2
+                      validityPeriod: null
+                      businessScenario: AUTO_ON_RAMP
+                      requestId: SEC-EVATEST-Q20260630153000000022
+                      fiatSettings:
+                      - id: '201'
+                        token: PHP
+                        network: INSTAPAY
+                        tokenLogo: https://static.coins.xyz/PHP.png
+                        networkLogo: null
+                        status: 1
+                        address: null
+                      cryptoSettings: []
+                      fiatDestination:
+                        token: USDT
+                        network: BSC
+                        address: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
+                        tag: null
+                      cryptoDestination: null
+                      staticQrCode: 00020101021128600011ph.ppmi.p2m...
+                      staticQrCodeStatus: ACTIVE
+                      extend:
+                        accountAddress: test address
+                      userId: '2067534261742978048'
+                      createTime: '2026-06-30 15:30:00'
+                      updateTime: '2026-06-30 15:30:05'
+                error:
+                  summary: Error
+                  value:
+                    code: -70010000
+                    msg: System error occurred. Please try again later.
+  /openapi/v1/virtual-account/reactivate:
+    post:
+      tags:
+      - Virtual Account
+      summary: Reactivate Virtual Account
+      description: 'Reactivate a deactivated virtual account.
+
+
+        **Webhook:** ✅ Supported (requires Coins.ph configuration)'
+      operationId: reactivateVirtualAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vAccountId
+              - vAddressType
+              properties:
+                vAccountId:
+                  type: string
+                  description: Virtual account ID.
+                  example: '100001'
+                vAddressType:
+                  type: string
+                  enum:
+                  - FIAT
+                  - CRYPTO
+                  description: 'Reactivate currency type: `FIAT` or `CRYPTO`.'
+                  example: FIAT
+            example:
+              vAccountId: '100001'
+              vAddressType: FIAT
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BooleanSuccessResponse'
+                - $ref: '#/components/schemas/VAErrorResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    data: true
+                    error: OK
+                    status: 0
+                error:
+                  summary: Error
+                  value:
+                    code: -70020006
+                    msg: One-time virtual account cannot be updated.
+  /openapi/v1/virtual-account/deactivate:
+    post:
+      tags:
+      - Virtual Account
+      summary: Deactivate Virtual Account
+      description: 'Deactivate fiat and/or crypto channels of a virtual account.
+
+
+        **Webhook:** ✅ Supported (requires Coins.ph configuration)'
+      operationId: deactivateVirtualAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vAccountId
+              - vAddressType
+              properties:
+                vAccountId:
+                  type: string
+                  description: Virtual account ID.
+                  example: '100001'
+                vAddressType:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - FIAT
+                    - CRYPTO
+                  description: 'Deactivate currency type(s): `["FIAT"]`, `["CRYPTO"]`, or `["FIAT","CRYPTO"]`.'
+                  example:
+                  - FIAT
+                  - CRYPTO
+            example:
+              vAccountId: '100001'
+              vAddressType:
+              - FIAT
+              - CRYPTO
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BooleanSuccessResponse'
+                - $ref: '#/components/schemas/VAErrorResponse'
+              examples:
+                success:
+                  summary: Success
+                  value:
+                    data: true
+                    error: OK
+                    status: 0
+                error:
+                  summary: Error
+                  value:
+                    code: -70020006
+                    msg: One-time virtual account cannot be updated.
+  /openapi/v1/virtual-account/order/list:
+    post:
+      tags:
+      - Virtual Account
+      summary: Virtual Account Transactions List
+      description: Retrieve the transaction list for a virtual account.
+      operationId: listVirtualAccountTransactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vAddressType
+              properties:
+                vAccountId:
+                  type: string
+                  description: Virtual account ID.
+                  example: '100001'
+                pageNum:
+                  type: integer
+                  minimum: 1
+                  maximum: 1000
+                  description: Page number, default 1.
+                  example: 1
+                pageSize:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  description: Page size, default 20.
+                  example: 20
+                vAddressType:
+                  type: string
+                  enum:
+                  - FIAT
+                  - CRYPTO
+                  description: 'Currency type: `FIAT` or `CRYPTO`.'
+                  example: FIAT
+                orderId:
+                  type: string
+                  description: Transaction ID.
+                  example: ORD20240115001
+                start:
+                  type: string
+                  description: 'Transaction start time (format: `yyyy-MM-dd HH:mm:ss`).'
+                  example: '2024-01-01 00:00:00'
+                end:
+                  type: string
+                  description: 'Transaction end time (format: `yyyy-MM-dd HH:mm:ss`).'
+                  example: '2024-01-31 23:59:59'
+                network:
+                  type: string
+                  description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `ETH`, `BSC`).
+                  example: BSC
+            example:
+              pageNum: 1
+              pageSize: 20
+              vAccountId: '100001'
+              vAddressType: FIAT
+              orderId: ORD20240115001
+              network: INSTAPAY
+              start: '2024-01-01 00:00:00'
+              end: '2024-01-31 23:59:59'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    status:
+                      type: integer
+                      example: 0
+                    error:
+                      type: string
+                      example: OK
+                    total:
+                      type: integer
+                      description: Total number of records.
+                      example: 200
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/VirtualAccountTransaction'
+                - $ref: '#/components/schemas/VAErrorResponse'
+  /openapi/v1/virtual-account/check-network:
+    post:
+      tags:
+      - Virtual Account
+      summary: Check Virtual Account Network
+      description: Check whether a specific network/address combination is valid for a virtual account.
+      operationId: checkVirtualAccountNetwork
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vAccountId
+              - token
+              - network
+              properties:
+                vAccountId:
+                  type: string
+                  description: Virtual account ID.
+                  example: '100001'
+                token:
+                  type: string
+                  description: Currency (e.g., `PHP`, `USDT`).
+                  example: USDT
+                network:
+                  type: string
+                  description: Fiat channel or crypto network (e.g., `INSTAPAY`, `TRC20`).
+                  example: TRC20
+                address:
+                  type: string
+                  description: Crypto deposit address.
+                  example: TN123456789abcdef
+            example:
+              vAccountId: '100001'
+              token: USDT
+              network: TRC20
+              address: TN123456789abcdef
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    status:
+                      type: integer
+                      example: 0
+                    error:
+                      type: string
+                      example: OK
+                    data:
+                      $ref: '#/components/schemas/VirtualAccountCheckResult'
+                - $ref: '#/components/schemas/VAErrorResponse'
+components:
+  schemas:
+    BooleanSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 0
+        error:
+          type: string
+          example: OK
+        data:
+          type: boolean
+          description: Returns true on success.
+          example: true
+    VirtualAccountTransaction:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User ID of the merchant.
+          example: userId
+        vAccountUsage:
+          type: integer
+          description: Virtual Account Usage Type.
+          example: 1
+        vAccountId:
+          type: string
+          description: Virtual account ID.
+          example: vAccountId
+        orderId:
+          type: string
+          description: Transaction ID.
+          example: orderId
+        token:
+          type: string
+          description: Currency (e.g., `PHP`, `USDT`).
+          example: USDT
+        network:
+          type: string
+          description: Fiat channel or crypto network.
+          example: TRC20
+        address:
+          type: string
+          nullable: true
+          description: Crypto deposit address.
+          example: TN123456789abcdef
+        amount:
+          type: number
+          description: Transaction amount (number).
+          example: 100.5
+        totalAmount:
+          type: string
+          description: Transaction amount (string).
+          example: '100.50'
+        channelOrderId:
+          type: string
+          description: Third-party order ID.
+          example: CH20240115001
+        fromUserName:
+          type: string
+          nullable: true
+          description: Transaction sender name.
+          example: Alice
+        fromUserNumber:
+          type: string
+          nullable: true
+          description: Transaction sender number.
+          example: U10001
+        fromUserEmail:
+          type: string
+          nullable: true
+          description: Transaction sender email.
+          example: alice@coisn.ph
+        sender:
+          type: string
+          nullable: true
+          description: Transaction sender name + number.
+          example: TN987654321fedcba
+        transactionDate:
+          type: string
+          description: Transaction date.
+          example: '2024-01-15 10:30:00'
+    VirtualAccountExtend:
+      type: object
+      description: Extended information stored in the VA. When `needStaticQrCode=true`, the following static QR code fields are populated automatically.
+      properties:
+        staticQrCodeRequestId:
+          type: string
+          nullable: true
+          description: 'Unique request ID used to generate the static QR code (format: `VA` + snowflake ID). Used internally to activate/suspend the QR code via `needStaticQrCode`.'
+          example: VA2250098734532233984
+        staticQrCodeStatus:
+          type: string
+          enum:
+          - ACTIVE
+          - SUSPEND
+          nullable: true
+          description: Current status of the static QR code.
+          example: ACTIVE
+        staticQrCode:
+          type: string
+          nullable: true
+          description: Full EMVCo-compliant QRPH static QR code string.
+          example: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
+      example:
+        staticQrCodeRequestId: VA2250098734532233984
+        staticQrCodeStatus: ACTIVE
+        staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
+    VirtualAccountSettingDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Address setting ID. Use this in `idList` when deleting settings.
+          example: '201'
+        token:
+          type: string
+          description: Currency or token.
+          example: PHP
+        network:
+          type: string
+          description: Fiat channel or crypto network.
+          example: INSTAPAY
+        tokenLogo:
+          type: string
+          nullable: true
+          description: Token logo URL.
+          example: https://static.pro.coins.xyz/upload/images/PHP.png
+        networkLogo:
+          type: string
+          nullable: true
+          description: Network logo URL.
+        status:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          description: 'Setting status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
+          example: 1
+        address:
+          type: string
+          nullable: true
+          description: Crypto deposit address. Empty when fiat is used.
+    VirtualAccountDetail:
+      type: object
+      properties:
+        vAccountId:
+          type: string
+          description: Virtual account ID.
+          example: '2229106125796322048'
+        vAccountType:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: 'Virtual Account Type. `0`: ENTERPRISE, `1`: PERSONAL.'
+          example: 1
+        vAccountUsage:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: 'Virtual Account Usage Type. `0`: ONE_TIME, `1`: MULTIPLE.'
+          example: 1
+        validityPeriod:
+          type: string
+          nullable: true
+          description: Remaining validity in seconds (only for one-time accounts).
+          example: 0
+        cAccountNumber:
+          type: string
+          description: User ID on other platforms (not Coins).
+          example: EVA-SECVATEST-ACT-20260630-00022
+        cAccountName:
+          type: string
+          description: User name on other platforms (not Coins).
+          example: SecTestAccount
+        userId:
+          type: string
+          description: Merchant userId on Coins. **Returned as a string** to avoid large integer precision loss.
+          example: '2067534261742978048'
+        coinsUserId:
+          type: string
+          nullable: true
+          description: PERSONAL type only. The Coins end-user's userId (external ID). **Returned as a string** to avoid large integer precision loss. `0` or `null` if not applicable.
+          example: '2248914299514407681'
+        status:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          description: 'Overall virtual account status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
+          example: 1
+        fiatStatus:
+          type: integer
+          enum:
+          - 1
+          - 2
+          description: 'Fiat channel status. `1`: ACTIVE, `2`: DEACTIVATED.'
+          example: 1
+        cryptoStatus:
+          type: integer
+          enum:
+          - 1
+          - 2
+          description: 'Crypto channel status. `1`: ACTIVE, `2`: DEACTIVATED.'
+          example: 2
+        businessScenario:
+          type: string
+          enum:
+          - AUTO_ON_RAMP
+          - AUTO_OFF_RAMP
+          - AUTO_RAMP
+          - ''
+          nullable: true
+          description: Business scenario.
+          example: AUTO_ON_RAMP
+        requestId:
+          type: string
+          nullable: true
+          description: Idempotency key used when creating the virtual account.
+          example: SEC-EVATEST-Q20260630153000000022
+        fiatSettings:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualAccountSettingDetail'
+          description: 'Fiat address settings.
+
+            - **details/detail API**: Returns **all** address entries regardless of status.
+
+            - **list API**: Only returned when `containsAddress=true`; returns up to 100 **ACTIVE** entries ordered by update time descending.'
+        cryptoSettings:
+          type: array
+          items:
+            $ref: '#/components/schemas/VirtualAccountSettingDetail'
+          description: 'Crypto address settings.
+
+            - **details/detail API**: Returns **all** address entries regardless of status.
+
+            - **list API**: Only returned when `containsAddress=true`; returns up to 100 **ACTIVE** entries ordered by update time descending.'
+        fiatDestination:
+          $ref: '#/components/schemas/FiatDestination'
+          nullable: true
+          description: Fiat destination for AUTO_ON_RAMP / AUTO_RAMP scenario. `null` if not configured.
+        cryptoDestination:
+          $ref: '#/components/schemas/CryptoDestination'
+          nullable: true
+          description: Crypto destination for AUTO_OFF_RAMP / AUTO_RAMP scenario. `null` if not configured.
+        staticQrCode:
+          type: string
+          nullable: true
+          description: Shortcut field — same as `extend.staticQrCode`. QRPH static QR code string. `null` if not generated.
+          example: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
+        staticQrCodeStatus:
+          type: string
+          enum:
+          - ACTIVE
+          - SUSPEND
+          nullable: true
+          description: Shortcut field — same as `extend.staticQrCodeStatus`. Static QR code status.
+          example: ACTIVE
+        extend:
+          $ref: '#/components/schemas/VirtualAccountExtend'
+          nullable: true
+          description: Extended information. Contains static QR code fields (`staticQrCodeRequestId`, `staticQrCodeStatus`, `staticQrCode`) when `needStaticQrCode=true` was set during create/update. See `VirtualAccountExtend` schema for field details.
+        createTime:
+          type: string
+          description: 'Virtual account creation time (format: `yyyy-MM-dd HH:mm:ss`).'
+          example: '2026-06-30 15:30:00'
+        updateTime:
+          type: string
+          description: 'Virtual account last update time (format: `yyyy-MM-dd HH:mm:ss`).'
+          example: '2026-06-30 15:30:05'
+    VirtualAccountCheckResult:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User ID of the merchant.
+          example: userId
+        isValid:
+          type: boolean
+          description: Whether the virtual account is valid.
+          example: true
+        vAccountId:
+          type: string
+          description: Virtual account ID.
+          example: vAccountId
+        cAccountNumber:
+          type: string
+          description: User ID on other platforms.
+          example: '1234567890'
+        cAccountName:
+          type: string
+          description: User name on other platforms.
+          example: John Doe
+        vAccountType:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: 'Virtual Account Type. `0`: ENTERPRISE, `1`: PERSONAL.'
+          example: 1
+        vAccountUsage:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: 'Virtual Account Usage Type. `0`: ONE_TIME, `1`: MULTIPLE.'
+          example: 1
+        status:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          description: 'Virtual account status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
+          example: 1
+    CurrencyNetworkSetting:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Currency or token (e.g., `PHP`, `USDT`, `USDC`).
+          example: PHP
+        network:
+          type: string
+          description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `TRC20`, `TRONSCAN`).
+          example: INSTAPAY
+    CryptoDestination:
+      type: object
+      required:
+      - currency
+      - transactionChannel
+      - recipientAccountNumber
+      - recipientName
+      - recipientAddress
+      properties:
+        currency:
+          type: string
+          description: Fiat currency (e.g., `PHP`).
+          example: PHP
+        transactionChannel:
+          type: string
+          description: Transaction channel (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`).
+          example: INSTAPAY
+        transactionSubject:
+          type: string
+          nullable: true
+          description: Transaction subject. from https://api.docs.coins.ph/reference/getsupportchannel
+          example: gcash
+        recipientAccountNumber:
+          type: string
+          description: Recipient account number.
+          example: 09171234567
+        recipientName:
+          type: string
+          description: Recipient name.
+          example: Juan dela Cruz
+        recipientAddress:
+          type: string
+          description: Recipient address.
+          example: 123 Main St, Quezon City
+        remarks:
+          type: string
+          nullable: true
+          description: Remarks.
+          example: null
+    FiatDestination:
+      type: object
+      required:
+      - token
+      - network
+      - address
+      properties:
+        token:
+          type: string
+          description: Token name (e.g., `USDT`).
+          example: USDT
+        network:
+          type: string
+          description: Network (e.g., `TRC20`, `BSC`).
+          example: BSC
+        address:
+          type: string
+          description: On-chain address, must match the addressRegex of the network.
+          example: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
+        tag:
+          type: string
+          nullable: true
+          description: Memo / Tag (required by some networks).
+          example: null
+    VAErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code.
+          example: -70020002
+        msg:
+          type: string
+          description: Error message.
+          example: Virtual account does not exist.
+    CreateVirtualAccountSuccess:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type: object
+          nullable: true
+        data:
+          type: object
+          properties:
+            vAccountId:
+              type: string
+              description: Virtual account ID.
+              example: '2229106125796322048'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-COINS-APIKEY
+x-readme:
+  proxy-enabled: false
