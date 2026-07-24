@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: npm registry search (@coinsph org + coins.ph maintainers)
+packages:
+- language: javascript
+  registry: npm
+  name: '@coinsph/ramp-sdk'
+  version: 1.0.0
+  url: https://www.npmjs.com/package/@coinsph/ramp-sdk
+  install: npm install @coinsph/ramp-sdk
+  description: Coins Ramp SDK — On-Ramp and Off-Ramp widget for merchants
+  official: true
+  evidence: published under the @coinsph npm org (maintainer coins-npm)
+- language: typescript
+  registry: npm
+  name: coins-js-api
+  version: 1.0.0
+  url: https://www.npmjs.com/package/coins-js-api
+  install: npm install coins-js-api
+  description: TypeScript SDK for the Coins API — Spot Trading, Wallet, Convert, Fiat, P2P Transfer, Invoice
+    Payment
+  official: true
+  evidence: maintainer zalecoins.ph (coins.ph)

@@ -1,0 +1,15 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.docs.coins.ph + https://status.coins.ph
+versioning:
+  scheme: uri-path
+  current: v1 (exchange) / v2.7 (partner integration) / v3 (account)
+  docs: https://api.docs.coins.ph
+status_page: https://status.coins.ph
+status_page_backend: https://coinsph.statuspage.io
+changelog: https://api.docs.coins.ph/changelog
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No formal deprecation/Sunset-header policy published; versioning is via URI path.
+deprecated_operations: []

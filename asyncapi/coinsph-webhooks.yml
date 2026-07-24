@@ -1,0 +1,20 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.docs.coins.ph (Ramp Callback + userDataStream)
+spec_type: Webhooks
+signing: HMAC-SHA256 (same scheme as API requests; verify with API secret)
+webhooks:
+- name: ramp-order-status
+  event: ON/OFF ramp order status change
+  delivery: HTTP POST to partner-registered callback URL
+  operation: openapi/coinsph-ramp-openapi.json#rampOrderStatusCallback
+  path: /openapi/ramp/callback
+streams:
+- name: user-data-stream
+  transport: websocket
+  auth: listenKey
+  manage_ops:
+  - create_listen_key
+  - keepalive_listen_key
+  - close_listen_key
+  note: Real-time account/order updates over WebSocket, keyed by a listenKey minted via REST.

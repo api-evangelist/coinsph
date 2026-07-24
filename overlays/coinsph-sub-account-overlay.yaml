@@ -1,0 +1,11 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Coins.ph TRADING
+  version: 1.0.0
+extends: openapi/coinsph-sub-account-openapi.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: true
+    x-apievangelist-provider: coinsph
+    x-apievangelist-auth: apiKey + HMAC-SHA256 (X-COINS-APIKEY/Timestamp/Signature)

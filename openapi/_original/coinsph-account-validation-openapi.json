@@ -1,0 +1,631 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Account Validation Open API",
+    "version": "1.0",
+    "description": "Account Validation allows merchants to verify a recipient's account before initiating a fund transfer.\nSupported methods include internal Coins user lookup, historical transaction database lookup, and real-time PennyDrop verification.\n\nAll verifications are **asynchronous**. The create endpoint returns `PENDING` immediately.\nPoll the status-check endpoint (or use webhook) for the final result.\n\n**Webhook:** Supported (requires Coins configuration)\n"
+  },
+  "servers": [
+    {
+      "url": "https://api.coins.ph"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-COINS-APIKEY"
+      }
+    },
+    "schemas": {
+      "FiatMoney": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency code",
+            "example": "PHP"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Decimal amount",
+            "example": "1.00"
+          }
+        }
+      },
+      "AccountInfo": {
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "description": "Bank account number. Required for DATABASE / PENNY_DROP / AUTO methods."
+          },
+          "accountName": {
+            "type": "string",
+            "description": "Account holder name. Required for DATABASE / PENNY_DROP / AUTO; optional for INTERNAL. If omitted, nameMatchStatus returns N/A."
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number. For INTERNAL method only.",
+            "example": "09171234567"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address. For INTERNAL method only."
+          }
+        }
+      },
+      "RemainingDepositLimit": {
+        "type": "object",
+        "description": "Remaining deposit limits (INTERNAL method only)",
+        "properties": {
+          "daily": {
+            "$ref": "#/components/schemas/FiatMoney"
+          },
+          "monthly": {
+            "$ref": "#/components/schemas/FiatMoney"
+          },
+          "annual": {
+            "$ref": "#/components/schemas/FiatMoney"
+          }
+        }
+      },
+      "CreateValidationRequest": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "verificationMethod",
+          "transactionChannel",
+          "transactionSubject",
+          "currency",
+          "accountInfo"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Merchant idempotency key. Reusing the same requestId returns the original result without creating a new validation.",
+            "example": "VAL-20240423-001"
+          },
+          "verificationMethod": {
+            "type": "string",
+            "enum": [
+              "INTERNAL",
+              "DATABASE",
+              "PENNY_DROP",
+              "AUTO"
+            ],
+            "description": "Validation method:\n- `INTERNAL`: Look up Coins user database by phone / email / account name. No fee.\n- `DATABASE`: Look up historical transaction records (shared across merchants). No fee.\n- `PENNY_DROP`: Send a real micro-transfer (1 or 2 PHP, random) to verify live bank account. Fee applies.\n- `AUTO`: Try DATABASE first; auto-upgrade to PENNY_DROP if no record found. Fee per actual method.\n"
+          },
+          "transactionChannel": {
+            "type": "string",
+            "enum": [
+              "COINS",
+              "INSTAPAY",
+              "SWIFTPAY_PESONET"
+            ],
+            "description": "Channel. Use `COINS` for INTERNAL method; `INSTAPAY` or `SWIFTPAY_PESONET` for external methods."
+          },
+          "transactionSubject": {
+            "type": "string",
+            "description": "Bank code (e.g. BDO, BPI) or `coins.ph` for Coins internal.",
+            "example": "BDO"
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3,
+            "description": "Currency code.",
+            "example": "PHP"
+          },
+          "accountInfo": {
+            "$ref": "#/components/schemas/AccountInfo"
+          }
+        }
+      },
+      "CreateValidationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 0
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "description": "Merchant idempotency key (echoed back)"
+              },
+              "validationRequestId": {
+                "type": "string",
+                "description": "Coins-generated validation request ID. Use this to query the result.",
+                "example": "AV20240423000001"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING"
+                ],
+                "description": "Always PENDING on creation"
+              },
+              "createdAt": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Request creation time (Unix milliseconds, UTC)"
+              },
+              "accountInfo": {
+                "$ref": "#/components/schemas/AccountInfo"
+              }
+            }
+          }
+        }
+      },
+      "ValidationStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 0
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "description": "Merchant idempotency key"
+              },
+              "validationRequestId": {
+                "type": "string",
+                "description": "Coins-generated validation request ID"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "SUCCESS",
+                  "FAILED"
+                ],
+                "description": "Processing status:\n- `PENDING`: Validation request received and queued for processing\n- `SUCCESS`: Validation completed. Check accountStatus for the result.\n- `FAILED`: Validation failed. Check code and message for the reason.\n"
+              },
+              "accountStatus": {
+                "type": "string",
+                "enum": [
+                  "VALID",
+                  "INVALID"
+                ],
+                "description": "Validation conclusion (present when status=SUCCESS):\n- `VALID`: Account exists, is active, and KYC level meets the requirement\n- `INVALID`: Account does not exist, is inactive, or KYC level is insufficient\n"
+              },
+              "verificationMethod": {
+                "type": "string",
+                "enum": [
+                  "INTERNAL",
+                  "DATABASE",
+                  "PENNY_DROP",
+                  "AUTO"
+                ],
+                "description": "Requested verification method"
+              },
+              "actualMethod": {
+                "type": "string",
+                "enum": [
+                  "DATABASE",
+                  "PENNY_DROP"
+                ],
+                "description": "Actual method used (only present for AUTO method)"
+              },
+              "accountInfo": {
+                "$ref": "#/components/schemas/AccountInfo"
+              },
+              "nameMatchStatus": {
+                "type": "string",
+                "enum": [
+                  "MATCH",
+                  "PARTIAL_MATCH",
+                  "MISMATCH",
+                  "N/A"
+                ],
+                "description": "Name match result (present when status=SUCCESS):\n- `MATCH`: Submitted name exactly matches the account holder name\n- `PARTIAL_MATCH`: Name closely matches (minor differences). Proceed with caution.\n- `MISMATCH`: Name does not match the account holder name. Do not transfer funds.\n- `N/A`: Name matching was not performed (accountName was not provided)\n"
+              },
+              "nameMatchScore": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Name similarity score, 0–100 (present when status=SUCCESS)"
+              },
+              "activityPeriod": {
+                "type": "string",
+                "enum": [
+                  "7_DAYS",
+                  "1_MONTH",
+                  "3_MONTHS",
+                  "6_MONTHS",
+                  "1_YEAR",
+                  "OVER_1_YEAR"
+                ],
+                "description": "Account activity period (DATABASE method only)"
+              },
+              "remainingDepositLimit": {
+                "$ref": "#/components/schemas/RemainingDepositLimit"
+              },
+              "fee": {
+                "$ref": "#/components/schemas/FiatMoney",
+                "description": "Verification fee charged (PENNY_DROP method only)"
+              },
+              "pennyDropAmount": {
+                "$ref": "#/components/schemas/FiatMoney",
+                "description": "Actual micro-transfer amount sent to the bank account, 1 or 2 PHP (PENNY_DROP method only)"
+              },
+              "code": {
+                "type": "string",
+                "description": "Error code (present when status=FAILED)",
+                "example": "AC14"
+              },
+              "message": {
+                "type": "string",
+                "description": "Error description (present when status=FAILED)",
+                "example": "Account closed"
+              },
+              "createdAt": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Creation time (Unix milliseconds, UTC)"
+              },
+              "updatedAt": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Last updated time (Unix milliseconds, UTC)"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/openapi/fiat/v1/account-validation/create": {
+      "post": {
+        "summary": "Submit Account Validation Request",
+        "description": "Create an account validation request. Returns `PENDING` immediately.\nUse the `validationRequestId` from the response to poll the status-check endpoint.\n\n**Idempotency**: Submitting the same `requestId` twice returns the original result without creating a duplicate validation.\n",
+        "operationId": "createAccountValidation",
+        "tags": [
+          "Account Validation"
+        ],
+        "parameters": [
+          {
+            "name": "signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "HMAC-SHA256 signature of the raw JSON request body"
+          },
+          {
+            "name": "timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current Unix timestamp in milliseconds"
+          },
+          {
+            "name": "recvWindow",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "maximum": 60000
+            },
+            "description": "Time window in milliseconds for request validity (max 60000)"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateValidationRequest"
+              },
+              "examples": {
+                "internal_phone": {
+                  "summary": "INTERNAL — look up by phone",
+                  "value": {
+                    "requestId": "VAL-20240423-001",
+                    "verificationMethod": "INTERNAL",
+                    "transactionChannel": "COINS",
+                    "transactionSubject": "coins.ph",
+                    "currency": "PHP",
+                    "accountInfo": {
+                      "phone": "09171234567",
+                      "accountName": "Juan Dela Cruz"
+                    }
+                  }
+                },
+                "penny_drop": {
+                  "summary": "PENNY_DROP — real-time bank verification",
+                  "value": {
+                    "requestId": "VAL-20240423-002",
+                    "verificationMethod": "PENNY_DROP",
+                    "transactionChannel": "INSTAPAY",
+                    "transactionSubject": "BDO",
+                    "currency": "PHP",
+                    "accountInfo": {
+                      "accountNumber": "1234567890",
+                      "accountName": "Juan Dela Cruz"
+                    }
+                  }
+                },
+                "auto": {
+                  "summary": "AUTO — recommended (saves cost when cache hit)",
+                  "value": {
+                    "requestId": "VAL-20240423-003",
+                    "verificationMethod": "AUTO",
+                    "transactionChannel": "INSTAPAY",
+                    "transactionSubject": "BPI",
+                    "currency": "PHP",
+                    "accountInfo": {
+                      "accountNumber": "9876543210",
+                      "accountName": "Maria Santos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validation request created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateValidationResponse"
+                },
+                "example": {
+                  "status": 0,
+                  "error": null,
+                  "data": {
+                    "requestId": "VAL-20240423-001",
+                    "validationRequestId": "AV20240423000001",
+                    "status": "PENDING",
+                    "createdAt": 1713859200000,
+                    "accountInfo": {
+                      "accountNumber": "1234567890",
+                      "accountName": "Juan Dela Cruz"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error on request body fields"
+          },
+          "401": {
+            "description": "Invalid signature or API key"
+          },
+          "403": {
+            "description": "Non-PH or non-fiat account. This API is restricted to Philippine fiat accounts only."
+          },
+          "408": {
+            "description": "Timestamp outside recvWindow. Sync system clock; ensure recvWindow ≤ 60000 ms."
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/openapi/fiat/v1/account-validation/status-check": {
+      "get": {
+        "summary": "Query Account Validation Status",
+        "description": "Query the result of an account validation request.\nAt least one of `requestId` or `validationRequestId` must be provided.\n`validationRequestId` takes precedence if both are provided.\n\n**Polling recommendation**: Send the first poll 3 seconds after submission, then use exponential backoff with a max interval of 30 seconds.\n",
+        "operationId": "getAccountValidationStatus",
+        "tags": [
+          "Account Validation"
+        ],
+        "parameters": [
+          {
+            "name": "X-COINS-APIKEY",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Your API key"
+          },
+          {
+            "name": "signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "HMAC-SHA256 signature of the query string"
+          },
+          {
+            "name": "timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current Unix timestamp in milliseconds"
+          },
+          {
+            "name": "requestId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Merchant idempotency key (one of requestId or validationRequestId required)"
+          },
+          {
+            "name": "validationRequestId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided.",
+            "example": "AV20240423000001"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Validation status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationStatusResponse"
+                },
+                "examples": {
+                  "success_database": {
+                    "summary": "SUCCESS — DATABASE method",
+                    "value": {
+                      "status": 0,
+                      "error": null,
+                      "data": {
+                        "requestId": "VAL-20240423-001",
+                        "validationRequestId": "AV20240423000001",
+                        "status": "SUCCESS",
+                        "accountStatus": "VALID",
+                        "verificationMethod": "DATABASE",
+                        "nameMatchStatus": "MATCH",
+                        "nameMatchScore": 95,
+                        "activityPeriod": "1_MONTH",
+                        "createdAt": 1713859200000,
+                        "updatedAt": 1713859205000
+                      }
+                    }
+                  },
+                  "success_auto_penny_drop": {
+                    "summary": "SUCCESS — AUTO upgraded to PENNY_DROP",
+                    "value": {
+                      "status": 0,
+                      "error": null,
+                      "data": {
+                        "requestId": "VAL-20240423-003",
+                        "validationRequestId": "AV20240423000003",
+                        "status": "SUCCESS",
+                        "accountStatus": "VALID",
+                        "verificationMethod": "AUTO",
+                        "actualMethod": "PENNY_DROP",
+                        "nameMatchStatus": "PARTIAL_MATCH",
+                        "nameMatchScore": 72,
+                        "fee": {
+                          "currency": "PHP",
+                          "amount": "1.00"
+                        },
+                        "createdAt": 1713859200000,
+                        "updatedAt": 1713859260000
+                      }
+                    }
+                  },
+                  "success_internal": {
+                    "summary": "SUCCESS — INTERNAL method",
+                    "value": {
+                      "status": 0,
+                      "error": null,
+                      "data": {
+                        "requestId": "VAL-20240423-002",
+                        "validationRequestId": "AV20240423000002",
+                        "status": "SUCCESS",
+                        "accountStatus": "VALID",
+                        "verificationMethod": "INTERNAL",
+                        "nameMatchStatus": "MATCH",
+                        "nameMatchScore": 100,
+                        "remainingDepositLimit": {
+                          "daily": {
+                            "currency": "PHP",
+                            "amount": "50000.00"
+                          },
+                          "monthly": {
+                            "currency": "PHP",
+                            "amount": "200000.00"
+                          },
+                          "annual": {
+                            "currency": "PHP",
+                            "amount": "500000.00"
+                          }
+                        },
+                        "createdAt": 1713859200000,
+                        "updatedAt": 1713859202000
+                      }
+                    }
+                  },
+                  "pending": {
+                    "summary": "Still processing",
+                    "value": {
+                      "status": 0,
+                      "error": null,
+                      "data": {
+                        "requestId": "VAL-20240423-001",
+                        "validationRequestId": "AV20240423000001",
+                        "status": "PENDING",
+                        "verificationMethod": "PENNY_DROP",
+                        "createdAt": 1713859200000,
+                        "updatedAt": 1713859200000
+                      }
+                    }
+                  },
+                  "failed": {
+                    "summary": "FAILED — invalid account",
+                    "value": {
+                      "status": 0,
+                      "error": null,
+                      "data": {
+                        "requestId": "VAL-20240423-004",
+                        "validationRequestId": "AV20240423000004",
+                        "status": "FAILED",
+                        "accountStatus": "INVALID",
+                        "verificationMethod": "PENNY_DROP",
+                        "code": "AC14",
+                        "message": "Account closed",
+                        "createdAt": 1713859200000,
+                        "updatedAt": 1713859300000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameter — provide at least one of requestId or validationRequestId"
+          },
+          "401": {
+            "description": "Invalid signature or API key"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

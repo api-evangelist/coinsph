@@ -1,0 +1,13 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.docs.coins.ph/changelog
+scheme: semver
+current_version: '1.0'
+entries:
+- version: '1.0'
+  date: '2026-05-19'
+  title: Version 1.0
+  breaking: false
+  highlights:
+  - Coins.ph Partner Integration / Coins Pro API published (Global Commerce Technologies Pte Ltd)
+note: ReadMe-hosted changelog; recent window only.

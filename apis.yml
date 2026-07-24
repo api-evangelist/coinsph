@@ -1,28 +1,436 @@
 aid: coinsph
 name: Coins.ph
-description: 'Coins.ph is a company surfaced as a portfolio company of pantera-capital, ribbit-capital
-  and added to the API Evangelist network as a stub for enrichment. Sector: crypto. This profile is a
-  lead awaiting the enrichment pipeline.'
+description: Coins.ph is a BSP-regulated Philippine fintech super app combining a licensed crypto exchange
+  (Coins Pro), an e-wallet for pesos and 170+ cryptocurrencies, and a merchant/partner payments platform.
+  Its public developer platform exposes a Partner Integration / Payment API (QRPH collections, checkout,
+  disbursements, refunds, virtual accounts, reconciliation) and the Coins Pro exchange API (spot trading,
+  wallets, market data, convert, sub-accounts, and a WebSocket user-data stream), plus an on/off ramp
+  API. All requests are authenticated with an API key and HMAC-SHA256 request signing (X-COINS-APIKEY,
+  Timestamp, Signature). Backed by Pantera Capital and Ribbit Capital.
 url: https://raw.githubusercontent.com/api-evangelist/coinsph/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - pantera-capital
 - ribbit-capital
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: public-developer-platform
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://coins.ph/favicon.ico
 tags:
 - Company
 - Crypto
-apis: []
+- Cryptocurrency Exchange
+- Payments
+- Fintech
+- Wallet
+- Philippines
+- Trading
+apis:
+- aid: coinsph:coinsph-account-api
+  name: Coins.ph Account API
+  description: Account management APIs.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-account-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-account-validation-api
+  name: Coins.ph Account Validation API
+  description: The Account Validation API from Coins.ph — 2 operation(s) for account validation.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Account Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-account-validation-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-checkout-api
+  name: Coins.ph Checkout API
+  description: Checkout creation and management
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Checkout
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-checkout-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-checkout-refund-api
+  name: Coins.ph Checkout Refund API
+  description: Checkout refund operations
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Checkout Refund
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-checkout-refund-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-collections-crypto-api
+  name: Coins.ph Collections - Crypto API
+  description: Crypto deposit address
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Collections - Crypto
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-collections-crypto-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-collections-qrph-api
+  name: Coins.ph Collections - QRPH API
+  description: QRPH code generation and management
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Collections - QRPH
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-collections-qrph-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-convert-api
+  name: Coins.ph Convert API
+  description: Convert quote and acceptance operations.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Convert
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-convert-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-disbursements-api
+  name: Coins.ph Disbursements API
+  description: Cash-out and disbursement operations
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Disbursements
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-disbursements-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-general-api
+  name: Coins.ph General API
+  description: General endpoints for connectivity, server time, system status, and user IP.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - General
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-general-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-listens-api
+  name: Coins.ph Listens API
+  description: >-
+    Manage user data stream listenKeys for WebSocket connections. A listenKey is required to establish
+    a private WebSocket connection for receiving real-time account updates (orders, balances, positions).
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Listens
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-listens-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-markets-api
+  name: Coins.ph Markets API
+  description: Market data APIs.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Markets
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-markets-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-on-off-ramp-api
+  name: Coins.ph ON/OFF Ramp API
+  description: Fiat-to-crypto and crypto-to-fiat ramp operations
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - ON/OFF Ramp
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-on-off-ramp-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-order-history-api
+  name: Coins.ph Order History API
+  description: Order history and details
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Order History
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-order-history-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-ramp-callback-api
+  name: Coins.ph Ramp Callback API
+  description: >-
+    Webhook callbacks sent to the merchant's configured callback URL when order status changes
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Ramp Callback
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-ramp-callback-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-reconciliation-api
+  name: Coins.ph Reconciliation API
+  description: Reconciliation report
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Reconciliation
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-reconciliation-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-refund-api
+  name: Coins.ph Refund API
+  description: Refund operations
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Refund
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-refund-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-scan-to-pay-api
+  name: Coins.ph Scan to Pay API
+  description: QR code scan-to-pay payment operations
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Scan to Pay
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-scan-to-pay-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-spot-api
+  name: Coins.ph Spot API
+  description: >-
+    Spot trading operations including order placement, querying, cancellation, and trade history.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Spot
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-spot-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-sub-account-api
+  name: Coins.ph Sub Account API
+  description: Sub Account deposit, withdrawal, and transfer operations.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Sub Account
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-sub-account-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-tokenized-checkout-api
+  name: Coins.ph Tokenized Checkout API
+  description: Password-free (auto-debit) checkout
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Tokenized Checkout
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-tokenized-checkout-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-trading-convert-api
+  name: Coins.ph Trading - Convert API
+  description: Convert trading operations
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Trading - Convert
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-trading-convert-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-trading-otc-api
+  name: Coins.ph Trading - OTC API
+  description: OTC trading for Business Account
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Trading - OTC
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-trading-otc-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-transfers-api
+  name: Coins.ph Transfers API
+  description: The Transfers API from Coins.ph — 2 operation(s) for transfers.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Transfers
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-transfers-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-utility-api
+  name: Coins.ph Utility API
+  description: Account balance, transfers, and utility endpoints
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Utility
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-utility-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-virtual-account-api
+  name: Coins.ph Virtual Account API
+  description: Virtual account creation and management
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Virtual Account
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-virtual-account-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
+- aid: coinsph:coinsph-wallet-api
+  name: Coins.ph Wallet API
+  description: Convert, Deposit, Withdraw, Transfers, and Sub Account Transfer operations.
+  humanURL: https://api.docs.coins.ph
+  baseURL: https://api.pro.coins.ph
+  tags:
+  - Wallet
+  properties:
+  - type: OpenAPI
+    url: openapi/coinsph-wallet-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.coins.ph
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DeveloperPortal
+  url: https://api.docs.coins.ph
+- type: Documentation
+  url: https://api.docs.coins.ph
+- type: APIReference
+  url: https://api.docs.coins.ph
+- type: GettingStarted
+  url: https://api.docs.coins.ph
+- type: ChangeLog
+  url: https://api.docs.coins.ph/changelog
+- type: Support
+  url: https://support.coins.ph/hc/en-us
+- type: Blog
+  url: https://coins.ph/en-ph/blog
+- type: GitHubOrganization
+  url: https://github.com/coinsph
+- type: Pricing
+  url: https://coins.ph/en-ph/fees
+- type: TermsOfService
+  url: https://coins.ph/en-ph/legal
+- type: PrivacyPolicy
+  url: https://coins.ph/en-ph/legal#privacy
+- type: StatusPage
+  url: https://status.coins.ph
+- type: Security
+  url: https://coins.ph/en-ph/bug-bounty
 - type: Website
   url: https://coins.ph/
+- type: Authentication
+  url: authentication/coinsph-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/coinsph-agentic-access.yml
+- type: Packages
+  url: packages/coinsph-packages.yml
+- type: SDKs
+  url: packages/coinsph-packages.yml
+- type: Components
+  url: components/coinsph-components.yml
+- type: Sandbox
+  url: sandbox/coinsph-sandbox.yml
+- type: Conventions
+  url: conventions/coinsph-conventions.yml
+- type: Idempotency
+  url: conventions/coinsph-conventions.yml
+- type: Lifecycle
+  url: lifecycle/coinsph-lifecycle.yml
+- type: Conformance
+  url: conformance/coinsph-conformance.yml
+- type: ErrorCatalog
+  url: errors/coinsph-problem-types.yml
+- type: DataModel
+  url: data-model/coinsph-data-model.yml
+- type: MCPServer
+  url: mcp/coinsph-mcp.yml
+- type: VulnerabilityDisclosure
+  url: security/coinsph-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/coinsph-domain-security.yml
+- type: Webhooks
+  url: asyncapi/coinsph-webhooks.yml
+- type: Overlay
+  url: overlays/coinsph-payment-overlay.yaml
+- type: LLMsTxt
+  url: llms/coinsph-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

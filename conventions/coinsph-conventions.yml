@@ -1,0 +1,51 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.docs.coins.ph + openapi/*.json
+authentication:
+  style: API key + HMAC-SHA256 request signing
+  headers:
+  - X-COINS-APIKEY
+  - Timestamp
+  - Signature
+  signature: HMAC-SHA256 over the request query string / body using the API secret; webhook payloads are
+    signed the same way
+  ref: authentication/coinsph-authentication.yml
+idempotency:
+  supported: true
+  mechanism: partner-assigned requestId
+  param: requestId
+  location: query
+  description: On Payment API operations the partner supplies a requestId used for idempotency validation
+    so retries do not double-process.
+  ref: errors/coinsph-problem-types.yml
+timestamp:
+  header: Timestamp
+  note: Unix ms timestamp; some endpoints accept a recvWindow to bound clock skew (Binance-style)
+pagination:
+  style: limit + time-range / id-range
+  common_params:
+  - limit
+  - startTime
+  - endTime
+  - fromId
+  note: Exchange endpoints follow Binance-style windowed pagination
+versioning:
+  style: uri-path
+  examples:
+  - /openapi/v1/*
+  - /openapi/account/v3/*
+  - /openapi/fiat/v1/*
+  ref: lifecycle/coinsph-lifecycle.yml
+error_envelope:
+  shape: '{ code: <int>, msg: <string> }'
+  ref: errors/coinsph-problem-types.yml
+streaming:
+  mechanism: WebSocket user data stream via listenKey
+  ops:
+  - create_listen_key
+  - keepalive_listen_key
+  - close_listen_key
+webhooks:
+  supported: true
+  note: Ramp order-status callback; payloads signed HMAC-SHA256
+  ref: asyncapi/coinsph-webhooks.yml

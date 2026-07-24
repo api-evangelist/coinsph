@@ -1,0 +1,30 @@
+# Coins.ph
+
+> Coins.ph is a BSP-regulated Philippine fintech super app: a crypto exchange (Coins Pro), e-wallet, and merchant/partner payments platform. Its APIs cover spot trading, wallets, market data, convert, fiat QRPH collections, checkout, disbursements, and on/off ramp — authenticated with an API key plus HMAC-SHA256 request signing.
+
+## APIs
+- [Payment / Partner Integration API v2.7](https://api.docs.coins.ph): QRPH collections, checkout, disbursements, refunds, virtual accounts, reconciliation (48 operations)
+- [Coins Pro — Spot Trading](https://api.docs.coins.ph): exchangeInfo, place/query/cancel orders, open orders (13 operations)
+- [Coins Pro — Wallet](https://api.docs.coins.ph): deposit address/history, withdrawals, address whitelist (8 operations)
+- [Coins Pro — Markets](https://api.docs.coins.ph): trading pairs, order book, klines, tickers (8 operations)
+- [Coins Pro — Convert](https://api.docs.coins.ph): supported pairs, quote, accept quote, order history (4 operations)
+- [Coins Pro — Sub-Account](https://api.docs.coins.ph): create/list sub-accounts, assets, fund collection, IP restriction (14 operations)
+- [ON/OFF Ramp API](https://ramp.pro.coins.ph): payment configurations, trial price, order detail, on-chain funding, status callback (6 operations)
+- [Account Validation API](https://api.coins.ph): account-validation create + status-check (2 operations)
+
+## Specs
+- [Payment OpenAPI](https://raw.githubusercontent.com/api-evangelist/coinsph/refs/heads/main/openapi/coinsph-payment-openapi.json)
+- [Spot OpenAPI](https://raw.githubusercontent.com/api-evangelist/coinsph/refs/heads/main/openapi/coinsph-spot-openapi.json)
+- [Wallet OpenAPI](https://raw.githubusercontent.com/api-evangelist/coinsph/refs/heads/main/openapi/coinsph-wallet-openapi.json)
+- [Markets OpenAPI](https://raw.githubusercontent.com/api-evangelist/coinsph/refs/heads/main/openapi/coinsph-markets-openapi.json)
+- [Ramp OpenAPI](https://raw.githubusercontent.com/api-evangelist/coinsph/refs/heads/main/openapi/coinsph-ramp-openapi.json)
+
+## Docs
+- [API Documentation](https://api.docs.coins.ph)
+- [Changelog](https://api.docs.coins.ph/changelog)
+- [Support Center](https://support.coins.ph/hc/en-us)
+- [Bug Bounty / Security](https://coins.ph/en-ph/bug-bounty)
+- [Status Page](https://status.coins.ph)
+
+## Auth
+- API key header X-COINS-APIKEY, Unix Timestamp header, and Signature header (HMAC-SHA256 of the request using the API secret). Webhook payloads are signed the same way.

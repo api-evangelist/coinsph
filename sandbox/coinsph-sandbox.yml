@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.docs.coins.ph (Payment API info.description) + system endpoints
+environments:
+- name: sandbox
+  base_url: https://api.9001.pl-qa.coinsxyz.me
+  note: QA/sandbox host published in the Payment API spec servers[] and description
+- name: production
+  base_url: https://api.pro.coins.ph
+- name: production-ramp
+  base_url: https://ramp.pro.coins.ph
+- name: production-account-validation
+  base_url: https://api.coins.ph
+test_tooling:
+- endpoint: GET /openapi/v1/ping
+  operationId: ''
+  purpose: connectivity test
+- endpoint: GET /openapi/v1/time
+  purpose: server time (for Timestamp header)
+- endpoint: GET /openapi/v1/check-sys-status
+  purpose: system status check
+- endpoint: GET /openapi/v1/user/ip
+  purpose: echo caller IP (for IP allowlisting)
+- endpoint: POST /openapi/v1/order/test
+  operationId: test_new_order
+  purpose: validate a new spot order without placing it
+note: No published static test cards / magic values found; sandbox is a full QA host requiring sandbox
+  API keys.

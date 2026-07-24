@@ -1,0 +1,159 @@
+generated: '2026-07-18'
+method: derived
+source: derived from components.schemas across openapi/*.json
+entity_count: 59
+entities:
+- AccountBalanceResponse
+- AccountInfo
+- AmountLimit
+- BooleanSuccessResponse
+- CancelQRPHResponse
+- CashInRefundRequest
+- ChannelQRCodeMap
+- CheckoutRedirectUrl
+- CheckoutRefundData
+- CheckoutStatusResponse
+- CreateAccountResponse
+- CreateCheckoutRequest
+- CreateCheckoutResponse
+- CreateValidationRequest
+- CreateValidationResponse
+- CreateVirtualAccountSuccess
+- CryptoDestination
+- CurrencyNetworkSetting
+- DynamicQRPHResponse
+- FiatBaseResponse
+- FiatDestination
+- FiatMoney
+- GetCreateAccountResponse
+- InitOnChainFundResponse
+- InvoiceObject
+- LimitPeriod
+- OTCTradingPair
+- OffRampTokenPair
+- OnRampTokenPair
+- OrderDetailsResponse
+- OrderExtendedMap
+- PaymentExecutionResponse
+- PaymentPreviewResponse
+- PaymentResultResponse
+- ProductDetail
+- QRPHStatusResponse
+- RampCallbackRequest
+- RampCallbackResponse
+- RampOrderDetailResponse
+- RampPaymentConfigResponse
+- RampTrialPriceResponse
+- ReceiveAccount
+- RemainingDepositLimit
+- StaticQRPHResponse
+- SupportChannelItem
+- TokenApplyRequest
+- TokenApplyResponse
+- TokenPayRequest
+- TokenPayResponse
+- TokenQueryRequest
+- TokenQueryResponse
+- TransferResponse
+- VAErrorResponse
+- ValidationStatusResponse
+- VirtualAccountCheckResult
+- VirtualAccountDetail
+- VirtualAccountExtend
+- VirtualAccountSettingDetail
+- VirtualAccountTransaction
+domains:
+  trading:
+  - order
+  - trade
+  - symbol/pair
+  - kline
+  - ticker
+  - orderBook
+  wallet:
+  - coin
+  - depositAddress
+  - deposit
+  - withdraw
+  - withdrawAddressWhitelist
+  account:
+  - account
+  - cryptoAccount
+  - subAccount
+  - apiKey
+  payments:
+  - qrCode
+  - checkout
+  - disbursement
+  - refund
+  - invoice
+  - virtualAccount
+  - reconciliation
+  ramp:
+  - rampOrder
+  - paymentConfiguration
+  - onChainFund
+relationships:
+- from: DynamicQRPHResponse
+  field: requestId
+  kind: reference
+- from: CancelQRPHResponse
+  field: requestId
+  kind: reference
+- from: StaticQRPHResponse
+  field: requestId
+  kind: reference
+- from: QRPHStatusResponse
+  field: requestId
+  kind: reference
+- from: CreateCheckoutRequest
+  field: requestId
+  kind: reference
+- from: CreateCheckoutResponse
+  field: requestId
+  kind: reference
+- from: CheckoutStatusResponse
+  field: requestId
+  kind: reference
+- from: TokenApplyRequest
+  field: requestId
+  kind: reference
+- from: TokenQueryRequest
+  field: requestId
+  kind: reference
+- from: TokenPayRequest
+  field: requestId
+  kind: reference
+- from: TokenPayResponse
+  field: requestId
+  kind: reference
+- from: TokenPayResponse
+  field: orderId
+  kind: reference
+- from: CashInRefundRequest
+  field: requestId
+  kind: reference
+- from: TransferResponse
+  field: account
+  kind: reference
+- from: VirtualAccountDetail
+  field: requestId
+  kind: reference
+- from: VirtualAccountTransaction
+  field: orderId
+  kind: reference
+- from: CheckoutRefundData
+  field: requestId
+  kind: reference
+- from: CreateAccountResponse
+  field: requestId
+  kind: reference
+- from: GetCreateAccountResponse
+  field: requestId
+  kind: reference
+- from: RampCallbackRequest
+  field: orderId
+  kind: reference
+- from: CreateValidationRequest
+  field: requestId
+  kind: reference

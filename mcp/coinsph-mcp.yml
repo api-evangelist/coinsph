@@ -1,0 +1,348 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+note: No official Coins.ph MCP server found. Candidate tool list derived one-per-operation from the published
+  OpenAPI; not an official Coins.ph product.
+server:
+  name: coinsph
+  transport: http
+tools:
+- name: generateDynamicQRPH
+  description: Generate Dynamic QRPH
+  source_operation: openapi/coinsph-payment-openapi.json#generateDynamicQRPH
+- name: cancelDynamicQRPH
+  description: Cancel Dynamic QRPH
+  source_operation: openapi/coinsph-payment-openapi.json#cancelDynamicQRPH
+- name: generateStaticQRPH
+  description: Generate Static QRPH
+  source_operation: openapi/coinsph-payment-openapi.json#generateStaticQRPH
+- name: updateStaticQRPH
+  description: Update Static QRPH
+  source_operation: openapi/coinsph-payment-openapi.json#updateStaticQRPH
+- name: getStaticQRPHList
+  description: Get Static QRPH List
+  source_operation: openapi/coinsph-payment-openapi.json#getStaticQRPHList
+- name: getQRPHStatus
+  description: Get QRPH Status
+  source_operation: openapi/coinsph-payment-openapi.json#getQRPHStatus
+- name: getCryptoDepositAddress
+  description: Crypto Get Deposit Address
+  source_operation: openapi/coinsph-payment-openapi.json#getCryptoDepositAddress
+- name: createCheckout
+  description: Create Checkout
+  source_operation: openapi/coinsph-payment-openapi.json#createCheckout
+- name: getCheckoutStatus
+  description: Get Checkout Status
+  source_operation: openapi/coinsph-payment-openapi.json#getCheckoutStatus
+- name: checkoutRefund
+  description: Checkout Refund
+  source_operation: openapi/coinsph-payment-openapi.json#checkoutRefund
+- name: checkoutRefundStatusCheck
+  description: Refund Status Check
+  source_operation: openapi/coinsph-payment-openapi.json#checkoutRefundStatusCheck
+- name: tokenApply
+  description: Apply for Token
+  source_operation: openapi/coinsph-payment-openapi.json#tokenApply
+- name: tokenQuery
+  description: Query Payment Token
+  source_operation: openapi/coinsph-payment-openapi.json#tokenQuery
+- name: removePaymentToken
+  description: Remove Payment Token
+  source_operation: openapi/coinsph-payment-openapi.json#removePaymentToken
+- name: payWithToken
+  description: Pay with Token
+  source_operation: openapi/coinsph-payment-openapi.json#payWithToken
+- name: getSupportChannel
+  description: Support Channel
+  source_operation: openapi/coinsph-payment-openapi.json#getSupportChannel
+- name: decodeQRPH
+  description: Decode QRPH
+  source_operation: openapi/coinsph-payment-openapi.json#decodeQRPH
+- name: initiateCashOut
+  description: Initiate Cash-out
+  source_operation: openapi/coinsph-payment-openapi.json#initiateCashOut
+- name: cryptoApplyWithdrawal
+  description: Crypto Apply Withdrawal
+  source_operation: openapi/coinsph-payment-openapi.json#cryptoApplyWithdrawal
+- name: cashInRefund
+  description: Cash-in Refund
+  source_operation: openapi/coinsph-payment-openapi.json#cashInRefund
+- name: getPayerAccount
+  description: Get Payer Account
+  source_operation: openapi/coinsph-payment-openapi.json#getPayerAccount
+- name: applyForReport
+  description: Apply for Report
+  source_operation: openapi/coinsph-payment-openapi.json#applyForReport
+- name: retrieveReport
+  description: Retrieve the Report
+  source_operation: openapi/coinsph-payment-openapi.json#retrieveReport
+- name: getSupportedConvertTradingPairs
+  description: Get Supported Convert Trading Pairs
+  source_operation: openapi/coinsph-payment-openapi.json#getSupportedConvertTradingPairs
+- name: convertFetchQuote
+  description: Convert Fetch Quote
+  source_operation: openapi/coinsph-payment-openapi.json#convertFetchQuote
+- name: convertAcceptQuote
+  description: Convert Accept Quote
+  source_operation: openapi/coinsph-payment-openapi.json#convertAcceptQuote
+- name: getOTCSupportedTradingPairs
+  description: OTC Get Supported Trading Pairs
+  source_operation: openapi/coinsph-payment-openapi.json#getOTCSupportedTradingPairs
+- name: createRFQ
+  description: Create RFQ
+  source_operation: openapi/coinsph-payment-openapi.json#createRFQ
+- name: acceptRFQ
+  description: Accept RFQ
+  source_operation: openapi/coinsph-payment-openapi.json#acceptRFQ
+- name: manualSettle
+  description: Manual Settle
+  source_operation: openapi/coinsph-payment-openapi.json#manualSettle
+- name: getOrderDetails
+  description: Get Order Details
+  source_operation: openapi/coinsph-payment-openapi.json#getOrderDetails
+- name: getFiatOrderHistoryV2
+  description: Fiat Order History V2 (USER_DATA)
+  source_operation: openapi/coinsph-payment-openapi.json#getFiatOrderHistoryV2
+- name: getAccountBalance
+  description: Account Balance
+  source_operation: openapi/coinsph-payment-openapi.json#getAccountBalance
+- name: p2pTransfer
+  description: P2P Transfers
+  source_operation: openapi/coinsph-payment-openapi.json#p2pTransfer
+- name: getUserIP
+  description: Get User IP
+  source_operation: openapi/coinsph-payment-openapi.json#getUserIP
+- name: createVirtualAccount
+  description: Create Virtual Account
+  source_operation: openapi/coinsph-payment-openapi.json#createVirtualAccount
+- name: updateVirtualAccount
+  description: Update Virtual Account
+  source_operation: openapi/coinsph-payment-openapi.json#updateVirtualAccount
+- name: getVirtualAccountDetails
+  description: Virtual Account Details
+  source_operation: openapi/coinsph-payment-openapi.json#getVirtualAccountDetails
+- name: listVirtualAccounts
+  description: List Virtual Accounts
+  source_operation: openapi/coinsph-payment-openapi.json#listVirtualAccounts
+- name: reactivateVirtualAccount
+  description: Reactivate Virtual Account
+  source_operation: openapi/coinsph-payment-openapi.json#reactivateVirtualAccount
+- name: deactivateVirtualAccount
+  description: Deactivate Virtual Account
+  source_operation: openapi/coinsph-payment-openapi.json#deactivateVirtualAccount
+- name: listVirtualAccountTransactions
+  description: Virtual Account Transactions List
+  source_operation: openapi/coinsph-payment-openapi.json#listVirtualAccountTransactions
+- name: checkVirtualAccountNetwork
+  description: Check Virtual Account Network
+  source_operation: openapi/coinsph-payment-openapi.json#checkVirtualAccountNetwork
+- name: paymentQRCodeDecode
+  description: Payment QRCode Decode
+  source_operation: openapi/coinsph-payment-openapi.json#paymentQRCodeDecode
+- name: executeScanToPayPayment
+  description: Execute Payment
+  source_operation: openapi/coinsph-payment-openapi.json#executeScanToPayPayment
+- name: getScanToPayPaymentResult
+  description: Get Payment Result
+  source_operation: openapi/coinsph-payment-openapi.json#getScanToPayPaymentResult
+- name: createKycAccount
+  description: Create Account
+  source_operation: openapi/coinsph-payment-openapi.json#createKycAccount
+- name: getCreateAccountRequest
+  description: Get Created User Request
+  source_operation: openapi/coinsph-payment-openapi.json#getCreateAccountRequest
+- name: query_crypto_account_balance
+  description: Query Balance - Crypto Accounts (USER_DATA)
+  source_operation: openapi/coinsph-account-openapi.json#query_crypto_account_balance
+- name: get_account_information
+  description: Account Information (USER_DATA)
+  source_operation: openapi/coinsph-account-openapi.json#get_account_information
+- name: wallet_get_all_coins_info
+  description: All Coins' Information (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#wallet_get_all_coins_info
+- name: wallet_get_deposit_address
+  description: Deposit Address (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#wallet_get_deposit_address
+- name: get_deposit_history
+  description: Deposit History (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#get_deposit_history
+- name: post_withdraw_apply
+  description: Withdraw (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#post_withdraw_apply
+- name: get_withdraw_history
+  description: Withdraw History (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#get_withdraw_history
+- name: get_withdraw_address_whitelist
+  description: Withdraw Address Whitelist (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#get_withdraw_address_whitelist
+- name: post_transfers
+  description: Transfers (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#post_transfers
+- name: get_transfers
+  description: Query Transfers (USER_DATA)
+  source_operation: openapi/coinsph-wallet-openapi.json#get_transfers
+- name: get_cryptoasset_trading_pairs
+  description: Cryptoasset Trading Pairs
+  source_operation: openapi/coinsph-markets-openapi.json#get_cryptoasset_trading_pairs
+- name: get_order_book
+  description: Order Book
+  source_operation: openapi/coinsph-markets-openapi.json#get_order_book
+- name: get_kline_candlestick_data
+  description: Kline/Candlestick Data
+  source_operation: openapi/coinsph-markets-openapi.json#get_kline_candlestick_data
+- name: get_24hr_ticker_price_change_statistics
+  description: 24hr Ticker Price Change Statistics
+  source_operation: openapi/coinsph-markets-openapi.json#get_24hr_ticker_price_change_statistics
+- name: get_latest_price_for_symbol
+  description: Latest Price for a Symbol or Symbols
+  source_operation: openapi/coinsph-markets-openapi.json#get_latest_price_for_symbol
+- name: get_best_price_quantity_on_order_book
+  description: Best Price and Quantity on Order Book
+  source_operation: openapi/coinsph-markets-openapi.json#get_best_price_quantity_on_order_book
+- name: get_recent_trades_list
+  description: Recent Trades List
+  source_operation: openapi/coinsph-markets-openapi.json#get_recent_trades_list
+- name: get_current_average_price
+  description: Current Average Price
+  source_operation: openapi/coinsph-markets-openapi.json#get_current_average_price
+- name: create_listen_key
+  description: Create a listenKey (USER_STREAM)
+  source_operation: openapi/coinsph-listenkey-openapi.json#create_listen_key
+- name: keepalive_listen_key
+  description: Ping / Keep-alive a listenKey (USER_STREAM)
+  source_operation: openapi/coinsph-listenkey-openapi.json#keepalive_listen_key
+- name: close_listen_key
+  description: Close a listenKey (USER_STREAM)
+  source_operation: openapi/coinsph-listenkey-openapi.json#close_listen_key
+- name: getRampPaymentConfigurations
+  description: Ramp Get Payment Configurations
+  source_operation: openapi/coinsph-ramp-openapi.json#getRampPaymentConfigurations
+- name: getRampTrialPrice
+  description: Ramp Trial Price
+  source_operation: openapi/coinsph-ramp-openapi.json#getRampTrialPrice
+- name: confirmOnChainFunding
+  description: Ramp Confirm On-Chain Funding
+  source_operation: openapi/coinsph-ramp-openapi.json#confirmOnChainFunding
+- name: getRampOrderDetail
+  description: Ramp Get Order Detail
+  source_operation: openapi/coinsph-ramp-openapi.json#getRampOrderDetail
+- name: rampOrderStatusCallback
+  description: Ramp Callback API
+  source_operation: openapi/coinsph-ramp-openapi.json#rampOrderStatusCallback
+- name: initOnChainFund
+  description: Ramp Init On-Chain Fund
+  source_operation: openapi/coinsph-ramp-openapi.json#initOnChainFund
+- name: get_exchange_info
+  description: Exchange Information
+  source_operation: openapi/coinsph-spot-openapi.json#get_exchange_info
+- name: test_new_order
+  description: Test New Order (TRADE)
+  source_operation: openapi/coinsph-spot-openapi.json#test_new_order
+- name: create_new_order
+  description: New Order (TRADE)
+  source_operation: openapi/coinsph-spot-openapi.json#create_new_order
+- name: query_order
+  description: Query Order (USER_DATA)
+  source_operation: openapi/coinsph-spot-openapi.json#query_order
+- name: cancel_order
+  description: Cancel Order (TRADE)
+  source_operation: openapi/coinsph-spot-openapi.json#cancel_order
+- name: get_open_orders
+  description: Current Open Orders (USER_DATA)
+  source_operation: openapi/coinsph-spot-openapi.json#get_open_orders
+- name: cancel_all_open_orders
+  description: Cancel All Open Orders on a Symbol (TRADE)
+  source_operation: openapi/coinsph-spot-openapi.json#cancel_all_open_orders
+- name: cancel_replace_order
+  description: Cancel and Replace Order (TRADE)
+  source_operation: openapi/coinsph-spot-openapi.json#cancel_replace_order
+- name: get_history_orders
+  description: History Orders By Create Time (USER_DATA)
+  source_operation: openapi/coinsph-spot-openapi.json#get_history_orders
+- name: get_history_orders_by_update_time
+  description: History Orders By Update Time (USER_DATA)
+  source_operation: openapi/coinsph-spot-openapi.json#get_history_orders_by_update_time
+- name: get_my_trades
+  description: Account Trade List (USER_DATA)
+  source_operation: openapi/coinsph-spot-openapi.json#get_my_trades
+- name: get_transaction_history
+  description: Transaction History (USER_DATA)
+  source_operation: openapi/coinsph-spot-openapi.json#get_transaction_history
+- name: get_trade_fee
+  description: Trade Fee (USER_DATA)
+  source_operation: openapi/coinsph-spot-openapi.json#get_trade_fee
+- name: test_connectivity
+  description: Test Connectivity
+  source_operation: openapi/coinsph-system-openapi.json#test_connectivity
+- name: check_server_time
+  description: Check Server Time
+  source_operation: openapi/coinsph-system-openapi.json#check_server_time
+- name: get_user_ip
+  description: Get User IP
+  source_operation: openapi/coinsph-system-openapi.json#get_user_ip
+- name: check_system_status
+  description: Check System Status
+  source_operation: openapi/coinsph-system-openapi.json#check_system_status
+- name: get_api_keys
+  description: Get API Keys (USER_DATA)
+  source_operation: openapi/coinsph-system-openapi.json#get_api_keys
+- name: create_virtual_sub_account
+  description: Create a Virtual Sub-account (For Master Account)
+  source_operation: openapi/coinsph-sub-account-openapi.json#create_virtual_sub_account
+- name: query_sub_account_list
+  description: Query Sub-account List (For Master Account)
+  source_operation: openapi/coinsph-sub-account-openapi.json#query_sub_account_list
+- name: query_sub_account_assets
+  description: Query Sub-account Assets (For Master Account)
+  source_operation: openapi/coinsph-sub-account-openapi.json#query_sub_account_assets
+- name: collect_sub_account_assets
+  description: Collect Sub-account Assets (For Master Account)
+  source_operation: openapi/coinsph-sub-account-openapi.json#collect_sub_account_assets
+- name: retrieve_asset_collection_records
+  description: Retrieve Asset Collection Records (USER_DATA)
+  source_operation: openapi/coinsph-sub-account-openapi.json#retrieve_asset_collection_records
+- name: get_sub_account_ip_restriction
+  description: Get IP Restriction for a Sub-account API Key (For Master Account)
+  source_operation: openapi/coinsph-sub-account-openapi.json#get_sub_account_ip_restriction
+- name: add_sub_account_ip_restriction
+  description: Add IP Restriction for Sub-Account API Key (For Master Account)
+  source_operation: openapi/coinsph-sub-account-openapi.json#add_sub_account_ip_restriction
+- name: delete_sub_account_ip_restriction
+  description: Delete IP List For a Sub-account API Key (For Master Account)
+  source_operation: openapi/coinsph-sub-account-openapi.json#delete_sub_account_ip_restriction
+- name: get_sub_account_transfer_history
+  description: Sub-account Transfer History (USER_DATA)
+  source_operation: openapi/coinsph-sub-account-openapi.json#get_sub_account_transfer_history
+- name: post_sub_account_transfer_to_master
+  description: Transfer to Master (USER_DATA)
+  source_operation: openapi/coinsph-sub-account-openapi.json#post_sub_account_transfer_to_master
+- name: post_sub_account_universal_transfer
+  description: Universal Transfer (USER_DATA)
+  source_operation: openapi/coinsph-sub-account-openapi.json#post_sub_account_universal_transfer
+- name: get_sub_account_universal_transfer_history
+  description: Query Universal Transfer History (USER_DATA)
+  source_operation: openapi/coinsph-sub-account-openapi.json#get_sub_account_universal_transfer_history
+- name: get_sub_account_deposit_address
+  description: Get Sub Account Deposit Address (USER_DATA)
+  source_operation: openapi/coinsph-sub-account-openapi.json#get_sub_account_deposit_address
+- name: get_sub_account_deposit_history
+  description: Get Sub Account Deposit History (USER_DATA)
+  source_operation: openapi/coinsph-sub-account-openapi.json#get_sub_account_deposit_history
+- name: createAccountValidation
+  description: Submit Account Validation Request
+  source_operation: openapi/coinsph-account-validation-openapi.json#createAccountValidation
+- name: getAccountValidationStatus
+  description: Query Account Validation Status
+  source_operation: openapi/coinsph-account-validation-openapi.json#getAccountValidationStatus
+- name: convert_get_supported_trading_pairs
+  description: Get Supported Trading Pairs (TRADE)
+  source_operation: openapi/coinsph-convert-openapi.json#convert_get_supported_trading_pairs
+- name: convert_get_quote
+  description: Fetch a Quote (TRADE)
+  source_operation: openapi/coinsph-convert-openapi.json#convert_get_quote
+- name: convert_accept_quote
+  description: Accept the Quote (TRADE)
+  source_operation: openapi/coinsph-convert-openapi.json#convert_accept_quote
+- name: convert_query_order_history
+  description: Retrieve Order History (USER_DATA)
+  source_operation: openapi/coinsph-convert-openapi.json#convert_query_order_history

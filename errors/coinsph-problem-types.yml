@@ -1,0 +1,29 @@
+generated: '2026-07-18'
+method: derived
+source: derived from OpenAPI 4xx/5xx responses across openapi/*.json
+format: coins-error-envelope
+envelope:
+  note: Coins.ph exchange/partner errors return a JSON body with numeric `code` and `msg` fields (Binance-style),
+    HTTP status set accordingly. Not RFC 9457 application/problem+json.
+  fields:
+  - code
+  - msg
+problems:
+- status: 400
+  title: Bad request - invalid parameters
+  example_operation: openapi/coinsph-payment-openapi.json#getFiatOrderHistoryV2
+- status: 401
+  title: Unauthorized - invalid or missing API key
+  example_operation: openapi/coinsph-payment-openapi.json#getFiatOrderHistoryV2
+- status: 403
+  title: Non-PH or non-fiat account. This API is restricted to Philippine fiat accounts only.
+  example_operation: openapi/coinsph-account-validation-openapi.json#createAccountValidation
+- status: 408
+  title: Timestamp outside recvWindow. Sync system clock; ensure recvWindow ≤ 60000 ms.
+  example_operation: openapi/coinsph-account-validation-openapi.json#createAccountValidation
+- status: 429
+  title: Rate limit exceeded
+  example_operation: openapi/coinsph-account-validation-openapi.json#createAccountValidation
+- status: 500
+  title: Internal server error
+  example_operation: openapi/coinsph-payment-openapi.json#getFiatOrderHistoryV2

@@ -1,0 +1,19 @@
+generated: '2026-07-18'
+method: generated
+skills:
+- file: coinsph-spot-trading.md
+  name: Place and manage a spot order on Coins Pro
+  api: openapi/coinsph-spot-openapi.json
+  operations: [get_exchange_info, test_new_order, create_new_order, query_order, get_open_orders, cancel_order]
+- file: coinsph-wallet-deposit-withdraw.md
+  name: Deposit and withdraw crypto on Coins Pro
+  api: openapi/coinsph-wallet-openapi.json
+  operations: [wallet_get_all_coins_info, wallet_get_deposit_address, get_deposit_history, get_withdraw_address_whitelist, post_withdraw_apply, get_withdraw_history]
+- file: coinsph-convert-quote.md
+  name: Convert one crypto to another via quote-and-accept
+  api: openapi/coinsph-convert-openapi.json
+  operations: [convert_get_supported_trading_pairs, convert_get_quote, convert_accept_quote, convert_query_order_history]
+- file: coinsph-qrph-collection.md
+  name: Collect a payment with a dynamic QR PH code
+  api: openapi/coinsph-payment-openapi.json
+  operations: [generateDynamicQRPH, getQRPHStatus, cancelDynamicQRPH]

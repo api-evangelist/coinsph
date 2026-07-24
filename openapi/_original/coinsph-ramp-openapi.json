@@ -1,0 +1,1071 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ON/OFF Ramp",
+    "description": "Coins.ph Partner Integration API - ON/OFF Ramp Service\n\nFiat-to-crypto and crypto-to-fiat ramp operations.\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://9001.pl-qa.coinsxyz.me`\n- **Production**: `https://pro.coins.ph`\n",
+    "version": "2.7",
+    "contact": {
+      "name": "Coins.ph Tech Ops",
+      "email": "tech_ops@coins.ph"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ramp.pro.coins.ph",
+      "description": "Sandbox"
+    },
+    {
+      "url": "https://ramp.pro.coins.ph",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": [],
+      "TimestampAuth": [],
+      "SignatureAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "ON/OFF Ramp",
+      "description": "Fiat-to-crypto and crypto-to-fiat ramp operations"
+    },
+    {
+      "name": "Ramp Callback",
+      "description": "Webhook callbacks sent to the merchant's configured callback URL when order status changes"
+    }
+  ],
+  "paths": {
+    "/openapi/ramp/v1/paymentConfigurations": {
+      "post": {
+        "tags": [
+          "ON/OFF Ramp"
+        ],
+        "summary": "Ramp Get Payment Configurations",
+        "description": "Returns a list of supported token pairs and network information for a given ramp type and country.",
+        "operationId": "getRampPaymentConfigurations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "rampType",
+                  "country"
+                ],
+                "properties": {
+                  "rampType": {
+                    "type": "string",
+                    "enum": [
+                      "ON_RAMP",
+                      "OFF_RAMP"
+                    ],
+                    "description": "ON_RAMP for fiat-to-crypto, OFF_RAMP for crypto-to-fiat."
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Country code.",
+                    "example": "PH"
+                  },
+                  "toToken": {
+                    "type": "string",
+                    "description": "Target token symbol. Applicable when rampType is ON_RAMP.",
+                    "example": "USDT"
+                  },
+                  "fromToken": {
+                    "type": "string",
+                    "description": "Source token symbol. Applicable when rampType is OFF_RAMP.",
+                    "example": "USDT"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RampPaymentConfigResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "recvWindow",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Validity duration of the request in milliseconds after the timestamp."
+          }
+        ]
+      }
+    },
+    "/openapi/ramp/v1/trialPrice": {
+      "post": {
+        "tags": [
+          "ON/OFF Ramp"
+        ],
+        "summary": "Ramp Trial Price",
+        "description": "Returns a price estimation for a ramp transaction. This is a trial quote and does not create a persistent quote record.",
+        "operationId": "getRampTrialPrice",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "rampType",
+                  "country",
+                  "sourceCurrency",
+                  "targetCurrency",
+                  "network",
+                  "address"
+                ],
+                "properties": {
+                  "rampType": {
+                    "type": "string",
+                    "enum": [
+                      "ON_RAMP",
+                      "OFF_RAMP"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": "PH"
+                  },
+                  "sourceCurrency": {
+                    "type": "string",
+                    "description": "The currency that the merchant holds.",
+                    "example": "PHP"
+                  },
+                  "targetCurrency": {
+                    "type": "string",
+                    "description": "The currency that the merchant wishes to obtain.",
+                    "example": "USDT"
+                  },
+                  "sourceAmount": {
+                    "type": "string",
+                    "description": "Amount to convert from. targetAmount must not be filled when this is filled.",
+                    "example": "5000"
+                  },
+                  "targetAmount": {
+                    "type": "string",
+                    "description": "Amount to convert to. sourceAmount must not be filled when this is filled.",
+                    "example": "84.68"
+                  },
+                  "network": {
+                    "type": "string",
+                    "description": "Blockchain network (e.g., ETHEREUM, SOLANA, BSC, POLYGON, BASE).",
+                    "example": "ETHEREUM"
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "Target wallet address.",
+                    "example": "0x1234567890abcdef1234567890abcdef12345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RampTrialPriceResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "recvWindow",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Validity duration of the request in milliseconds after the timestamp."
+          }
+        ]
+      }
+    },
+    "/openapi/ramp/v1/confirmOnChainFunding": {
+      "post": {
+        "tags": [
+          "ON/OFF Ramp"
+        ],
+        "summary": "Ramp Confirm On-Chain Funding",
+        "description": "After the merchant completes the on-chain crypto transfer (for OFF_RAMP), call this endpoint to confirm the funding and provide the transaction ID.",
+        "operationId": "confirmOnChainFunding",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "quoteId",
+                  "txId"
+                ],
+                "properties": {
+                  "quoteId": {
+                    "type": "string",
+                    "description": "The quote ID associated with this transaction.",
+                    "example": "QT202604210001"
+                  },
+                  "txId": {
+                    "type": "string",
+                    "description": "The on-chain transaction ID (hash) of the crypto transfer.",
+                    "example": "0xabc123def456789abcdef123456789abcdef1234567890abcdef1234567890ab"
+                  },
+                  "remark": {
+                    "type": "string",
+                    "description": "Optional remark or memo.",
+                    "maxLength": 256
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "000000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "recvWindow",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Validity duration of the request in milliseconds after the timestamp."
+          }
+        ]
+      }
+    },
+    "/openapi/ramp/v1/orderDetail": {
+      "post": {
+        "tags": [
+          "ON/OFF Ramp"
+        ],
+        "summary": "Ramp Get Order Detail",
+        "description": "Returns the detail and current status of a specific order.",
+        "operationId": "getRampOrderDetail",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "orderId"
+                ],
+                "properties": {
+                  "orderId": {
+                    "type": "string",
+                    "description": "The order ID to query.",
+                    "example": "21378276707306408966convert"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RampOrderDetailResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "recvWindow",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Validity duration of the request in milliseconds after the timestamp."
+          }
+        ]
+      }
+    },
+    "/openapi/ramp/callback": {
+      "post": {
+        "tags": [
+          "Ramp Callback"
+        ],
+        "summary": "Ramp Callback API",
+        "description": "A POST request will be sent to the callback URL configured by the merchant whenever the order status changes. This is NOT an endpoint you call — it documents the payload Coins.ph sends TO your server.\n\n## Order Status Values\n- `CREATE` - Order created\n- `RISK_REVIEW` - Risk review in progress\n- `FUND_TRANSFER_PROCESSING` - Fund transfer in progress\n- `QUOTE_ACCEPT_PROCESSING` - Quote acceptance in progress\n- `REFUNDED_TRANSFER_PROCESSING` - Refund transfer in progress\n- `QUOTE_ACCEPTED` - Quote accepted\n- `WAITING_TX_ID` - Waiting for transaction ID from merchant\n- `CRYPTO_DISBURSE_PENDING` - Crypto disbursement pending\n- `CRYPTO_PENDING` - Waiting for crypto deposit\n- `CRYPTO_SENT` - Crypto sent\n- `CRYPTO_CONFIRMING` - Crypto confirming on chain\n- `CRYPTO_CONFIRMED` - Crypto confirmed\n- `CRYPTO_REFUND_PENDING` - Crypto refund pending\n- `CRYPTO_REFUND` - Crypto refunded\n- `PAYOUT_PROCESSING` - Payout processing\n- `PAYOUT_FAILED` - Payout failed\n- `REFUND_FAILED` - Refund failed\n- `PAYOUT_CONFIRMED` - Payout confirmed\n- `MANUAL_REVIEW` - Manual review required\n- `FUND_TRANSFER_BACK` - Fund transferred back\n- `EXPIRED` - Order expired\n- `PROCESSING` - Processing\n- `SUCCEEDED` - Succeeded (terminal)\n- `FAILED` - Failed (terminal)\n- `CANCELLED` - Cancelled (terminal)\n- `REFUNDED` - Refunded (terminal)",
+        "operationId": "rampOrderStatusCallback",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RampCallbackRequest"
+              },
+              "example": {
+                "id": "2199397325237953280",
+                "rampType": "OFF_RAMP",
+                "orderId": "2199397325237953280",
+                "orderStatus": "QUOTE_ACCEPT_PROCESSING",
+                "txId": "",
+                "errorCode": "",
+                "errorMessage": "",
+                "moreInfo": {
+                  "createdAt": "2026-04-23T06:09:53Z",
+                  "quoteId": "d20eaa5ecde942eeb48b5f40fe981a76",
+                  "status": "QUOTE_ACCEPT_PROCESSING",
+                  "sourceAmount": {
+                    "amount": 1.2,
+                    "currency": "USDT",
+                    "zero": false,
+                    "positive": true
+                  },
+                  "targetAmount": {
+                    "amount": 1.196,
+                    "currency": "USDC",
+                    "zero": false,
+                    "positive": true
+                  },
+                  "sourceCurrency": "USDT",
+                  "targetCurrency": "USDC",
+                  "targetWalletAddress": "rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC",
+                  "targetUserId": "2142216666787644416",
+                  "targetWalletAddressTag": "",
+                  "errorCode": "",
+                  "errorMessage": "",
+                  "txId": "",
+                  "withdrawId": "",
+                  "orderId": "2199397325237953280",
+                  "rampTypeCode": "OFF_RAMP"
+                },
+                "callbackKey": null,
+                "merchantId": null,
+                "timestamp": 1776924592732
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Merchant acknowledges receipt of the callback",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RampCallbackResponse"
+                },
+                "example": {
+                  "code": "0",
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi/ramp/outbound/initOnChainFund": {
+      "post": {
+        "tags": [
+          "ON/OFF Ramp"
+        ],
+        "summary": "Ramp Init On-Chain Fund",
+        "description": "Notify merchant to prepare on-chain fund transfer. The gateway will forward the request to the merchant's webhook URL with HMAC signature headers, and return the merchant's response containing a deposit ID.",
+        "operationId": "initOnChainFund",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "quoteId",
+                  "webhookUrl"
+                ],
+                "properties": {
+                  "quoteId": {
+                    "type": "string",
+                    "description": "The quote identifier for this on-chain fund request.",
+                    "example": "QT20260427000001",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "webhookUrl": {
+                    "type": "string",
+                    "description": "Merchant webhook URL to receive the notification.",
+                    "example": "https://merchant.example.com/callback/onchain",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "callbackKey": {
+                    "type": "string",
+                    "description": "API key for HMAC signature verification. If blank, signature is skipped.",
+                    "example": "ak_xxxxxxxx",
+                    "maxLength": 128
+                  },
+                  "merchantId": {
+                    "type": "string",
+                    "description": "Merchant user ID used for signature context. Required when callbackKey is provided.",
+                    "example": "100001",
+                    "maxLength": 64
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitOnChainFundResponse"
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "code": "000000",
+                      "message": "success",
+                      "data": {
+                        "depositId": "DEP20260427000001",
+                        "errorCode": null,
+                        "errorMessage": null
+                      }
+                    }
+                  },
+                  "error": {
+                    "summary": "Error response",
+                    "value": {
+                      "code": "500",
+                      "message": "InitOnChainFund callback failed",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "recvWindow",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Validity duration of the request in milliseconds after the timestamp."
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-COINS-APIKEY",
+        "description": "API key provided by Coins.ph"
+      },
+      "TimestampAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Timestamp",
+        "description": "Unix timestamp of the request"
+      },
+      "SignatureAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Signature",
+        "description": "HMAC-SHA256 signature of the request"
+      }
+    },
+    "schemas": {
+      "RampPaymentConfigResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "000000"
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "supportedNetworksByToken": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "networks": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "onRampFormTokenList": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/OnRampTokenPair"
+                }
+              },
+              "offRampToTokenList": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/OffRampTokenPair"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OnRampTokenPair": {
+        "type": "object",
+        "properties": {
+          "toToken": {
+            "type": "string"
+          },
+          "fromToken": {
+            "type": "string"
+          },
+          "fromTokenIcon": {
+            "type": "string"
+          },
+          "toTokenIcon": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "string"
+          },
+          "fromTokenName": {
+            "type": "string"
+          },
+          "toTokenName": {
+            "type": "string"
+          },
+          "limits": {
+            "type": "object",
+            "properties": {
+              "perOrder": {
+                "type": "object",
+                "properties": {
+                  "toTokenAmount": {
+                    "$ref": "#/components/schemas/AmountLimit"
+                  },
+                  "fromTokenAmount": {
+                    "$ref": "#/components/schemas/AmountLimit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OffRampTokenPair": {
+        "type": "object",
+        "properties": {
+          "fromToken": {
+            "type": "string"
+          },
+          "toToken": {
+            "type": "string"
+          },
+          "fromTokenIcon": {
+            "type": "string"
+          },
+          "toTokenIcon": {
+            "type": "string"
+          },
+          "fromTokenName": {
+            "type": "string"
+          },
+          "toTokenName": {
+            "type": "string"
+          },
+          "limits": {
+            "type": "object",
+            "properties": {
+              "perOrder": {
+                "type": "object",
+                "properties": {
+                  "fromToken": {
+                    "$ref": "#/components/schemas/AmountLimit"
+                  },
+                  "toToken": {
+                    "$ref": "#/components/schemas/AmountLimit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "AmountLimit": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "string"
+          },
+          "max": {
+            "type": "string"
+          },
+          "precision": {
+            "type": "integer"
+          }
+        }
+      },
+      "RampTrialPriceResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "000000"
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "sourceCurrency": {
+                "type": "string"
+              },
+              "targetCurrency": {
+                "type": "string"
+              },
+              "sourceAmount": {
+                "type": "string"
+              },
+              "targetAmount": {
+                "type": "string"
+              },
+              "price": {
+                "type": "string"
+              },
+              "fee": {
+                "type": "string"
+              },
+              "feeCurrency": {
+                "type": "string"
+              },
+              "resultAmount": {
+                "type": "string"
+              },
+              "totalCostAmount": {
+                "type": "string"
+              },
+              "expiry": {
+                "type": "integer",
+                "description": "Validity of the quote in seconds."
+              },
+              "inversePrice": {
+                "type": "string"
+              },
+              "expiryTime": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Quote expiry timestamp (epoch millis)."
+              }
+            }
+          }
+        }
+      },
+      "RampOrderDetailResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "000000"
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "CREATE",
+                  "PROCESSING",
+                  "SUCCEEDED",
+                  "FAILED",
+                  "CANCELLED",
+                  "REFUNDED",
+                  "EXPIRED",
+                  "MANUAL_REVIEW"
+                ]
+              },
+              "orderId": {
+                "type": "string"
+              },
+              "sourceCurrency": {
+                "type": "string"
+              },
+              "targetCurrency": {
+                "type": "string"
+              },
+              "sourceAmount": {
+                "type": "string"
+              },
+              "targetAmount": {
+                "type": "string"
+              },
+              "orderCreatedTime": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "fee": {
+                "type": "string"
+              },
+              "pollingInterval": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Recommended polling interval in milliseconds."
+              },
+              "maxPollingCount": {
+                "type": "integer",
+                "description": "Maximum number of polling attempts."
+              }
+            }
+          }
+        }
+      },
+      "InitOnChainFundResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "000000"
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "depositId": {
+                "type": "string",
+                "description": "Deposit identifier returned by the merchant.",
+                "example": "DEP20260427000001"
+              },
+              "errorCode": {
+                "type": "string",
+                "nullable": true,
+                "description": "Error code returned by the merchant (if any).",
+                "example": "INVALID_QUOTE"
+              },
+              "errorMessage": {
+                "type": "string",
+                "nullable": true,
+                "description": "Error message returned by the merchant (if any).",
+                "example": "Quote has expired"
+              }
+            }
+          }
+        }
+      },
+      "RampCallbackRequest": {
+        "type": "object",
+        "description": "Callback payload sent to the merchant's configured callback URL when order status changes.",
+        "required": [
+          "rampType",
+          "orderId",
+          "orderStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique callback event identifier.",
+            "example": "2199397325237953280"
+          },
+          "rampType": {
+            "type": "string",
+            "enum": [
+              "ON_RAMP",
+              "OFF_RAMP"
+            ],
+            "description": "Type of ramp operation.",
+            "example": "OFF_RAMP"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "The order ID.",
+            "example": "2199397325237953280"
+          },
+          "orderStatus": {
+            "type": "string",
+            "enum": [
+              "CREATE",
+              "RISK_REVIEW",
+              "FUND_TRANSFER_PROCESSING",
+              "QUOTE_ACCEPT_PROCESSING",
+              "REFUNDED_TRANSFER_PROCESSING",
+              "QUOTE_ACCEPTED",
+              "WAITING_TX_ID",
+              "CRYPTO_DISBURSE_PENDING",
+              "CRYPTO_PENDING",
+              "CRYPTO_SENT",
+              "CRYPTO_CONFIRMING",
+              "CRYPTO_CONFIRMED",
+              "CRYPTO_REFUND_PENDING",
+              "CRYPTO_REFUND",
+              "PAYOUT_PROCESSING",
+              "PAYOUT_FAILED",
+              "REFUND_FAILED",
+              "PAYOUT_CONFIRMED",
+              "MANUAL_REVIEW",
+              "FUND_TRANSFER_BACK",
+              "EXPIRED",
+              "PROCESSING",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELLED",
+              "REFUNDED"
+            ],
+            "description": "Current order status. Terminal statuses: SUCCEEDED, FAILED, CANCELLED, REFUNDED.",
+            "example": "QUOTE_ACCEPT_PROCESSING"
+          },
+          "txId": {
+            "type": "string",
+            "description": "On-chain transaction ID (if applicable).",
+            "example": ""
+          },
+          "errorCode": {
+            "type": "string",
+            "description": "Error code (if any).",
+            "example": ""
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error message (if any).",
+            "example": ""
+          },
+          "moreInfo": {
+            "type": "object",
+            "description": "Additional order information.",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Order creation time in ISO 8601 format.",
+                "example": "2026-04-23T06:09:53Z"
+              },
+              "quoteId": {
+                "type": "string",
+                "description": "Quote identifier.",
+                "example": "d20eaa5ecde942eeb48b5f40fe981a76"
+              },
+              "status": {
+                "type": "string",
+                "description": "Status within moreInfo context.",
+                "example": "QUOTE_ACCEPT_PROCESSING"
+              },
+              "sourceAmount": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "example": 1.2
+                  },
+                  "currency": {
+                    "type": "string",
+                    "example": "USDT"
+                  },
+                  "zero": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "positive": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "targetAmount": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "example": 1.196
+                  },
+                  "currency": {
+                    "type": "string",
+                    "example": "USDC"
+                  },
+                  "zero": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "positive": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "sourceCurrency": {
+                "type": "string",
+                "example": "USDT"
+              },
+              "targetCurrency": {
+                "type": "string",
+                "example": "USDC"
+              },
+              "targetWalletAddress": {
+                "type": "string",
+                "description": "Target wallet address for the transaction.",
+                "example": "rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC"
+              },
+              "targetUserId": {
+                "type": "string",
+                "description": "Target user identifier.",
+                "example": "2142216666787644416"
+              },
+              "targetWalletAddressTag": {
+                "type": "string",
+                "description": "Wallet address tag (if applicable).",
+                "example": ""
+              },
+              "errorCode": {
+                "type": "string",
+                "example": ""
+              },
+              "errorMessage": {
+                "type": "string",
+                "example": ""
+              },
+              "txId": {
+                "type": "string",
+                "description": "On-chain transaction ID.",
+                "example": ""
+              },
+              "withdrawId": {
+                "type": "string",
+                "description": "Withdrawal ID.",
+                "example": ""
+              },
+              "orderId": {
+                "type": "string",
+                "example": "2199397325237953280"
+              },
+              "rampTypeCode": {
+                "type": "string",
+                "enum": [
+                  "ON_RAMP",
+                  "OFF_RAMP"
+                ],
+                "example": "OFF_RAMP"
+              }
+            }
+          },
+          "callbackKey": {
+            "type": "string",
+            "nullable": true,
+            "description": "Callback key (if configured)."
+          },
+          "merchantId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Merchant ID (if configured)."
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Callback timestamp (epoch millis).",
+            "example": 1776924592732
+          }
+        }
+      },
+      "RampCallbackResponse": {
+        "type": "object",
+        "description": "Expected response from merchant after receiving the callback.",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Response code. '0' indicates success.",
+            "example": "0"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message.",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "description": "Response data (can be empty)."
+          }
+        }
+      }
+    }
+  },
+  "x-readme": {
+    "proxy-enabled": true
+  }
+}
