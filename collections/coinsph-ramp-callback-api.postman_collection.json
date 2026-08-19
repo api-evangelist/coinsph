@@ -1,0 +1,127 @@
+{
+  "item": [
+    {
+      "id": "18b532d7-e00d-427b-bda9-a10d05aa8123",
+      "name": "Ramp Callback",
+      "description": {
+        "content": "Webhook callbacks sent to the merchant's configured callback URL when order status changes",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7f75f068-6cff-490c-a2e5-65f4bf147f05",
+          "name": "Ramp Callback API",
+          "request": {
+            "name": "Ramp Callback API",
+            "description": {
+              "content": "A POST request will be sent to the callback URL configured by the merchant whenever the order status changes. This is NOT an endpoint you call — it documents the payload Coins.ph sends TO your server.\n\n## Order Status Values\n- `CREATE` - Order created\n- `RISK_REVIEW` - Risk review in progress\n- `FUND_TRANSFER_PROCESSING` - Fund transfer in progress\n- `QUOTE_ACCEPT_PROCESSING` - Quote acceptance in progress\n- `REFUNDED_TRANSFER_PROCESSING` - Refund transfer in progress\n- `QUOTE_ACCEPTED` - Quote accepted\n- `WAITING_TX_ID` - Waiting for transaction ID from merchant\n- `CRYPTO_DISBURSE_PENDING` - Crypto disbursement pending\n- `CRYPTO_PENDING` - Waiting for crypto deposit\n- `CRYPTO_SENT` - Crypto sent\n- `CRYPTO_CONFIRMING` - Crypto confirming on chain\n- `CRYPTO_CONFIRMED` - Crypto confirmed\n- `CRYPTO_REFUND_PENDING` - Crypto refund pending\n- `CRYPTO_REFUND` - Crypto refunded\n- `PAYOUT_PROCESSING` - Payout processing\n- `PAYOUT_FAILED` - Payout failed\n- `REFUND_FAILED` - Refund failed\n- `PAYOUT_CONFIRMED` - Payout confirmed\n- `MANUAL_REVIEW` - Manual review required\n- `FUND_TRANSFER_BACK` - Fund transferred back\n- `EXPIRED` - Order expired\n- `PROCESSING` - Processing\n- `SUCCEEDED` - Succeeded (terminal)\n- `FAILED` - Failed (terminal)\n- `CANCELLED` - Cancelled (terminal)\n- `REFUNDED` - Refunded (terminal)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "ramp",
+                "callback"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rampType\": \"<string>\",\n  \"orderId\": \"<string>\",\n  \"orderStatus\": \"<string>\",\n  \"id\": \"<string>\",\n  \"txId\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"errorMessage\": \"<string>\",\n  \"moreInfo\": {\n    \"createdAt\": \"<dateTime>\",\n    \"quoteId\": \"<string>\",\n    \"status\": \"<string>\",\n    \"sourceAmount\": {\n      \"amount\": \"<number>\",\n      \"currency\": \"<string>\",\n      \"zero\": \"<boolean>\",\n      \"positive\": \"<boolean>\"\n    },\n    \"targetAmount\": {\n      \"amount\": \"<number>\",\n      \"currency\": \"<string>\",\n      \"zero\": \"<boolean>\",\n      \"positive\": \"<boolean>\"\n    },\n    \"sourceCurrency\": \"<string>\",\n    \"targetCurrency\": \"<string>\",\n    \"targetWalletAddress\": \"<string>\",\n    \"targetUserId\": \"<string>\",\n    \"targetWalletAddressTag\": \"<string>\",\n    \"errorCode\": \"<string>\",\n    \"errorMessage\": \"<string>\",\n    \"txId\": \"<string>\",\n    \"withdrawId\": \"<string>\",\n    \"orderId\": \"<string>\",\n    \"rampTypeCode\": \"<string>\"\n  },\n  \"callbackKey\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"timestamp\": \"<long>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9afc7b38-b3ea-4824-82d8-280ce737071c",
+              "name": "Merchant acknowledges receipt of the callback",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "ramp",
+                    "callback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2199397325237953280\",\n  \"rampType\": \"OFF_RAMP\",\n  \"orderId\": \"2199397325237953280\",\n  \"orderStatus\": \"QUOTE_ACCEPT_PROCESSING\",\n  \"txId\": \"\",\n  \"errorCode\": \"\",\n  \"errorMessage\": \"\",\n  \"moreInfo\": {\n    \"createdAt\": \"2026-04-23T06:09:53Z\",\n    \"quoteId\": \"d20eaa5ecde942eeb48b5f40fe981a76\",\n    \"status\": \"QUOTE_ACCEPT_PROCESSING\",\n    \"sourceAmount\": {\n      \"amount\": 1.2,\n      \"currency\": \"USDT\",\n      \"zero\": false,\n      \"positive\": true\n    },\n    \"targetAmount\": {\n      \"amount\": 1.196,\n      \"currency\": \"USDC\",\n      \"zero\": false,\n      \"positive\": true\n    },\n    \"sourceCurrency\": \"USDT\",\n    \"targetCurrency\": \"USDC\",\n    \"targetWalletAddress\": \"rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC\",\n    \"targetUserId\": \"2142216666787644416\",\n    \"targetWalletAddressTag\": \"\",\n    \"errorCode\": \"\",\n    \"errorMessage\": \"\",\n    \"txId\": \"\",\n    \"withdrawId\": \"\",\n    \"orderId\": \"2199397325237953280\",\n    \"rampTypeCode\": \"OFF_RAMP\"\n  },\n  \"callbackKey\": null,\n  \"merchantId\": null,\n  \"timestamp\": 1776924592732\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"0\",\n  \"message\": \"success\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cf4d6e4c-f716-415b-8ced-5877597bac46",
+    "name": "TRADING Account Ramp Callback API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

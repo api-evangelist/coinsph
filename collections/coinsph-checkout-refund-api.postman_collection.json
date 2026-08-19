@@ -1,0 +1,255 @@
+{
+  "item": [
+    {
+      "id": "318e57a6-a769-453a-a1d0-eb6837f7119d",
+      "name": "Checkout Refund",
+      "description": {
+        "content": "Checkout refund operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39e40e2c-cbaf-4db1-87db-483dad1e3d6e",
+          "name": "Checkout Refund",
+          "request": {
+            "name": "Checkout Refund",
+            "description": {
+              "content": "This Endpoint allows Merchants to initiate a refund for a Checkout transaction.\n\n**Webhook:** ✅ Supported (requires Coins' configuration)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "checkout",
+                "refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"<string>\",\n  \"checkoutId\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"method\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "480957f9-518f-487c-bec7-4313783b25f9",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "checkout",
+                    "refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestId\": \"REQ123456789\",\n  \"checkoutId\": \"CHK20240101000001\",\n  \"amount\": \"100.00\",\n  \"currency\": \"PHP\",\n  \"reason\": \"Customer requested refund\",\n  \"method\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"data\": {\n    \"refundId\": \"RFD987654321\",\n    \"checkoutId\": \"CHK20240101000001\",\n    \"requestId\": \"REQ123456789\",\n    \"amount\": \"100.00\",\n    \"currency\": \"PHP\",\n    \"status\": \"PROCESSING\",\n    \"refundReferenceId\": \"RREF202401150001\",\n    \"paymentReferenceId\": \"PREF202401100001\",\n    \"completedAt\": null,\n    \"createdAt\": \"2024-01-15T10:30:00Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a90366aa-3d85-409b-a100-30127c3ee08d",
+          "name": "Refund Status Check",
+          "request": {
+            "name": "Refund Status Check",
+            "description": {
+              "content": "This Endpoint allows Merchants to query the status of a Checkout refund by either `refundId` or `requestId`. At least one of the two must be provided.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "checkout",
+                "refund",
+                "status-check"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "refundId",
+                  "value": "<string>",
+                  "description": "Coins-generated refund ID. At least one of `refundId` or `requestId` must be provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "requestId",
+                  "value": "<string>",
+                  "description": "Merchant refund request ID (idempotency key). At least one of `refundId` or `requestId` must be provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a2d212eb-a66f-442c-ac35-73926c54a311",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "checkout",
+                    "refund",
+                    "status-check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "refundId",
+                      "value": "RFD987654321"
+                    },
+                    {
+                      "key": "requestId",
+                      "value": "REQ123456789"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"data\": {\n    \"refundId\": \"RFD987654321\",\n    \"checkoutId\": \"CHK20240101000001\",\n    \"requestId\": \"REQ123456789\",\n    \"amount\": \"100.00\",\n    \"currency\": \"PHP\",\n    \"status\": \"SUCCESS\",\n    \"refundReferenceId\": \"RREF202401150001\",\n    \"paymentReferenceId\": \"PREF202401100001\",\n    \"completedAt\": \"2024-01-15T11:00:00Z\",\n    \"createdAt\": \"2024-01-15T10:30:00Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eea4f9f7-2d4c-411c-97e2-42afdec7ba44",
+    "name": "TRADING Account Checkout Refund API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

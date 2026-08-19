@@ -1,0 +1,3659 @@
+{
+  "item": [
+    {
+      "id": "32c702df-6ca3-40b5-a6c1-0949e67754d8",
+      "name": "Sub Account",
+      "description": {
+        "content": "Sub Account deposit, withdrawal, and transfer operations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "eca65c91-fdb1-4116-af96-7cc4651c1398",
+          "name": "Create a Virtual Sub-account (For Master Account)",
+          "request": {
+            "name": "Create a Virtual Sub-account (For Master Account)",
+            "description": {
+              "content": "Creates a new virtual sub-account under the master account. This interface currently supports\nthe creation of virtual sub-accounts with a maximum limit of 30 sub-accounts per master account.\nSub-accounts are useful for organizing trading activities, segregating funds, and managing\nmultiple strategies under a single master account.\n\n**Master Account Privileges**\n\n- This endpoint can only be accessed by master accounts.\n- Master accounts can create up to 30 virtual sub-accounts.\n- Each sub-account operates independently with its own balance.\n- Sub-accounts cannot create additional sub-accounts.\n\n**Sub-account Characteristics**\n\n- Virtual email addresses (may not require actual email verification).\n- Independent trading accounts under master control.\n- Cannot be deleted once created (only frozen).\n- API keys must be generated separately for each sub-account.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\n| Weight (IP) | Weight (UID) |\n|---|---|\n| 60 | 30 |\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Multi-Strategy Trading** — Separate accounts for different trading strategies.\n- **Risk Segregation** — Isolate risky strategies from main account.\n- **Team Management** — Individual accounts for team members.\n- **Testing & Development** — Separate accounts for testing strategies.\n- **Compliance & Reporting** — Separate accounts for regulatory reporting.\n\n**Best Practices**\n\n- Use descriptive email naming: `strategy1@domain.com`, `client_001@domain.com`.\n- Track all created sub-accounts in your system.\n- Implement access control for sub-account operations.\n- Regular audit of sub-account activities.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication (master account's API key).",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "accountName",
+                  "value": "<string>",
+                  "description": "(Required) Email address for the sub-account. Must be a valid email format and unique across the system. This will serve as the login identifier for the sub-account.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "20fab26b-b022-4758-9f0b-aef344f440ca",
+              "name": "Virtual sub-account created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Email address for the sub-account. Must be a valid email format and unique across the system. This will serve as the login identifier for the sub-account.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "accountName",
+                      "value": "test@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"email\": \"testsub@gmail.com\",\n  \"createTime\": 1689744700710,\n  \"isFreeze\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e086f2af-b440-4cd3-bb10-150c2781aea5",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -4003 | Sub-account already exists. |\n| -4004 | Maximum number of sub-accounts (30) reached. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Email address for the sub-account. Must be a valid email format and unique across the system. This will serve as the login identifier for the sub-account.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "accountName",
+                      "value": "test@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b9c959e8-be6a-496b-8b91-c0ef9f6d503d",
+          "name": "Query Sub-account List (For Master Account)",
+          "request": {
+            "name": "Query Sub-account List (For Master Account)",
+            "description": {
+              "content": "Retrieves a list of all sub-accounts associated with the master account. This endpoint applies\nto master accounts only and provides comprehensive information about each sub-account including\ncreation time, email address, and freeze status. Supports pagination for efficient handling\nof large numbers of sub-accounts.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Sub-accounts cannot query other sub-accounts.\n- Supports filtering by specific email address.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**isFreeze Field**\n\n- `false` = Active (can trade and transfer).\n- `true` = Frozen (operations blocked).\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Account Inventory** — Get complete list of all sub-accounts.\n- **Status Monitoring** — Check freeze status of all accounts.\n- **Batch Operations** — Get list before performing bulk actions.\n\n**Best Practices**\n\n- Default limit is 10 accounts per page; maximum is 200.\n- Cache results to reduce API calls (typical cache: 1–5 minutes).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "Filter by specific sub-account email address. If provided, returns only the matching sub-account. If omitted, returns all sub-accounts.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Current page number for pagination. Default value: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Quantity of results per page. Default value: 10. Maximum: 200."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication (master account's API key).",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d989c9c5-0297-4c45-acec-997487c4432b",
+              "name": "Sub-account list returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "test@coins.ph"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"subAccounts\": [\n    {\n      \"createTime\": \"1689744671462\",\n      \"email\": \"test@coins.ph\",\n      \"isFreeze\": false\n    },\n    {\n      \"createTime\": \"1689744700710\",\n      \"email\": \"testsub2@gmail.com\",\n      \"isFreeze\": false\n    }\n  ],\n  \"total\": 2\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c132340-24ca-4318-acdd-c4e96962b602",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "test@coins.ph"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e96edea-a7bb-47fb-873a-6aedeac604f9",
+          "name": "Query Sub-account Assets (For Master Account)",
+          "request": {
+            "name": "Query Sub-account Assets (For Master Account)",
+            "description": {
+              "content": "Query detailed balance information of a sub-account via the master account. This endpoint\nallows master accounts to retrieve the asset holdings and balance details of their\nsub-accounts, including free and locked balances for each asset.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Master accounts have read-only access to sub-account balance information.\n- Cannot be used by sub-accounts to query other sub-accounts.\n\n**Balance Types**\n\n- **Free Balance** — Available for trading, withdrawals, or transfers.\n- **Locked Balance** — Reserved for open orders, pending withdrawals, or transfers.\n- **Total Balance** = Free Balance + Locked Balance.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Portfolio Management** — Monitor total holdings across sub-accounts.\n- **Risk Management** — Track locked vs free balances for liquidity planning.\n- **Compliance** — Audit trail for sub-account asset holdings.\n- **Rebalancing** — Identify sub-accounts needing asset redistribution.\n\n**Best Practices**\n\n- `email` parameter must be the exact email address of the target sub-account (case sensitive).\n- All balance values are returned as strings to preserve precision.\n- Use decimal libraries for financial calculations.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "asset"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) Sub-account email address."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication (master account's API key).",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "595bef32-49c6-49bf-a938-c4c7167a1f99",
+              "name": "Sub-account asset balances returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "asset"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "testsub2@gmail.com"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"balances\": [\n    {\n      \"asset\": \"BTC\",\n      \"free\": \"0.05000000\",\n      \"locked\": \"0.01000000\"\n    },\n    {\n      \"asset\": \"ETH\",\n      \"free\": \"1.50000000\",\n      \"locked\": \"0.00000000\"\n    },\n    {\n      \"asset\": \"USDT\",\n      \"free\": \"1000.00000000\",\n      \"locked\": \"500.00000000\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2be3cc54-8858-4cac-a775-e11f3fdb127f",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "asset"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "testsub2@gmail.com"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8d8dd94a-be85-4725-878e-b1378e65da4e",
+          "name": "Collect Sub-account Assets (For Master Account)",
+          "request": {
+            "name": "Collect Sub-account Assets (For Master Account)",
+            "description": {
+              "content": "Collects assets from all sub-accounts and transfers them to the master account. This endpoint\ninitiates an asset collection task that aggregates balances from all sub-accounts under the\nmaster account. The collection process is asynchronous and tracked via a unique client request\nID. If there are tasks with a status of INIT, resubmission is not allowed to prevent\nduplicate operations.\n\n**How It Works**\n\n1. Master account initiates collection with a unique `clientRequestId`.\n2. System creates a collection task with status `INIT`.\n3. System iterates through all sub-accounts and transfers available assets.\n4. Task status updates to `SUCCESS`, `PARTIAL_SUCCESS`, or `FAILED`.\n5. Process is asynchronous — poll the status endpoint to track progress.\n\n**Collection Scope**\n\n- Collects from ALL sub-accounts; cannot select specific sub-accounts.\n- Transfers ALL available (non-locked/frozen) assets.\n- Skips sub-accounts with zero balance.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Status Values**\n\n| Status | Description | Next Action |\n|---|---|---|\n| INIT | Task initiated, collection in progress | Wait and poll status |\n| PROCESSING | Actively transferring assets | Wait and poll status |\n| SUCCESS | All assets collected successfully | Complete |\n| PARTIAL_SUCCESS | Some assets collected, some failed | Review failed sub-accounts |\n| FAILED | Collection completely failed | Check error, retry if needed |\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Liquidity Management** — Pool assets for large trades.\n- **Treasury Operations** — Aggregate funds for investment.\n- **Risk Management** — Centralize assets for better control.\n\n**Best Practices**\n\n- Always use UUID format for `clientRequestId`.\n- Store `clientRequestId` for later status checking; never reuse IDs.\n- Poll the records endpoint every 10 seconds for INIT/PROCESSING tasks.\n- Check if a collection task already exists before submitting.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "fund-collect",
+                "collect-from-sub-account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication (master account's API key).",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "clientRequestId",
+                  "value": "<string>",
+                  "description": "(Required) Unique request identifier. Must be unique for each collection operation. Used for idempotency and tracking. Recommended format: UUID.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "remark",
+                  "value": "<string>",
+                  "description": "Optional remark or note for the collection operation."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "52e8b217-3f11-472e-bc27-56701cc094dc",
+              "name": "Asset collection task initiated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "fund-collect",
+                    "collect-from-sub-account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unique request identifier. Must be unique for each collection operation. Used for idempotency and tracking. Recommended format: UUID.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "clientRequestId",
+                      "value": "777d3f71-4715-4150-9fd1-d13246d7e02b"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional remark or note for the collection operation.",
+                        "type": "text/plain"
+                      },
+                      "key": "remark",
+                      "value": "Monthly collection"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientRequestId\": \"collect-20240115-001\",\n  \"status\": \"INIT\",\n  \"comment\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d51bf6e-2808-4ae9-b843-8632f3679e33",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -10324 | Request repeated (duplicate clientRequestId with INIT status). |\n| -1022 | Signature for this request is not valid. |\n| -1102 | Mandatory parameter 'clientRequestId' was not sent or is empty/null. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "fund-collect",
+                    "collect-from-sub-account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unique request identifier. Must be unique for each collection operation. Used for idempotency and tracking. Recommended format: UUID.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "clientRequestId",
+                      "value": "777d3f71-4715-4150-9fd1-d13246d7e02b"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional remark or note for the collection operation.",
+                        "type": "text/plain"
+                      },
+                      "key": "remark",
+                      "value": "Monthly collection"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9eb53abf-2272-456e-9d95-18185c27c244",
+          "name": "Retrieve Asset Collection Records (USER_DATA)",
+          "request": {
+            "name": "Retrieve Asset Collection Records (USER_DATA)",
+            "description": {
+              "content": "Retrieves asset collection records for the master account. This endpoint allows querying\nthe status and history of asset collection operations initiated via the\ncollect-from-sub-account endpoint. Supports filtering by specific clientRequestId or\npaginated browsing of all collection records. Use this endpoint to monitor the progress\nand outcome of asset collection tasks.\n\n**Response Structure**\n\n- Response is always an array, even for single record queries.\n- Empty object `{}` if no matching records found.\n- Each record contains `clientRequestId`, `status`, and `comment`.\n\n**Status Values**\n\n- `INIT` — Collection task has been initiated and is pending.\n- `PROCESSING` — Collection is actively in progress.\n- `SUCCESS` — All assets collected successfully from all sub-accounts.\n- `PARTIAL_SUCCESS` — Some assets collected, some transfers failed.\n- `FAILED` — Collection completely failed, no assets transferred.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Status Monitoring** — Query to check collection task progress.\n- **Audit Trail** — Review history of all asset collection operations.\n- **Reconciliation** — Verify completion of scheduled collections.\n\n**Best Practices**\n\n- Poll every 10 seconds for INIT/PROCESSING tasks; stop when status becomes final.\n- Cache results for final states (SUCCESS, PARTIAL_SUCCESS, FAILED).\n- Use specific `clientRequestId` queries for faster lookup.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "fund-collect",
+                "get-fund-record"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "clientRequestId",
+                  "value": "<string>",
+                  "description": "Unique request identifier used when initiating the collection. If provided, returns only the specific collection record. If omitted, returns all records with pagination.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number for pagination. Default value: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "<integer>",
+                  "description": "Page size - number of records per page. Default: 100. Maximum: 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication (master account's API key).",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4621283f-d74e-4f41-a155-a7f0437f0754",
+              "name": "Asset collection records returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "fund-collect",
+                    "get-fund-record"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientRequestId",
+                      "value": "09533266-1fea-11f0-8ff9-2a3efdea066c"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientRequestId\": \"collect-20240115-001\",\n  \"status\": \"SUCCESS\",\n  \"comment\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "160bc415-1ce2-4388-adfb-3d840f0c3b91",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "fund-collect",
+                    "get-fund-record"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "clientRequestId",
+                      "value": "09533266-1fea-11f0-8ff9-2a3efdea066c"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication (master account's API key).",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f66f196-fa17-4eae-a9c9-a70e24e1e3d0",
+          "name": "Get IP Restriction for a Sub-account API Key (For Master Account)",
+          "request": {
+            "name": "Get IP Restriction for a Sub-account API Key (For Master Account)",
+            "description": {
+              "content": "Query detailed IP restriction settings for a sub-account API key. This endpoint allows the\nmaster account to check whether IP restrictions are enabled for a specific sub-account's API\nkey and retrieve associated metadata. Use this endpoint to verify security configurations\nand ensure proper access control is in place for sub-accounts.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Requires both master account API key (in header) and sub-account API key (in query parameter).\n- Cannot be called by sub-accounts.\n\n**Role/Permission Codes**\n\nThe `role` field is a comma-separated string of permission codes:\n\n| Code | Permission | Description |\n|---|---|---|\n| 0 | READ_ONLY | Query data only, no modifications |\n| 2 | TRADE_ONLY | Place and cancel orders |\n| 3 | CONVERT_ONLY | Execute currency conversions |\n| 4 | CRYPTO_WALLET | Manage crypto wallet operations |\n| 5 | FIAT_ONLY | Fiat currency operations (Cash-In/Out) |\n| 6 | ACCOUNT_ONLY | Account management, sub-account, transfers |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Security Audit** — Verify IP restriction settings for all sub-accounts.\n- **Compliance Check** — Ensure production accounts have IP restrictions enabled.\n- **Onboarding Verification** — Confirm new sub-account security configuration.\n\n**Best Practices**\n\n- Always verify `ipRestrict` is `true` for production environments.\n- Check role assignments match intended use.\n- Use correct sub-account API key (not master) in the `apikey` query parameter.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "apikey",
+                "ip-restriction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apikey",
+                  "value": "<string>",
+                  "description": "(Required) The sub-account's API key (not the master account's API key)."
+                },
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) Email address of the sub-account whose API key IP restriction is being queried."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Master account API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0248ed00-0c15-4cc7-80a4-c5f22e76bc36",
+              "name": "IP restriction settings returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "apikey",
+                    "ip-restriction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"
+                    },
+                    {
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ipRestrict\": true,\n  \"role\": \"2,3,4,5,6\",\n  \"updateTime\": 1689744700710\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f778a8b1-bcbb-4e1d-8313-64bd6ff99c12",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -4003 | Invalid sub-account email. |\n| -2015 | Invalid API-key, IP, or permissions for action. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "apikey",
+                    "ip-restriction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"
+                    },
+                    {
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "830f2f29-a8d6-4f92-8a11-d4f53181a2ce",
+          "name": "Add IP Restriction for Sub-Account API Key (For Master Account)",
+          "request": {
+            "name": "Add IP Restriction for Sub-Account API Key (For Master Account)",
+            "description": {
+              "content": "Add or update IP whitelist restrictions for a sub-account's API key. This endpoint enables\nthe master account to configure which IP addresses are allowed to use a specific sub-account\nAPI key, enhancing security by limiting access to trusted locations only. Multiple IP addresses\ncan be added in a single request, and the IP restriction status can be toggled between\nrestricted and unrestricted modes.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Requires both master account API key (in header) and sub-account API key (in request body).\n- Changes take effect immediately.\n\n**ipRestriction Modes**\n\n- **\"1\" — Restricted Mode (Recommended for Production)**: Only whitelisted IP addresses can\n  use the API key. If no `ipAddress` provided, the API key becomes unusable.\n- **\"2\" — Unrestricted Mode (Use with Caution)**: API key can be used from any IP address.\n  Not recommended for production. `ipAddress` parameter is ignored in this mode.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 30\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Initial Security Setup** — Configure IP restrictions during sub-account onboarding.\n- **IP Whitelist Update** — Add new trusted IP addresses as business needs change.\n- **Multi-location Support** — Whitelist IPs from multiple office locations.\n- **VPN Integration** — Configure VPN gateway IP for remote access.\n\n**Best Practices**\n\n- Use static IP addresses only (not dynamic IPs).\n- Limit to necessary IPs only (principle of least privilege).\n- Document each IP address purpose.\n- Test thoroughly before production deployment.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "apikey",
+                "add-ip-restriction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Master account API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "apikey",
+                  "value": "<string>",
+                  "description": "(Required) The sub-account's API key to configure."
+                },
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) Email address of the sub-account whose API key is being configured."
+                },
+                {
+                  "disabled": false,
+                  "key": "ipRestriction",
+                  "value": "<string>",
+                  "description": "(Required) IP Restriction status. \"1\" = Restrict to trusted IPs only. \"2\" = Unrestricted (any IP).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "ipAddress",
+                  "value": "<string>",
+                  "description": "IP addresses to whitelist, separated by commas (IPv4 format). Required when ipRestriction=1; otherwise the API key becomes unusable.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d27cf2d9-474e-4557-b5fe-572e36fc6f2e",
+              "name": "IP restriction updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "apikey",
+                    "add-ip-restriction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The sub-account's API key to configure.",
+                        "type": "text/plain"
+                      },
+                      "key": "apikey",
+                      "value": "vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Email address of the sub-account whose API key is being configured.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IP Restriction status. \"1\" = Restrict to trusted IPs only. \"2\" = Unrestricted (any IP).\n",
+                        "type": "text/plain"
+                      },
+                      "key": "ipRestriction",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "IP addresses to whitelist, separated by commas (IPv4 format). Required when ipRestriction=1; otherwise the API key becomes unusable.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "ipAddress",
+                      "value": "8.8.8.8,1.1.1.1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apikey\": \"<sub account api key>\",\n  \"ipList\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ],\n  \"ipRestrict\": true,\n  \"role\": \"2,3,4,5,6\",\n  \"updateTime\": 1689744700710\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6295ec28-49e2-4e17-ae42-b06af350656a",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -4003 | Invalid sub-account email. |\n| -2015 | Invalid API-key, IP, or permissions for action. |\n| -1102 | Invalid IP address format. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "apikey",
+                    "add-ip-restriction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The sub-account's API key to configure.",
+                        "type": "text/plain"
+                      },
+                      "key": "apikey",
+                      "value": "vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Email address of the sub-account whose API key is being configured.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IP Restriction status. \"1\" = Restrict to trusted IPs only. \"2\" = Unrestricted (any IP).\n",
+                        "type": "text/plain"
+                      },
+                      "key": "ipRestriction",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "IP addresses to whitelist, separated by commas (IPv4 format). Required when ipRestriction=1; otherwise the API key becomes unusable.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "ipAddress",
+                      "value": "8.8.8.8,1.1.1.1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a47ec6c0-24da-4da0-9e61-bc502fb5265d",
+          "name": "Delete IP List For a Sub-account API Key (For Master Account)",
+          "request": {
+            "name": "Delete IP List For a Sub-account API Key (For Master Account)",
+            "description": {
+              "content": "Delete specific IP addresses from a sub-account API key's whitelist. This endpoint allows\nthe master account to remove one or more IP addresses from the whitelist without disabling\nIP restrictions entirely. The API key will remain restricted to the remaining whitelisted\nIPs after the deletion. Multiple IP addresses can be removed in a single request by\nproviding them in a comma-separated format.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Requires both master account API key (in header) and sub-account API key (in request body).\n- Changes take effect immediately — removed IPs lose access instantly.\n\n> ⚠️ **Critical Warning**: If you delete ALL whitelisted IPs, the API key becomes UNUSABLE.\n> An empty `ipList` with `ipRestrict=true` means NO IP can use the key.\n> Always ensure at least one IP remains unless intentionally disabling the key.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 30\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Security Incident Response** — Immediately revoke access from compromised IP.\n- **Access Management** — Remove IP when employee leaves or role changes.\n- **Temporary Access Cleanup** — Remove temporary IPs added for troubleshooting.\n- **Regular Maintenance** — Clean up unused or outdated IPs from whitelist.\n\n**Best Practices**\n\n- Always maintain at least one working IP unless intentional deactivation.\n- Verify with team members before removing their IPs.\n- Confirm IPs are actually in the whitelist before attempting deletion.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "apikey",
+                "delete-ip-restriction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Master account API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "apikey",
+                  "value": "<string>",
+                  "description": "(Required) The sub-account's API key to modify."
+                },
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) Email address of the sub-account whose API key IP whitelist is being modified."
+                },
+                {
+                  "disabled": false,
+                  "key": "ipAddress",
+                  "value": "<string>",
+                  "description": "(Required) IP addresses to remove from the whitelist, separated by commas (IPv4 format). These IPs will no longer be able to use the API key after deletion.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b33769dc-3a60-49e6-822f-2c530a19f375",
+              "name": "IP addresses removed from whitelist successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "apikey",
+                    "delete-ip-restriction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The sub-account's API key to modify.",
+                        "type": "text/plain"
+                      },
+                      "key": "apikey",
+                      "value": "vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Email address of the sub-account whose API key IP whitelist is being modified.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IP addresses to remove from the whitelist, separated by commas (IPv4 format). These IPs will no longer be able to use the API key after deletion.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "ipAddress",
+                      "value": "8.8.8.8,1.1.1.1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ipList\": [\n    \"192.168.1.100\",\n    \"203.0.113.10\"\n  ],\n  \"ipRestrict\": true,\n  \"role\": \"2,3,4,5,6\",\n  \"updateTime\": 1689744700710\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42a60f22-f42a-4057-93c6-ce36f72c483b",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -4003 | Invalid sub-account email. |\n| -2015 | Invalid API-key, IP, or permissions for action. |\n| -1104 | IP address not found in whitelist. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "apikey",
+                    "delete-ip-restriction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The sub-account's API key to modify.",
+                        "type": "text/plain"
+                      },
+                      "key": "apikey",
+                      "value": "vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Email address of the sub-account whose API key IP whitelist is being modified.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IP addresses to remove from the whitelist, separated by commas (IPv4 format). These IPs will no longer be able to use the API key after deletion.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "ipAddress",
+                      "value": "8.8.8.8,1.1.1.1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ef8a6e41-31bd-4e0a-8fce-ff9505d732a5",
+          "name": "Sub-account Transfer History (USER_DATA)",
+          "request": {
+            "name": "Sub-account Transfer History (USER_DATA)",
+            "description": {
+              "content": "Retrieve the transfer history for a specific sub-account.\nThis endpoint must be called using the **sub-account's API key**.\n\n**Key Notes**\n\n- Only accessible by sub-accounts (not the master account).\n- If `type` is not sent, records of type 2 (transfer out) will be returned by default.\n- If `startTime` and `endTime` are not sent, the recent 30-day data will be returned.\n- Default and maximum `limit` is 500 records.\n\n**Transfer Type Values**\n\n| type | Description |\n|---|---|\n| 1 | Transfer In (incoming to sub-account) |\n| 2 | Transfer Out (outgoing from sub-account) |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Sub-Account Transfer History** — View all incoming or outgoing transfers for the calling sub-account.\n- **Audit Trail** — Verify all fund movements for compliance and internal record-keeping.\n- **Reconciliation** — Match transfers to balance changes.\n\n**Best Practices**\n\n- Use `type=1` for incoming transfers; `type=2` for outgoing transfers.\n- Filter by `asset` to scope results to a specific cryptocurrency.\n- Use `startTime` and `endTime` for time-range queries.\n- Default behavior returns type 2 (transfer out) if type is not specified.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "transfer",
+                "sub-history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "asset",
+                  "value": "<string>",
+                  "description": "Filter by asset symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<integer>",
+                  "description": "Transfer direction: 1=Transfer In, 2=Transfer Out. Defaults to 2 if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time in milliseconds (exclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of records to return. Default and maximum: 500."
+                },
+                {
+                  "disabled": false,
+                  "key": "clientTranId",
+                  "value": "<string>",
+                  "description": "Client transaction ID for filtering."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Sub-account API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8be762c0-b390-454e-83c0-cc0de911a863",
+              "name": "Sub-account transfer history records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "sub-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "asset",
+                      "value": "ETH"
+                    },
+                    {
+                      "key": "type",
+                      "value": "1"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1640931878000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "clientTranId",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Sub-account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": [\n    {\n      \"clientTranId\": \"TRANSFER_20231201_002\",\n      \"fromEmail\": \"master@coins.ph\",\n      \"toEmail\": \"sub1@coins.ph\",\n      \"asset\": \"ETH\",\n      \"amount\": \"1.5\",\n      \"type\": 1,\n      \"createTime\": 1638253578000,\n      \"status\": \"SUCCESS\"\n    }\n  ],\n  \"total\": 2\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc886ad4-ae94-4a21-a548-4e44a8c85e39",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1102 | This endpoint applies to sub-accounts only |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "sub-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "asset",
+                      "value": "ETH"
+                    },
+                    {
+                      "key": "type",
+                      "value": "1"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1640931878000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "clientTranId",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Sub-account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe992dbd-b469-425f-82a9-0eee63da2eb6",
+          "name": "Transfer to Master (USER_DATA)",
+          "request": {
+            "name": "Transfer to Master (USER_DATA)",
+            "description": {
+              "content": "Sub-account can initiate a transfer from itself to the master account.\nThis endpoint must be called using the **sub-account's API key**, not the master account's API key.\n\n**Key Notes**\n\n- Called by the sub-account itself, not the master account.\n- Transfer destination is always the master account (no need to specify `toEmail`).\n- Transfer source is always the calling sub-account (no need to specify `fromEmail`).\n- `clientTranId` can be used as an idempotency key.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 100\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Sub-Account Fund Return** — Sub-account sends assets back to master without requiring master account intervention.\n- **Balance Consolidation** — Periodically sweep sub-account balances into the master account.\n\n**Best Practices**\n\n- Must use sub-account's API key for authentication (not master account API key).\n- Use `clientTranId` for idempotency to safely retry on network failures.\n- Check sub-account balance before transfer to avoid insufficient balance errors.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "transfer",
+                "sub-to-master"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Sub-account API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "asset",
+                  "value": "<string>",
+                  "description": "(Required) Asset symbol to transfer (e.g., BTC, ETH, PHP)."
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<string>",
+                  "description": "(Required) Amount to transfer to master account. Must be greater than 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "clientTranId",
+                  "value": "<string>",
+                  "description": "Client transaction ID for idempotency. Must be unique."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a1fc44f0-1b0b-437b-855f-62683b612ce4",
+              "name": "Transfer to master submitted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "sub-to-master"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Sub-account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Asset symbol to transfer (e.g., BTC, ETH, PHP).",
+                        "type": "text/plain"
+                      },
+                      "key": "asset",
+                      "value": "BTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Amount to transfer to master account. Must be greater than 0.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "0.01"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client transaction ID for idempotency. Must be unique.",
+                        "type": "text/plain"
+                      },
+                      "key": "clientTranId",
+                      "value": "SUB_TRANSFER_20231201_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76c3b49c-3d6d-4718-8d9f-9be38396382c",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1003 | Insufficient balance or duplicate clientTranId |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "sub-to-master"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Sub-account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Asset symbol to transfer (e.g., BTC, ETH, PHP).",
+                        "type": "text/plain"
+                      },
+                      "key": "asset",
+                      "value": "BTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Amount to transfer to master account. Must be greater than 0.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "0.01"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client transaction ID for idempotency. Must be unique.",
+                        "type": "text/plain"
+                      },
+                      "key": "clientTranId",
+                      "value": "SUB_TRANSFER_20231201_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "582e0d24-6be3-4f51-b426-ae9156cf22d5",
+          "name": "Universal Transfer (USER_DATA)",
+          "request": {
+            "name": "Universal Transfer (USER_DATA)",
+            "description": {
+              "content": "Master account can initiate a transfer from any of its sub-accounts to the master account,\nor from the master account to any sub-account, or between sub-accounts.\n\n**Key Notes**\n\n- Only accessible by master accounts.\n- Transfer from master account by default if `fromEmail` is not sent.\n- Transfer to master account by default if `toEmail` is not sent.\n- Specify at least one of `fromEmail` and `toEmail`.\n- `clientTranId` can be used as an idempotency key.\n\n**Supported transfer scenarios:**\n- Master account → sub-account\n- Sub-account → master account\n- Sub-account → sub-account\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 100\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Cross-Account Asset Management** — Move assets between master and sub-account wallets.\n- **Consolidation** — Aggregate sub-account funds into the master account.\n- **Fund Distribution** — Distribute funds from the master account to sub-accounts.\n\n**Best Practices**\n\n- Use `clientTranId` for idempotency to safely retry without risk of duplication.\n- Verify source account has sufficient balance before initiating transfer.\n- Use string format for amounts to preserve decimal precision.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "transfer",
+                "universal-transfer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "asset",
+                  "value": "<string>",
+                  "description": "(Required) Asset symbol to transfer (e.g., BTC, ETH, PHP)."
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<string>",
+                  "description": "(Required) Amount to transfer. Must be greater than 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromEmail",
+                  "value": "<string>",
+                  "description": "Source account email. Defaults to master account if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "toEmail",
+                  "value": "<string>",
+                  "description": "Destination account email. Defaults to master account if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "clientTranId",
+                  "value": "<string>",
+                  "description": "Client transaction ID for idempotency. Must be unique."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "104bda99-ad74-4c13-af0d-6ecbcccd9f1b",
+              "name": "Universal transfer submitted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "universal-transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Asset symbol to transfer (e.g., BTC, ETH, PHP).",
+                        "type": "text/plain"
+                      },
+                      "key": "asset",
+                      "value": "PHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Amount to transfer. Must be greater than 0.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "1000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Source account email. Defaults to master account if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "fromEmail",
+                      "value": "sub@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Destination account email. Defaults to master account if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "toEmail",
+                      "value": "sub@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client transaction ID for idempotency. Must be unique.",
+                        "type": "text/plain"
+                      },
+                      "key": "clientTranId",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientTransferId\": \"14875736398419995271\",\n  \"result\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "640acfe8-5e67-4a2a-bb1f-baf65e0c2b2b",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1003 | Insufficient balance or duplicate clientTranId |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "universal-transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Asset symbol to transfer (e.g., BTC, ETH, PHP).",
+                        "type": "text/plain"
+                      },
+                      "key": "asset",
+                      "value": "PHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Amount to transfer. Must be greater than 0.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "1000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Source account email. Defaults to master account if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "fromEmail",
+                      "value": "sub@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Destination account email. Defaults to master account if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "toEmail",
+                      "value": "sub@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client transaction ID for idempotency. Must be unique.",
+                        "type": "text/plain"
+                      },
+                      "key": "clientTranId",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "459f808d-49f7-4699-963b-f8e9d838192a",
+          "name": "Query Universal Transfer History (USER_DATA)",
+          "request": {
+            "name": "Query Universal Transfer History (USER_DATA)",
+            "description": {
+              "content": "Retrieve the universal transfer history for the master account.\nOnly accessible by master accounts.\n\n**Key Notes**\n\n- `fromEmail` and `toEmail` cannot be sent at the same time.\n- Returns `fromEmail` equal to master account email by default.\n- The query time period must be less than 30 days.\n- If `startTime` and `endTime` are not sent, returns records of the last 30 days by default.\n- Default and maximum `limit` is 500 records.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Transfer Audit** — Review all universal transfers between master and sub-accounts.\n- **Status Tracking** — Look up a specific transfer by `clientTranId`.\n- **Reconciliation** — Match universal transfers against balance changes.\n\n**Best Practices**\n\n- Use `fromEmail` to see all outgoing transfers from a specific account.\n- Use `toEmail` to see all incoming transfers to a specific account. Cannot use both simultaneously.\n- Maximum query period is 30 days; use `startTime` and `endTime` for specific periods.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "transfer",
+                "universal-transfer-history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fromEmail",
+                  "value": "<string>",
+                  "description": "Source account email. Cannot be used with toEmail. Returns master account email by default."
+                },
+                {
+                  "disabled": false,
+                  "key": "toEmail",
+                  "value": "<string>",
+                  "description": "Destination account email. Cannot be used with fromEmail."
+                },
+                {
+                  "disabled": false,
+                  "key": "clientTranId",
+                  "value": "<string>",
+                  "description": "Client transaction ID for filtering."
+                },
+                {
+                  "disabled": false,
+                  "key": "tokenId",
+                  "value": "<string>",
+                  "description": "Token/transaction ID for filtering."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time in milliseconds (exclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of records to return. Default and maximum: 500."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Master account API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "520eb35d-d75d-4511-8091-e9fea1c64a93",
+              "name": "Universal transfer history records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "universal-transfer-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromEmail",
+                      "value": "master@coins.ph"
+                    },
+                    {
+                      "key": "toEmail",
+                      "value": "sub1@coins.ph"
+                    },
+                    {
+                      "key": "clientTranId",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "key": "tokenId",
+                      "value": "token_12345"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1640931878000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": [\n    {\n      \"clientTranId\": \"1\",\n      \"fromEmail\": \"test@coins.ph\",\n      \"toEmail\": \"test1@coins.ph\",\n      \"asset\": \"BTC\",\n      \"amount\": \"0.1\",\n      \"createTime\": 1638253478000,\n      \"status\": \"SUCCESS\"\n    }\n  ],\n  \"total\": 1\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f90c8920-8829-4427-9a99-f3c024e6d104",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1003 | Query time period exceeds 30 days |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "transfer",
+                    "universal-transfer-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromEmail",
+                      "value": "master@coins.ph"
+                    },
+                    {
+                      "key": "toEmail",
+                      "value": "sub1@coins.ph"
+                    },
+                    {
+                      "key": "clientTranId",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "key": "tokenId",
+                      "value": "token_12345"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1640931878000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Master account API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8380c0f3-657d-4623-bbc6-658d578be753",
+          "name": "Get Sub Account Deposit Address (USER_DATA)",
+          "request": {
+            "name": "Get Sub Account Deposit Address (USER_DATA)",
+            "description": {
+              "content": "Fetch the deposit address for a specific coin and network belonging to a sub-account.\nOnly accessible by master accounts.\n\n**Key Notes**\n\n- Both `email` (sub-account), `coin`, and `network` are required.\n- For coins requiring a memo or tag (e.g., XRP, XLM), the `addressTag` field in the response must be included with the deposit.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Sub-Account Deposit Routing** — Generate deposit addresses for sub-accounts so they can receive funds independently.\n- **Multi-Network Support** — Fetch ERC-20 vs BEP-20 addresses for the same coin by specifying the `network` parameter.\n\n**Best Practices**\n\n- Always specify `network` for multi-chain coins to avoid depositing on the wrong chain.\n- Include the `addressTag` in the deposit instructions for memo-based coins (e.g., XRP, XLM) to prevent loss of funds.\n- Cache the address per sub-account + coin + network combination since deposit addresses rarely change.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "wallet",
+                "deposit",
+                "address"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) Sub-account email address."
+                },
+                {
+                  "disabled": false,
+                  "key": "coin",
+                  "value": "<string>",
+                  "description": "(Required) Coin symbol (from All Coins' Information API)."
+                },
+                {
+                  "disabled": false,
+                  "key": "network",
+                  "value": "<string>",
+                  "description": "(Required) Network identifier (from All Coins' Information API)."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23b408d5-0588-492f-ba96-95766555e725",
+              "name": "Sub-account deposit address details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "wallet",
+                    "deposit",
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "key": "coin",
+                      "value": "ETH"
+                    },
+                    {
+                      "key": "network",
+                      "value": "ETH"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"coin\": \"ETH\",\n  \"address\": \"0xfe98628173830bf79c59f04585ce41f7de168784\",\n  \"addressTag\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41a9b4fb-34e2-4d36-a100-6db93d543989",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "wallet",
+                    "deposit",
+                    "address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "key": "coin",
+                      "value": "ETH"
+                    },
+                    {
+                      "key": "network",
+                      "value": "ETH"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf990de9-c47e-443b-817a-58d080340ff7",
+          "name": "Get Sub Account Deposit History (USER_DATA)",
+          "request": {
+            "name": "Get Sub Account Deposit History (USER_DATA)",
+            "description": {
+              "content": "Fetch deposit history for a sub-account. Only accessible by master accounts.\n\n**Key Notes**\n\n- `email` (sub-account) is required.\n- Use `offset` for pagination through large deposit histories.\n- Default and maximum limit is 1000 records.\n\n**Deposit Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | Processing |\n| 1 | Success |\n| 2 | Failed |\n| 3 | Need Fill Data (travel rule info required) |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Sub-Account Deposit Monitoring** — Track all deposits into a sub-account for balance reconciliation.\n- **Reconciliation** — Match sub-account deposits to balance changes to ensure funds are correctly credited.\n- **Deposit Confirmation** — Confirm that a specific deposit has arrived and been processed.\n\n**Best Practices**\n\n- Filter by `coin` and time range (`startTime`/`endTime`) to reduce response size.\n- Use `offset` for pagination when a sub-account has a large deposit history.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "sub-account",
+                "wallet",
+                "deposit",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "(Required) Sub-account email address."
+                },
+                {
+                  "disabled": false,
+                  "key": "coin",
+                  "value": "<string>",
+                  "description": "Filter by coin symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "txId",
+                  "value": "<string>",
+                  "description": "Filter by blockchain transaction ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "depositId",
+                  "value": "<string>",
+                  "description": "Filter by deposit ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<integer>",
+                  "description": "Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time in milliseconds. Default: 90 days from current timestamp."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time in milliseconds. Maximum range is 90 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "Pagination offset. Default: 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of records to return. Default and maximum: 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b4abbee-d182-4180-800b-11d055cb5ce3",
+              "name": "Sub-account deposit history records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "wallet",
+                    "deposit",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "key": "coin",
+                      "value": "BNB"
+                    },
+                    {
+                      "key": "txId",
+                      "value": "0x123abc..."
+                    },
+                    {
+                      "key": "depositId",
+                      "value": "d_76980051936688537e"
+                    },
+                    {
+                      "key": "status",
+                      "value": "1"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1640845478000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"d_76980051936688537e\",\n    \"amount\": \"0.001\",\n    \"coin\": \"BNB\",\n    \"network\": \"BNB\",\n    \"status\": 0,\n    \"address\": \"bnb1ns6ltw4s5hg4n85vdthaad7hq5m4gtkgf23\",\n    \"addressTag\": \"101764890\",\n    \"txId\": \"98A3EA5606CB3336D34886C83F0F95ECE4F1F5919E9BD0066E5BF3BF264FACE42EB\",\n    \"insertTime\": 1661493146000,\n    \"confirmNo\": 10\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e31fe0b-e3a3-4bbe-acc4-02b32319c3f9",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "sub-account",
+                    "wallet",
+                    "deposit",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "subaccount@example.com"
+                    },
+                    {
+                      "key": "coin",
+                      "value": "BNB"
+                    },
+                    {
+                      "key": "txId",
+                      "value": "0x123abc..."
+                    },
+                    {
+                      "key": "depositId",
+                      "value": "d_76980051936688537e"
+                    },
+                    {
+                      "key": "status",
+                      "value": "1"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1640845478000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a6c042a4-522d-4795-9626-71aa0d786ee1",
+    "name": "TRADING Account Sub Account API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

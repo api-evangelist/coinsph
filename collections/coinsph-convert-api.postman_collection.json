@@ -1,0 +1,1284 @@
+{
+  "item": [
+    {
+      "id": "aa658706-415b-4e46-9a4a-3474928c79e9",
+      "name": "Convert",
+      "description": {
+        "content": "Convert quote and acceptance operations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4ca6c4e3-21b1-41ed-9dd3-91530d509ff3",
+          "name": "Get Supported Trading Pairs (TRADE)",
+          "request": {
+            "name": "Get Supported Trading Pairs (TRADE)",
+            "description": {
+              "content": "Returns all supported trading pairs available for the Convert feature.\nEach pair includes the source and target currency, amount limits, and decimal precision.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Pre-conversion Validation** — Check if a desired currency pair is supported before requesting a quote\n- **Limit Discovery** — Retrieve min/max source amounts to validate input before submitting\n\n**Best Practices**\n\n- Cache the response and refresh periodically; supported pairs change infrequently\n- Use the `precision` field to format display amounts correctly for each pair\n- Filter by `sourceCurrency` or `targetCurrency` client-side to reduce UI clutter\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "convert",
+                "v1",
+                "get-supported-trading-pairs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Conversion type filter. If omitted, returns all supported trading pairs. Accepted values:\n\n- `CONVERT` — Standard Convert mode\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6d4f4052-26d1-423b-9ca1-aedcf49ecced",
+              "name": "List of supported trading pairs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "get-supported-trading-pairs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Conversion type filter. If omitted, returns all supported trading pairs. Accepted values:\n\n- `CONVERT` — Standard Convert mode\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"sourceCurrency\": \"PHP\",\n    \"targetCurrency\": \"BTC\",\n    \"minSourceAmount\": \"1000\",\n    \"maxSourceAmount\": \"15000\",\n    \"precision\": \"2\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60790866-7034-4d8f-a321-4e592af962dc",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1104 | Not all sent parameters were read |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "get-supported-trading-pairs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Conversion type filter. If omitted, returns all supported trading pairs. Accepted values:\n\n- `CONVERT` — Standard Convert mode\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "790a5789-df94-46e6-a5c3-ba2dc102ddbf",
+          "name": "Fetch a Quote (TRADE)",
+          "request": {
+            "name": "Fetch a Quote (TRADE)",
+            "description": {
+              "content": "Fetch a real-time conversion quote for a given currency pair and amount.\n\nProvide either `sourceAmount` or `targetAmount`, but not both. The quote is valid\nfor the number of seconds specified in the `expiry` field of the response.\n\n**Key Notes**\n\n- The quote `quoteId` must be used with the Accept Quote endpoint before expiry.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Large Volume Conversion (OTC Mode)** — Enable high-value conversions through our OTC desk, offering dedicated liquidity and execution for trades above **$20,000**. Access is available to whitelisted users only.\n\n**Best Practices**\n\n- Fetch a new quote immediately before accepting; quotes expire quickly (see `expiry` field)\n- Use `sourceAmount` for fixed-spend conversions; use `targetAmount` for fixed-receive conversions\n- Leave the `type` parameter empty or omit it entirely to perform a standard Convert transaction. Set `type` to `OTC` to execute the conversion through OTC Mode (whitelisted users only).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "convert",
+                "v1",
+                "get-quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "sourceCurrency",
+                  "value": "<string>",
+                  "description": "(Required) The source currency for the conversion."
+                },
+                {
+                  "disabled": false,
+                  "key": "targetCurrency",
+                  "value": "<string>",
+                  "description": "(Required) The target currency for the conversion."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "sourceAmount",
+                  "value": "<string>",
+                  "description": "Amount of source currency to convert. Provide this OR targetAmount, not both."
+                },
+                {
+                  "disabled": false,
+                  "key": "targetAmount",
+                  "value": "<string>",
+                  "description": "Amount of target currency to receive. Provide this OR sourceAmount, not both."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Conversion type.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fc533f27-5e88-432d-af3b-55585e75a500",
+              "name": "Conversion quote details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "get-quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The source currency for the conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "sourceCurrency",
+                      "value": "PHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The target currency for the conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "targetCurrency",
+                      "value": "BTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Amount of source currency to convert. Provide this OR targetAmount, not both.",
+                        "type": "text/plain"
+                      },
+                      "key": "sourceAmount",
+                      "value": "5000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Amount of target currency to receive. Provide this OR sourceAmount, not both.",
+                        "type": "text/plain"
+                      },
+                      "key": "targetAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Conversion type.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "CONVERT"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"quoteId\": \"q_abc123\",\n  \"sourceCurrency\": \"PHP\",\n  \"targetCurrency\": \"BTC\",\n  \"sourceAmount\": \"5000\",\n  \"price\": \"3500000\",\n  \"targetAmount\": \"0.00142857\",\n  \"expiry\": 30\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "40a924b1-286d-4d3c-b44a-b37f959c7e2b",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "get-quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The source currency for the conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "sourceCurrency",
+                      "value": "PHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The target currency for the conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "targetCurrency",
+                      "value": "BTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Amount of source currency to convert. Provide this OR targetAmount, not both.",
+                        "type": "text/plain"
+                      },
+                      "key": "sourceAmount",
+                      "value": "5000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Amount of target currency to receive. Provide this OR sourceAmount, not both.",
+                        "type": "text/plain"
+                      },
+                      "key": "targetAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Conversion type.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "CONVERT"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2aa6717c-4e82-4e5c-87cb-10c907c6efa5",
+          "name": "Accept the Quote (TRADE)",
+          "request": {
+            "name": "Accept the Quote (TRADE)",
+            "description": {
+              "content": "Accept a previously fetched conversion quote using its `quoteId`. The conversion\nis executed immediately upon acceptance.\n\n**Key Notes**\n\n- The `type` parameter, if provided, must match the type used in the Get Quote request.\n- Quotes expire after the number of seconds indicated by the `expiry` field in the quote response.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Instant Conversion** — Execute a currency swap immediately at the quoted rate\n- **Two-Step Convert Flow** — Combine with Get Quote to build a confirm-then-execute UX\n- **OTC Execution** — Accept large-volume OTC quotes by passing `type=OTC`\n\n**Best Practices**\n\n- Accept the quote immediately after confirming the rate to avoid expiry\n- Store the returned `orderId` for reconciliation and support queries\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "convert",
+                "v1",
+                "accept-quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "quoteId",
+                  "value": "<string>",
+                  "description": "(Required) The quote ID returned from the Get Quote endpoint."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Conversion type. Must match the type used when fetching the quote.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "70430864-a11a-40de-9b04-9a0097c792f3",
+              "name": "Quote accepted and conversion initiated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "accept-quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The quote ID returned from the Get Quote endpoint.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteId",
+                      "value": "q_abc123"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Conversion type. Must match the type used when fetching the quote.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderId\": \"ord_xyz789\",\n  \"status\": \"SUCCESS\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4178c529-939e-400b-b409-15711dba668e",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| 10000003 | Too many requests. Try again later. (This endpoint supports a minimum refresh interval of 1000 ms) |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "accept-quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The quote ID returned from the Get Quote endpoint.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteId",
+                      "value": "q_abc123"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Conversion type. Must match the type used when fetching the quote.\n\n- `CONVERT` — Standard Convert mode (default)\n- `LIGHTNING` — Lightning Convert mode\n- `LIGHTNING_WITHDRAW` — Lightning Withdraw mode\n- `OTC` — OTC-Convert mode (whitelist-only feature, minimum trade size $20,000;\n  contact otcdesk_ph@coins.ph to request access)\n",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ae3c7725-f05e-42bb-8f5e-50558ad5dc97",
+          "name": "Retrieve Order History (USER_DATA)",
+          "request": {
+            "name": "Retrieve Order History (USER_DATA)",
+            "description": {
+              "content": "Query the history of convert orders for the authenticated account.\n\n**Key Notes**\n\n- Maximum query window is 180 days.\n- Default page size is 10; maximum is 200 records per page.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Conversion Audit** — Review all past conversions for a given time period\n- **Reconciliation** — Match convert orders against balance changes for accounting\n\n**Best Practices**\n\n- Use `startTime` and `endTime` to narrow queries and avoid fetching large datasets\n- Filter by `status=PROCESSING` to identify orders that may need follow-up\n- Paginate using `page` and `size` rather than fetching all records at once\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "convert",
+                "v1",
+                "query-order-history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time filter in Unix milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time filter in Unix milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by order status. Possible values: `TODO`, `PROCESSING`, `SUCCESS`, `FAILED`. Please refer to [accept-quote API → order status] for the description of each status."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number for pagination. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "<integer>",
+                  "description": "Number of records per page. Default: 10, maximum: 200."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Specifies the trading mode. Please refer to [get-quote API → type]."
+                },
+                {
+                  "disabled": false,
+                  "key": "quoteId",
+                  "value": "<string>",
+                  "description": "Filter by quote ID. Please refer to [accept-quote API → quoteId]."
+                },
+                {
+                  "disabled": false,
+                  "key": "orderId",
+                  "value": "<string>",
+                  "description": "Filter by order ID. Please refer to [accept-quote API → orderId]."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "87b0dc1a-3103-479c-8275-5888145497cb",
+              "name": "List of convert order history records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "query-order-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Start time filter in Unix milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "startTime",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "End time filter in Unix milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "endTime",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Filter by order status. Possible values: `TODO`, `PROCESSING`, `SUCCESS`, `FAILED`. Please refer to [accept-quote API → order status] for the description of each status.",
+                        "type": "text/plain"
+                      },
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Page number for pagination. Default: 1.",
+                        "type": "text/plain"
+                      },
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Number of records per page. Default: 10, maximum: 200.",
+                        "type": "text/plain"
+                      },
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Specifies the trading mode. Please refer to [get-quote API → type].",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Filter by quote ID. Please refer to [accept-quote API → quoteId].",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteId",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Filter by order ID. Please refer to [accept-quote API → orderId].",
+                        "type": "text/plain"
+                      },
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": 25,\n  \"data\": [\n    {\n      \"id\": \"12345\",\n      \"orderId\": \"ord_xyz789\",\n      \"quoteId\": \"q_abc123\",\n      \"sourceCurrency\": \"PHP\",\n      \"targetCurrency\": \"BTC\",\n      \"sourceAmount\": \"5000\",\n      \"targetAmount\": \"0.00142857\",\n      \"price\": \"3500000\",\n      \"status\": \"SUCCESS\",\n      \"createdAt\": 1700000000000,\n      \"errorMessage\": \"\",\n      \"errorCode\": \"\",\n      \"inversePrice\": \"0.00000029\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f89eaeaa-bc11-44e6-a097-c53984bae07d",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "query-order-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Start time filter in Unix milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "startTime",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "End time filter in Unix milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "endTime",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Filter by order status. Possible values: `TODO`, `PROCESSING`, `SUCCESS`, `FAILED`. Please refer to [accept-quote API → order status] for the description of each status.",
+                        "type": "text/plain"
+                      },
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Page number for pagination. Default: 1.",
+                        "type": "text/plain"
+                      },
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Number of records per page. Default: 10, maximum: 200.",
+                        "type": "text/plain"
+                      },
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Specifies the trading mode. Please refer to [get-quote API → type].",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Filter by quote ID. Please refer to [accept-quote API → quoteId].",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteId",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Filter by order ID. Please refer to [accept-quote API → orderId].",
+                        "type": "text/plain"
+                      },
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "4e581eb1-24b9-432a-ab50-2ed0cc7c3fb5",
+    "name": "TRADING Account Convert API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

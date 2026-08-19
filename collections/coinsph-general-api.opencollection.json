@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account General API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Test Connectivity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/ping"
+          },
+          "docs": "Test connectivity to the Rest API. This endpoint can be used to verify that the API\nis reachable and responsive. It returns an empty object on success and requires no\nparameters or authentication.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Health Check** — Verify API availability before executing trading logic.\n- **Connection M"
+        },
+        {
+          "info": {
+            "name": "Check Server Time",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/time"
+          },
+          "docs": "Test connectivity to the Rest API and get the current server time. The returned\n`serverTime` value is a Unix timestamp in milliseconds and can be used to synchronize\nclient-side clocks for accurate signature generation.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Clock Synchronization** — Align local system clock with server tim"
+        },
+        {
+          "info": {
+            "name": "Get User IP",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/user/ip"
+          },
+          "docs": "Get the IP address of the current request as seen by the API server. This endpoint\nis useful for diagnosing connectivity issues, verifying the IP address that will be\nvalidated against API key IP restrictions, and confirming the outbound IP when\noperating behind proxies or NAT.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **IP Whit"
+        },
+        {
+          "info": {
+            "name": "Check System Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/check-sys-status",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "businessType",
+                "value": "",
+                "type": "query",
+                "description": "Business type to query. Optional values: SPOT, CONVERT. If not provided, returns status for all business types.\n"
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Check the system business status. Returns the current operational status for each\nsupported business type (SPOT, CONVERT). If no `businessType` parameter is provided,\nthe response includes the status for all business types. Use this endpoint to verify\nservice availability before placing orders or executing conversions.\n\n**businessStatus Values**\n\n- `on` — Business type is enabled and fully operational.\n- `off` — Business type is disabled or under maintenance.\n\n---\n\n## Additional Info\n\n**Rate Lim"
+        },
+        {
+          "info": {
+            "name": "Get API Keys (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/api-keys",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieve all API keys associated with your account. You may have created multiple API keys\nwith different permissions and IP restrictions. This endpoint returns information about all\nof them, with the API key values partially masked for security.\n\n**Key Notes**\n\n- Returns all API keys associated with your account.\n- Each key includes its permission scopes (`apiType`), IP restrictions, and status.\n\n**API Key Status Values**\n\n| Status | Description |\n|---|---|\n| ENABLE | Active |\n| NOT_ENABLE | Di"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

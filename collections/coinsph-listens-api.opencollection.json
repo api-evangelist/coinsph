@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Listens API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Listens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a listenKey (USER_STREAM)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/userDataStream",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Start a new user data stream. The returned `listenKey` is used to establish a WebSocket\nconnection for receiving real-time account updates including order status changes,\nbalance updates, and position changes.\n\n**Key Notes**\n\n- The `listenKey` is valid for **60 minutes** from creation.\n- After creation, connect to: `wss://stream.coins.ph/openapi/ws/<listenKey>`\n- A single WebSocket connection is valid for a maximum of **24 hours**.\n- Use the keepalive endpoint (PUT) every 30 minutes to maintain "
+        },
+        {
+          "info": {
+            "name": "Ping / Keep-alive a listenKey (USER_STREAM)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.pro.coins.ph/openapi/v1/userDataStream",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "listenKey",
+                "value": "iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg",
+                "type": "query",
+                "description": "The listenKey to keep alive."
+              }
+            ]
+          },
+          "docs": "Keep a user data stream alive to prevent timeout. User data streams automatically close\nafter **60 minutes** of inactivity. A keepalive request extends the `listenKey` validity\nby another 60 minutes from the time the request is received.\n\n**Key Notes**\n\n- Each successful keepalive resets the 60-minute expiration timer.\n- The 24-hour maximum WebSocket connection limit still applies regardless of keepalives.\n- Returns an empty object `{}` on success.\n- Returns error code `-1125` if the `listenKey`"
+        },
+        {
+          "info": {
+            "name": "Close a listenKey (USER_STREAM)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.pro.coins.ph/openapi/v1/userDataStream",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "listenKey",
+                "value": "iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg",
+                "type": "query",
+                "description": "The listenKey to close."
+              }
+            ]
+          },
+          "docs": "Explicitly close a user data stream. Once closed, the `listenKey` becomes invalid and\nthe associated WebSocket connection is immediately disconnected. A closed `listenKey`\n**cannot be reused** — you must create a new one.\n\n**Key Notes**\n\n- The WebSocket connection associated with this `listenKey` is immediately terminated.\n- Returns an empty object `{}` on success.\n- Returns error code `-1125` if the `listenKey` does not exist or has already been closed.\n- A closed `listenKey` cannot be revived "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

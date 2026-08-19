@@ -1,0 +1,374 @@
+{
+  "item": [
+    {
+      "id": "23eea663-0b6a-44f2-89d3-75d9962e46d4",
+      "name": "Trading - Convert",
+      "description": {
+        "content": "Convert trading operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "404b3aab-d959-4de6-a244-4d992b4f55cd",
+          "name": "Get Supported Convert Trading Pairs",
+          "request": {
+            "name": "Get Supported Convert Trading Pairs",
+            "description": {
+              "content": "Returns a list of all available trading pairs. You may need to be whitelisted for OTC-Convert mode.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "convert",
+                "v1",
+                "get-supported-trading-pairs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Designed to support large trading volume with a minimum trade size of $20,000."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6615e0d5-4307-49a8-8a6b-c66d67f0c195",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "get-supported-trading-pairs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"sourceCurrency\": \"USDT\",\n    \"targetCurrency\": \"PHP\",\n    \"minSourceAmount\": \"100\",\n    \"maxSourceAmount\": \"1000\",\n    \"precision\": \"2\"\n  },\n  {\n    \"sourceCurrency\": \"USDT\",\n    \"targetCurrency\": \"PHP\",\n    \"minSourceAmount\": \"100\",\n    \"maxSourceAmount\": \"1000\",\n    \"precision\": \"2\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3e392343-819b-46c6-92f4-ec80d405a351",
+          "name": "Convert Fetch Quote",
+          "request": {
+            "name": "Convert Fetch Quote",
+            "description": {
+              "content": "Returns a quote for a specified source currency and target currency pair.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "convert",
+                "v1",
+                "get-quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sourceCurrency",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "targetCurrency",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "sourceAmount",
+                  "value": "<string>",
+                  "description": "Amount to convert from. Target amount must not be filled when this is filled."
+                },
+                {
+                  "disabled": false,
+                  "key": "targetAmount",
+                  "value": "<string>",
+                  "description": "Amount to convert to. Source amount must not be filled when this is filled."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d4a64d60-5447-4106-9425-828b1e5fe1ce",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "get-quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USDT"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "PHP"
+                    },
+                    {
+                      "key": "sourceAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "targetAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"quoteId\": \"2182b4fc18ff4556a18332245dba75ea\",\n  \"sourceCurrency\": \"string\",\n  \"targetCurrency\": \"string\",\n  \"sourceAmount\": \"string\",\n  \"targetAmount\": \"string\",\n  \"price\": \"string\",\n  \"expiry\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5edb71e3-68ff-4bcb-a411-c16aba4031d6",
+          "name": "Convert Accept Quote",
+          "request": {
+            "name": "Convert Accept Quote",
+            "description": {
+              "content": "Accept a quote for a specified source currency and target currency pair.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "convert",
+                "v1",
+                "accept-quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "quoteId",
+                  "value": "<string>",
+                  "description": "(Required) Server generated id for the quote."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "333c4355-6d74-4452-a669-d06b3b7f0076",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "convert",
+                    "v1",
+                    "accept-quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quoteId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderId\": \"49d10b74c60a475298c6bbed08dd58fa\",\n  \"status\": \"PROCESSING\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7a69f699-1c9b-46d6-9f02-a068d94c3b5e",
+    "name": "TRADING Account Trading - Convert API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

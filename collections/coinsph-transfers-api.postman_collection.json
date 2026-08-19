@@ -1,0 +1,636 @@
+{
+  "item": [
+    {
+      "id": "3156161e-82ad-4414-bbf4-ac4a7cdf2479",
+      "name": "Transfers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6bf95eff-9826-4ad0-9f6c-d306c227269a",
+          "name": "Transfers (USER_DATA)",
+          "request": {
+            "name": "Transfers (USER_DATA)",
+            "description": {
+              "content": "Transfer funds between two accounts.\n\n**Key Notes**\n\n- `client_transfer_id` is used as an idempotency key — do not send duplicate IDs.\n- `account` can be either a token symbol (e.g., PHP, BTC) or a Balance ID.\n- `target_address` is the recipient's phone number or email address.\n- If `client_transfer_id` or `id` is passed in, the `type` parameter is invalid.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 50\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Idempotency Management** — Always use `client_transfer_id` for production transfers to prevent duplicate transfers.\n- **Recipient Validation** — Transfer to a recipient by phone number or email.\n- **Multi-Asset Transfers** — Transfer any supported token or fiat currency.\n\n**Best Practices**\n\n- Always use `client_transfer_id` for production transfers; store it in your database before making the API call.\n- Retry with the same `client_transfer_id` on network errors — the system prevents duplicate transfers.\n- Validate the recipient email/phone exists before initiating a transfer.\n- Use string format for amounts to preserve precision.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "transfer",
+                "v4",
+                "transfers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<string>",
+                  "description": "(Required) Either the token (e.g., PHP, BTC, ETH) or the Balance ID to be transferred."
+                },
+                {
+                  "disabled": false,
+                  "key": "target_address",
+                  "value": "<string>",
+                  "description": "(Required) The phone number or email for the recipient account."
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<string>",
+                  "description": "(Required) The amount being transferred. Must be greater than 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "client_transfer_id",
+                  "value": "<string>",
+                  "description": "Client Transfer ID for idempotency. Cannot send duplicate ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "message",
+                  "value": "<string>",
+                  "description": "The message sent to the recipient account."
+                },
+                {
+                  "disabled": false,
+                  "key": "customSenderName",
+                  "value": "<string>",
+                  "description": "Custom sender name displayed to the recipient."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b5558ee7-0ba8-4819-b57d-c1761d6e5fc2",
+              "name": "Transfer submitted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "transfer",
+                    "v4",
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Either the token (e.g., PHP, BTC, ETH) or the Balance ID to be transferred.",
+                        "type": "text/plain"
+                      },
+                      "key": "account",
+                      "value": "BTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number or email for the recipient account.",
+                        "type": "text/plain"
+                      },
+                      "key": "target_address",
+                      "value": "recipient@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The amount being transferred. Must be greater than 0.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "1232"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client Transfer ID for idempotency. Cannot send duplicate ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_transfer_id",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The message sent to the recipient account.",
+                        "type": "text/plain"
+                      },
+                      "key": "message",
+                      "value": "Payment for services"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Custom sender name displayed to the recipient.",
+                        "type": "text/plain"
+                      },
+                      "key": "customSenderName",
+                      "value": "My Company"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"completed\",\n  \"account\": \"14514312308890900352\",\n  \"target_address\": \"recipient@coins.ph\",\n  \"amount\": \"1232\",\n  \"exchange\": \"1\",\n  \"payment\": \"payment_id_12345\",\n  \"client_transfer_id\": \"TRANSFER_20231201_001\",\n  \"message\": \"Payment for services\",\n  \"errorMessage\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6dcaf78e-4ef7-47cb-9a8a-53febb46a39e",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1003 | Duplicate client_transfer_id |\n| -20012 | The transfer request id is duplicate |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "transfer",
+                    "v4",
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Either the token (e.g., PHP, BTC, ETH) or the Balance ID to be transferred.",
+                        "type": "text/plain"
+                      },
+                      "key": "account",
+                      "value": "BTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The phone number or email for the recipient account.",
+                        "type": "text/plain"
+                      },
+                      "key": "target_address",
+                      "value": "recipient@coins.ph"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) The amount being transferred. Must be greater than 0.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "1232"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client Transfer ID for idempotency. Cannot send duplicate ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_transfer_id",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "The message sent to the recipient account.",
+                        "type": "text/plain"
+                      },
+                      "key": "message",
+                      "value": "Payment for services"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Custom sender name displayed to the recipient.",
+                        "type": "text/plain"
+                      },
+                      "key": "customSenderName",
+                      "value": "My Company"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb11db34-2988-4005-be53-0ac1a05f5ed2",
+          "name": "Query Transfers (USER_DATA)",
+          "request": {
+            "name": "Query Transfers (USER_DATA)",
+            "description": {
+              "content": "If an ID is provided, retrieves an existing transfer record; otherwise, returns a paginated list of transfers.\nSupports querying by ID, client transfer ID, sender/recipient addresses, and pagination parameters.\n\n**Key Notes**\n\n- If both `id` (path) and `client_transfer_id` are passed, `id` takes precedence.\n- `from_address` and `to_address` cannot be used simultaneously.\n- Email addresses must be URL-encoded (e.g., test@gmail.com → test%40gmail.com).\n- Default and maximum `per_page` is 2000.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Single Transfer Lookup** — Use `id` or `client_transfer_id` for precise lookup.\n- **Transfer History** — Use pagination to retrieve transfer history.\n- **Directional Filtering** — Filter by `from_address` or `to_address` to scope results.\n\n**Best Practices**\n\n- Use `client_transfer_id` for quick lookup of specific transfers you initiated.\n- Avoid querying all transfers repeatedly — cache recent results.\n- Use `meta.next_page` to determine if more pages exist.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "transfer",
+                "v3",
+                "transfers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "client_transfer_id",
+                  "value": "<string>",
+                  "description": "Client Transfer ID for querying a specific transfer. Maximum length 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Current page number for pagination. Default: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "Quantity per page. Default 2000, maximum 2000."
+                },
+                {
+                  "disabled": false,
+                  "key": "from_address",
+                  "value": "<string>",
+                  "description": "The phone number or email for the sender account. Cannot be used with to_address."
+                },
+                {
+                  "disabled": false,
+                  "key": "to_address",
+                  "value": "<string>",
+                  "description": "The phone number or email for the recipient account. Cannot be used with from_address."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "02ed7eb0-0a34-4b66-aa9c-f55742fd393e",
+              "name": "Transfer records or paginated list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "transfer",
+                    "v3",
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "client_transfer_id",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "50"
+                    },
+                    {
+                      "key": "from_address",
+                      "value": "sender@coins.ph"
+                    },
+                    {
+                      "key": "to_address",
+                      "value": "recipient@coins.ph"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"14514312308890900352\",\n      \"client_transfer_id\": \"TRANSFER_20231201_001\",\n      \"status\": \"completed\",\n      \"account\": \"14514312308890900352\",\n      \"target_address\": \"recipient@coins.ph\",\n      \"amount\": \"1232\",\n      \"message\": \"Payment for services\",\n      \"created_at\": \"2023-12-01T00:00:00Z\"\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"per_page\": 50,\n    \"total\": 1,\n    \"next_page\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "724a402a-d8c4-455f-8063-57cf5ea39bf0",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "transfer",
+                    "v3",
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "client_transfer_id",
+                      "value": "TRANSFER_20231201_001"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "50"
+                    },
+                    {
+                      "key": "from_address",
+                      "value": "sender@coins.ph"
+                    },
+                    {
+                      "key": "to_address",
+                      "value": "recipient@coins.ph"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1638253478000"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8bdaae09-0592-4ca0-adc5-1dad712c6c22",
+    "name": "TRADING Account Transfers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

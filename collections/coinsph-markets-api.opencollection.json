@@ -1,0 +1,216 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Markets API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Markets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Cryptoasset Trading Pairs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/pairs"
+          },
+          "docs": "Returns a summary of all cryptoasset trading pairs available on the exchange.\n\nNo query parameters are required. Returns all active trading pairs on the exchange.\n\nSymbol format: `{baseToken}{quoteToken}` — e.g., `LTCBTC` means LTC quoted in BTC.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Instrument Discovery** — Enumerate all "
+        },
+        {
+          "info": {
+            "name": "Order Book",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/quote/v1/depth",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol (e.g., BTCPHP, ETHPHP). The symbol must be in uppercase and represents Base Asset + Quote Asset.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of order book entries to return for both bids and asks. Valid values: 5, 10, 20, 50, 100, 200. Default: 100."
+              }
+            ]
+          },
+          "docs": "Retrieves the order book (market depth) for a specified trading symbol. Returns bid and ask orders with their respective prices and quantities.\n\n**Bids** are buy orders sorted by price (highest to lowest — first element is best bid).\n\n**Asks** are sell orders sorted by price (lowest to highest — first element is best ask).\n\nAll numeric values (price and quantity) are returned as **strings** to preserve precision.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/"
+        },
+        {
+          "info": {
+            "name": "Kline/Candlestick Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/quote/v1/klines",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "Kline interval."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start time in milliseconds."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End time in milliseconds."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return. Default: 500. Maximum: 1000."
+              }
+            ]
+          },
+          "docs": "Returns Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.\n\nIf `startTime` and `endTime` are not sent, the most recent klines are returned. Each kline array contains 11 elements. Timestamps are in milliseconds since Unix epoch. Maximum limit is 1000 klines per request.\n\n**Interval options:** `1m`, `3m`, `5m`, `15m`, `30m`, `1h`, `2h`, `4h`, `6h`, `8h`, `12h`, `1d`, `3d`, `1w`, `1M`\n\n**Response array index reference:**\n\n| Index | Field | Type | Description |\n|"
+        },
+        {
+          "info": {
+            "name": "24hr Ticker Price Change Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/quote/v1/ticker/24hr",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol. If omitted, tickers for all symbols are returned in an array. Not case sensitive. Cannot be used with `symbols`.\n"
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Alternative to symbol. Provide multiple symbols as a JSON array string. Cannot be used with `symbol`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves 24-hour rolling window price change statistics for one or multiple trading symbols. Returns comprehensive market data including price changes, volumes, and trading counts.\n\n**Careful** when accessing this endpoint with no `symbol` parameter — it returns data for all symbols at a higher weight cost.\n\nUse `symbol` for a single pair, `symbols` for multiple specific pairs (JSON array format, e.g., `[\"BTCUSDT\",\"BNBUSDT\"]`). `symbol` and `symbols` cannot be used in combination.\n\n**Price chan"
+        },
+        {
+          "info": {
+            "name": "Latest Price for a Symbol or Symbols",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/quote/v1/ticker/price",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol. If omitted, prices for all symbols are returned in an array. Cannot be used with `symbols`.\n"
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Alternative to symbol. Provide multiple symbols as a JSON array string. Cannot be used with `symbol`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves the latest price for a symbol or symbols. Lightweight endpoint returning only the current price.\n\nUse `symbol` for a single pair, `symbols` for multiple pairs. Cannot use both simultaneously. Omit both to get all symbols. Prices are returned as **strings** to preserve full precision.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\n| Parameter | Symbols Provided | Weight |\n|---|---|---|\n| symbol | 1 | 1 |\n| sy"
+        },
+        {
+          "info": {
+            "name": "Best Price and Quantity on Order Book",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/quote/v1/ticker/bookTicker",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol. If omitted, book tickers for all symbols are returned. Not case sensitive. Cannot be used with `symbols`.\n"
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Alternative to symbol. Provide multiple symbols as a JSON array string. Cannot be used with `symbol`.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves the best price and quantity on the order book for a specified symbol or multiple symbols. Provides a snapshot of the top-of-book market data (Level 1).\n\n- **bidPrice:** Highest price someone is willing to buy at (best bid).\n- **bidQty:** Total quantity available at the best bid price.\n- **askPrice:** Lowest price someone is willing to sell at (best ask).\n- **askQty:** Total quantity available at the best ask price.\n- **Spread:** `askPrice − bidPrice`\n\nUse `symbol` for a single pair, `s"
+        },
+        {
+          "info": {
+            "name": "Recent Trades List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/quote/v1/trades",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of recent trades to return. Default: 500. Maximum: 1000."
+              }
+            ]
+          },
+          "docs": "Retrieves the most recent trades executed for a specific symbol. Each trade entry includes price, quantity, timestamps, and whether the buyer was the market maker.\n\n- `isBuyerMaker = true` means the **seller** was the taker (a buy order matched against an existing sell/ask).\n- `isBuyerMaker = false` means the **buyer** was the taker (a sell order matched against an existing buy/bid).\n- `isBestMatch` indicates whether this was the best available price at time of execution.\n- All prices and quanti"
+        },
+        {
+          "info": {
+            "name": "Current Average Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/quote/v1/avgPrice",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol. Not case sensitive."
+              }
+            ]
+          },
+          "docs": "Returns the current average price for a specified trading symbol, calculated over a\nrecent time window. Provides a smoothed price metric that reduces the impact of\nshort-term volatility.\n\n**Key Notes**\n\n- `symbol` is mandatory and is **not case sensitive**.\n- Only supports a single symbol per request (no batch queries).\n- The `mins` field in the response indicates the time window (in minutes) used for the calculation.\n- Average price lags behind the current market price — it is a smoothed metric"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,396 @@
+{
+  "item": [
+    {
+      "id": "cefaeb5e-4cb6-4824-8e87-adc6992787cc",
+      "name": "Order History",
+      "description": {
+        "content": "Order history and details",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "329307af-380f-4cfd-b89e-05ee05a286c8",
+          "name": "Get Order Details",
+          "request": {
+            "name": "Get Order Details",
+            "description": {
+              "content": "Retrieves information about a specific fiat currency order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "details"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "internalOrderId",
+                  "value": "<string>",
+                  "description": "(Required) ID of the order for which the user wishes to retrieve details."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3b706fb-814f-4fd0-ab71-806354d48314",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "internalOrderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"externalOrderId\": \"string\",\n    \"internalOrderId\": \"string\",\n    \"paymentOrderId\": \"string\",\n    \"fiatCurrency\": \"string\",\n    \"fiatAmount\": \"string\",\n    \"transactionType\": 9761,\n    \"transactionChannel\": \"string\",\n    \"transactionSubject\": \"string\",\n    \"transactionSubjectType\": \"string\",\n    \"transactionChannelName\": \"string\",\n    \"transactionSubjectName\": \"string\",\n    \"feeCurrency\": \"string\",\n    \"channelFee\": \"string\",\n    \"platformFee\": \"string\",\n    \"status\": \"CANCEL\",\n    \"errorCode\": \"string\",\n    \"errorMessage\": \"string\",\n    \"completedTime\": \"string\",\n    \"source\": \"string\",\n    \"createdAt\": \"string\",\n    \"orderExtendedMap\": {\n      \"channelReferenceNo\": \"string\",\n      \"senderAccountNumber\": \"8613989193526\",\n      \"recipientName\": \"sandyopenapitest\",\n      \"recipientAccountNumber\": \"123456789\",\n      \"recipientAddress\": \"123 Main St, Mandaluyong\",\n      \"remarks\": \"Payment for services\"\n    },\n    \"dealCancel\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2c5dfed9-0937-405d-811d-1454d243a7ba",
+          "name": "Fiat Order History V2 (USER_DATA)",
+          "request": {
+            "name": "Fiat Order History V2 (USER_DATA)",
+            "description": {
+              "content": "This endpoint is used to query all fiat related history.\n\n**Weight:** 1\n\nParameters are passed as a JSON body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v2",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC-SHA256 signature."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pageNum\": \"<string>\",\n  \"pageSize\": \"<string>\",\n  \"externalOrderId\": \"<string>\",\n  \"internalOrderId\": \"<string>\",\n  \"transactionType\": \"<string>\",\n  \"transactionChannel\": \"<string>\",\n  \"transactionSubject\": \"<string>\",\n  \"status\": \"<string>\",\n  \"fiatCurrency\": \"<string>\",\n  \"startDate\": \"<string>\",\n  \"endDate\": \"<string>\",\n  \"startTime\": \"<long>\",\n  \"endTime\": \"<long>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "17dfd377-b20b-4e4c-921f-83c6a6c7cdb8",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pageNum\": \"1\",\n  \"pageSize\": \"10\",\n  \"externalOrderId\": \"<string>\",\n  \"internalOrderId\": \"<string>\",\n  \"transactionType\": \"1\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"status\": \"<string>\",\n  \"fiatCurrency\": \"PHP\",\n  \"startDate\": \"2023-07-01T00:00:00.000000Z\",\n  \"endDate\": \"2023-08-01T00:00:00.000000Z\",\n  \"startTime\": \"<long>\",\n  \"endTime\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"data\": [\n    {\n      \"externalOrderId\": \"1476829580936625682\",\n      \"internalOrderId\": \"1476829580936625681\",\n      \"paymentOrderId\": 8,\n      \"fiatCurrency\": \"PHP\",\n      \"fiatAmount\": \"11111\",\n      \"transactionType\": 1,\n      \"transactionChannel\": \"INSTAPAY\",\n      \"transactionSubject\": \"allbank\",\n      \"transactionChannelName\": \"instapay\",\n      \"transactionSubjectName\": \"AllBank (A Thrift Bank), Inc.\",\n      \"transactionSubjectType\": \"bank\",\n      \"feeCurrency\": \"PHP\",\n      \"channelFee\": \"0\",\n      \"platformFee\": \"0\",\n      \"status\": \"SUCCEEDED\",\n      \"errorCode\": \"SUCCEEDED\",\n      \"errorMessage\": \"\",\n      \"completedTime\": \"2023-07-31T07:16:47.000+00:00\",\n      \"source\": \"WEBHOOK\",\n      \"createdAt\": \"2023-07-31T07:16:46.000+00:00\",\n      \"orderExtendedMap\": {\n        \"channelReferenceNo\": 8,\n        \"senderAccountNumber\": \"8613989193526\"\n      },\n      \"dealCancel\": false\n    },\n    {\n      \"externalOrderId\": \"1476829580936625686\",\n      \"internalOrderId\": \"1474038775754799133\",\n      \"paymentOrderId\": \"2023072799\",\n      \"fiatCurrency\": \"PHP\",\n      \"fiatAmount\": \"100\",\n      \"transactionType\": 1,\n      \"transactionChannel\": \"SWIFTPAY_PESONET\",\n      \"transactionSubject\": \"aub\",\n      \"transactionChannelName\": \"swiftpay_pesonet\",\n      \"transactionSubjectName\": \"Asia United Bank\",\n      \"transactionSubjectType\": \"e-wallet\",\n      \"feeCurrency\": \"PHP\",\n      \"channelFee\": \"0\",\n      \"platformFee\": \"10\",\n      \"status\": \"SUCCEEDED\",\n      \"errorCode\": \"SUCCEEDED\",\n      \"errorMessage\": \"\",\n      \"completedTime\": \"2023-07-27T10:52:41.000+00:00\",\n      \"source\": \"WEBHOOK\",\n      \"createdAt\": \"2023-07-27T10:52:40.000+00:00\",\n      \"orderExtendedMap\": {\n        \"channelReferenceNo\": 8,\n        \"senderAccountNumber\": \"8613989193526\"\n      },\n      \"dealCancel\": false\n    }\n  ],\n  \"total\": 2\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7289838-9986-44e0-b37b-d4c0f4367101",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pageNum\": \"1\",\n  \"pageSize\": \"10\",\n  \"externalOrderId\": \"<string>\",\n  \"internalOrderId\": \"<string>\",\n  \"transactionType\": \"1\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"status\": \"<string>\",\n  \"fiatCurrency\": \"PHP\",\n  \"startDate\": \"2023-07-01T00:00:00.000000Z\",\n  \"endDate\": \"2023-08-01T00:00:00.000000Z\",\n  \"startTime\": \"<long>\",\n  \"endTime\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "44e1ea22-ce53-4477-8aee-88f9c10128e5",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pageNum\": \"1\",\n  \"pageSize\": \"10\",\n  \"externalOrderId\": \"<string>\",\n  \"internalOrderId\": \"<string>\",\n  \"transactionType\": \"1\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"status\": \"<string>\",\n  \"fiatCurrency\": \"PHP\",\n  \"startDate\": \"2023-07-01T00:00:00.000000Z\",\n  \"endDate\": \"2023-08-01T00:00:00.000000Z\",\n  \"startTime\": \"<long>\",\n  \"endTime\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "962534ea-acb0-488a-b1d0-bcb93b7d503b",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timestamp",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pageNum\": \"1\",\n  \"pageSize\": \"10\",\n  \"externalOrderId\": \"<string>\",\n  \"internalOrderId\": \"<string>\",\n  \"transactionType\": \"1\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"status\": \"<string>\",\n  \"fiatCurrency\": \"PHP\",\n  \"startDate\": \"2023-07-01T00:00:00.000000Z\",\n  \"endDate\": \"2023-08-01T00:00:00.000000Z\",\n  \"startTime\": \"<long>\",\n  \"endTime\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3e5c0c3e-131a-4c34-9211-b4b4d30069aa",
+    "name": "TRADING Account Order History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Collections - Crypto API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections - Crypto",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Crypto Get Deposit Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/deposit/address",
+            "params": [
+              {
+                "name": "coin",
+                "value": "USDT",
+                "type": "query",
+                "description": "Abbreviated token name."
+              },
+              {
+                "name": "network",
+                "value": "XRP",
+                "type": "query",
+                "description": "Abbreviated network name."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              },
+              {
+                "name": "timestamp",
+                "value": "1747306565330",
+                "type": "query",
+                "description": "Unix timestamp indicating when the request was made."
+              }
+            ]
+          },
+          "docs": "Returns a crypto deposit address."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

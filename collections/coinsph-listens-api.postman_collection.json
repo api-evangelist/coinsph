@@ -1,0 +1,441 @@
+{
+  "item": [
+    {
+      "id": "2a833144-0623-4966-b592-dfd56cfff811",
+      "name": "Listens",
+      "description": {
+        "content": "Manage user data stream listenKeys for WebSocket connections. A listenKey is required to establish a private WebSocket connection for receiving real-time account updates (orders, balances, positions).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "68019c28-0549-408a-b007-8b0e0de3605d",
+          "name": "Create a listenKey (USER_STREAM)",
+          "request": {
+            "name": "Create a listenKey (USER_STREAM)",
+            "description": {
+              "content": "Start a new user data stream. The returned `listenKey` is used to establish a WebSocket\nconnection for receiving real-time account updates including order status changes,\nbalance updates, and position changes.\n\n**Key Notes**\n\n- The `listenKey` is valid for **60 minutes** from creation.\n- After creation, connect to: `wss://stream.coins.ph/openapi/ws/<listenKey>`\n- A single WebSocket connection is valid for a maximum of **24 hours**.\n- Use the keepalive endpoint (PUT) every 30 minutes to maintain the stream.\n- No request body or query parameters are required — only the API key header.\n\n**Stream Connection**\n\nAfter obtaining a `listenKey`, connect via WebSocket:\n```\nwss://stream.coins.ph/openapi/ws/<listenKey>\n```\n\n**Stream Events**\n\nOnce connected, you will receive real-time events:\n- `outboundAccountPosition` — Account balance changes\n- `balanceUpdate` — Non-trading fund activities (deposits, withdrawals, transfers)\n- `executionReport` — Order status updates\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Real-Time Order Tracking** — Receive instant notifications when orders are filled, cancelled, or rejected\n- **Balance Monitoring** — Get immediate updates on deposits, withdrawals, and trade settlements\n- **Trading Bot Integration** — Feed live account data into automated trading strategies\n\n**Best Practices**\n\n- Create a new `listenKey` at application startup and maintain it with keepalive requests every 30 minutes\n- Implement reconnection logic that creates a new `listenKey` if the WebSocket disconnects\n- Close the `listenKey` during graceful application shutdown to release server resources\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "userDataStream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "38e7f2d5-d994-4917-a2df-8ec84c427c8d",
+              "name": "listenKey created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "userDataStream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"listenKey\": \"iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e78b2a88-8310-40df-b21d-b996b5a2a839",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -2015 | Invalid API-key, IP, or permissions for action |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "userDataStream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c3961ae-fbba-4056-875b-c585cc06bc6e",
+          "name": "Ping / Keep-alive a listenKey (USER_STREAM)",
+          "request": {
+            "name": "Ping / Keep-alive a listenKey (USER_STREAM)",
+            "description": {
+              "content": "Keep a user data stream alive to prevent timeout. User data streams automatically close\nafter **60 minutes** of inactivity. A keepalive request extends the `listenKey` validity\nby another 60 minutes from the time the request is received.\n\n**Key Notes**\n\n- Each successful keepalive resets the 60-minute expiration timer.\n- The 24-hour maximum WebSocket connection limit still applies regardless of keepalives.\n- Returns an empty object `{}` on success.\n- Returns error code `-1125` if the `listenKey` does not exist or has already expired.\n\n**Keepalive Strategy**\n\n- Send keepalive requests every **30 minutes** to maintain a safety margin before the 60-minute expiration.\n- If a keepalive fails, create a new `listenKey` and re-establish the WebSocket connection.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Stream Keepalive** — Send periodic keepalive requests to prevent the listenKey from expiring during a long-running session\n- **Health Check** — Verify that a `listenKey` is still valid before relying on the stream\n\n**Best Practices**\n\n- Schedule keepalive requests at fixed intervals (every 30 minutes) using a timer or cron job\n- Implement error handling: if keepalive returns `-1125`, the stream has expired — create a new `listenKey`\n- Log keepalive failures for monitoring and alerting purposes\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "userDataStream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "listenKey",
+                  "value": "<string>",
+                  "description": "(Required) The listenKey to keep alive."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23f2fc49-b78d-4636-aa29-763527643fbe",
+              "name": "listenKey keepalive successful. Validity extended by 60 minutes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "userDataStream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "listenKey",
+                      "value": "iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1551a815-4a8e-41ad-8459-71cdf8f9f50f",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1125 | This listenKey does not exist |\n| -2015 | Invalid API-key, IP, or permissions for action |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "userDataStream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "listenKey",
+                      "value": "iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f2a8953-7b3c-4e04-8214-1fb3b2ad0f90",
+          "name": "Close a listenKey (USER_STREAM)",
+          "request": {
+            "name": "Close a listenKey (USER_STREAM)",
+            "description": {
+              "content": "Explicitly close a user data stream. Once closed, the `listenKey` becomes invalid and\nthe associated WebSocket connection is immediately disconnected. A closed `listenKey`\n**cannot be reused** — you must create a new one.\n\n**Key Notes**\n\n- The WebSocket connection associated with this `listenKey` is immediately terminated.\n- Returns an empty object `{}` on success.\n- Returns error code `-1125` if the `listenKey` does not exist or has already been closed.\n- A closed `listenKey` cannot be revived — use the Create endpoint to generate a new one.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Graceful Shutdown** — Close the listenKey explicitly on exit to release server-side resources immediately rather than waiting for the 60-minute timeout\n- **Stream Reset** — Terminate and recreate a stream if it enters an inconsistent state\n- **Security** — Invalidate a `listenKey` immediately if the associated API key is compromised\n\n**Best Practices**\n\n- Always close listenKeys during application shutdown to release server-side resources\n- Implement a shutdown hook that calls this endpoint before process termination\n- After closing, clean up local references to the old `listenKey` and WebSocket connection\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "userDataStream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "listenKey",
+                  "value": "<string>",
+                  "description": "(Required) The listenKey to close."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c5cc09f6-ab1e-4513-8cf1-f0f8d84e3fc6",
+              "name": "listenKey closed successfully. The associated WebSocket connection is terminated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "userDataStream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "listenKey",
+                      "value": "iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1378388-85b3-4909-8457-fce2e8fa811c",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1125 | This listenKey does not exist |\n| -2015 | Invalid API-key, IP, or permissions for action |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "userDataStream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "listenKey",
+                      "value": "iA9LWJjuMwKWYP4QQPw34GRmBgz3x5AephXSuqcDef1RnzoBVhEcEG63Co5lSg"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1a4731b3-f228-446b-9912-84183008e137",
+    "name": "TRADING Account Listens API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

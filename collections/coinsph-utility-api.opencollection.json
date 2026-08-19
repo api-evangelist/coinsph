@@ -1,0 +1,115 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Utility API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Utility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Account Balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/account",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds. Default 5000, max 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp indicating when the request was made."
+              }
+            ]
+          },
+          "docs": "Obtain the current balance of the account."
+        },
+        {
+          "info": {
+            "name": "P2P Transfers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/transfer/v3/transfers",
+            "params": [
+              {
+                "name": "client_transfer_id",
+                "value": "",
+                "type": "query",
+                "description": "Assigned by the partner."
+              },
+              {
+                "name": "account",
+                "value": "PHP",
+                "type": "query",
+                "description": "The currency to be transferred."
+              },
+              {
+                "name": "target_address",
+                "value": "+63 9686490252",
+                "type": "query",
+                "description": "The registered phone number or email of the recipient."
+              },
+              {
+                "name": "amount",
+                "value": "200.99",
+                "type": "query",
+                "description": "The amount to be transferred."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "message",
+                "value": "",
+                "type": "query",
+                "description": "Message to be sent to the recipient account."
+              }
+            ]
+          },
+          "docs": "Conduct transfer of funds between two Coins.ph accounts."
+        },
+        {
+          "info": {
+            "name": "Get User IP",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/user/ip",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Returns the current IP address."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

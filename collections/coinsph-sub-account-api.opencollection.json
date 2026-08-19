@@ -1,0 +1,794 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Sub Account API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sub Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Virtual Sub-account (For Master Account)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/create",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "accountName",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a new virtual sub-account under the master account. This interface currently supports\nthe creation of virtual sub-accounts with a maximum limit of 30 sub-accounts per master account.\nSub-accounts are useful for organizing trading activities, segregating funds, and managing\nmultiple strategies under a single master account.\n\n**Master Account Privileges**\n\n- This endpoint can only be accessed by master accounts.\n- Master accounts can create up to 30 virtual sub-accounts.\n- Each sub-account"
+        },
+        {
+          "info": {
+            "name": "Query Sub-account List (For Master Account)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/list",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Filter by specific sub-account email address. If provided, returns only the matching sub-account. If omitted, returns all sub-accounts.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Current page number for pagination. Default value: 1."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Quantity of results per page. Default value: 10. Maximum: 200."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all sub-accounts associated with the master account. This endpoint applies\nto master accounts only and provides comprehensive information about each sub-account including\ncreation time, email address, and freeze status. Supports pagination for efficient handling\nof large numbers of sub-accounts.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Sub-accounts cannot query other sub-accounts.\n- Supports filtering by specific email address.\n\n---\n\n## "
+        },
+        {
+          "info": {
+            "name": "Query Sub-account Assets (For Master Account)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/asset",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Sub-account email address."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Query detailed balance information of a sub-account via the master account. This endpoint\nallows master accounts to retrieve the asset holdings and balance details of their\nsub-accounts, including free and locked balances for each asset.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Master accounts have read-only access to sub-account balance information.\n- Cannot be used by sub-accounts to query other sub-accounts.\n\n**Balance Types**\n\n- **Free Balance** — Avail"
+        },
+        {
+          "info": {
+            "name": "Collect Sub-account Assets (For Master Account)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/fund-collect/collect-from-sub-account",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "clientRequestId",
+                  "value": ""
+                },
+                {
+                  "name": "remark",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Collects assets from all sub-accounts and transfers them to the master account. This endpoint\ninitiates an asset collection task that aggregates balances from all sub-accounts under the\nmaster account. The collection process is asynchronous and tracked via a unique client request\nID. If there are tasks with a status of INIT, resubmission is not allowed to prevent\nduplicate operations.\n\n**How It Works**\n\n1. Master account initiates collection with a unique `clientRequestId`.\n2. System creates a c"
+        },
+        {
+          "info": {
+            "name": "Retrieve Asset Collection Records (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/fund-collect/get-fund-record",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "clientRequestId",
+                "value": "",
+                "type": "query",
+                "description": "Unique request identifier used when initiating the collection. If provided, returns only the specific collection record. If omitted, returns all records with pagination.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination. Default value: 1."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size - number of records per page. Default: 100. Maximum: 100."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieves asset collection records for the master account. This endpoint allows querying\nthe status and history of asset collection operations initiated via the\ncollect-from-sub-account endpoint. Supports filtering by specific clientRequestId or\npaginated browsing of all collection records. Use this endpoint to monitor the progress\nand outcome of asset collection tasks.\n\n**Response Structure**\n\n- Response is always an array, even for single record queries.\n- Empty object `{}` if no matching reco"
+        },
+        {
+          "info": {
+            "name": "Get IP Restriction for a Sub-account API Key (For Master Account)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/apikey/ip-restriction",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "apikey",
+                "value": "",
+                "type": "query",
+                "description": "The sub-account's API key (not the master account's API key)."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Email address of the sub-account whose API key IP restriction is being queried."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Query detailed IP restriction settings for a sub-account API key. This endpoint allows the\nmaster account to check whether IP restrictions are enabled for a specific sub-account's API\nkey and retrieve associated metadata. Use this endpoint to verify security configurations\nand ensure proper access control is in place for sub-accounts.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Requires both master account API key (in header) and sub-account API key (in query "
+        },
+        {
+          "info": {
+            "name": "Add IP Restriction for Sub-Account API Key (For Master Account)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/apikey/add-ip-restriction",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "apikey",
+                  "value": ""
+                },
+                {
+                  "name": "email",
+                  "value": ""
+                },
+                {
+                  "name": "ipAddress",
+                  "value": ""
+                },
+                {
+                  "name": "ipRestriction",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Add or update IP whitelist restrictions for a sub-account's API key. This endpoint enables\nthe master account to configure which IP addresses are allowed to use a specific sub-account\nAPI key, enhancing security by limiting access to trusted locations only. Multiple IP addresses\ncan be added in a single request, and the IP restriction status can be toggled between\nrestricted and unrestricted modes.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Requires both mast"
+        },
+        {
+          "info": {
+            "name": "Delete IP List For a Sub-account API Key (For Master Account)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/apikey/delete-ip-restriction",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "apikey",
+                  "value": ""
+                },
+                {
+                  "name": "email",
+                  "value": ""
+                },
+                {
+                  "name": "ipAddress",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Delete specific IP addresses from a sub-account API key's whitelist. This endpoint allows\nthe master account to remove one or more IP addresses from the whitelist without disabling\nIP restrictions entirely. The API key will remain restricted to the remaining whitelisted\nIPs after the deletion. Multiple IP addresses can be removed in a single request by\nproviding them in a comma-separated format.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Requires both master "
+        },
+        {
+          "info": {
+            "name": "Sub-account Transfer History (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/transfer/sub-history",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "asset",
+                "value": "",
+                "type": "query",
+                "description": "Filter by asset symbol."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Transfer direction: 1=Transfer In, 2=Transfer Out. Defaults to 2 if not provided."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start time in milliseconds."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End time in milliseconds (exclusive)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return. Default and maximum: 500."
+              },
+              {
+                "name": "clientTranId",
+                "value": "",
+                "type": "query",
+                "description": "Client transaction ID for filtering."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieve the transfer history for a specific sub-account.\nThis endpoint must be called using the **sub-account's API key**.\n\n**Key Notes**\n\n- Only accessible by sub-accounts (not the master account).\n- If `type` is not sent, records of type 2 (transfer out) will be returned by default.\n- If `startTime` and `endTime` are not sent, the recent 30-day data will be returned.\n- Default and maximum `limit` is 500 records.\n\n**Transfer Type Values**\n\n| type | Description |\n|---|---|\n| 1 | Transfer In (in"
+        },
+        {
+          "info": {
+            "name": "Transfer to Master (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/transfer/sub-to-master",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "asset",
+                  "value": ""
+                },
+                {
+                  "name": "amount",
+                  "value": ""
+                },
+                {
+                  "name": "clientTranId",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Sub-account can initiate a transfer from itself to the master account.\nThis endpoint must be called using the **sub-account's API key**, not the master account's API key.\n\n**Key Notes**\n\n- Called by the sub-account itself, not the master account.\n- Transfer destination is always the master account (no need to specify `toEmail`).\n- Transfer source is always the calling sub-account (no need to specify `fromEmail`).\n- `clientTranId` can be used as an idempotency key.\n\n---\n\n## Additional Info\n\n**Rat"
+        },
+        {
+          "info": {
+            "name": "Universal Transfer (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/transfer/universal-transfer",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "fromEmail",
+                  "value": ""
+                },
+                {
+                  "name": "toEmail",
+                  "value": ""
+                },
+                {
+                  "name": "clientTranId",
+                  "value": ""
+                },
+                {
+                  "name": "asset",
+                  "value": ""
+                },
+                {
+                  "name": "amount",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Master account can initiate a transfer from any of its sub-accounts to the master account,\nor from the master account to any sub-account, or between sub-accounts.\n\n**Key Notes**\n\n- Only accessible by master accounts.\n- Transfer from master account by default if `fromEmail` is not sent.\n- Transfer to master account by default if `toEmail` is not sent.\n- Specify at least one of `fromEmail` and `toEmail`.\n- `clientTranId` can be used as an idempotency key.\n\n**Supported transfer scenarios:**\n- Maste"
+        },
+        {
+          "info": {
+            "name": "Query Universal Transfer History (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/transfer/universal-transfer-history",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "fromEmail",
+                "value": "",
+                "type": "query",
+                "description": "Source account email. Cannot be used with toEmail. Returns master account email by default."
+              },
+              {
+                "name": "toEmail",
+                "value": "",
+                "type": "query",
+                "description": "Destination account email. Cannot be used with fromEmail."
+              },
+              {
+                "name": "clientTranId",
+                "value": "",
+                "type": "query",
+                "description": "Client transaction ID for filtering."
+              },
+              {
+                "name": "tokenId",
+                "value": "",
+                "type": "query",
+                "description": "Token/transaction ID for filtering."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start time in milliseconds."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End time in milliseconds (exclusive)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return. Default and maximum: 500."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieve the universal transfer history for the master account.\nOnly accessible by master accounts.\n\n**Key Notes**\n\n- `fromEmail` and `toEmail` cannot be sent at the same time.\n- Returns `fromEmail` equal to master account email by default.\n- The query time period must be less than 30 days.\n- If `startTime` and `endTime` are not sent, returns records of the last 30 days by default.\n- Default and maximum `limit` is 500 records.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api."
+        },
+        {
+          "info": {
+            "name": "Get Sub Account Deposit Address (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/wallet/deposit/address",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Sub-account email address."
+              },
+              {
+                "name": "coin",
+                "value": "",
+                "type": "query",
+                "description": "Coin symbol (from All Coins' Information API)."
+              },
+              {
+                "name": "network",
+                "value": "",
+                "type": "query",
+                "description": "Network identifier (from All Coins' Information API)."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Fetch the deposit address for a specific coin and network belonging to a sub-account.\nOnly accessible by master accounts.\n\n**Key Notes**\n\n- Both `email` (sub-account), `coin`, and `network` are required.\n- For coins requiring a memo or tag (e.g., XRP, XLM), the `addressTag` field in the response must be included with the deposit.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://"
+        },
+        {
+          "info": {
+            "name": "Get Sub Account Deposit History (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/sub-account/wallet/deposit/history",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Sub-account email address."
+              },
+              {
+                "name": "coin",
+                "value": "",
+                "type": "query",
+                "description": "Filter by coin symbol."
+              },
+              {
+                "name": "txId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by blockchain transaction ID."
+              },
+              {
+                "name": "depositId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by deposit ID."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start time in milliseconds. Default: 90 days from current timestamp."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End time in milliseconds. Maximum range is 90 days."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset. Default: 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return. Default and maximum: 1000."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Fetch deposit history for a sub-account. Only accessible by master accounts.\n\n**Key Notes**\n\n- `email` (sub-account) is required.\n- Use `offset` for pagination through large deposit histories.\n- Default and maximum limit is 1000 records.\n\n**Deposit Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | Processing |\n| 1 | Success |\n| 2 | Failed |\n| 3 | Need Fill Data (travel rule info required) |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/genera"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

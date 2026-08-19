@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Virtual Account API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Virtual Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Virtual Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)"
+        },
+        {
+          "info": {
+            "name": "Update Virtual Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the fiat or crypto settings of an existing virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)"
+        },
+        {
+          "info": {
+            "name": "Virtual Account Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/details",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve the full details of virtual accounts. At least one of `vAccountId`, `cAccountNumber`, `requestId`, or `coinsUserId` must be provided. Returns a list."
+        },
+        {
+          "info": {
+            "name": "List Virtual Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/list",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Paginate and filter all virtual accounts under the current merchant."
+        },
+        {
+          "info": {
+            "name": "Reactivate Virtual Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/reactivate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reactivate a deactivated virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)"
+        },
+        {
+          "info": {
+            "name": "Deactivate Virtual Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/deactivate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deactivate fiat and/or crypto channels of a virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)"
+        },
+        {
+          "info": {
+            "name": "Virtual Account Transactions List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/order/list",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve the transaction list for a virtual account."
+        },
+        {
+          "info": {
+            "name": "Check Virtual Account Network",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/virtual-account/check-network",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check whether a specific network/address combination is valid for a virtual account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

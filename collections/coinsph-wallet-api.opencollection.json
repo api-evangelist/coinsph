@@ -1,0 +1,369 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Wallet API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Wallet",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "All Coins' Information (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/config/getall",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Returns configuration information for all coins, including deposit/withdrawal\nstatus, available balances, network details, and fee information.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Network Selection** — Enumerate available networks for a coin before generating a deposit address or submitting a withdrawal\n- **Fee Preview*"
+        },
+        {
+          "info": {
+            "name": "Deposit Address (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/deposit/address",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "query",
+                "description": "The coin ticker symbol."
+              },
+              {
+                "name": "network",
+                "value": "",
+                "type": "query",
+                "description": "The network to use for the deposit."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Fetch the deposit address for a specific coin and network.\n\n**Key Notes**\n\n- An `addressTag` (memo/tag) is required for certain coins such as XRP and XLM.\n  Check the `memoRegex` field from the coin info endpoint to determine if a tag is needed.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Deposit Address Lookup** — Fetch the de"
+        },
+        {
+          "info": {
+            "name": "Deposit History (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/deposit/history",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "query",
+                "description": "Filter by coin symbol."
+              },
+              {
+                "name": "txId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by on-chain transaction ID."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time."
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End time in milliseconds. Maximum query window is 90 days."
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of deposit status values to filter by. Cannot be used together with `status`. Valid values: 0=Processing, 1=Success, 2=Failed.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return. Default and maximum: 1000."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieve the deposit history for the authenticated account.\n\n**Key Notes**\n\n- If `startTime` is not provided, defaults to 90 days before the current time.\n- Maximum query window is 90 days.\n- Default and maximum limit is 1000 records.\n- `statuses` and `status` cannot be used simultaneously.\n\n**Deposit Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | Processing |\n| 1 | Success |\n| 2 | Failed |\n| 3 | Need Fill Data (travel rule information required) |\n\n**Transfer Type Codes**\n\n| transferTy"
+        },
+        {
+          "info": {
+            "name": "Withdraw (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/withdraw/apply",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "coin",
+                  "value": ""
+                },
+                {
+                  "name": "address",
+                  "value": ""
+                },
+                {
+                  "name": "amount",
+                  "value": ""
+                },
+                {
+                  "name": "network",
+                  "value": ""
+                },
+                {
+                  "name": "addressTag",
+                  "value": ""
+                },
+                {
+                  "name": "withdrawOrderId",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Submit a cryptocurrency withdrawal request to an external address.\n\n**Key Notes**\n\n- `coin` and `network` must match a valid combination returned by `/openapi/wallet/v1/config/getall`.\n- Verify `withdrawEnable=true` for the selected coin and network before submitting.\n- For memo-based coins (e.g., XRP, XLM, EOS), `addressTag` is required.\n- `withdrawOrderId` can be used as a client-generated idempotency key (max 30 characters).\n- The `coin`, `network`, `address`, and `addressTag` combination mus"
+        },
+        {
+          "info": {
+            "name": "Withdraw History (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/withdraw/history",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "query",
+                "description": "Filter by coin symbol."
+              },
+              {
+                "name": "withdrawOrderId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by client-generated withdrawal order ID."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by withdrawal status: 0=Email Sent, 1=Cancelled, 2=Awaiting Approval, 3=Rejected, 4=Processing, 5=Failure, 6=Completed."
+              },
+              {
+                "name": "startTime",
+                "value": "",
+                "type": "query",
+                "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time (or 7 days before endTime when `withdrawOrderId` is also provided).\n"
+              },
+              {
+                "name": "endTime",
+                "value": "",
+                "type": "query",
+                "description": "End time in milliseconds. The maximum interval between `startTime` and `endTime` is 90 days (or 7 days when `withdrawOrderId` is provided).\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return. Default and maximum: 1000."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieve the withdrawal history for the authenticated account.\n\n**Key Notes**\n\n- If `startTime` and `endTime` are not provided, defaults to 90 days before the current time.\n- If `withdrawOrderId` is provided without `startTime`/`endTime`, defaults to the last 7 days.\n- The maximum interval between `startTime` and `endTime` is 90 days (7 days when `withdrawOrderId` is provided).\n- Default and maximum limit is 1000 records.\n\n**Withdrawal Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | PRO"
+        },
+        {
+          "info": {
+            "name": "Withdraw Address Whitelist (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/withdraw/address-whitelist",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "query",
+                "description": "Filter by coin symbol."
+              },
+              {
+                "name": "network",
+                "value": "",
+                "type": "query",
+                "description": "Filter by network identifier."
+              },
+              {
+                "name": "address",
+                "value": "",
+                "type": "query",
+                "description": "Filter by specific withdrawal address."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Get the withdrawal address whitelist for the authenticated user. Returns all whitelisted\nwithdrawal addresses configured for the account, with optional filtering by coin, network,\nor specific address.\n\n**Key Notes**\n\n- Returns addresses saved in the account's withdrawal address whitelist.\n- The coin/network/address/addressTag combination **must** be in the whitelist before a withdrawal can be submitted.\n- Use the `coin`, `network`, or `address` filters to narrow results.\n\n---\n\n## Additional Info"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

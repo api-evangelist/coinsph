@@ -1,0 +1,1147 @@
+{
+  "item": [
+    {
+      "id": "32c2c7c9-5e5e-40b5-9d29-ca863177e25f",
+      "name": "Markets",
+      "description": {
+        "content": "Market data APIs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6c0fd74e-cee5-4fcf-95b8-dee0f9aa33d1",
+          "name": "Cryptoasset Trading Pairs",
+          "request": {
+            "name": "Cryptoasset Trading Pairs",
+            "description": {
+              "content": "Returns a summary of all cryptoasset trading pairs available on the exchange.\n\nNo query parameters are required. Returns all active trading pairs on the exchange.\n\nSymbol format: `{baseToken}{quoteToken}` — e.g., `LTCBTC` means LTC quoted in BTC.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Instrument Discovery** — Enumerate all active trading pairs to know which symbols are available before placing order.\n\n**Best Practices**\n\n- Cache the trading pairs list and refresh periodically (e.g., every 5–10 minutes).\n- Use the `symbol` field when making requests to other market data endpoints.\n- Validate trading pairs before attempting to place orders.\n- Handle empty arrays gracefully in case no trading pairs are available.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "pairs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d0037b55-e8d2-4220-b984-c44fb7c55d28",
+              "name": "List of all available cryptoasset trading pairs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "pairs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"symbol\": \"LTCBTC\",\n    \"quoteToken\": \"BTC\",\n    \"baseToken\": \"LTC\"\n  },\n  {\n    \"symbol\": \"BTCUSDT\",\n    \"quoteToken\": \"USDT\",\n    \"baseToken\": \"BTC\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8c595a9-c835-4229-921e-69669334111c",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "pairs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bab2cfdb-c262-43c3-a986-2eb146b3b29c",
+          "name": "Order Book",
+          "request": {
+            "name": "Order Book",
+            "description": {
+              "content": "Retrieves the order book (market depth) for a specified trading symbol. Returns bid and ask orders with their respective prices and quantities.\n\n**Bids** are buy orders sorted by price (highest to lowest — first element is best bid).\n\n**Asks** are sell orders sorted by price (lowest to highest — first element is best ask).\n\nAll numeric values (price and quantity) are returned as **strings** to preserve precision.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\n| Limit Values | Weight |\n|---|---|\n| 5, 10, 20, 50, 100 | 1 |\n| 200 | 5 |\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Pre-Trade Liquidity Check** — Inspect available depth before placing a large order to estimate fill size and average execution price.\n- **Spread Assessment** — Compare `bids[0][0]` and `asks[0][0]` to measure market tightness before entering a position.\n- **Market-Making** — Poll top-of-book continuously to set competitive bid/ask prices on both sides.\n- **Slippage Estimation** — Walk through depth levels to predict average fill price for a given order size before submitting.\n\n**Best Practices**\n\n- Use smaller limits (5, 10, 20) for UI display; use larger limits (100, 200) for trading algorithms.\n- Use `lastUpdateId` to track order book changes.\n- Consider using WebSocket streams for real-time updates.\n- Monitor your weight consumption and implement exponential backoff for retries.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "quote",
+                "v1",
+                "depth"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) Trading pair symbol (e.g., BTCPHP, ETHPHP). The symbol must be in uppercase and represents Base Asset + Quote Asset.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of order book entries to return for both bids and asks. Valid values: 5, 10, 20, 50, 100, 200. Default: 100."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1730a0df-f03e-473b-b95e-ac98d9bfd541",
+              "name": "Order book with bids and asks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "depth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"lastUpdateId\": 1027024,\n  \"bids\": [\n    [\n      \"4.90000000\",\n      \"331.00000000\"\n    ],\n    [\n      \"4.00000000\",\n      \"431.00000000\"\n    ]\n  ],\n  \"asks\": [\n    [\n      \"4.00000200\",\n      \"12.00000000\"\n    ],\n    [\n      \"5.10000000\",\n      \"28.00000000\"\n    ]\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60a4acbe-7402-4fdf-ae58-0de567afb0d2",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "depth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b36fdee2-8bf3-4176-b670-c099a3839078",
+          "name": "Kline/Candlestick Data",
+          "request": {
+            "name": "Kline/Candlestick Data",
+            "description": {
+              "content": "Returns Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.\n\nIf `startTime` and `endTime` are not sent, the most recent klines are returned. Each kline array contains 11 elements. Timestamps are in milliseconds since Unix epoch. Maximum limit is 1000 klines per request.\n\n**Interval options:** `1m`, `3m`, `5m`, `15m`, `30m`, `1h`, `2h`, `4h`, `6h`, `8h`, `12h`, `1d`, `3d`, `1w`, `1M`\n\n**Response array index reference:**\n\n| Index | Field | Type | Description |\n|---|---|---|---|\n| 0 | Open Time | LONG | Kline open time in milliseconds |\n| 1 | Open | STRING | Opening price |\n| 2 | High | STRING | Highest price during the interval |\n| 3 | Low | STRING | Lowest price during the interval |\n| 4 | Close | STRING | Closing price |\n| 5 | Volume | STRING | Trading volume (base asset) |\n| 6 | Close Time | LONG | Kline close time in milliseconds |\n| 7 | Quote Asset Volume | STRING | Trading volume (quote asset) |\n| 8 | Number of Trades | INT | Number of trades during the interval |\n| 9 | Taker Buy Base Volume | STRING | Volume of taker buy orders (base asset) |\n| 10 | Taker Buy Quote Volume | STRING | Volume of taker buy orders (quote asset) |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Technical Analysis** — Fetch recent klines to compute indicators (MA, RSI, Bollinger Bands) before an algorithm decides to place an order.\n- **Backtesting** — Download historical klines to simulate strategy performance against real past price action before going live.\n- **Volume Analysis** — Aggregate taker buy volume across intervals to gauge directional pressure and confirm a trend.\n\n**Best Practices**\n\n- Cache historical kline data locally to reduce API calls.\n- Use `startTime` and `endTime` to paginate through historical data.\n- Choose appropriate intervals: short (1m, 5m) for intraday; medium (1h, 4h) for swing trading; long (1d, 1w) for position trading.\n- Don't request more data than needed; use appropriate limit values.\n- All price and volume fields are returned as strings to maintain precision.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "quote",
+                "v1",
+                "klines"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) Trading pair symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "interval",
+                  "value": "<string>",
+                  "description": "(Required) Kline interval."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results to return. Default: 500. Maximum: 1000."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9cfab244-3837-4217-b73c-0f3ce6cdddce",
+              "name": "Array of kline/candlestick data arrays.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "klines"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1499040000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1499644799000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  [\n    1499040000000,\n    \"0.01634790\",\n    \"0.80000000\",\n    \"0.01575800\",\n    \"0.01577100\",\n    \"148976.11427815\",\n    1499644799999,\n    \"2434.19055334\",\n    308,\n    \"1756.87402397\",\n    \"28.46694368\"\n  ]\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b57c00d0-1179-4e39-a879-5dda2d9e92a5",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n| -1100 | Invalid interval parameter. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "klines"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1499040000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1499644799000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d56f6313-1cb3-451e-a5e6-c7ffde632544",
+          "name": "24hr Ticker Price Change Statistics",
+          "request": {
+            "name": "24hr Ticker Price Change Statistics",
+            "description": {
+              "content": "Retrieves 24-hour rolling window price change statistics for one or multiple trading symbols. Returns comprehensive market data including price changes, volumes, and trading counts.\n\n**Careful** when accessing this endpoint with no `symbol` parameter — it returns data for all symbols at a higher weight cost.\n\nUse `symbol` for a single pair, `symbols` for multiple specific pairs (JSON array format, e.g., `[\"BTCUSDT\",\"BNBUSDT\"]`). `symbol` and `symbols` cannot be used in combination.\n\n**Price change calculations:**\n- `priceChange` = `lastPrice` − `openPrice`\n- `priceChangePercent` = `((lastPrice − openPrice) / openPrice) × 100`\n- `weightedAvgPrice` = `quoteVolume / volume`\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\n| Parameter | Weight |\n|---|---|\n| symbol (1 symbol) | 1 |\n| symbols (1–20 symbols) | 1 |\n| symbols (21–100 symbols) | 20 |\n| symbols (101+ symbols) | 40 |\n| symbol omitted (all symbols) | 40 |\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Market Overview** — Load 24h stats for all symbols to render a market screener with price change, volume, and high/low per pair.\n- **Price Change Alerts** — Monitor `priceChangePercent` across symbols to detect when a threshold is breached and trigger a notification.\n- **Volume Ranking** — Sort symbols by `quoteVolume` to identify the most actively traded pairs and allocate attention or liquidity accordingly.\n\n**Best Practices**\n\n- Use `symbol` for a single pair; use `symbols` for multiple; omit both only when you truly need all symbols.\n- Cache ticker data when real-time updates aren't critical.\n- Use WebSocket streams for continuous real-time data instead of polling.\n- Requesting all symbols uses 40× more weight than a single symbol.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "quote",
+                "v1",
+                "ticker",
+                "24hr"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "Trading pair symbol. If omitted, tickers for all symbols are returned in an array. Not case sensitive. Cannot be used with `symbols`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Alternative to symbol. Provide multiple symbols as a JSON array string. Cannot be used with `symbol`.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c405f8c-5c83-4e89-a41c-86811fc313b7",
+              "name": "24-hour ticker statistics. Returns a single object for one symbol, or an array for multiple/all symbols.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "ticker",
+                    "24hr"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "[\"BTCUSDT\",\"BNBUSDT\"]"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"BTCPHP\",\n  \"priceChange\": \"-1500.00000000\",\n  \"priceChangePercent\": \"-2.450\",\n  \"weightedAvgPrice\": \"62350.50000000\",\n  \"prevClosePrice\": \"61250.00000000\",\n  \"lastPrice\": \"59750.00000000\",\n  \"lastQty\": \"0.05000000\",\n  \"bidPrice\": \"59745.00000000\",\n  \"bidQty\": \"1.25000000\",\n  \"askPrice\": \"59755.00000000\",\n  \"askQty\": \"0.85000000\",\n  \"openPrice\": \"61250.00000000\",\n  \"highPrice\": \"63500.00000000\",\n  \"lowPrice\": \"58900.00000000\",\n  \"volume\": \"125.50000000\",\n  \"quoteVolume\": \"7825000.00000000\",\n  \"openTime\": 1499783499040,\n  \"closeTime\": 1499869899040,\n  \"firstId\": 10001,\n  \"lastId\": 10250,\n  \"count\": 250\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d487b0b-25dd-4ebb-b57d-1082cf586f7d",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n| -100013 | Parameter symbol and symbols cannot be used in combination. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "ticker",
+                    "24hr"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "[\"BTCUSDT\",\"BNBUSDT\"]"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7fe5ea1-bcae-4049-94a2-727709e1fb95",
+          "name": "Latest Price for a Symbol or Symbols",
+          "request": {
+            "name": "Latest Price for a Symbol or Symbols",
+            "description": {
+              "content": "Retrieves the latest price for a symbol or symbols. Lightweight endpoint returning only the current price.\n\nUse `symbol` for a single pair, `symbols` for multiple pairs. Cannot use both simultaneously. Omit both to get all symbols. Prices are returned as **strings** to preserve full precision.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\n| Parameter | Symbols Provided | Weight |\n|---|---|---|\n| symbol | 1 | 1 |\n| symbol omitted | All symbols | 2 |\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Pre-Order Price Check** — Fetch the latest price before sizing an order to calculate quantity based on an up-to-date rate.\n- **Multi-Symbol Comparison** — Pass a `symbols` array to compare prices across several pairs in a single lightweight call.\n- **Price Threshold Alerts** — Poll periodically to detect when a symbol's price crosses a target level and trigger the appropriate action.\n- **Portfolio Valuation** — Retrieve current prices for all held assets to compute an up-to-date portfolio value.\n\n**Best Practices**\n\n- Use Symbol Price Ticker for simple price display; use 24HR Ticker when you need historical context.\n- Parse prices to appropriate numeric types — do not use floating-point arithmetic directly.\n- For real-time updates, consider WebSocket streams.\n- Use `symbols` for specific pairs; omit parameters only when you need all symbols.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "quote",
+                "v1",
+                "ticker",
+                "price"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "Trading pair symbol. If omitted, prices for all symbols are returned in an array. Cannot be used with `symbols`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Alternative to symbol. Provide multiple symbols as a JSON array string. Cannot be used with `symbol`.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e33af7fb-fb7f-4b59-a17e-6ade2d9dcf10",
+              "name": "Latest price. Returns a single object for one symbol, or an array for multiple/all symbols.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "ticker",
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "[\"BTCUSDT\",\"BNBUSDT\"]"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"BTCPHP\",\n  \"price\": \"59750.00000000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ab77935-8eb9-4b59-beda-d14233ffdf44",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n| -100013 | Parameter symbol and symbols cannot be used in combination. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "ticker",
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "[\"BTCUSDT\",\"BNBUSDT\"]"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f185c54b-816f-4620-8d62-056b45942b95",
+          "name": "Best Price and Quantity on Order Book",
+          "request": {
+            "name": "Best Price and Quantity on Order Book",
+            "description": {
+              "content": "Retrieves the best price and quantity on the order book for a specified symbol or multiple symbols. Provides a snapshot of the top-of-book market data (Level 1).\n\n- **bidPrice:** Highest price someone is willing to buy at (best bid).\n- **bidQty:** Total quantity available at the best bid price.\n- **askPrice:** Lowest price someone is willing to sell at (best ask).\n- **askQty:** Total quantity available at the best ask price.\n- **Spread:** `askPrice − bidPrice`\n\nUse `symbol` for a single pair, `symbols` for multiple pairs. Cannot use both simultaneously. Omit both to get all symbols.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\n| Parameter | Symbols Provided | Weight |\n|---|---|---|\n| symbol | 1 | 1 |\n| symbol omitted | All symbols | 2 |\n| symbols | Any | 2 |\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Limit Order Pricing** — Read the best bid and ask before submitting a limit order to set a competitive price without crossing the spread unnecessarily.\n- **Spread Monitoring** — Subtract `bidPrice` from `askPrice` to assess current market liquidity before entering a position.\n- **Lightweight Level-1 Check** — Use this instead of the full order book when only the best price is needed, to reduce latency.\n\n**Best Practices**\n\n- Use this endpoint for top-of-book data; use the full Order Book endpoint when you need market depth.\n- All prices and quantities are returned as **strings** to preserve precision.\n- Calculate spread as `askPrice − bidPrice`; tight spreads indicate liquid markets.\n- For continuous updates, consider WebSocket streams (`<symbol>@bookTicker`).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "quote",
+                "v1",
+                "ticker",
+                "bookTicker"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "Trading pair symbol. If omitted, book tickers for all symbols are returned. Not case sensitive. Cannot be used with `symbols`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Alternative to symbol. Provide multiple symbols as a JSON array string. Cannot be used with `symbol`.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f965e38e-04eb-45f7-9abe-c6ac01b0d2c1",
+              "name": "Best bid/ask price and quantity. Returns a single object for one symbol, or an array for multiple/all symbols.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "ticker",
+                    "bookTicker"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "[\"BTCUSDT\",\"BNBUSDT\"]"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"BTCPHP\",\n  \"bidPrice\": \"59745.00000000\",\n  \"bidQty\": \"1.25000000\",\n  \"askPrice\": \"59755.00000000\",\n  \"askQty\": \"0.85000000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2dc5d51-f879-4642-b0b8-cbbb3cf81125",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n| -100013 | Parameter symbol and symbols cannot be used in combination. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "ticker",
+                    "bookTicker"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "[\"BTCUSDT\",\"BNBUSDT\"]"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ca8cdaf-d148-4ccd-adc9-3663f1d2acbe",
+          "name": "Recent Trades List",
+          "request": {
+            "name": "Recent Trades List",
+            "description": {
+              "content": "Retrieves the most recent trades executed for a specific symbol. Each trade entry includes price, quantity, timestamps, and whether the buyer was the market maker.\n\n- `isBuyerMaker = true` means the **seller** was the taker (a buy order matched against an existing sell/ask).\n- `isBuyerMaker = false` means the **buyer** was the taker (a sell order matched against an existing buy/bid).\n- `isBestMatch` indicates whether this was the best available price at time of execution.\n- All prices and quantities are returned as **strings** to preserve full numeric precision.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Trade Feed** — Fetch the most recent executions to display a live trade ticker or track real transaction prices.\n- **Buy/Sell Pressure** — Analyze `isBuyerMaker` across recent trades to gauge whether the market is buyer- or seller-driven before placing an order.\n- **Execution Price Reference** — Pull the last N trades to see actual transaction prices, not just quoted order book levels.\n- **Activity Assessment** — Monitor trade frequency and sizes to determine whether the symbol has sufficient liquidity to absorb an order without significant impact.\n\n**Best Practices**\n\n- Use `limit` to control response size; default is 500.\n- For real-time trade updates, use WebSocket streams (`<symbol>@trade`) instead of polling.\n- Use `isBuyerMaker` to distinguish buy-initiated vs. sell-initiated trades.\n- Parse prices and quantities as high-precision decimals, not floating-point.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "quote",
+                "v1",
+                "trades"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) Trading pair symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of recent trades to return. Default: 500. Maximum: 1000."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8aa8f97b-64c6-4184-bdb9-165e6a4401a7",
+              "name": "List of recent trades.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "trades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 28457,\n    \"price\": \"4.00000100\",\n    \"qty\": \"12.00000000\",\n    \"quoteQty\": \"48.000012\",\n    \"time\": 1499865549590,\n    \"isBuyerMaker\": true,\n    \"isBestMatch\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46faf0d0-7812-48a0-84ce-03102c670e19",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "trades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "32d4ceb5-ec6e-415e-ba1c-a9c27a4e3b8f",
+          "name": "Current Average Price",
+          "request": {
+            "name": "Current Average Price",
+            "description": {
+              "content": "Returns the current average price for a specified trading symbol, calculated over a\nrecent time window. Provides a smoothed price metric that reduces the impact of\nshort-term volatility.\n\n**Key Notes**\n\n- `symbol` is mandatory and is **not case sensitive**.\n- Only supports a single symbol per request (no batch queries).\n- The `mins` field in the response indicates the time window (in minutes) used for the calculation.\n- Average price lags behind the current market price — it is a smoothed metric, not an instant price.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Fair Price Reference** — Fetch the average to get a smoothed reference price that filters out short-term spikes before deciding to trade.\n- **Mean-Reversion Signal** — Compare the current last price against this average to detect when the market has deviated far enough to trigger a strategy entry.\n- **Execution Quality** — Compare actual fill price against the average to assess whether an execution was favorable relative to recent market conditions.\n\n**Best Practices**\n\n- Check the `mins` field to understand the averaging period used\n- Combine with current price (`/ticker/price`) to detect deviations from the average\n- Do not use as the sole trading signal; combine with other indicators\n- Average price is not suitable for high-frequency trading due to its inherent lag\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "quote",
+                "v1",
+                "avgPrice"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) Trading pair symbol. Not case sensitive."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e80d2b7d-74fc-41d0-a6d6-add26a0ccfcd",
+              "name": "Current average price for the symbol.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "avgPrice"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"mins\": 5,\n  \"price\": \"59825.50000000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "312de8f1-8278-4ef5-9414-f8f45cac54ba",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "quote",
+                    "v1",
+                    "avgPrice"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "59001344-5610-4a1a-b3bd-dbd42e822659",
+    "name": "TRADING Account Markets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

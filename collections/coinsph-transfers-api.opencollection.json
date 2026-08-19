@@ -1,0 +1,143 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Transfers API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transfers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Transfers (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/transfer/v4/transfers",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "client_transfer_id",
+                  "value": ""
+                },
+                {
+                  "name": "account",
+                  "value": ""
+                },
+                {
+                  "name": "target_address",
+                  "value": ""
+                },
+                {
+                  "name": "amount",
+                  "value": ""
+                },
+                {
+                  "name": "message",
+                  "value": ""
+                },
+                {
+                  "name": "customSenderName",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Transfer funds between two accounts.\n\n**Key Notes**\n\n- `client_transfer_id` is used as an idempotency key — do not send duplicate IDs.\n- `account` can be either a token symbol (e.g., PHP, BTC) or a Balance ID.\n- `target_address` is the recipient's phone number or email address.\n- If `client_transfer_id` or `id` is passed in, the `type` parameter is invalid.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 50\n\n**"
+        },
+        {
+          "info": {
+            "name": "Query Transfers (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/transfer/v3/transfers",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "client_transfer_id",
+                "value": "",
+                "type": "query",
+                "description": "Client Transfer ID for querying a specific transfer. Maximum length 100."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Current page number for pagination. Default: 1."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Quantity per page. Default 2000, maximum 2000."
+              },
+              {
+                "name": "from_address",
+                "value": "",
+                "type": "query",
+                "description": "The phone number or email for the sender account. Cannot be used with to_address."
+              },
+              {
+                "name": "to_address",
+                "value": "",
+                "type": "query",
+                "description": "The phone number or email for the recipient account. Cannot be used with from_address."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "If an ID is provided, retrieves an existing transfer record; otherwise, returns a paginated list of transfers.\nSupports querying by ID, client transfer ID, sender/recipient addresses, and pagination parameters.\n\n**Key Notes**\n\n- If both `id` (path) and `client_transfer_id` are passed, `id` takes precedence.\n- `from_address` and `to_address` cannot be used simultaneously.\n- Email addresses must be URL-encoded (e.g., test@gmail.com → test%40gmail.com).\n- Default and maximum `per_page` is 2000.\n\n--"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

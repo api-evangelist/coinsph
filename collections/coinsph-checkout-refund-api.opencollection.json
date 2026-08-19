@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Checkout Refund API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout Refund",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Checkout Refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/checkout/refund",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This Endpoint allows Merchants to initiate a refund for a Checkout transaction.\n\n**Webhook:** ✅ Supported (requires Coins' configuration)"
+        },
+        {
+          "info": {
+            "name": "Refund Status Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/checkout/refund/status-check",
+            "params": [
+              {
+                "name": "refundId",
+                "value": "RFD987654321",
+                "type": "query",
+                "description": "Coins-generated refund ID. At least one of `refundId` or `requestId` must be provided."
+              },
+              {
+                "name": "requestId",
+                "value": "REQ123456789",
+                "type": "query",
+                "description": "Merchant refund request ID (idempotency key). At least one of `refundId` or `requestId` must be provided."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "This Endpoint allows Merchants to query the status of a Checkout refund by either `refundId` or `requestId`. At least one of the two must be provided."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

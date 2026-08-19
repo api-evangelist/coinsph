@@ -1,0 +1,334 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Scan to Pay API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scan to Pay",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Payment QRCode Decode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/scan-to-pay/payment-preview",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Decode a QR code string and return payment preview information."
+        },
+        {
+          "info": {
+            "name": "Execute Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/scan-to-pay/payment-execution",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a scan-to-pay payment using the information returned from the payment-preview API."
+        },
+        {
+          "info": {
+            "name": "Get Payment Result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/scan-to-pay/get-payment-result",
+            "params": [
+              {
+                "name": "internalOrderId",
+                "value": "20260130200000",
+                "type": "query",
+                "description": "ID of the order for which the user wishes to retrieve details."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Retrieve the result of a scan-to-pay payment by internal order id."
+        },
+        {
+          "info": {
+            "name": "Create Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/account/create-account",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "requestId",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "customerId",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "email",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "phone",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "notifyUrl",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "callbackDefaultUrl",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "callbackSuccessUrl",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "callbackFailureUrl",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "callbackCancelUrl",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "customerIp",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "customerSource",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "customerUserAgent",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "firstName",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "middleName",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "lastName",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "gender",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "dateOfBirth",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "country",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "nationality",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "state",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "city",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "street",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "postalCode",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "employmentStatus",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "industry",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "companyName",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "jobTitle",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "purposeOfAccount",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "idType",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "idNumber",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "expireDate",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "frontIdImage",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "backIdImage",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "facePhoto",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "frontIdImageMd5",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "backIdImageMd5",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "facePhotoMd5",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "businessScenarios",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create a KYC account for scan-to-pay user.\n\n**Note:** Parameters need to be passed using Query String; form-data and json methods cannot be used. The contentType must be multipart/form-data."
+        },
+        {
+          "info": {
+            "name": "Get Created User Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/account/get-create-account-request",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "query",
+                "description": "requestId parameter when creating a user."
+              },
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "query",
+                "description": "customerId parameter when creating a user."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Retrieve the status and details of a KYC account creation request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

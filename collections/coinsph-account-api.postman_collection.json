@@ -1,0 +1,389 @@
+{
+  "item": [
+    {
+      "id": "9e58a4af-e39e-4062-ac6b-9f8e49432128",
+      "name": "Account",
+      "description": {
+        "content": "Account management APIs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffd2b37b-959f-4485-9a1c-f06e46fd226f",
+          "name": "Query Balance - Crypto Accounts (USER_DATA)",
+          "request": {
+            "name": "Query Balance - Crypto Accounts (USER_DATA)",
+            "description": {
+              "content": "Retrieve the current cryptocurrency balance for a specific currency or all supported\ncryptocurrencies. Use this endpoint to query available and pending balances across\ndifferent crypto assets.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Pending Balance Explained**\n\nThe `pending_balance` represents funds that are not immediately available for trading or\nwithdrawal. This typically includes Deposit Confirmations, Pending Withdrawals,\nProcessing Transactions, and Order-Related Locks.\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Deposit Tracking** — Monitor pending balance to track deposit confirmations.\n- **Withdrawal Verification** — Check pending balance before initiating new withdrawals.\n\n**Best Practices**\n\n- Use specific currency parameter when checking single asset.\n- Cache results appropriately (30–60 seconds for pending balance).\n- Don't poll more frequently than necessary (respect rate limits).\n- Use WebSocket for real-time balance updates if available.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "account",
+                "v3",
+                "crypto-accounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "The currency symbol for which the balance is being queried. If not provided, returns balances for all supported cryptocurrencies. Use standard cryptocurrency symbols (e.g., 'BTC', 'ETH', 'USDT'). Case-insensitive.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c10b3f13-f5a4-468e-a9c1-ade80b58466b",
+              "name": "Cryptocurrency account balance returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "account",
+                    "v3",
+                    "crypto-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"crypto-accounts\": [\n    {\n      \"id\": \"1451431230880900352\",\n      \"name\": \"BTC\",\n      \"currency\": \"BTC\",\n      \"balance\": \"1\",\n      \"pending_balance\": \"0\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f43a983-e72d-416f-a940-66da3930e6f5",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid currency symbol. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "account",
+                    "v3",
+                    "crypto-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08f423cb-45c0-4602-aa7b-3644d90d4033",
+          "name": "Account Information (USER_DATA)",
+          "request": {
+            "name": "Account Information (USER_DATA)",
+            "description": {
+              "content": "Retrieve comprehensive information about trading account, including permissions,\nbalances, withdrawal limits (daily, monthly, annual), fee tier, and configuration settings.\nUse this endpoint to get a complete snapshot of account's current state for portfolio\nmanagement, compliance checks, and monitoring.\n\n**Permission Flags**\n\n- **canDeposit**: `true` = Account can receive deposits; `false` = Deposits are blocked\n  (reasons: pending verification, compliance hold, security review).\n- **canTrade**: `true` = Account can execute buy/sell orders; `false` = Trading is restricted\n  (reasons: KYC incomplete, account suspension, regulatory restrictions).\n- **canWithdraw**: `true` = Account can withdraw funds; `false` = Withdrawals are blocked\n  (reasons: security review, 2FA setup required, compliance hold).\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Withdrawal Validation** — Check if withdrawal amount is within limits before submission.\n- **Trading Permission Check** — Verify account can trade before placing orders.\n- **Compliance Monitoring** — Track transaction limits for regulatory compliance.\n- **Balance Verification** — Confirm available balance before placing trades.\n\n**Best Practices**\n\n- Cache account information and refresh after transactions.\n- Use `updateTime` to track data freshness.\n- Always check `canTrade` before placing orders.\n- Always check `canWithdraw` before initiating withdrawals.\n- Check all three limit tiers (daily, monthly, annual).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c67fd109-ebfc-4f9b-a89b-9b1fed396c70",
+              "name": "Account information returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountType\": \"SPOT\",\n  \"canDeposit\": true,\n  \"canTrade\": true,\n  \"canWithdraw\": true,\n  \"email\": \"test@coins.ph\",\n  \"feeTier\": 0,\n  \"balances\": [\n    {\n      \"asset\": \"PHP\",\n      \"free\": \"100\",\n      \"locked\": \"0\"\n    },\n    {\n      \"asset\": \"BTC\",\n      \"free\": \"0.00123456\",\n      \"locked\": \"0\"\n    },\n    {\n      \"asset\": \"ETH\",\n      \"free\": \"0.5\",\n      \"locked\": \"0.1\"\n    }\n  ],\n  \"token\": \"PHP\",\n  \"daily\": {\n    \"cashInLimit\": \"500000\",\n    \"cashInRemaining\": \"499994\",\n    \"cashOutLimit\": \"500000\",\n    \"cashOutRemaining\": \"500000\",\n    \"totalWithdrawLimit\": \"500000\",\n    \"totalWithdrawRemaining\": \"500000\"\n  },\n  \"monthly\": {\n    \"cashInLimit\": \"10000000\",\n    \"cashInRemaining\": \"9999157\",\n    \"cashOutLimit\": \"10000000\",\n    \"cashOutRemaining\": \"10000000\",\n    \"totalWithdrawLimit\": \"10000000\",\n    \"totalWithdrawRemaining\": \"10000000\"\n  },\n  \"annually\": {\n    \"cashInLimit\": \"120000000\",\n    \"cashInRemaining\": \"119998487.97\",\n    \"cashOutLimit\": \"120000000\",\n    \"cashOutRemaining\": \"120000000\",\n    \"totalWithdrawLimit\": \"120000000\",\n    \"totalWithdrawRemaining\": \"120000000\"\n  },\n  \"p2pDaily\": {\n    \"cashInLimit\": \"500000\",\n    \"cashInRemaining\": \"499994\",\n    \"cashOutLimit\": \"500000\",\n    \"cashOutRemaining\": \"500000\",\n    \"totalWithdrawLimit\": \"500000\",\n    \"totalWithdrawRemaining\": \"500000\"\n  },\n  \"p2pMonthly\": {\n    \"cashInLimit\": \"10000000\",\n    \"cashInRemaining\": \"9999157\",\n    \"cashOutLimit\": \"10000000\",\n    \"cashOutRemaining\": \"10000000\",\n    \"totalWithdrawLimit\": \"10000000\",\n    \"totalWithdrawRemaining\": \"10000000\"\n  },\n  \"p2pAnnually\": {\n    \"cashInLimit\": \"120000000\",\n    \"cashInRemaining\": \"119998577\",\n    \"cashOutLimit\": \"120000000\",\n    \"cashOutRemaining\": \"119999488\",\n    \"totalWithdrawLimit\": \"120000000\",\n    \"totalWithdrawRemaining\": \"119998487.97\"\n  },\n  \"updateTime\": 1707273549694\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c181e68-eb64-47bd-889a-71b60dc2b585",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid. |\n| -1002 | Unauthorized. API key does not have permission. |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1499827319559"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eb0e7cd6-687b-48ab-a4df-69298d82e1eb",
+    "name": "TRADING Account API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

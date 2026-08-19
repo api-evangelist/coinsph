@@ -1,0 +1,162 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Collections - QRPH API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections - QRPH",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate Dynamic QRPH",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/generate_qr_code",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a dynamic QRPH code."
+        },
+        {
+          "info": {
+            "name": "Cancel Dynamic QRPH",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/cancel_qr_code",
+            "params": [
+              {
+                "name": "referenceId",
+                "value": "1950928204919496214",
+                "type": "query",
+                "description": "Server generated reference id."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Cancels a previously created dynamic QRPH code."
+        },
+        {
+          "info": {
+            "name": "Generate Static QRPH",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/generate/static/qr_code",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a static QRPH code."
+        },
+        {
+          "info": {
+            "name": "Update Static QRPH",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/update/qr_code",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change the state of a previously created static QRPH code."
+        },
+        {
+          "info": {
+            "name": "Get Static QRPH List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/get_qr_code/static/list",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by state of the QR code."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Returns a list of static QR codes previously created."
+        },
+        {
+          "info": {
+            "name": "Get QRPH Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/get_qr_code",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "query",
+                "description": "Assigned by the partner for idempotency validation."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Returns the current status of a previously created QRPH code."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

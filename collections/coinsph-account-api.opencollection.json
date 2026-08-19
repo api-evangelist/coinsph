@@ -1,0 +1,98 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query Balance - Crypto Accounts (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/account/v3/crypto-accounts",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "The currency symbol for which the balance is being queried. If not provided, returns balances for all supported cryptocurrencies. Use standard cryptocurrency symbols (e.g., 'BTC', 'ETH', 'USDT'). Case-insensitive.\n"
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieve the current cryptocurrency balance for a specific currency or all supported\ncryptocurrencies. Use this endpoint to query available and pending balances across\ndifferent crypto assets.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Pending Balance Explained**\n\nThe `pending_balance` represents funds that are not immediately available for trading or\nwithdrawal. This typically includes Deposit Confir"
+        },
+        {
+          "info": {
+            "name": "Account Information (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/account",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Retrieve comprehensive information about trading account, including permissions,\nbalances, withdrawal limits (daily, monthly, annual), fee tier, and configuration settings.\nUse this endpoint to get a complete snapshot of account's current state for portfolio\nmanagement, compliance checks, and monitoring.\n\n**Permission Flags**\n\n- **canDeposit**: `true` = Account can receive deposits; `false` = Deposits are blocked\n  (reasons: pending verification, compliance hold, security review).\n- **canTrade**"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,476 @@
+{
+  "item": [
+    {
+      "id": "5c4cec29-a848-4d67-a8a8-9e30b7e7d768",
+      "name": "Tokenized Checkout",
+      "description": {
+        "content": "Password-free (auto-debit) checkout",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4f137d41-3046-48f2-93fb-f4f53bb6b67b",
+          "name": "Apply for Token",
+          "request": {
+            "name": "Apply for Token",
+            "description": {
+              "content": "Create an auto-debit authorization link. Once authorized by the user, it can be used for future payments without requiring authorization each time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "auto-debit",
+                "token-apply"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"redirectUrl\": {\n    \"success\": \"<string>\",\n    \"failure\": \"<string>\",\n    \"cancel\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "261931da-6592-4acd-be0a-e8efd7b6a942",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "auto-debit",
+                    "token-apply"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"currency\": \"PHP\",\n  \"customerId\": \"<string>\",\n  \"redirectUrl\": {\n    \"success\": \"<string>\",\n    \"failure\": \"<string>\",\n    \"cancel\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"tokenId\": \"token_abc123def456\",\n    \"tokenStatus\": \"PENDING\",\n    \"redirectUrl\": \"https://payment.example.com/auth?token=...\",\n    \"token\": \"tk_1234567890abcdef\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e3efc63b-40b9-47d5-8bcf-544641563986",
+          "name": "Query Payment Token",
+          "request": {
+            "name": "Query Payment Token",
+            "description": {
+              "content": "Check the status of a current token, whether it is valid, expired, or revoked.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "auto-debit",
+                "token-query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tokenId\": \"<string>\",\n  \"requestId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "67ad70a2-f5db-4dd6-999e-5dc83817a6d4",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "auto-debit",
+                    "token-query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tokenId\": \"<string>\",\n  \"requestId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"customerId\": \"string\",\n    \"currency\": \"string\",\n    \"tokenId\": \"string\",\n    \"tokenStatus\": \"PENDING\",\n    \"tokenCreateTime\": \"string\",\n    \"tokenExpireTime\": 4625,\n    \"accountDisplay\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "84b825bf-d6b1-4f2b-b3b6-c4acb8fcf7e0",
+          "name": "Remove Payment Token",
+          "request": {
+            "name": "Remove Payment Token",
+            "description": {
+              "content": "Revoke an authorized token so it can no longer be used for subsequent payments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "auto-debit",
+                "token-remove"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"<string>\",\n  \"tokenId\": \"<string>\",\n  \"removeReason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f5f69408-743b-4bb8-9faf-f9fa551633b4",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "auto-debit",
+                    "token-remove"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"customer_12345\",\n  \"tokenId\": \"token_abc123def456\",\n  \"removeReason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"customerId\": \"string\",\n    \"tokenId\": \"string\",\n    \"tokenStatus\": \"REVOKED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e542f8ab-39e2-4124-a641-b895aa590b18",
+          "name": "Pay with Token",
+          "request": {
+            "name": "Pay with Token",
+            "description": {
+              "content": "Initiate an auto-debit payment using an authorized token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "auto-debit",
+                "token-pay"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"<string>\",\n  \"totalAmount\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"redirectUrl\": {\n    \"defaultUrl\": \"<string>\",\n    \"success\": \"<string>\",\n    \"failure\": \"<string>\",\n    \"cancel\": \"<string>\"\n  },\n  \"customerId\": \"<string>\",\n  \"token\": \"<string>\",\n  \"feeAmount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"subMerchantId\": \"<string>\",\n  \"subMerchantReqRefNo\": \"<string>\",\n  \"merchantName\": \"<string>\",\n  \"merchantIcon\": \"<string>\",\n  \"productDetails\": [\n    {\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    }\n  ],\n  \"expireSeconds\": \"<string>\",\n  \"remark\": \"<string>\",\n  \"extendInfo\": \"<string>\",\n  \"storePaymentMethod\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "792ffbf1-5ff4-4f2b-a310-eacbe723fa68",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "auto-debit",
+                    "token-pay"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"totalAmount\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"redirectUrl\": {\n    \"defaultUrl\": \"https://merchant.example.com/payment/default\",\n    \"success\": \"https://merchant.example.com/payment/success\",\n    \"failure\": \"https://merchant.example.com/payment/failure\",\n    \"cancel\": \"https://merchant.example.com/payment/cancel\"\n  },\n  \"customerId\": \"<string>\",\n  \"token\": \"<string>\",\n  \"feeAmount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"subMerchantId\": \"<string>\",\n  \"subMerchantReqRefNo\": \"<string>\",\n  \"merchantName\": \"<string>\",\n  \"merchantIcon\": \"<string>\",\n  \"productDetails\": [\n    {\n      \"name\": \"iPhone 15 Pro\",\n      \"type\": \"<string>\",\n      \"amount\": \"100.00\",\n      \"quantity\": \"1\",\n      \"code\": \"IPHONE-256GB-BLUE\",\n      \"desc\": \"iPhone 15 Pro 256GB Blue\"\n    },\n    {\n      \"name\": \"iPhone 15 Pro\",\n      \"type\": \"<string>\",\n      \"amount\": \"100.00\",\n      \"quantity\": \"1\",\n      \"code\": \"IPHONE-256GB-BLUE\",\n      \"desc\": \"iPhone 15 Pro 256GB Blue\"\n    }\n  ],\n  \"expireSeconds\": \"<string>\",\n  \"remark\": \"<string>\",\n  \"extendInfo\": \"<string>\",\n  \"storePaymentMethod\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"requestId\": \"string\",\n    \"status\": \"string\",\n    \"paymentStatus\": \"INIT\",\n    \"needManualPay\": true,\n    \"failReason\": \"string\",\n    \"orderId\": \"string\",\n    \"checkoutUrl\": \"string\",\n    \"checkoutDeeplinkUrl\": \"string\",\n    \"customerId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "418fd1d3-4467-4687-8c4b-b40747d07c25",
+    "name": "TRADING Account Tokenized Checkout API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

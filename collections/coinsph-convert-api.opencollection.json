@@ -1,0 +1,218 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Convert API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Convert",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Supported Trading Pairs (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/convert/v1/get-supported-trading-pairs",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Returns all supported trading pairs available for the Convert feature.\nEach pair includes the source and target currency, amount limits, and decimal precision.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Pre-conversion Validation** — Check if a desired currency pair is supported before requesting a quote\n- **Limit Discovery** — "
+        },
+        {
+          "info": {
+            "name": "Fetch a Quote (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/convert/v1/get-quote",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "sourceCurrency",
+                  "value": ""
+                },
+                {
+                  "name": "targetCurrency",
+                  "value": ""
+                },
+                {
+                  "name": "sourceAmount",
+                  "value": ""
+                },
+                {
+                  "name": "targetAmount",
+                  "value": ""
+                },
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Fetch a real-time conversion quote for a given currency pair and amount.\n\nProvide either `sourceAmount` or `targetAmount`, but not both. The quote is valid\nfor the number of seconds specified in the `expiry` field of the response.\n\n**Key Notes**\n\n- The quote `quoteId` must be used with the Accept Quote endpoint before expiry.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api."
+        },
+        {
+          "info": {
+            "name": "Accept the Quote (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/convert/v1/accept-quote",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "quoteId",
+                  "value": ""
+                },
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Accept a previously fetched conversion quote using its `quoteId`. The conversion\nis executed immediately upon acceptance.\n\n**Key Notes**\n\n- The `type` parameter, if provided, must match the type used in the Get Quote request.\n- Quotes expire after the number of seconds indicated by the `expiry` field in the quote response.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.doc"
+        },
+        {
+          "info": {
+            "name": "Retrieve Order History (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/convert/v1/query-order-history",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "startTime",
+                  "value": ""
+                },
+                {
+                  "name": "endTime",
+                  "value": ""
+                },
+                {
+                  "name": "status",
+                  "value": ""
+                },
+                {
+                  "name": "page",
+                  "value": ""
+                },
+                {
+                  "name": "size",
+                  "value": ""
+                },
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "quoteId",
+                  "value": ""
+                },
+                {
+                  "name": "orderId",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Query the history of convert orders for the authenticated account.\n\n**Key Notes**\n\n- Maximum query window is 180 days.\n- Default page size is 10; maximum is 200 records per page.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Conversion Audit** — Review all past conversions for a given time period\n- **Reconciliation** — Match conve"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

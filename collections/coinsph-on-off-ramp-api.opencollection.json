@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account ON/OFF Ramp API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ON/OFF Ramp",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ramp Get Payment Configurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/ramp/v1/paymentConfigurations",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a list of supported token pairs and network information for a given ramp type and country."
+        },
+        {
+          "info": {
+            "name": "Ramp Trial Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/ramp/v1/trialPrice",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a price estimation for a ramp transaction. This is a trial quote and does not create a persistent quote record."
+        },
+        {
+          "info": {
+            "name": "Ramp Confirm On-Chain Funding",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/ramp/v1/confirmOnChainFunding",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "After the merchant completes the on-chain crypto transfer (for OFF_RAMP), call this endpoint to confirm the funding and provide the transaction ID."
+        },
+        {
+          "info": {
+            "name": "Ramp Get Order Detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/ramp/v1/orderDetail",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the detail and current status of a specific order."
+        },
+        {
+          "info": {
+            "name": "Ramp Init On-Chain Fund",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/ramp/outbound/initOnChainFund",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Notify merchant to prepare on-chain fund transfer. The gateway will forward the request to the merchant's webhook URL with HMAC signature headers, and return the merchant's response containing a deposit ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

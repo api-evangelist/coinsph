@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Checkout API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/checkout/create-checkout",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an instance of a checkout."
+        },
+        {
+          "info": {
+            "name": "Get Checkout Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/checkout/status-check",
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "1984059672474453473",
+                "type": "query",
+                "description": "Server generated checkout id. This takes first priority."
+              },
+              {
+                "name": "refundId",
+                "value": "1984059672474453473",
+                "type": "query",
+                "description": "Server generated checkout id. This takes first priority."
+              },
+              {
+                "name": "requestId",
+                "value": "3C1706X9619A7614YWS",
+                "type": "query",
+                "description": "Assigned by the partner. This takes second priority."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Returns the current status of a previously created checkout."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

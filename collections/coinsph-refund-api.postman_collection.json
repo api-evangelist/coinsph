@@ -1,0 +1,241 @@
+{
+  "item": [
+    {
+      "id": "376cc937-94b5-4426-b939-a9108cc516b2",
+      "name": "Refund",
+      "description": {
+        "content": "Refund operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "813b55f6-ee74-46f8-bded-3a8f9c9094af",
+          "name": "Cash-in Refund",
+          "request": {
+            "name": "Cash-in Refund",
+            "description": {
+              "content": "Initiate a refund for a cash-in transaction (only QRPH refund is supported).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "refund",
+                "pay-in-refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"<string>\",\n  \"originalOrderId\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"method\": \"<string>\",\n  \"receiveAccount\": {\n    \"tfrAcctNo\": \"<string>\",\n    \"tfrName\": \"<string>\",\n    \"receiveChannel\": \"<string>\",\n    \"receiveSubject\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "499158fa-0816-4922-9f2a-5abe8e4a6d33",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "refund",
+                    "pay-in-refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"originalOrderId\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"currency\": \"PHP\",\n  \"reason\": \"<string>\",\n  \"method\": \"<string>\",\n  \"receiveAccount\": {\n    \"tfrAcctNo\": \"<string>\",\n    \"tfrName\": \"<string>\",\n    \"receiveChannel\": \"<string>\",\n    \"receiveSubject\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"requestId\": \"string\",\n    \"originalOrderId\": \"string\",\n    \"referenceId\": \"string\",\n    \"refundAmount\": \"string\",\n    \"refundCurrency\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "94799155-98aa-45ad-b880-eee794fe540d",
+          "name": "Get Payer Account",
+          "request": {
+            "name": "Get Payer Account",
+            "description": {
+              "content": "Retrieve payer account information for a specific reference ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "refund",
+                "account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "referenceId",
+                  "value": "<string>",
+                  "description": "(Required) Reference ID for the transaction."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50e95b61-0b6b-4dfe-b3d6-7ee2fdb89c97",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "refund",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "referenceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"requestId\": \"string\",\n    \"referenceId\": \"string\",\n    \"senderAccountName\": \"string\",\n    \"senderAccountNumber\": \"string\",\n    \"senderChannel\": \"string\",\n    \"senderSubject\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eaf63160-e5a3-4f92-83fe-dc534cd4dba2",
+    "name": "TRADING Account Refund API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,800 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Spot API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Spot",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exchange Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/exchangeInfo",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single trading pair. Cannot be used with `symbols`."
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of trading pairs. Cannot be used with `symbol`."
+              }
+            ]
+          },
+          "docs": "Returns current exchange trading rules and symbol information. Provides comprehensive\ndetails about available trading pairs, their configurations, trading rules, and filters\nthat apply to orders.\n\n**Key Notes**\n\n- Use `symbol` to query a single trading pair.\n- Use `symbols` (comma-separated) to query multiple trading pairs. Cannot be used together with `symbol`.\n- If neither is provided, returns information for all trading pairs.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://a"
+        },
+        {
+          "info": {
+            "name": "Test New Order (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/order/test",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "symbol",
+                  "value": ""
+                },
+                {
+                  "name": "side",
+                  "value": ""
+                },
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "timeInForce",
+                  "value": ""
+                },
+                {
+                  "name": "quantity",
+                  "value": ""
+                },
+                {
+                  "name": "quoteOrderQty",
+                  "value": ""
+                },
+                {
+                  "name": "price",
+                  "value": ""
+                },
+                {
+                  "name": "newClientOrderId",
+                  "value": ""
+                },
+                {
+                  "name": "stopPrice",
+                  "value": ""
+                },
+                {
+                  "name": "newOrderRespType",
+                  "value": ""
+                },
+                {
+                  "name": "stpFlag",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Test order creation without sending it to the matching engine. Validates parameters,\nsignature, and recvWindow. Returns empty object on success. Accepts the same parameters\nas POST /openapi/v1/order.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Dry-Run Validation** — Submit a test order to confirm that price, quantity, and parame"
+        },
+        {
+          "info": {
+            "name": "Query Order (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/order",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "1799249051008066600",
+                "type": "query",
+                "description": "System-assigned order ID."
+              },
+              {
+                "name": "origClientOrderId",
+                "value": "test5678",
+                "type": "query",
+                "description": "Client-assigned order ID."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Check an order's status. Either orderId or origClientOrderId must be sent. If both are sent, orderId takes precedence.\n\n**Order Status Values**\n\n| Status | Description |\n|---|---|\n| NEW | Accepted but not yet executed |\n| PARTIALLY_FILLED | Part of order has been filled |\n| FILLED | Completely executed |\n| PARTIALLY_CANCELED | Part canceled due to self-trade |\n| CANCELED | Cancelled by user |\n| EXPIRED | Cancelled by matching engine |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](http"
+        },
+        {
+          "info": {
+            "name": "New Order (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/order",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "symbol",
+                  "value": ""
+                },
+                {
+                  "name": "side",
+                  "value": ""
+                },
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "timeInForce",
+                  "value": ""
+                },
+                {
+                  "name": "quantity",
+                  "value": ""
+                },
+                {
+                  "name": "quoteOrderQty",
+                  "value": ""
+                },
+                {
+                  "name": "price",
+                  "value": ""
+                },
+                {
+                  "name": "newClientOrderId",
+                  "value": ""
+                },
+                {
+                  "name": "stopPrice",
+                  "value": ""
+                },
+                {
+                  "name": "newOrderRespType",
+                  "value": ""
+                },
+                {
+                  "name": "stpFlag",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Submit a new trading order. Supports LIMIT, MARKET, STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, and LIMIT_MAKER order types.\n\n**Order Type Requirements**\n\n| Type | Required Additional Parameters |\n|---|---|\n| LIMIT | timeInForce, quantity, price |\n| MARKET | quantity OR quoteOrderQty |\n| STOP_LOSS | quantity OR quoteOrderQty, stopPrice |\n| STOP_LOSS_LIMIT | timeInForce, quantity, price, stopPrice |\n| TAKE_PROFIT | quantity OR quoteOrderQty, stopPrice |\n| TAKE_PROFIT_LIMIT | timeI"
+        },
+        {
+          "info": {
+            "name": "Cancel Order (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.pro.coins.ph/openapi/v1/order",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "1205324142243592400",
+                "type": "query",
+                "description": "System-assigned order ID."
+              },
+              {
+                "name": "origClientOrderId",
+                "value": "165838718862761",
+                "type": "query",
+                "description": "Client-assigned order ID."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Cancel an active order. Either orderId or origClientOrderId must be sent.\n\nOnly NEW or PARTIALLY_FILLED orders can be cancelled. The filled portion is not reversed.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Price Update** — Cancel an existing limit order to replace it at a more competitive price level\n- **Risk Reduction** — Re"
+        },
+        {
+          "info": {
+            "name": "Current Open Orders (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/openOrders",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "BTCUSDT",
+                "type": "query",
+                "description": "Trading pair symbol. If omitted, returns open orders for all symbols."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Get all open orders on a symbol. If symbol is not sent, returns open orders for all symbols.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Exposure Check** — Retrieve all open orders on a symbol to calculate total pending exposure before placing additional orders\n- **State Sync** — Reload all active orders after a reconnect or ap"
+        },
+        {
+          "info": {
+            "name": "Cancel All Open Orders on a Symbol (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.pro.coins.ph/openapi/v1/openOrders",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "BTCUSDT",
+                "type": "query",
+                "description": "Trading pair symbol for which to cancel all open orders."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Cancels all active orders on a symbol. Quickly cancel all open orders for a specific\ntrading pair in a single request, useful for risk management and rapid position adjustment.\n\n**Key Notes**\n\n- Cancels ALL active orders (NEW and PARTIALLY_FILLED) for the specified symbol.\n- Does not affect orders already FILLED, CANCELED, or EXPIRED.\n- Returns an array of all cancelled orders.\n- Empty array `[]` if no open orders exist for the symbol.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](htt"
+        },
+        {
+          "info": {
+            "name": "Cancel and Replace Order (TRADE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/v1/order/cancelReplace",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "symbol",
+                  "value": ""
+                },
+                {
+                  "name": "side",
+                  "value": ""
+                },
+                {
+                  "name": "type",
+                  "value": ""
+                },
+                {
+                  "name": "cancelReplaceMode",
+                  "value": ""
+                },
+                {
+                  "name": "timeInForce",
+                  "value": ""
+                },
+                {
+                  "name": "quantity",
+                  "value": ""
+                },
+                {
+                  "name": "quoteOrderQty",
+                  "value": ""
+                },
+                {
+                  "name": "price",
+                  "value": ""
+                },
+                {
+                  "name": "cancelOrderId",
+                  "value": ""
+                },
+                {
+                  "name": "cancelOrigClientOrderId",
+                  "value": ""
+                },
+                {
+                  "name": "newClientOrderId",
+                  "value": ""
+                },
+                {
+                  "name": "stopPrice",
+                  "value": ""
+                },
+                {
+                  "name": "newOrderRespType",
+                  "value": ""
+                },
+                {
+                  "name": "stpFlag",
+                  "value": ""
+                },
+                {
+                  "name": "cancelRestrictions",
+                  "value": ""
+                },
+                {
+                  "name": "recvWindow",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp",
+                  "value": ""
+                },
+                {
+                  "name": "signature",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Cancel an existing active order and place a new order on the same symbol in a single atomic operation.\nIf the cancellation or new order placement fails, the entire operation is rolled back.\n\nThis endpoint is used to modify parameters (such as quantity, price) of an existing open order\nby cancelling it and immediately placing a replacement order.\n\n**Cancel Replace Mode**\n\n| Mode | Description |\n|---|---|\n| STOP_ON_FAILURE | If the cancel request fails, the new order placement will not be attempte"
+        },
+        {
+          "info": {
+            "name": "History Orders By Create Time (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/historyOrders",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "BCHBUSD",
+                "type": "query",
+                "description": "Trading pair symbol. If omitted, returns historical orders for all symbols."
+              },
+              {
+                "name": "orderId",
+                "value": "1194453962386908700",
+                "type": "query",
+                "description": "Returns orders with order ID >= this value. Used for pagination."
+              },
+              {
+                "name": "startTime",
+                "value": "1657126000000",
+                "type": "query",
+                "description": "Start time filter in milliseconds."
+              },
+              {
+                "name": "endTime",
+                "value": "1657130000000",
+                "type": "query",
+                "description": "End time filter in milliseconds."
+              },
+              {
+                "name": "limit",
+                "value": "500",
+                "type": "query",
+                "description": "Maximum number of orders to return. Default: 500, Maximum: 1000."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Get all historical orders of the account filtered by order **create time**: cancelled, filled, or rejected.\nRetrieves historical orders for a specific symbol with pagination support\nvia the `orderId` parameter and time-based filtering based on when the order was originally created.\n\n**Key Notes**\n\n- If `symbol` is omitted, returns historical orders for all symbols (weight: 40).\n- If `orderId` is set, returns orders with order ID >= this value (pagination).\n- `startTime` and `endTime` filter by o"
+        },
+        {
+          "info": {
+            "name": "History Orders By Update Time (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/getHistoryOrdersByUpdateTime",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "BCHBUSD",
+                "type": "query",
+                "description": "Trading pair symbol."
+              },
+              {
+                "name": "orderId",
+                "value": "1194453962386908700",
+                "type": "query",
+                "description": "Returns orders with order ID >= this value. Used for pagination."
+              },
+              {
+                "name": "startTime",
+                "value": "1657126000000",
+                "type": "query",
+                "description": "Start time filter in milliseconds (based on order update time)."
+              },
+              {
+                "name": "endTime",
+                "value": "1657130000000",
+                "type": "query",
+                "description": "End time filter in milliseconds (based on order update time)."
+              },
+              {
+                "name": "limit",
+                "value": "500",
+                "type": "query",
+                "description": "Maximum number of orders to return. Default: 500, Maximum: 1000."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Get all historical orders of the account filtered by order **update time**: cancelled, filled, or rejected.\nThis endpoint is identical to History Orders By Create Time except that `startTime` and `endTime` filter\nbased on the order's **last update time** rather than the order's **create time**.\n\n**Key Notes**\n\n- `symbol` is required.\n- If `orderId` is set, returns orders with order ID >= this value (pagination).\n- `startTime` and `endTime` filter by order update time (e.g., the time an order was"
+        },
+        {
+          "info": {
+            "name": "Account Trade List (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/myTrades",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "BTCUSDT",
+                "type": "query",
+                "description": "Trading pair symbol."
+              },
+              {
+                "name": "startTime",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Start time in milliseconds."
+              },
+              {
+                "name": "endTime",
+                "value": "1507811576532",
+                "type": "query",
+                "description": "End time in milliseconds."
+              },
+              {
+                "name": "fromId",
+                "value": "1202289462787244800",
+                "type": "query",
+                "description": "TradeId to fetch from. Default: most recent trades."
+              },
+              {
+                "name": "limit",
+                "value": "500",
+                "type": "query",
+                "description": "Number of results to return. Default: 500; Maximum: 1000."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Get trades for a specific account and symbol.\n\n- If fromId is set, returns trades with id >= fromId.\n- If startTime and endTime are both set, fromId is not required.\n- startTime and endTime cannot span more than 24 hours.\n- Maximum 1000 trades returned per request.\n- Only data from the **last 90 days** is available. \n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coi"
+        },
+        {
+          "info": {
+            "name": "Transaction History (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/asset/transaction/history",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "tokenId",
+                "value": "BTC",
+                "type": "query",
+                "description": "Token/asset identifier (e.g., BTC, USDT, PHP)."
+              },
+              {
+                "name": "subUserId",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Sub-account user ID. If provided, returns transaction history for the specified sub-account."
+              },
+              {
+                "name": "pageNum",
+                "value": "1",
+                "type": "query",
+                "description": "Page number for pagination. Default: 1, Maximum: 1000."
+              },
+              {
+                "name": "pageSize",
+                "value": "20",
+                "type": "query",
+                "description": "Number of records per page. Default: 20, Maximum: 100."
+              },
+              {
+                "name": "startTime",
+                "value": "1657126000000",
+                "type": "query",
+                "description": "Start time filter in milliseconds. Time range with endTime cannot exceed 90 days."
+              },
+              {
+                "name": "endTime",
+                "value": "1657730000000",
+                "type": "query",
+                "description": "End time filter in milliseconds. Must be greater than startTime."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "1507725176532",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Get historical fund flow records (transaction history) for a specific token on the account.\nThis endpoint returns all balance changes including deposits, withdrawals, trades, fees,\ntransfers, and other fund movements — providing a complete audit trail of asset changes.\n\n**Key Notes**\n\n- `tokenId` is required — specifies which asset's transaction history to retrieve.\n- Supports pagination via `pageNum` and `pageSize`.\n- Only data from the **last 90 days** is available. \n- `startTime` and `endTime"
+        },
+        {
+          "info": {
+            "name": "Trade Fee (USER_DATA)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/v1/asset/tradeFee",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Trading pair symbol. If omitted, returns fee rates for all trading pairs."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Unix timestamp in milliseconds."
+              },
+              {
+                "name": "signature",
+                "value": "",
+                "type": "query",
+                "description": "HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+              }
+            ]
+          },
+          "docs": "Fetch the current trading fee rates (maker and taker commission) for one or all\ntrading pairs on the account. Fee rates may vary based on VIP level or trading volume.\n\n**Key Notes**\n\n- If `symbol` is omitted, returns fee rates for all trading pairs.\n- Fee rates are returned as decimal values (e.g., `0.001` = 0.1%).\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

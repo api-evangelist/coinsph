@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Account Validation API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account Validation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit Account Validation Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/account-validation/create",
+            "headers": [
+              {
+                "name": "signature",
+                "value": ""
+              },
+              {
+                "name": "timestamp",
+                "value": ""
+              },
+              {
+                "name": "recvWindow",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an account validation request. Returns `PENDING` immediately.\nUse the `validationRequestId` from the response to poll the status-check endpoint.\n\n**Idempotency**: Submitting the same `requestId` twice returns the original result without creating a duplicate validation.\n"
+        },
+        {
+          "info": {
+            "name": "Query Account Validation Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/account-validation/status-check",
+            "headers": [
+              {
+                "name": "X-COINS-APIKEY",
+                "value": ""
+              },
+              {
+                "name": "signature",
+                "value": ""
+              },
+              {
+                "name": "timestamp",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "query",
+                "description": "Merchant idempotency key (one of requestId or validationRequestId required)"
+              },
+              {
+                "name": "validationRequestId",
+                "value": "AV20240423000001",
+                "type": "query",
+                "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided."
+              }
+            ]
+          },
+          "docs": "Query the result of an account validation request.\nAt least one of `requestId` or `validationRequestId` must be provided.\n`validationRequestId` takes precedence if both are provided.\n\n**Polling recommendation**: Send the first poll 3 seconds after submission, then use exponential backoff with a max interval of 30 seconds.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

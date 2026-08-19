@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Ramp Callback API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ramp Callback",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ramp Callback API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/ramp/callback",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A POST request will be sent to the callback URL configured by the merchant whenever the order status changes. This is NOT an endpoint you call — it documents the payload Coins.ph sends TO your server.\n\n## Order Status Values\n- `CREATE` - Order created\n- `RISK_REVIEW` - Risk review in progress\n- `FUND_TRANSFER_PROCESSING` - Fund transfer in progress\n- `QUOTE_ACCEPT_PROCESSING` - Quote acceptance in progress\n- `REFUNDED_TRANSFER_PROCESSING` - Refund transfer in progress\n- `QUOTE_ACCEPTED` - Quote "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

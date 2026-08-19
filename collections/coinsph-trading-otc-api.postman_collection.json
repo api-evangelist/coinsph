@@ -1,0 +1,447 @@
+{
+  "item": [
+    {
+      "id": "73dc519c-fb83-4e2d-ad64-e6707d64c15c",
+      "name": "Trading - OTC",
+      "description": {
+        "content": "OTC trading for Business Account",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "85b7b5f6-bd64-4560-b637-0771d1d9e101",
+          "name": "OTC Get Supported Trading Pairs",
+          "request": {
+            "name": "OTC Get Supported Trading Pairs",
+            "description": {
+              "content": "Returns a list of all available OTC trading pairs. Business Account only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "otc-trade",
+                "v1",
+                "get-supported-trading-pairs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0d0d340-d9b6-4998-94ee-bd00788c4cbf",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "otc-trade",
+                    "v1",
+                    "get-supported-trading-pairs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": [\n    {\n      \"sourceCurrency\": \"string\",\n      \"targetCurrency\": \"string\",\n      \"minSourceAmount\": \"string\",\n      \"maxSourceAmount\": \"string\",\n      \"precision\": \"string\",\n      \"settlementType\": [\n        \"MANUAL_DEFER\",\n        \"MANUAL_DEFER\"\n      ],\n      \"expiry\": \"string\",\n      \"deferredSettlementExpiry\": \"string\",\n      \"dailySettlementLimit\": \"string\"\n    },\n    {\n      \"sourceCurrency\": \"string\",\n      \"targetCurrency\": \"string\",\n      \"minSourceAmount\": \"string\",\n      \"maxSourceAmount\": \"string\",\n      \"precision\": \"string\",\n      \"settlementType\": [\n        \"MANUAL_DEFER\",\n        \"AUTO_DEFER\"\n      ],\n      \"expiry\": \"string\",\n      \"deferredSettlementExpiry\": \"string\",\n      \"dailySettlementLimit\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1a4dfc97-acca-41f3-947b-67daaa100d29",
+          "name": "Create RFQ",
+          "request": {
+            "name": "Create RFQ",
+            "description": {
+              "content": "Returns a quote for a specified source and target currency pair. Business Account only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "otc-trade",
+                "v1",
+                "create-rfq"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"targetCurrency\": \"<string>\",\n  \"settlementType\": \"<string>\",\n  \"sourceAmount\": \"<string>\",\n  \"targetAmount\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "878cf6f2-2d40-4be5-b207-bf1788847e6a",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "otc-trade",
+                    "v1",
+                    "create-rfq"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"targetCurrency\": \"<string>\",\n  \"settlementType\": \"<string>\",\n  \"sourceAmount\": \"<string>\",\n  \"targetAmount\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"quoteId\": \"string\",\n    \"sourceCurrency\": \"string\",\n    \"targetCurrency\": \"string\",\n    \"sourceAmount\": \"string\",\n    \"targetAmount\": \"string\",\n    \"price\": \"string\",\n    \"expiry\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e57694d-3850-41d7-90a3-f846c1bdc6b4",
+          "name": "Accept RFQ",
+          "request": {
+            "name": "Accept RFQ",
+            "description": {
+              "content": "Accept the quote and receive the result instantly. Business Account only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "otc-trade",
+                "v1",
+                "accept-rfq"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dca44e0c-147b-4d37-9292-3a20bcaf2253",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "otc-trade",
+                    "v1",
+                    "accept-rfq"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"orderId\": \"string\",\n    \"status\": \"PROCESSING\",\n    \"deferredSettlementExpiryUntil\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c54b817f-374b-44ac-8595-513cf7ae9686",
+          "name": "Manual Settle",
+          "request": {
+            "name": "Manual Settle",
+            "description": {
+              "content": "Manually settle deferred-settlement orders. Business Account only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "otc-trade",
+                "v1",
+                "manual-settle"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "57bc3586-a7cb-4273-b5c8-58b64466818c",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "otc-trade",
+                    "v1",
+                    "manual-settle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"status\": \"FAILED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cac83f50-7068-4823-8575-6757e6b56920",
+    "name": "TRADING Account Trading - OTC API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

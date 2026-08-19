@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Disbursements API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Disbursements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Support Channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/support-channel",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Return the supported channels for cash-out methods."
+        },
+        {
+          "info": {
+            "name": "Decode QRPH",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/decode/kyb_qr_code",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a structured breakdown of the information contained in the QR code."
+        },
+        {
+          "info": {
+            "name": "Initiate Cash-out",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/fiat/v1/cash-out",
+            "params": [
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Disbursement to external financial institutions."
+        },
+        {
+          "info": {
+            "name": "Crypto Apply Withdrawal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/wallet/v1/withdraw/apply",
+            "params": [
+              {
+                "name": "coin",
+                "value": "USDT",
+                "type": "query"
+              },
+              {
+                "name": "network",
+                "value": "XRP",
+                "type": "query"
+              },
+              {
+                "name": "address",
+                "value": "rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC",
+                "type": "query"
+              },
+              {
+                "name": "addressTag",
+                "value": "1119001253",
+                "type": "query"
+              },
+              {
+                "name": "amount",
+                "value": "200.64",
+                "type": "query"
+              },
+              {
+                "name": "withdrawOrderId",
+                "value": "",
+                "type": "query",
+                "description": "Assigned by the partner."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Make a crypto withdrawal to an external wallet."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

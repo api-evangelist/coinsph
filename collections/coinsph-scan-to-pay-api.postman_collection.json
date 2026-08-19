@@ -1,0 +1,1124 @@
+{
+  "item": [
+    {
+      "id": "acbd9320-68bb-4582-a9c9-8e6131978de7",
+      "name": "Scan to Pay",
+      "description": {
+        "content": "QR code scan-to-pay payment operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "db078263-f425-4471-b115-13926f885894",
+          "name": "Payment QRCode Decode",
+          "request": {
+            "name": "Payment QRCode Decode",
+            "description": {
+              "content": "Decode a QR code string and return payment preview information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "scan-to-pay",
+                "payment-preview"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientUserId\": \"<string>\",\n  \"codeMsg\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f308a98c-7ee9-49d3-af07-b4d62eb29de2",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "scan-to-pay",
+                    "payment-preview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientUserId\": \"<string>\",\n  \"codeMsg\": \"00020101021228600011ph.ppmi.p2m0111DCPHPHM1XXX0319213710352267898651205030115204601653036085402605802PH5909sand+90016007Boliney62380011ph.ppmi.p2m0519197338345306306048063047EAA\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"data\": {\n    \"qrType\": \"com.p2pqrpay\",\n    \"channel\": \"PAYMENT_INTERNAL_P2P\",\n    \"channelSubject\": \"DYNAMIC_QRPH\",\n    \"minLimit\": \"1\",\n    \"maxLimit\": \"50000\",\n    \"channelQRCodeMap\": {\n      \"clientUserId\": \"2136450830863779072\",\n      \"amount\": \"60\",\n      \"recipientAccountNumber\": \"1*****************6\",\n      \"fee\": \"0\",\n      \"clientReqId\": \"QRPH_P2M2139420973710274822\",\n      \"recipientName\": \"xuqi-9001  z.\",\n      \"subQrType\": \"DYNAMIC\",\n      \"recipientAddress\": \"sa•••@coins.ph\",\n      \"productType\": \"SCAN_TO_PAY\",\n      \"token\": \"ee0b06d9b66e4931810907fe0ac7aa31\"\n    }\n  },\n  \"params\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a945eb9d-3125-411a-aea4-9a83a7107f9a",
+          "name": "Execute Payment",
+          "request": {
+            "name": "Execute Payment",
+            "description": {
+              "content": "Execute a scan-to-pay payment using the information returned from the payment-preview API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "scan-to-pay",
+                "payment-execution"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"internalOrderId\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"channelName\": \"<string>\",\n  \"channelSubject\": \"<string>\",\n  \"extendInfo\": {\n    \"clientUserId\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"subQrType\": \"<string>\",\n    \"productType\": \"<string>\",\n    \"clientReqId\": \"<string>\",\n    \"token\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"recipientAddress\": \"<string>\",\n    \"tfrName\": \"<string>\",\n    \"tfrBnkCode\": \"<string>\",\n    \"tfrAcctNo\": \"<string>\",\n    \"fee\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "98271fde-49f8-4202-a7ed-19009abe579f",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "scan-to-pay",
+                    "payment-execution"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"internalOrderId\": \"20260130200000\",\n  \"currency\": \"PHP\",\n  \"amount\": \"50\",\n  \"channelName\": \"PAYMENT_INTERNAL_P2P\",\n  \"channelSubject\": \"DYNAMIC_QRPH\",\n  \"extendInfo\": {\n    \"clientUserId\": \"2136450830863779072\",\n    \"amount\": \"60\",\n    \"recipientAccountNumber\": \"1*****************6\",\n    \"fee\": \"0\",\n    \"clientReqId\": \"QRPH_P2M2139420973710274822\",\n    \"recipientName\": \"xuqi-9001  z.\",\n    \"subQrType\": \"DYNAMIC\",\n    \"recipientAddress\": \"sa•••@coins.ph\",\n    \"productType\": \"SCAN_TO_PAY\",\n    \"token\": \"ee0b06d9b66e4931810907fe0ac7aa31\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"data\": {\n    \"externalOrderId\": \"2139421355786203399\",\n    \"internalOrderId\": \"20260130200000\",\n    \"status\": \"SUCCEEDED\"\n  },\n  \"params\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b2a6b9e-c694-42ca-8687-894523ac5c0a",
+          "name": "Get Payment Result",
+          "request": {
+            "name": "Get Payment Result",
+            "description": {
+              "content": "Retrieve the result of a scan-to-pay payment by internal order id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "scan-to-pay",
+                "get-payment-result"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "internalOrderId",
+                  "value": "<string>",
+                  "description": "(Required) ID of the order for which the user wishes to retrieve details."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4458de37-86b0-4f04-95e5-467295e1492e",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "scan-to-pay",
+                    "get-payment-result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "internalOrderId",
+                      "value": "20260130200000"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"data\": {\n    \"externalOrderId\": \"2139421355786203399\",\n    \"internalOrderId\": \"20260130200000\",\n    \"paymentOrderId\": \"\",\n    \"fiatCurrency\": \"PHP\",\n    \"fiatAmount\": \"51.11\",\n    \"transactionType\": -1,\n    \"transactionChannel\": \"PAYMENT_INTERNAL_P2P\",\n    \"transactionSubject\": \"DYNAMIC_QRPH\",\n    \"transactionChannelName\": \"payment_internal_p2p\",\n    \"transactionSubjectName\": \"\",\n    \"transactionSubjectType\": \"\",\n    \"feeCurrency\": \"PHP\",\n    \"channelFee\": \"0\",\n    \"platformFee\": \"1.11\",\n    \"status\": \"SUCCEEDED\",\n    \"errorCode\": \"\",\n    \"errorMessage\": \"\",\n    \"completedTime\": \"2026-01-30T12:08:20.000+00:00\",\n    \"source\": \"OPEN_API\",\n    \"createdAt\": \"2026-01-30T12:08:20.000+00:00\",\n    \"orderExtendedMap\": {\n      \"clientUserId\": \"2136450830863779072\",\n      \"amount\": \"60\",\n      \"fromUserId\": \"1442669428718174721\",\n      \"linkOrderFee\": \"0.09\",\n      \"fee\": \"0\",\n      \"clientReqId\": \"QRPH_P2M2139420973710274822\",\n      \"subQrType\": \"DYNAMIC\",\n      \"linkOrderId\": \"2139421359040983304\",\n      \"toUserId\": \"1864422461483746816\",\n      \"orgId\": \"9001\",\n      \"token\": \"ee0b06d9b66e4931810907fe0ac7aa31\",\n      \"userIpCountry\": \"Japan\",\n      \"recipientAccountNumber\": \"1864422461483746816\",\n      \"x-user-ip\": \"35.75.185.122\",\n      \"dualWriteMode\": \"DUAL_WRITE_LEGACY_PRIMARY\",\n      \"recipientName\": \"xuqi-9001  z.\",\n      \"userIp\": \"35.75.185.122\",\n      \"taxFee\": \"0\",\n      \"recipientAddress\": \"sa•••@coins.ph\",\n      \"productType\": \"SCAN_TO_PAY\"\n    },\n    \"dealCancel\": false\n  },\n  \"params\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2e95eb2-3ceb-4e92-85a1-a4717d0836d3",
+          "name": "Create Account",
+          "request": {
+            "name": "Create Account",
+            "description": {
+              "content": "Create a KYC account for scan-to-pay user.\n\n**Note:** Parameters need to be passed using Query String; form-data and json methods cannot be used. The contentType must be multipart/form-data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "account",
+                "create-account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "requestId",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Unique order ID generated by the merchant."
+                },
+                {
+                  "key": "customerId",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Customer ID on the merchant side."
+                },
+                {
+                  "key": "callbackDefaultUrl",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Default URL to redirect users based on registration results."
+                },
+                {
+                  "key": "customerIp",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Customer's own IP address."
+                },
+                {
+                  "key": "customerSource",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) The source of the customer's device. (This can only be one of WEB,IOS,ANDROID)"
+                },
+                {
+                  "key": "customerUserAgent",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Customer's user-agent."
+                },
+                {
+                  "key": "firstName",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) First name."
+                },
+                {
+                  "key": "lastName",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Last name."
+                },
+                {
+                  "key": "gender",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "(Required) Gender: 0 - Other, 1 - Male, 2 - Female. (This can only be one of 0,1,2)"
+                },
+                {
+                  "key": "dateOfBirth",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) The format is: yyyy-MM-dd."
+                },
+                {
+                  "key": "country",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Current country of residence. Refer to CountryEnum, use the code field value."
+                },
+                {
+                  "key": "nationality",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Nationality. Refer to CountryEnum, use the code field value."
+                },
+                {
+                  "key": "state",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Current state (province) of residence."
+                },
+                {
+                  "key": "city",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Current city of residence."
+                },
+                {
+                  "key": "street",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Current residential address."
+                },
+                {
+                  "key": "postalCode",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Current residence postal code."
+                },
+                {
+                  "key": "employmentStatus",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Employment status. Refer to EmploymentStatusEnum. (This can only be one of employed,self_e,freelance,unemployed,retired,student)"
+                },
+                {
+                  "key": "purposeOfAccount",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Account purposes. (This can only be one of legal,crypto,both)"
+                },
+                {
+                  "key": "idType",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Type of ID, e.g.: passport. Refer to IdTypeEnum."
+                },
+                {
+                  "key": "idNumber",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ID number."
+                },
+                {
+                  "key": "expireDate",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ID expiration date, the format is: yyyy-MM-dd."
+                },
+                {
+                  "key": "frontIdImage",
+                  "type": "file",
+                  "description": "(Required) Image of the front of the id. Supported formats: jpg, png, jpeg. Max size: 2M."
+                },
+                {
+                  "key": "facePhoto",
+                  "type": "file",
+                  "description": "(Required) Selfie photo. Supported formats: jpg, png, jpeg. Max size: 2M."
+                },
+                {
+                  "key": "frontIdImageMd5",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) MD5 value of the frontIdImage file."
+                },
+                {
+                  "key": "facePhotoMd5",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) MD5 value of the facePhoto file."
+                },
+                {
+                  "key": "email",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Customer's email, at least one of the email or phone numbers must be provided."
+                },
+                {
+                  "key": "phone",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The customer's mobile phone number must be formatted as [country code] [local number], for example: +63 9271234567."
+                },
+                {
+                  "key": "notifyUrl",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "User creation result notification URL."
+                },
+                {
+                  "key": "callbackSuccessUrl",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "URL for redirecting users after successful registration."
+                },
+                {
+                  "key": "callbackFailureUrl",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "URL for redirecting upon registration failure."
+                },
+                {
+                  "key": "callbackCancelUrl",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "URL for user cancellation of registration redirection."
+                },
+                {
+                  "key": "middleName",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Middle name."
+                },
+                {
+                  "key": "industry",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Industry. If employmentStatus is employed, this field is required."
+                },
+                {
+                  "key": "companyName",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Company Name. If employmentStatus is employed, this field is required."
+                },
+                {
+                  "key": "jobTitle",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Position. If employmentStatus is employed, this field is required."
+                },
+                {
+                  "key": "backIdImage",
+                  "type": "file",
+                  "description": "Backside photo of the evidence. Supported formats: jpg, png, jpeg. Max size: 2M."
+                },
+                {
+                  "key": "backIdImageMd5",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "MD5 value of the backIdImage file."
+                },
+                {
+                  "key": "businessScenarios",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Scan to Pay need input scan_to_pay."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "502ce8c6-9567-4d10-9c2e-a667ef52b10d",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "account",
+                    "create-account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Unique order ID generated by the merchant.",
+                        "type": "text/plain"
+                      },
+                      "key": "requestId",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Customer ID on the merchant side.",
+                        "type": "text/plain"
+                      },
+                      "key": "customerId",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Default URL to redirect users based on registration results.",
+                        "type": "text/plain"
+                      },
+                      "key": "callbackDefaultUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Customer's own IP address.",
+                        "type": "text/plain"
+                      },
+                      "key": "customerIp",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) The source of the customer's device. (This can only be one of WEB,IOS,ANDROID)",
+                        "type": "text/plain"
+                      },
+                      "key": "customerSource",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Customer's user-agent.",
+                        "type": "text/plain"
+                      },
+                      "key": "customerUserAgent",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) First name.",
+                        "type": "text/plain"
+                      },
+                      "key": "firstName",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "lastName",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Gender: 0 - Other, 1 - Male, 2 - Female. (This can only be one of 0,1,2)",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) The format is: yyyy-MM-dd.",
+                        "type": "text/plain"
+                      },
+                      "key": "dateOfBirth",
+                      "value": "1990-01-01",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Current country of residence. Refer to CountryEnum, use the code field value.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Nationality. Refer to CountryEnum, use the code field value.",
+                        "type": "text/plain"
+                      },
+                      "key": "nationality",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Current state (province) of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Current city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Current residential address.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Current residence postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "postalCode",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Employment status. Refer to EmploymentStatusEnum. (This can only be one of employed,self_e,freelance,unemployed,retired,student)",
+                        "type": "text/plain"
+                      },
+                      "key": "employmentStatus",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Account purposes. (This can only be one of legal,crypto,both)",
+                        "type": "text/plain"
+                      },
+                      "key": "purposeOfAccount",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Type of ID, e.g.: passport. Refer to IdTypeEnum.",
+                        "type": "text/plain"
+                      },
+                      "key": "idType",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID number.",
+                        "type": "text/plain"
+                      },
+                      "key": "idNumber",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID expiration date, the format is: yyyy-MM-dd.",
+                        "type": "text/plain"
+                      },
+                      "key": "expireDate",
+                      "value": "2030-12-31",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Image of the front of the id. Supported formats: jpg, png, jpeg. Max size: 2M.",
+                        "type": "text/plain"
+                      },
+                      "key": "frontIdImage",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Selfie photo. Supported formats: jpg, png, jpeg. Max size: 2M.",
+                        "type": "text/plain"
+                      },
+                      "key": "facePhoto",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) MD5 value of the frontIdImage file.",
+                        "type": "text/plain"
+                      },
+                      "key": "frontIdImageMd5",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) MD5 value of the facePhoto file.",
+                        "type": "text/plain"
+                      },
+                      "key": "facePhotoMd5",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Customer's email, at least one of the email or phone numbers must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The customer's mobile phone number must be formatted as [country code] [local number], for example: +63 9271234567.",
+                        "type": "text/plain"
+                      },
+                      "key": "phone",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "User creation result notification URL.",
+                        "type": "text/plain"
+                      },
+                      "key": "notifyUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL for redirecting users after successful registration.",
+                        "type": "text/plain"
+                      },
+                      "key": "callbackSuccessUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL for redirecting upon registration failure.",
+                        "type": "text/plain"
+                      },
+                      "key": "callbackFailureUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL for user cancellation of registration redirection.",
+                        "type": "text/plain"
+                      },
+                      "key": "callbackCancelUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middleName",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Industry. If employmentStatus is employed, this field is required.",
+                        "type": "text/plain"
+                      },
+                      "key": "industry",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Company Name. If employmentStatus is employed, this field is required.",
+                        "type": "text/plain"
+                      },
+                      "key": "companyName",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Position. If employmentStatus is employed, this field is required.",
+                        "type": "text/plain"
+                      },
+                      "key": "jobTitle",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Backside photo of the evidence. Supported formats: jpg, png, jpeg. Max size: 2M.",
+                        "type": "text/plain"
+                      },
+                      "key": "backIdImage",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "MD5 value of the backIdImage file.",
+                        "type": "text/plain"
+                      },
+                      "key": "backIdImageMd5",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Scan to Pay need input scan_to_pay.",
+                        "type": "text/plain"
+                      },
+                      "key": "businessScenarios",
+                      "value": "scan_to_pay",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"PENDING\",\n  \"requestId\": \"2021697969472158281\",\n  \"customerId\": \"xxxxxx\",\n  \"coinsUserId\": 0,\n  \"redirectUrl\": \"https://pro.coins.ph/payment/auth?requestId=2021697969472158281\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ccf6848-3cb6-48f0-a53e-64ea7d46b3f9",
+          "name": "Get Created User Request",
+          "request": {
+            "name": "Get Created User Request",
+            "description": {
+              "content": "Retrieve the status and details of a KYC account creation request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "account",
+                "get-create-account-request"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "requestId",
+                  "value": "<string>",
+                  "description": "(Required) requestId parameter when creating a user."
+                },
+                {
+                  "disabled": false,
+                  "key": "customerId",
+                  "value": "<string>",
+                  "description": "(Required) customerId parameter when creating a user."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23d0c036-c68a-4a08-85dd-347fdc0e45fb",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "account",
+                    "get-create-account-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "requestId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "customerId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"2021697969472158281\",\n  \"customerId\": \"xxxx\",\n  \"status\": \"APPROVED\",\n  \"coinsUserId\": 2021697969472158200,\n  \"phone\": \"+63 9271234567\",\n  \"email\": \"example@gmail.com\",\n  \"firstName\": \"\",\n  \"lastName\": \"\",\n  \"middleName\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7c6bbdfd-76a8-45b7-b8b7-862668ee7759",
+    "name": "TRADING Account Scan to Pay API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

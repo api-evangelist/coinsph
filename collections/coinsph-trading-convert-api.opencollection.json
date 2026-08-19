@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TRADING Account Trading - Convert API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trading - Convert",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Supported Convert Trading Pairs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/convert/v1/get-supported-trading-pairs",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Designed to support large trading volume with a minimum trade size of $20,000."
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Returns a list of all available trading pairs. You may need to be whitelisted for OTC-Convert mode."
+        },
+        {
+          "info": {
+            "name": "Convert Fetch Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/convert/v1/get-quote",
+            "params": [
+              {
+                "name": "sourceCurrency",
+                "value": "USDT",
+                "type": "query"
+              },
+              {
+                "name": "targetCurrency",
+                "value": "PHP",
+                "type": "query"
+              },
+              {
+                "name": "sourceAmount",
+                "value": "",
+                "type": "query",
+                "description": "Amount to convert from. Target amount must not be filled when this is filled."
+              },
+              {
+                "name": "targetAmount",
+                "value": "",
+                "type": "query",
+                "description": "Amount to convert to. Source amount must not be filled when this is filled."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Returns a quote for a specified source currency and target currency pair."
+        },
+        {
+          "info": {
+            "name": "Convert Accept Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.pro.coins.ph/openapi/convert/v1/accept-quote",
+            "params": [
+              {
+                "name": "quoteId",
+                "value": "",
+                "type": "query",
+                "description": "Server generated id for the quote."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "recvWindow",
+                "value": "",
+                "type": "query",
+                "description": "Validity duration of the request in milliseconds after the timestamp."
+              }
+            ]
+          },
+          "docs": "Accept a quote for a specified source currency and target currency pair."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

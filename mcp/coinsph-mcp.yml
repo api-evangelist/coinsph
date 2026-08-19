@@ -346,3 +346,9 @@ tools:
 - name: convert_query_order_history
   description: Retrieve Order History (USER_DATA)
   source_operation: openapi/coinsph-convert-openapi.json#convert_query_order_history
+deployment:
+  mode: none
+  verified: derived
+  tools: 113
+  checked: '2026-08-12'
+  source: catalog MCP census

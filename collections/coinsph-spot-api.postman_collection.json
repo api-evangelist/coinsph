@@ -1,0 +1,3655 @@
+{
+  "item": [
+    {
+      "id": "340aa5e3-198b-418e-b97b-cb9bb96492ea",
+      "name": "Spot",
+      "description": {
+        "content": "Spot trading operations including order placement, querying, cancellation, and trade history.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6b23e574-0b3e-4f1c-88bb-c6b794a633be",
+          "name": "Exchange Information",
+          "request": {
+            "name": "Exchange Information",
+            "description": {
+              "content": "Returns current exchange trading rules and symbol information. Provides comprehensive\ndetails about available trading pairs, their configurations, trading rules, and filters\nthat apply to orders.\n\n**Key Notes**\n\n- Use `symbol` to query a single trading pair.\n- Use `symbols` (comma-separated) to query multiple trading pairs. Cannot be used together with `symbol`.\n- If neither is provided, returns information for all trading pairs.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Order Validation** — Fetch PRICE_FILTER and LOT_SIZE filters before placing orders to avoid rejection\n- **Trading Pair Discovery** — Enumerate all active trading pairs and their supported order types\n- **Precision Handling** — Retrieve baseAssetPrecision and quoteAssetPrecision to format amounts correctly\n\n**Best Practices**\n\n- Cache exchange information at application startup and refresh periodically (every few hours)\n- Always check `status === 'TRADING'` before allowing orders on a symbol\n- Validate order price and quantity against PRICE_FILTER and LOT_SIZE before submitting\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "exchangeInfo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "Specify a single trading pair. Cannot be used with `symbols`."
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of trading pairs. Cannot be used with `symbol`."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0ca20611-5e78-41eb-81e4-c789aec6dcf9",
+              "name": "Exchange information retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "exchangeInfo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "BTCPHP,ETHPHP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"timezone\": \"UTC\",\n  \"serverTime\": 1538323200000,\n  \"exchangeFilters\": [],\n  \"symbols\": [\n    {\n      \"symbol\": \"BTCPHP\",\n      \"status\": \"TRADING\",\n      \"baseAsset\": \"BTC\",\n      \"baseAssetPrecision\": 8,\n      \"quoteAsset\": \"PHP\",\n      \"quoteAssetPrecision\": 8,\n      \"orderTypes\": [\n        \"LIMIT\",\n        \"MARKET\",\n        \"LIMIT_MAKER\",\n        \"STOP_LOSS_LIMIT\",\n        \"STOP_LOSS\",\n        \"TAKE_PROFIT_LIMIT\",\n        \"TAKE_PROFIT\"\n      ],\n      \"filters\": [\n        {\n          \"filterType\": \"PRICE_FILTER\",\n          \"minPrice\": \"0.00000100\",\n          \"maxPrice\": \"100000.00000000\",\n          \"tickSize\": \"0.00000100\"\n        },\n        {\n          \"filterType\": \"LOT_SIZE\",\n          \"minQty\": \"0.00100000\",\n          \"maxQty\": \"100000.00000000\",\n          \"stepSize\": \"0.00100000\"\n        },\n        {\n          \"filterType\": \"NOTIONAL\",\n          \"minNotional\": \"0.00100000\"\n        },\n        {\n          \"filterType\": \"MAX_NUM_ORDERS\",\n          \"maxNumOrders\": 200\n        },\n        {\n          \"filterType\": \"MAX_NUM_ALGO_ORDERS\",\n          \"maxNumAlgoOrders\": 5\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0cefc489-1f81-44d5-b0c0-1d1a1b6064dd",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol |\n| -100013 | Parameter symbol and symbols cannot be used in combination |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "exchangeInfo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "BTCPHP,ETHPHP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "719ee530-ef26-4268-b7eb-724b84a0773e",
+          "name": "Test New Order (TRADE)",
+          "request": {
+            "name": "Test New Order (TRADE)",
+            "description": {
+              "content": "Test order creation without sending it to the matching engine. Validates parameters,\nsignature, and recvWindow. Returns empty object on success. Accepts the same parameters\nas POST /openapi/v1/order.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Dry-Run Validation** — Submit a test order to confirm that price, quantity, and parameter formatting pass all exchange filters\n- **Order Type Exploration** — Test different order type and parameter combinations without risking actual funds\n\n**Best Practices**\n\n- Use during development to validate request format before placing live orders\n- Test all parameter combinations for each order type\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "order",
+                "test"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "BTCPHP",
+                  "description": "(Required) Trading pair symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "side",
+                  "value": "<string>",
+                  "description": "(Required) Order side."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "(Required) Order type."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeInForce",
+                  "value": "<string>",
+                  "description": "Time in force. Required for LIMIT order types."
+                },
+                {
+                  "disabled": false,
+                  "key": "quantity",
+                  "value": "<string>",
+                  "description": "Order quantity in base asset units. The quantity must be a multiple of the symbol's stepSize. If the submitted quantity is not aligned with the stepSize, the excess portion will be truncated."
+                },
+                {
+                  "disabled": false,
+                  "key": "quoteOrderQty",
+                  "value": "<string>",
+                  "description": "Quote asset quantity for MARKET orders."
+                },
+                {
+                  "disabled": false,
+                  "key": "price",
+                  "value": "<string>",
+                  "description": "Order price per unit."
+                },
+                {
+                  "disabled": false,
+                  "key": "newClientOrderId",
+                  "value": "<string>",
+                  "description": "Client-assigned unique order ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "stopPrice",
+                  "value": "<string>",
+                  "description": "Trigger price for stop orders."
+                },
+                {
+                  "disabled": false,
+                  "key": "newOrderRespType",
+                  "value": "<string>",
+                  "description": "Response type."
+                },
+                {
+                  "disabled": false,
+                  "key": "stpFlag",
+                  "value": "<string>",
+                  "description": "Self-trade prevention flag. Default: CB."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d203c4ed-5e2a-47d2-90fb-aad1fafd5b24",
+              "name": "Order validated. Returns empty object (order not placed).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Trading pair symbol.",
+                        "type": "text/plain"
+                      },
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order side.",
+                        "type": "text/plain"
+                      },
+                      "key": "side",
+                      "value": "BUY"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order type.",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "LIMIT"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Time in force. Required for LIMIT order types.",
+                        "type": "text/plain"
+                      },
+                      "key": "timeInForce",
+                      "value": "GTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in base asset units. The quantity must be a multiple of the symbol's stepSize. If the submitted quantity is not aligned with the stepSize, the excess portion will be truncated.",
+                        "type": "text/plain"
+                      },
+                      "key": "quantity",
+                      "value": "0.001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Quote asset quantity for MARKET orders.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteOrderQty",
+                      "value": "1000.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order price per unit.",
+                        "type": "text/plain"
+                      },
+                      "key": "price",
+                      "value": "50000.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned unique order ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "newClientOrderId",
+                      "value": "my_order_123"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Trigger price for stop orders.",
+                        "type": "text/plain"
+                      },
+                      "key": "stopPrice",
+                      "value": "49000.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Response type.",
+                        "type": "text/plain"
+                      },
+                      "key": "newOrderRespType",
+                      "value": "FULL"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Self-trade prevention flag. Default: CB.",
+                        "type": "text/plain"
+                      },
+                      "key": "stpFlag",
+                      "value": "CB"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": {\n    \"summary\": \"Validation Passed\",\n    \"value\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8545947-84a7-4d38-a387-c39d4761fff4",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters in parameter |\n| -1102 | Mandatory parameter was not sent |\n| -1116 | Invalid orderType |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order",
+                    "test"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Trading pair symbol.",
+                        "type": "text/plain"
+                      },
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order side.",
+                        "type": "text/plain"
+                      },
+                      "key": "side",
+                      "value": "BUY"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order type.",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "LIMIT"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Time in force. Required for LIMIT order types.",
+                        "type": "text/plain"
+                      },
+                      "key": "timeInForce",
+                      "value": "GTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in base asset units. The quantity must be a multiple of the symbol's stepSize. If the submitted quantity is not aligned with the stepSize, the excess portion will be truncated.",
+                        "type": "text/plain"
+                      },
+                      "key": "quantity",
+                      "value": "0.001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Quote asset quantity for MARKET orders.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteOrderQty",
+                      "value": "1000.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order price per unit.",
+                        "type": "text/plain"
+                      },
+                      "key": "price",
+                      "value": "50000.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned unique order ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "newClientOrderId",
+                      "value": "my_order_123"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Trigger price for stop orders.",
+                        "type": "text/plain"
+                      },
+                      "key": "stopPrice",
+                      "value": "49000.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Response type.",
+                        "type": "text/plain"
+                      },
+                      "key": "newOrderRespType",
+                      "value": "FULL"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Self-trade prevention flag. Default: CB.",
+                        "type": "text/plain"
+                      },
+                      "key": "stpFlag",
+                      "value": "CB"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd2fc0e2-f767-48d9-8504-2fb131f12879",
+          "name": "New Order (TRADE)",
+          "request": {
+            "name": "New Order (TRADE)",
+            "description": {
+              "content": "Submit a new trading order. Supports LIMIT, MARKET, STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, and LIMIT_MAKER order types.\n\n**Order Type Requirements**\n\n| Type | Required Additional Parameters |\n|---|---|\n| LIMIT | timeInForce, quantity, price |\n| MARKET | quantity OR quoteOrderQty |\n| STOP_LOSS | quantity OR quoteOrderQty, stopPrice |\n| STOP_LOSS_LIMIT | timeInForce, quantity, price, stopPrice |\n| TAKE_PROFIT | quantity OR quoteOrderQty, stopPrice |\n| TAKE_PROFIT_LIMIT | timeInForce, quantity, price, stopPrice |\n| LIMIT_MAKER | quantity, price |\n\n**Time In Force**\n\n- GTC (Good-Till-Cancel): Active until filled or cancelled\n- IOC (Immediate-Or-Cancel): Fill immediately, cancel remainder\n- FOK (Fill-Or-Kill): Fill entirely or cancel completely\n\n**Self-Trade Prevention (stpFlag)**\n\n- CB (Cancel Both): Cancel both orders (default)\n- CO (Cancel Oldest): Cancel the older order\n- CN (Cancel Newest): Cancel the newer order\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Limit Order** - Buy/sell at a specific price; stays in order book until filled or cancelled\n- **Market Order** - Execute immediately at best available price\n- **Stop-Loss** - Limit losses by triggering a market order when stop price is reached\n- **Take-Profit** - Lock in gains by triggering a market order at target price\n- **LIMIT_MAKER** - Post-only order guaranteeing maker fees\n\n**Best Practices**\n\n- Use newClientOrderId for idempotency and order tracking\n- Use newOrderRespType=FULL to receive fill details in the response\n- Validate price/quantity against exchangeInfo filters before placing orders\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "BTCPHP",
+                  "description": "(Required) Trading pair symbol (e.g., BCHUSDT, BTCUSDT)."
+                },
+                {
+                  "disabled": false,
+                  "key": "side",
+                  "value": "<string>",
+                  "description": "(Required) Order side."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "(Required) Order type."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeInForce",
+                  "value": "<string>",
+                  "description": "Time in force policy. Required for LIMIT order types."
+                },
+                {
+                  "disabled": false,
+                  "key": "quantity",
+                  "value": "<string>",
+                  "description": "Order quantity in base asset units. The quantity must be a multiple of the symbol's stepSize. If the submitted quantity is not aligned with the stepSize, the excess portion will be truncated."
+                },
+                {
+                  "disabled": false,
+                  "key": "quoteOrderQty",
+                  "value": "<string>",
+                  "description": "Order quantity in quote asset units. Used for MARKET orders as alternative to quantity."
+                },
+                {
+                  "disabled": false,
+                  "key": "price",
+                  "value": "<string>",
+                  "description": "Limit price. Required for LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER."
+                },
+                {
+                  "disabled": false,
+                  "key": "newClientOrderId",
+                  "value": "<string>",
+                  "description": "Client-assigned unique order ID for idempotency. Auto-generated if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "stopPrice",
+                  "value": "<string>",
+                  "description": "Trigger price for conditional orders. Direction rules:\n- STOP_LOSS / STOP_LOSS_LIMIT BUY: stop price must be above current market price\n- STOP_LOSS / STOP_LOSS_LIMIT SELL: stop price must be below current market price\n- TAKE_PROFIT / TAKE_PROFIT_LIMIT SELL: stop price must be above current market price\n- TAKE_PROFIT / TAKE_PROFIT_LIMIT BUY: stop price must be below current market price\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "newOrderRespType",
+                  "value": "<string>",
+                  "description": "Response detail level. Default: FULL for MARKET/LIMIT, ACK for others."
+                },
+                {
+                  "disabled": false,
+                  "key": "stpFlag",
+                  "value": "<string>",
+                  "description": "Self-Trade Prevention flag. Default: CB."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "51fe243e-e083-4a79-8770-d5cf2f466d40",
+              "name": "Order submitted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Trading pair symbol (e.g., BCHUSDT, BTCUSDT).",
+                        "type": "text/plain"
+                      },
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order side.",
+                        "type": "text/plain"
+                      },
+                      "key": "side",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order type.",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1656900365976"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Time in force policy. Required for LIMIT order types.",
+                        "type": "text/plain"
+                      },
+                      "key": "timeInForce",
+                      "value": "GTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in base asset units. The quantity must be a multiple of the symbol's stepSize. If the submitted quantity is not aligned with the stepSize, the excess portion will be truncated.",
+                        "type": "text/plain"
+                      },
+                      "key": "quantity",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in quote asset units. Used for MARKET orders as alternative to quantity.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteOrderQty",
+                      "value": "400"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Limit price. Required for LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER.",
+                        "type": "text/plain"
+                      },
+                      "key": "price",
+                      "value": "400"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned unique order ID for idempotency. Auto-generated if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "newClientOrderId",
+                      "value": "my_order_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Trigger price for conditional orders. Direction rules:\n- STOP_LOSS / STOP_LOSS_LIMIT BUY: stop price must be above current market price\n- STOP_LOSS / STOP_LOSS_LIMIT SELL: stop price must be below current market price\n- TAKE_PROFIT / TAKE_PROFIT_LIMIT SELL: stop price must be above current market price\n- TAKE_PROFIT / TAKE_PROFIT_LIMIT BUY: stop price must be below current market price\n",
+                        "type": "text/plain"
+                      },
+                      "key": "stopPrice",
+                      "value": "390"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Response detail level. Default: FULL for MARKET/LIMIT, ACK for others.",
+                        "type": "text/plain"
+                      },
+                      "key": "newOrderRespType",
+                      "value": "FULL"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Self-Trade Prevention flag. Default: CB.",
+                        "type": "text/plain"
+                      },
+                      "key": "stpFlag",
+                      "value": "CB"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"BCHUSDT\",\n  \"orderId\": 1202289462787244800,\n  \"clientOrderId\": \"165806087267756\",\n  \"transactTime\": 1656900365976,\n  \"price\": \"400\",\n  \"origQty\": \"1\",\n  \"executedQty\": \"1\",\n  \"cummulativeQuoteQty\": \"400\",\n  \"status\": \"FILLED\",\n  \"timeInForce\": \"GTC\",\n  \"type\": \"LIMIT\",\n  \"side\": \"BUY\",\n  \"fills\": [\n    {\n      \"price\": \"400\",\n      \"qty\": \"1\",\n      \"commission\": \"0.001\",\n      \"commissionAsset\": \"BCH\",\n      \"tradeId\": \"1205027741844507648\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78c478a4-2343-47c4-93ed-ed7d8b3ce066",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1013 | Filter failure: PRICE_FILTER or LOT_SIZE |\n| -1116 | Invalid orderType |\n| -2010 | New order rejected |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Trading pair symbol (e.g., BCHUSDT, BTCUSDT).",
+                        "type": "text/plain"
+                      },
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order side.",
+                        "type": "text/plain"
+                      },
+                      "key": "side",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order type.",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1656900365976"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Time in force policy. Required for LIMIT order types.",
+                        "type": "text/plain"
+                      },
+                      "key": "timeInForce",
+                      "value": "GTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in base asset units. The quantity must be a multiple of the symbol's stepSize. If the submitted quantity is not aligned with the stepSize, the excess portion will be truncated.",
+                        "type": "text/plain"
+                      },
+                      "key": "quantity",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in quote asset units. Used for MARKET orders as alternative to quantity.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteOrderQty",
+                      "value": "400"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Limit price. Required for LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER.",
+                        "type": "text/plain"
+                      },
+                      "key": "price",
+                      "value": "400"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned unique order ID for idempotency. Auto-generated if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "newClientOrderId",
+                      "value": "my_order_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Trigger price for conditional orders. Direction rules:\n- STOP_LOSS / STOP_LOSS_LIMIT BUY: stop price must be above current market price\n- STOP_LOSS / STOP_LOSS_LIMIT SELL: stop price must be below current market price\n- TAKE_PROFIT / TAKE_PROFIT_LIMIT SELL: stop price must be above current market price\n- TAKE_PROFIT / TAKE_PROFIT_LIMIT BUY: stop price must be below current market price\n",
+                        "type": "text/plain"
+                      },
+                      "key": "stopPrice",
+                      "value": "390"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Response detail level. Default: FULL for MARKET/LIMIT, ACK for others.",
+                        "type": "text/plain"
+                      },
+                      "key": "newOrderRespType",
+                      "value": "FULL"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Self-Trade Prevention flag. Default: CB.",
+                        "type": "text/plain"
+                      },
+                      "key": "stpFlag",
+                      "value": "CB"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "85e9d9bb-bef9-4e9e-ba6b-07ad47145496",
+          "name": "Query Order (USER_DATA)",
+          "request": {
+            "name": "Query Order (USER_DATA)",
+            "description": {
+              "content": "Check an order's status. Either orderId or origClientOrderId must be sent. If both are sent, orderId takes precedence.\n\n**Order Status Values**\n\n| Status | Description |\n|---|---|\n| NEW | Accepted but not yet executed |\n| PARTIALLY_FILLED | Part of order has been filled |\n| FILLED | Completely executed |\n| PARTIALLY_CANCELED | Part canceled due to self-trade |\n| CANCELED | Cancelled by user |\n| EXPIRED | Cancelled by matching engine |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 2\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Fill Confirmation** — Query order status after submission to confirm whether a fill occurred before placing a follow-up order\n- **State Reconciliation** — Sync local order state with the exchange after a network interruption or reconnect\n- **Partial Fill Check** — Inspect `executedQty` against `origQty` to determine how much of a partially filled order has been executed\n\n**Best Practices**\n\n- Use orderId for precision when available\n- Cache order details locally to reduce API calls\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "orderId",
+                  "value": "<long>",
+                  "description": "System-assigned order ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "origClientOrderId",
+                  "value": "<string>",
+                  "description": "Client-assigned order ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "232f6420-7bba-4875-84f2-fcdd8b6f018d",
+              "name": "Order details retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "1799249051008066600"
+                    },
+                    {
+                      "key": "origClientOrderId",
+                      "value": "test5678"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"BTCPHP\",\n  \"orderId\": 1799249051008066600,\n  \"clientOrderId\": \"test5678\",\n  \"price\": \"0\",\n  \"origQty\": \"0.001\",\n  \"executedQty\": \"0.001\",\n  \"cummulativeQuoteQty\": \"3946.87326\",\n  \"status\": \"FILLED\",\n  \"timeInForce\": \"GTC\",\n  \"type\": \"MARKET\",\n  \"side\": \"BUY\",\n  \"stopPrice\": \"0\",\n  \"isWorking\": false,\n  \"time\": 1729223201090,\n  \"updateTime\": 1729223201201\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5eadbb9e-9826-4d08-9610-74b792109069",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1102 | Mandatory parameter orderId or origClientOrderId was not sent |\n| -2013 | Order does not exist |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "1799249051008066600"
+                    },
+                    {
+                      "key": "origClientOrderId",
+                      "value": "test5678"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f28f4c9-588e-40bc-a66c-b7911aa10f55",
+          "name": "Cancel Order (TRADE)",
+          "request": {
+            "name": "Cancel Order (TRADE)",
+            "description": {
+              "content": "Cancel an active order. Either orderId or origClientOrderId must be sent.\n\nOnly NEW or PARTIALLY_FILLED orders can be cancelled. The filled portion is not reversed.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Price Update** — Cancel an existing limit order to replace it at a more competitive price level\n- **Risk Reduction** — Remove a pending order when market conditions change and the position is no longer desired\n- **Order Cleanup** — Cancel a stale order that missed its fill window before resubmitting with updated parameters\n\n**Best Practices**\n\n- Verify order status is cancellable before sending cancel request\n- Always check response status is CANCELED to confirm success\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "order"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "orderId",
+                  "value": "<long>",
+                  "description": "System-assigned order ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "origClientOrderId",
+                  "value": "<string>",
+                  "description": "Client-assigned order ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a587978b-00c2-45aa-9ed9-f142b2ee0cb8",
+              "name": "Order cancelled successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "1205324142243592400"
+                    },
+                    {
+                      "key": "origClientOrderId",
+                      "value": "165838718862761"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"symbol\": \"BCHBUSD\",\n  \"orderId\": 1205324142243592400,\n  \"clientOrderId\": \"165838718862761\",\n  \"price\": \"2\",\n  \"origQty\": \"10\",\n  \"executedQty\": \"3\",\n  \"cummulativeQuoteQty\": \"16\",\n  \"status\": \"CANCELED\",\n  \"timeInForce\": \"GTC\",\n  \"type\": \"LIMIT\",\n  \"side\": \"SELL\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f2a4015-849f-4537-a6fc-8b4d5639e2b0",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -2011 | Unknown order sent |\n| -2013 | Order does not exist |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "1205324142243592400"
+                    },
+                    {
+                      "key": "origClientOrderId",
+                      "value": "165838718862761"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2e41d82-6253-42f3-becf-f8ce6c1ad7e0",
+          "name": "Current Open Orders (USER_DATA)",
+          "request": {
+            "name": "Current Open Orders (USER_DATA)",
+            "description": {
+              "content": "Get all open orders on a symbol. If symbol is not sent, returns open orders for all symbols.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Exposure Check** — Retrieve all open orders on a symbol to calculate total pending exposure before placing additional orders\n- **State Sync** — Reload all active orders after a reconnect or application restart to restore local state\n- **Strategy Audit** — List all open orders across symbols to confirm no stale orders remain before switching strategies\n\n**Best Practices**\n\n- Always pass symbol when possible to minimize weight usage\n- Use this endpoint to sync local order state with the exchange\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "openOrders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "Trading pair symbol. If omitted, returns open orders for all symbols."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "937eba74-9f45-4999-a678-2eec5459d498",
+              "name": "Open orders retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "openOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"symbol\": \"BTCUSDT\",\n    \"orderId\": 1202289462787244800,\n    \"clientOrderId\": \"165806087267756\",\n    \"price\": \"20000\",\n    \"origQty\": \"0.01\",\n    \"executedQty\": \"0\",\n    \"cummulativeQuoteQty\": \"0\",\n    \"status\": \"NEW\",\n    \"timeInForce\": \"GTC\",\n    \"type\": \"LIMIT\",\n    \"side\": \"BUY\",\n    \"stopPrice\": \"0\",\n    \"isWorking\": true,\n    \"time\": 1507725176532,\n    \"updateTime\": 1507725176532\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "057c43e9-ad11-475d-b44e-c989d27f7995",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "openOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "089e539d-75f6-40cd-9cb8-0c6d05b1baaa",
+          "name": "Cancel All Open Orders on a Symbol (TRADE)",
+          "request": {
+            "name": "Cancel All Open Orders on a Symbol (TRADE)",
+            "description": {
+              "content": "Cancels all active orders on a symbol. Quickly cancel all open orders for a specific\ntrading pair in a single request, useful for risk management and rapid position adjustment.\n\n**Key Notes**\n\n- Cancels ALL active orders (NEW and PARTIALLY_FILLED) for the specified symbol.\n- Does not affect orders already FILLED, CANCELED, or EXPIRED.\n- Returns an array of all cancelled orders.\n- Empty array `[]` if no open orders exist for the symbol.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Emergency Stop** — Cancel all orders immediately during unexpected market conditions\n- **Strategy Reset** — Clear all pending orders before applying a new trading strategy\n- **Risk Management** — Remove all exposure for a specific trading pair quickly\n\n**Best Practices**\n\n- Verify the `symbol` parameter is correctly formatted and valid\n- Use cautiously — this is a powerful operation that affects all orders on a symbol\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "openOrders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) Trading pair symbol for which to cancel all open orders."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ec1fe291-6d34-4154-98c1-88bf0b518f7e",
+              "name": "All open orders for the symbol cancelled successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "openOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"symbol\": \"BTCUSDT\",\n    \"orderId\": 1200757068661824000,\n    \"clientOrderId\": \"165787781474653\",\n    \"price\": \"19999\",\n    \"origQty\": \"0.01\",\n    \"executedQty\": \"0\",\n    \"cummulativeQuoteQty\": \"0\",\n    \"status\": \"CANCELED\",\n    \"timeInForce\": \"GTC\",\n    \"type\": \"LIMIT\",\n    \"side\": \"BUY\",\n    \"stopPrice\": \"0\",\n    \"origQuoteOrderQty\": \"0\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9862dfe5-065f-497e-9e08-35b9e9394518",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -4020 | No open orders |\n| -1121 | Invalid symbol |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "openOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2450f557-907e-426a-9f18-cf4577052e6d",
+          "name": "Cancel and Replace Order (TRADE)",
+          "request": {
+            "name": "Cancel and Replace Order (TRADE)",
+            "description": {
+              "content": "Cancel an existing active order and place a new order on the same symbol in a single atomic operation.\nIf the cancellation or new order placement fails, the entire operation is rolled back.\n\nThis endpoint is used to modify parameters (such as quantity, price) of an existing open order\nby cancelling it and immediately placing a replacement order.\n\n**Cancel Replace Mode**\n\n| Mode | Description |\n|---|---|\n| STOP_ON_FAILURE | If the cancel request fails, the new order placement will not be attempted |\n| ALLOW_FAILURE | New order placement will be attempted even if the cancel request fails |\n\n**Cancel Restrictions**\n\n| Restriction | Description |\n|---|---|\n| ONLY_NEW | Cancel will succeed only if the order status is NEW |\n| ONLY_PARTIALLY_FILLED | Cancel will succeed only if the order status is PARTIALLY_FILLED |\n\n**Order Type Requirements**\n\n| Type | Required Additional Parameters |\n|---|---|\n| LIMIT | timeInForce, quantity, price |\n| MARKET | quantity OR quoteOrderQty |\n| STOP_LOSS | quantity OR quoteOrderQty, stopPrice |\n| STOP_LOSS_LIMIT | timeInForce, quantity, price, stopPrice |\n| TAKE_PROFIT | quantity OR quoteOrderQty, stopPrice |\n| TAKE_PROFIT_LIMIT | timeInForce, quantity, price, stopPrice |\n| LIMIT_MAKER | quantity, price |\n\n**Key Notes**\n\n- Either `cancelOrderId` or `cancelOrigClientOrderId` must be sent to identify the order to cancel.\n- If both `cancelOrderId` and `cancelOrigClientOrderId` are provided, `cancelOrderId` takes precedence.\n- `newClientOrderId` will replace `clientOrderId` of the cancelled order, freeing it up for new orders.\n- The new order placed may trigger an immediate fill if conditions are met.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Price Adjustment** — Modify the price of an existing limit order without missing fills between cancel and new order\n- **Quantity Adjustment** — Change the size of an existing order atomically\n- **Order Upgrade** — Change order type (e.g., from LIMIT to STOP_LOSS_LIMIT) while maintaining position in queue\n\n**Best Practices**\n\n- Use `STOP_ON_FAILURE` mode when you want to ensure the old order is cancelled before placing the new one\n- Use `ALLOW_FAILURE` mode when placing the new order is more important than cancelling the old one\n- Always provide `newClientOrderId` for tracking and idempotency\n- Check response `cancelResult` and `newOrderResult` fields to verify both operations succeeded\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "order",
+                "cancelReplace"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "BTCPHP",
+                  "description": "(Required) Trading pair symbol (e.g., BTCPHP, ETHUSDT)."
+                },
+                {
+                  "disabled": false,
+                  "key": "side",
+                  "value": "<string>",
+                  "description": "(Required) Order side."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "(Required) Order type for the new replacement order."
+                },
+                {
+                  "disabled": false,
+                  "key": "cancelReplaceMode",
+                  "value": "<string>",
+                  "description": "(Required) Mode controlling behavior when cancel fails. STOP_ON_FAILURE: abort if cancel fails. ALLOW_FAILURE: proceed with new order even if cancel fails."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeInForce",
+                  "value": "<string>",
+                  "description": "Time in force policy. Required for LIMIT order types."
+                },
+                {
+                  "disabled": false,
+                  "key": "quantity",
+                  "value": "<string>",
+                  "description": "Order quantity in base asset units."
+                },
+                {
+                  "disabled": false,
+                  "key": "quoteOrderQty",
+                  "value": "<string>",
+                  "description": "Order quantity in quote asset units. Used for MARKET orders as alternative to quantity."
+                },
+                {
+                  "disabled": false,
+                  "key": "price",
+                  "value": "<string>",
+                  "description": "Limit price for the new order. Required for LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER."
+                },
+                {
+                  "disabled": false,
+                  "key": "cancelOrderId",
+                  "value": "<long>",
+                  "description": "System-assigned order ID of the order to cancel."
+                },
+                {
+                  "disabled": false,
+                  "key": "cancelOrigClientOrderId",
+                  "value": "<string>",
+                  "description": "Client-assigned order ID of the order to cancel. Used as alternative to cancelOrderId."
+                },
+                {
+                  "disabled": false,
+                  "key": "newClientOrderId",
+                  "value": "<string>",
+                  "description": "Client-assigned unique ID for the new replacement order. Auto-generated if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "stopPrice",
+                  "value": "<string>",
+                  "description": "Trigger price for conditional orders (STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT)."
+                },
+                {
+                  "disabled": false,
+                  "key": "newOrderRespType",
+                  "value": "<string>",
+                  "description": "Response detail level. Default: FULL for MARKET/LIMIT, ACK for others."
+                },
+                {
+                  "disabled": false,
+                  "key": "stpFlag",
+                  "value": "<string>",
+                  "description": "Self-Trade Prevention flag. Default: CB."
+                },
+                {
+                  "disabled": false,
+                  "key": "cancelRestrictions",
+                  "value": "<string>",
+                  "description": "Restrict cancel by order status. Default: ALL (cancel any status). ONLY_NEW: cancel only if status is NEW. ONLY_PARTIALLY_FILLED: cancel only if status is PARTIALLY_FILLED."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "89440d66-0af9-4be9-ba66-a6ebf26eb6d0",
+              "name": "Cancel and replace operation completed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order",
+                    "cancelReplace"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Trading pair symbol (e.g., BTCPHP, ETHUSDT).",
+                        "type": "text/plain"
+                      },
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order side.",
+                        "type": "text/plain"
+                      },
+                      "key": "side",
+                      "value": "BUY"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order type for the new replacement order.",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "LIMIT"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Mode controlling behavior when cancel fails. STOP_ON_FAILURE: abort if cancel fails. ALLOW_FAILURE: proceed with new order even if cancel fails.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelReplaceMode",
+                      "value": "STOP_ON_FAILURE"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1656900365976"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Time in force policy. Required for LIMIT order types.",
+                        "type": "text/plain"
+                      },
+                      "key": "timeInForce",
+                      "value": "GTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in base asset units.",
+                        "type": "text/plain"
+                      },
+                      "key": "quantity",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in quote asset units. Used for MARKET orders as alternative to quantity.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteOrderQty",
+                      "value": "400"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Limit price for the new order. Required for LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER.",
+                        "type": "text/plain"
+                      },
+                      "key": "price",
+                      "value": "50000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "System-assigned order ID of the order to cancel.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelOrderId",
+                      "value": "1202289462787244800"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned order ID of the order to cancel. Used as alternative to cancelOrderId.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelOrigClientOrderId",
+                      "value": "my_order_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned unique ID for the new replacement order. Auto-generated if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "newClientOrderId",
+                      "value": "my_new_order_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Trigger price for conditional orders (STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT).",
+                        "type": "text/plain"
+                      },
+                      "key": "stopPrice",
+                      "value": "49000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Response detail level. Default: FULL for MARKET/LIMIT, ACK for others.",
+                        "type": "text/plain"
+                      },
+                      "key": "newOrderRespType",
+                      "value": "FULL"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Self-Trade Prevention flag. Default: CB.",
+                        "type": "text/plain"
+                      },
+                      "key": "stpFlag",
+                      "value": "CB"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Restrict cancel by order status. Default: ALL (cancel any status). ONLY_NEW: cancel only if status is NEW. ONLY_PARTIALLY_FILLED: cancel only if status is PARTIALLY_FILLED.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelRestrictions",
+                      "value": "ONLY_NEW"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cancelResult\": \"SUCCESS\",\n  \"newOrderResult\": \"SUCCESS\",\n  \"cancelResponse\": {\n    \"symbol\": \"BTCPHP\",\n    \"orderId\": 1202289462787244800,\n    \"clientOrderId\": \"my_order_001\",\n    \"price\": \"48000\",\n    \"origQty\": \"0.001\",\n    \"executedQty\": \"0\",\n    \"cummulativeQuoteQty\": \"0\",\n    \"status\": \"CANCELED\",\n    \"timeInForce\": \"GTC\",\n    \"type\": \"LIMIT\",\n    \"side\": \"BUY\"\n  },\n  \"newOrderResponse\": {\n    \"symbol\": \"BTCPHP\",\n    \"orderId\": 1202289462787244800,\n    \"clientOrderId\": \"my_new_order_001\",\n    \"transactTime\": 1656900365976,\n    \"price\": \"50000\",\n    \"origQty\": \"0.001\",\n    \"executedQty\": \"0\",\n    \"cummulativeQuoteQty\": \"0\",\n    \"status\": \"NEW\",\n    \"timeInForce\": \"GTC\",\n    \"type\": \"LIMIT\",\n    \"side\": \"BUY\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69b7630d-c491-434c-8cbc-6245fb72af76",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -2011 | Unknown order sent (cancel target not found) |\n| -2013 | Order does not exist |\n| -1013 | Filter failure: PRICE_FILTER or LOT_SIZE |\n| -1116 | Invalid orderType |\n| -2010 | New order rejected |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "order",
+                    "cancelReplace"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Trading pair symbol (e.g., BTCPHP, ETHUSDT).",
+                        "type": "text/plain"
+                      },
+                      "key": "symbol",
+                      "value": "BTCPHP"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order side.",
+                        "type": "text/plain"
+                      },
+                      "key": "side",
+                      "value": "BUY"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Order type for the new replacement order.",
+                        "type": "text/plain"
+                      },
+                      "key": "type",
+                      "value": "LIMIT"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Mode controlling behavior when cancel fails. STOP_ON_FAILURE: abort if cancel fails. ALLOW_FAILURE: proceed with new order even if cancel fails.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelReplaceMode",
+                      "value": "STOP_ON_FAILURE"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Unix timestamp in milliseconds.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "1656900365976"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Time in force policy. Required for LIMIT order types.",
+                        "type": "text/plain"
+                      },
+                      "key": "timeInForce",
+                      "value": "GTC"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in base asset units.",
+                        "type": "text/plain"
+                      },
+                      "key": "quantity",
+                      "value": "1"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Order quantity in quote asset units. Used for MARKET orders as alternative to quantity.",
+                        "type": "text/plain"
+                      },
+                      "key": "quoteOrderQty",
+                      "value": "400"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Limit price for the new order. Required for LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER.",
+                        "type": "text/plain"
+                      },
+                      "key": "price",
+                      "value": "50000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "System-assigned order ID of the order to cancel.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelOrderId",
+                      "value": "1202289462787244800"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned order ID of the order to cancel. Used as alternative to cancelOrderId.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelOrigClientOrderId",
+                      "value": "my_order_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Client-assigned unique ID for the new replacement order. Auto-generated if not provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "newClientOrderId",
+                      "value": "my_new_order_001"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Trigger price for conditional orders (STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT).",
+                        "type": "text/plain"
+                      },
+                      "key": "stopPrice",
+                      "value": "49000"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Response detail level. Default: FULL for MARKET/LIMIT, ACK for others.",
+                        "type": "text/plain"
+                      },
+                      "key": "newOrderRespType",
+                      "value": "FULL"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Self-Trade Prevention flag. Default: CB.",
+                        "type": "text/plain"
+                      },
+                      "key": "stpFlag",
+                      "value": "CB"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Restrict cancel by order status. Default: ALL (cancel any status). ONLY_NEW: cancel only if status is NEW. ONLY_PARTIALLY_FILLED: cancel only if status is PARTIALLY_FILLED.",
+                        "type": "text/plain"
+                      },
+                      "key": "cancelRestrictions",
+                      "value": "ONLY_NEW"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                        "type": "text/plain"
+                      },
+                      "key": "recvWindow",
+                      "value": "5000"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8243ee59-a29f-44a8-ba09-bd2e526b68b0",
+          "name": "History Orders By Create Time (USER_DATA)",
+          "request": {
+            "name": "History Orders By Create Time (USER_DATA)",
+            "description": {
+              "content": "Get all historical orders of the account filtered by order **create time**: cancelled, filled, or rejected.\nRetrieves historical orders for a specific symbol with pagination support\nvia the `orderId` parameter and time-based filtering based on when the order was originally created.\n\n**Key Notes**\n\n- If `symbol` is omitted, returns historical orders for all symbols (weight: 40).\n- If `orderId` is set, returns orders with order ID >= this value (pagination).\n- `startTime` and `endTime` filter by order create time (the `time` field).\n- Default limit is 500; maximum is 1000.\n- Only data from the **last 90 days** is available.\n\nThis endpoint returns only **closed** orders. Returned statuses: FILLED, CANCELED, REJECTED, EXPIRED.\nOpen orders (NEW, PARTIALLY_FILLED) are not returned — use the Current Open Orders endpoint for those.\n\n**Time Filtering**\n\n- This endpoint filters orders by their **create time** (`time` field), i.e., the timestamp when the order was originally submitted to the exchange.\n- If you need to filter by the time an order was last updated (filled, cancelled, etc.), use the [History Orders By Update Time](/openapi/v1/getHistoryOrdersByUpdateTime) endpoint instead.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\n| Condition | Weight |\n|---|---|\n| With symbol | 10 |\n| Without symbol | 40 |\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Trade History** — Retrieve complete order history for reconciliation based on when orders were placed\n- **Audit** — Verify all orders placed (created) during a specific time period\n- **Export** — Pull data for external analysis by order create date\n\n**Best Practices**\n\n- Use `startTime` / `endTime` for time-range queries to avoid fetching the full history\n- Use `orderId` from the last result as pagination cursor for the next query\n- Set a reasonable `limit` to balance API calls and data volume\n- Use this endpoint when you want to find orders created within a specific window; use History Orders By Update Time when you need orders whose status changed within a window\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "historyOrders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "Trading pair symbol. If omitted, returns historical orders for all symbols."
+                },
+                {
+                  "disabled": false,
+                  "key": "orderId",
+                  "value": "<long>",
+                  "description": "Returns orders with order ID >= this value. Used for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time filter in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time filter in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "500",
+                  "description": "Maximum number of orders to return. Default: 500, Maximum: 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "718dd988-1539-42d1-a420-edd49de02f1f",
+              "name": "Historical orders retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "historyOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BCHBUSD"
+                    },
+                    {
+                      "key": "orderId",
+                      "value": "1194453962386908700"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1657126000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1657130000000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"symbol\": \"BCHBUSD\",\n    \"orderId\": 1194453962386908700,\n    \"clientOrderId\": \"Y1657126007990\",\n    \"price\": \"4.56\",\n    \"origQty\": \"1\",\n    \"executedQty\": \"1\",\n    \"cummulativeQuoteQty\": \"4.56\",\n    \"status\": \"FILLED\",\n    \"timeInForce\": \"GTC\",\n    \"type\": \"LIMIT\",\n    \"side\": \"SELL\",\n    \"stopPrice\": \"0\",\n    \"isWorking\": false,\n    \"time\": 1657126008273,\n    \"updateTime\": 1657126008357,\n    \"origQuoteOrderQty\": \"0\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08da4f1a-730d-497b-b25f-e2653e28efa7",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol |\n| -1100 | Illegal characters found in parameter |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "historyOrders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BCHBUSD"
+                    },
+                    {
+                      "key": "orderId",
+                      "value": "1194453962386908700"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1657126000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1657130000000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5e2a926d-e16d-4a05-b206-53ae1538d0ea",
+          "name": "History Orders By Update Time (USER_DATA)",
+          "request": {
+            "name": "History Orders By Update Time (USER_DATA)",
+            "description": {
+              "content": "Get all historical orders of the account filtered by order **update time**: cancelled, filled, or rejected.\nThis endpoint is identical to History Orders By Create Time except that `startTime` and `endTime` filter\nbased on the order's **last update time** rather than the order's **create time**.\n\n**Key Notes**\n\n- `symbol` is required.\n- If `orderId` is set, returns orders with order ID >= this value (pagination).\n- `startTime` and `endTime` filter by order update time (e.g., the time an order was filled, cancelled, or partially filled).\n- Default limit is 500; maximum is 1000.\n- Only data from the **last 90 days** is available. \n\nThis endpoint returns only **closed** orders. Returned statuses: FILLED, CANCELED, REJECTED, EXPIRED.\nOpen orders (NEW, PARTIALLY_FILLED) are not returned — use the Current Open Orders endpoint for those.\n\n**Difference from History Orders By Create Time**\n\n- History Orders By Create Time (`/openapi/v1/historyOrders`): `startTime` / `endTime` match against order **create time** (`time` field).\n- This endpoint: `startTime` / `endTime` match against order **update time** (`updateTime` field).\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Recent Activity Sync** — Retrieve orders that were recently filled or cancelled, regardless of when they were originally placed\n- **Incremental Polling** — Poll for order status changes since the last sync using `startTime` = last poll time\n- **Reconciliation** — Identify all orders whose state changed within a specific time window\n\n**Best Practices**\n\n- Use `startTime` / `endTime` based on the last known `updateTime` for efficient incremental sync\n- Use `orderId` from the last result as pagination cursor for the next query\n- Set a reasonable `limit` to balance API calls and data volume\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "getHistoryOrdersByUpdateTime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) Trading pair symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "orderId",
+                  "value": "<long>",
+                  "description": "Returns orders with order ID >= this value. Used for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time filter in milliseconds (based on order update time)."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time filter in milliseconds (based on order update time)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "500",
+                  "description": "Maximum number of orders to return. Default: 500, Maximum: 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "755f0392-efd5-4e26-bfb2-b4e8e123e873",
+              "name": "Historical orders retrieved successfully (filtered by update time).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "getHistoryOrdersByUpdateTime"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BCHBUSD"
+                    },
+                    {
+                      "key": "orderId",
+                      "value": "1194453962386908700"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1657126000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1657130000000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"symbol\": \"BCHBUSD\",\n    \"orderId\": 1194453962386908700,\n    \"clientOrderId\": \"Y1657126007990\",\n    \"price\": \"4.56\",\n    \"origQty\": \"1\",\n    \"executedQty\": \"1\",\n    \"cummulativeQuoteQty\": \"4.56\",\n    \"status\": \"FILLED\",\n    \"timeInForce\": \"GTC\",\n    \"type\": \"LIMIT\",\n    \"side\": \"SELL\",\n    \"stopPrice\": \"0\",\n    \"isWorking\": false,\n    \"time\": 1657126008273,\n    \"updateTime\": 1657126008357,\n    \"origQuoteOrderQty\": \"0\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bb7e4be-84e0-4862-bbd0-262649b7aef0",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol |\n| -1100 | Illegal characters found in parameter |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "getHistoryOrdersByUpdateTime"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BCHBUSD"
+                    },
+                    {
+                      "key": "orderId",
+                      "value": "1194453962386908700"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1657126000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1657130000000"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cd588943-be2b-4dd1-ab26-faec791b733c",
+          "name": "Account Trade List (USER_DATA)",
+          "request": {
+            "name": "Account Trade List (USER_DATA)",
+            "description": {
+              "content": "Get trades for a specific account and symbol.\n\n- If fromId is set, returns trades with id >= fromId.\n- If startTime and endTime are both set, fromId is not required.\n- startTime and endTime cannot span more than 24 hours.\n- Maximum 1000 trades returned per request.\n- Only data from the **last 90 days** is available. \n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **P&L Calculation** - Calculate realized profit/loss from fills\n- **Fee Audit** - Track commissions paid per trade\n- **Reconciliation** - Match trades against order history\n\n**Best Practices**\n\n- Use time range (startTime/endTime) to paginate large histories\n- Use fromId to continue from last known trade when polling\n- Commission amounts and assets vary by fee tier and promotions\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "myTrades"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) Trading pair symbol."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "fromId",
+                  "value": "<long>",
+                  "description": "TradeId to fetch from. Default: most recent trades."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "500",
+                  "description": "Number of results to return. Default: 500; Maximum: 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "080a0bc1-0a84-40d2-9069-b806df119628",
+              "name": "Trade list retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "myTrades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1507811576532"
+                    },
+                    {
+                      "key": "fromId",
+                      "value": "1202289462787244800"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"symbol\": \"BTCUSDT\",\n    \"id\": 1205027741844507600,\n    \"orderId\": 1202289462787244800,\n    \"price\": \"20000\",\n    \"qty\": \"0.01\",\n    \"quoteQty\": \"200\",\n    \"commission\": \"0.0001\",\n    \"commissionAsset\": \"BTC\",\n    \"time\": 1507725176532,\n    \"isBuyer\": true,\n    \"isMaker\": false,\n    \"isBestMatch\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bbbf6a6a-4475-4ebc-baac-7b0d8843098d",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "myTrades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1507811576532"
+                    },
+                    {
+                      "key": "fromId",
+                      "value": "1202289462787244800"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3117b0f6-7f61-4f09-ae1c-38b80dcaffba",
+          "name": "Transaction History (USER_DATA)",
+          "request": {
+            "name": "Transaction History (USER_DATA)",
+            "description": {
+              "content": "Get historical fund flow records (transaction history) for a specific token on the account.\nThis endpoint returns all balance changes including deposits, withdrawals, trades, fees,\ntransfers, and other fund movements — providing a complete audit trail of asset changes.\n\n**Key Notes**\n\n- `tokenId` is required — specifies which asset's transaction history to retrieve.\n- Supports pagination via `pageNum` and `pageSize`.\n- Only data from the **last 90 days** is available. \n- `startTime` and `endTime` filter by transaction time; their range cannot exceed 90 days.\n- `endTime` must be greater than `startTime`.\n- Maximum `pageSize` is 100; maximum `pageNum` is 1000.\n- Optionally filter by `subUserId` to view a sub-account's transaction history.\n\n**Difference from Account Trade List**\n\n- Account Trade List (`/openapi/v1/myTrades`): Returns only trade fills (buy/sell executions).\n- This endpoint: Returns all types of fund movements including deposits, withdrawals, trades, fees, transfers, dividends, and other balance changes.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 5\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Fund Reconciliation** — Track all balance changes for a specific asset across all activity types.\n- **Audit Trail** — Generate a complete history of fund movements for compliance or accounting.\n- **Sub-Account Monitoring** — View transaction history for specific sub-accounts.\n- **Balance Verification** — Cross-reference fund flows against expected balance changes.\n\n**Best Practices**\n\n- Use `startTime` / `endTime` to limit results to a specific time window for faster queries.\n- Paginate through large result sets using `pageNum` incrementally.\n- Keep `pageSize` at a reasonable value (e.g., 50-100) to balance response time and data volume.\n- Use in conjunction with Account Trade List for a complete picture: trades + other fund movements.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "asset",
+                "transaction",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tokenId",
+                  "value": "<string>",
+                  "description": "(Required) Token/asset identifier (e.g., BTC, USDT, PHP)."
+                },
+                {
+                  "disabled": false,
+                  "key": "subUserId",
+                  "value": "<long>",
+                  "description": "Sub-account user ID. If provided, returns transaction history for the specified sub-account."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNum",
+                  "value": "1",
+                  "description": "Page number for pagination. Default: 1, Maximum: 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "Number of records per page. Default: 20, Maximum: 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "startTime",
+                  "value": "<long>",
+                  "description": "Start time filter in milliseconds. Time range with endTime cannot exceed 90 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "endTime",
+                  "value": "<long>",
+                  "description": "End time filter in milliseconds. Must be greater than startTime."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "100c522f-ae82-43e1-b74d-fba6b279bbcb",
+              "name": "Transaction history retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "asset",
+                    "transaction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tokenId",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "subUserId",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "pageNum",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1657126000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1657730000000"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": 150,\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"rows\": [\n    {\n      \"tokenId\": \"BTC\",\n      \"amount\": \"0.005\",\n      \"flowType\": \"TRADE\",\n      \"time\": 1657126008273,\n      \"bizId\": \"1205027741844507648\"\n    },\n    {\n      \"tokenId\": \"BTC\",\n      \"amount\": \"-0.0001\",\n      \"flowType\": \"FEE\",\n      \"time\": 1657126008273,\n      \"bizId\": \"1205027741844507649\"\n    },\n    {\n      \"tokenId\": \"BTC\",\n      \"amount\": \"0.1\",\n      \"flowType\": \"DEPOSIT\",\n      \"time\": 1657100000000,\n      \"bizId\": \"1205000000000000001\"\n    },\n    {\n      \"tokenId\": \"BTC\",\n      \"amount\": \"-0.05\",\n      \"flowType\": \"WITHDRAW\",\n      \"time\": 1657080000000,\n      \"bizId\": \"1205000000000000002\"\n    },\n    {\n      \"tokenId\": \"BTC\",\n      \"amount\": \"0.01\",\n      \"flowType\": \"TRANSFER\",\n      \"time\": 1657060000000,\n      \"bizId\": \"1205000000000000003\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4dc3a59-b018-4991-a8cd-064361b72c11",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1102 | Mandatory parameter 'tokenId' was not sent |\n| -1100 | Illegal characters found in parameter |\n| -100011 | Invalid query time range |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "asset",
+                    "transaction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tokenId",
+                      "value": "BTC"
+                    },
+                    {
+                      "key": "subUserId",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "pageNum",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "startTime",
+                      "value": "1657126000000"
+                    },
+                    {
+                      "key": "endTime",
+                      "value": "1657730000000"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df155979-41b8-4c6a-86f2-a436ad2571b9",
+          "name": "Trade Fee (USER_DATA)",
+          "request": {
+            "name": "Trade Fee (USER_DATA)",
+            "description": {
+              "content": "Fetch the current trading fee rates (maker and taker commission) for one or all\ntrading pairs on the account. Fee rates may vary based on VIP level or trading volume.\n\n**Key Notes**\n\n- If `symbol` is omitted, returns fee rates for all trading pairs.\n- Fee rates are returned as decimal values (e.g., `0.001` = 0.1%).\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Cost Calculation** — Calculate trading costs before placing orders\n- **Fee Tier Monitoring** — Check current maker/taker fee rates\n- **Profitability Analysis** — Factor in fees when calculating expected P&L\n\n**Best Practices**\n\n- Cache fee rates and refresh daily or weekly; they change infrequently\n- Use maker orders (LIMIT_MAKER) to benefit from lower maker fees\n- Calculate total cost: `fee = executedQty * price * commissionRate`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "v1",
+                "asset",
+                "tradeFee"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "Trading pair symbol. If omitted, returns fee rates for all trading pairs."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) Unix timestamp in milliseconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "X-COINS-APIKEY",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "86a421bf-716f-4e17-a1cd-fee3a998db6b",
+              "name": "Trade fee rates retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "asset",
+                    "tradeFee"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"symbol\": \"BTCUSDT\",\n    \"makerCommission\": \"0.001\",\n    \"takerCommission\": \"0.001\"\n  },\n  {\n    \"symbol\": \"ETHUSDT\",\n    \"makerCommission\": \"0.001\",\n    \"takerCommission\": \"0.001\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ebd5ea2-e8dc-43b8-9463-88881a164252",
+              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1121 | Invalid symbol |\n| -1022 | Signature for this request is not valid |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "v1",
+                    "asset",
+                    "tradeFee"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "BTCUSDT"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "5000"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "1507725176532"
+                    },
+                    {
+                      "key": "signature",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "X-COINS-APIKEY",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ef7705cc-7d0f-4ac0-bb41-4fdb2906c234",
+    "name": "TRADING Account Spot API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,519 @@
+{
+  "item": [
+    {
+      "id": "ae1e8bde-2c5d-4ef4-ab4b-1362efedfc86",
+      "name": "Disbursements",
+      "description": {
+        "content": "Cash-out and disbursement operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "664da310-38e3-43b5-b997-26ecaf41765b",
+          "name": "Support Channel",
+          "request": {
+            "name": "Support Channel",
+            "description": {
+              "content": "Return the supported channels for cash-out methods.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "support-channel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionType\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"transactionChannel\": \"<string>\",\n  \"transactionSubject\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3e00a028-0b56-43a8-bcdc-10a06e5523d8",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "support-channel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionType\": \"-1\",\n  \"currency\": \"<string>\",\n  \"amount\": \"0\",\n  \"transactionChannel\": \"<string>\",\n  \"transactionSubject\": \"Gcash\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 6264,\n    \"transactionChannel\": \"string\",\n    \"transactionChannelName\": \"string\",\n    \"transactionSubject\": \"string\",\n    \"transactionSubjectType\": \"string\",\n    \"transactionSubjectTypeLabel\": \"string\",\n    \"transactionSubjectName\": \"string\",\n    \"transactionType\": 7554,\n    \"paymentMethod\": \"BANK_TRANSFER\",\n    \"channelIcon\": \"https://YxTVUS.qtvzWMMYibKC.uuWa90KS+0quNXxlWryFRewDCdaYHThEMRMy+1tjPnpxmUeadTrO5sw\",\n    \"subjectIcon\": \"http://gb.emmu50sklyZ19jv-JDoQebrX3D,ZQR\",\n    \"maximum\": \"string\",\n    \"minimum\": \"string\",\n    \"dailyLimit\": \"string\",\n    \"monthlyLimit\": \"string\",\n    \"annualLimit\": \"string\",\n    \"remainingDailyLimit\": \"string\",\n    \"remainingMonthlyLimit\": \"string\",\n    \"remainingAnnualLimit\": \"string\",\n    \"precision\": \"string\",\n    \"fee\": \"string\",\n    \"feeType\": \"FIXED\",\n    \"status\": \"string\",\n    \"maxWithdrawBalance\": \"string\"\n  },\n  {\n    \"id\": 1553,\n    \"transactionChannel\": \"string\",\n    \"transactionChannelName\": \"string\",\n    \"transactionSubject\": \"string\",\n    \"transactionSubjectType\": \"string\",\n    \"transactionSubjectTypeLabel\": \"string\",\n    \"transactionSubjectName\": \"string\",\n    \"transactionType\": 9936,\n    \"paymentMethod\": \"BANK_TRANSFER\",\n    \"channelIcon\": \"https://AwYzezCwNVWPENQNPOAWAcbgduK.otorSniZ887g3RTg,ALCVqIloa\",\n    \"subjectIcon\": \"https://rTWttvbVlb.uvvPXE1NvFhMsRuY66Es.AKSUWG3DvzuwY\",\n    \"maximum\": \"string\",\n    \"minimum\": \"string\",\n    \"dailyLimit\": \"string\",\n    \"monthlyLimit\": \"string\",\n    \"annualLimit\": \"string\",\n    \"remainingDailyLimit\": \"string\",\n    \"remainingMonthlyLimit\": \"string\",\n    \"remainingAnnualLimit\": \"string\",\n    \"precision\": \"string\",\n    \"fee\": \"string\",\n    \"feeType\": \"PERCENTAGE\",\n    \"status\": \"string\",\n    \"maxWithdrawBalance\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2978ad4e-e7ce-4fdb-aa44-e5d2bff7ab1e",
+          "name": "Decode QRPH",
+          "request": {
+            "name": "Decode QRPH",
+            "description": {
+              "content": "Returns a structured breakdown of the information contained in the QR code.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "decode",
+                "kyb_qr_code"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codeMsg\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "93630be3-6840-46eb-aeb7-534be97cc106",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "decode",
+                    "kyb_qr_code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"codeMsg\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"qrType\": \"ph.ppmi.p2m\",\n    \"channel\": \"INSTAPAY_QR\",\n    \"channelSubject\": \"gcash\",\n    \"channelQRCodeMap\": {\n      \"key_0\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01293b0d-d10d-4dfc-98e0-13095ee1081e",
+          "name": "Initiate Cash-out",
+          "request": {
+            "name": "Initiate Cash-out",
+            "description": {
+              "content": "Disbursement to external financial institutions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "fiat",
+                "v1",
+                "cash-out"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>",
+                  "description": "Validity duration of the request in milliseconds after the timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"<string>\",\n  \"amount\": \"<decimal>\",\n  \"channelName\": \"<string>\",\n  \"channelSubject\": \"<string>\",\n  \"extendInfo\": {\n    \"recipientName\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"customSenderName\": \"<string>\",\n    \"merchantMobileNumber\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"merchantCity\": \"<string>\",\n    \"purpose\": \"<string>\",\n    \"referenceLabel\": \"<string>\",\n    \"tfrName\": \"<string>\",\n    \"tfrBnkCode\": \"<string>\",\n    \"proxyNotify\": \"<string>\",\n    \"storeLabel\": \"<string>\",\n    \"paymentType\": \"<string>\",\n    \"customerLabel\": \"<string>\",\n    \"terminalLabel\": \"<string>\",\n    \"merchantId\": \"<string>\",\n    \"merchantCategoryCode\": \"<string>\",\n    \"tfrAcctNo\": \"<string>\",\n    \"acqInfo\": \"<string>\",\n    \"postCode\": \"<string>\",\n    \"uniqueId\": \"<string>\",\n    \"loyaltyNumber\": \"<string>\",\n    \"ispb\": \"<string>\",\n    \"issuer\": \"<string>\",\n    \"number\": \"<string>\",\n    \"accountType\": \"<string>\",\n    \"document\": \"<string>\",\n    \"name\": \"<string>\",\n    \"pixKey\": \"<string>\",\n    \"pixKeyType\": \"<string>\",\n    \"remarks\": \"<string>\"\n  },\n  \"internalOrderId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5910d258-efec-4145-927a-ac8415743276",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "fiat",
+                    "v1",
+                    "cash-out"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currency\": \"<string>\",\n  \"amount\": 200.99,\n  \"channelName\": \"<string>\",\n  \"channelSubject\": \"unionbank\",\n  \"extendInfo\": {\n    \"recipientName\": \"sandyopenapitest\",\n    \"recipientAccountNumber\": \"123456789\",\n    \"customSenderName\": \"KYB custom Display name\",\n    \"merchantMobileNumber\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"merchantCity\": \"Mandaluyong\",\n    \"purpose\": \"<string>\",\n    \"referenceLabel\": \"217050000037058984159\",\n    \"tfrName\": \"Inihaw X 4766\",\n    \"tfrBnkCode\": \"GXCHPHM2XXX\",\n    \"proxyNotify\": \"000\",\n    \"storeLabel\": \"INIX0002\",\n    \"paymentType\": \"<string>\",\n    \"customerLabel\": \"<string>\",\n    \"terminalLabel\": \"GEN00001\",\n    \"merchantId\": \"217020000037063469158\",\n    \"merchantCategoryCode\": \"5814\",\n    \"tfrAcctNo\": \"217020000037063469158\",\n    \"acqInfo\": \"<string>\",\n    \"postCode\": \"1550\",\n    \"uniqueId\": \"ph.ppmi.p2m\",\n    \"loyaltyNumber\": \"<string>\",\n    \"ispb\": \"45246410\",\n    \"issuer\": \"0001\",\n    \"number\": \"43607160\",\n    \"accountType\": \"CACC\",\n    \"document\": \"46919983000165\",\n    \"name\": \"Coins.Xyz Digital Markets Ltda\",\n    \"pixKey\": \"91351359720\",\n    \"pixKeyType\": \"cpf\",\n    \"remarks\": \"Payment for services\"\n  },\n  \"internalOrderId\": \"3C1706X9619A7614YWS\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"externalOrderId\": \"1950928204919496214\",\n  \"internalOrderId\": \"3C1706X9619A7614YWS\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b0e88524-487c-4b04-8b5b-02597a298b73",
+          "name": "Crypto Apply Withdrawal",
+          "request": {
+            "name": "Crypto Apply Withdrawal",
+            "description": {
+              "content": "Make a crypto withdrawal to an external wallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "openapi",
+                "wallet",
+                "v1",
+                "withdraw",
+                "apply"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "coin",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "network",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "address",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "addressTag",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<decimal>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "withdrawOrderId",
+                  "value": "<string>",
+                  "description": "Assigned by the partner."
+                },
+                {
+                  "disabled": false,
+                  "key": "recvWindow",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7186d425-218e-476e-8a6c-2ce223194230",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "openapi",
+                    "wallet",
+                    "v1",
+                    "withdraw",
+                    "apply"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "coin",
+                      "value": "USDT"
+                    },
+                    {
+                      "key": "network",
+                      "value": "XRP"
+                    },
+                    {
+                      "key": "address",
+                      "value": "rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC"
+                    },
+                    {
+                      "key": "addressTag",
+                      "value": "1119001253"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "200.64"
+                    },
+                    {
+                      "key": "withdrawOrderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "recvWindow",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "timestamp",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"459165282044051456\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.pro.coins.ph",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0461b1cd-febb-4aee-9eef-ebb6c9ad35aa",
+    "name": "TRADING Account Disbursements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API reference for Account management — Coins.ph",
+      "type": "text/plain"
+    }
+  }
+}
