@@ -37,6 +37,15 @@ tags:
 - Cryptocurrency Exchange
 - Payments
 - Fintech
+- Wallets
+- Philippines
+- Trading
+tags_raw:
+- Company
+- Crypto
+- Cryptocurrency Exchange
+- Payments
+- Fintech
 - Wallet
 - Philippines
 - Trading
@@ -142,7 +151,8 @@ apis:
   description: General endpoints for connectivity, server time, system status, and user IP.
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
-  tags:
+  tags: []
+  tags_raw:
   - General
   properties:
   - type: OpenAPI
@@ -181,6 +191,8 @@ apis:
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
   tags:
+  - On-Off Ramp
+  tags_raw:
   - ON/OFF Ramp
   properties:
   - type: OpenAPI
@@ -267,6 +279,8 @@ apis:
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
   tags:
+  - Sub-Account
+  tags_raw:
   - Sub Account
   properties:
   - type: OpenAPI
@@ -351,6 +365,8 @@ apis:
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
   tags:
+  - Wallets
+  tags_raw:
   - Wallet
   properties:
   - type: OpenAPI
