@@ -203,7 +203,7 @@ apis:
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
   tags:
-  - ON/OFF Ramp
+  - On-Off Ramp
   tags_raw:
   - ON/OFF Ramp
   properties:
@@ -291,7 +291,7 @@ apis:
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
   tags:
-  - Sub Account
+  - Sub-Account
   tags_raw:
   - Sub Account
   properties:
