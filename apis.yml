@@ -293,7 +293,7 @@ apis:
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
   tags:
-  - Sub-Account
+  - Sub Account
   tags_raw:
   - Sub Account
   properties:
@@ -367,6 +367,8 @@ apis:
   humanURL: https://api.docs.coins.ph
   baseURL: https://api.pro.coins.ph
   tags:
+  - Virtual Accounts
+  tags_raw:
   - Virtual Account
   properties:
   - type: OpenAPI
