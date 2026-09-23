@@ -1,13 +1,41 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Tokenized Checkout API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: Payment Tokenized Checkout API
+  description: 'Coins.ph Partner Integration API v2.7
+
+
+    ## Authentication
+
+    All requests must include the following headers:
+
+    - `X-COINS-APIKEY`: Your API key
+
+    - `Timestamp`: Unix timestamp of the request
+
+    - `Signature`: HMAC-SHA256 signature of the request
+
+
+    Requests and webhook payloads must be signed using HMAC-SHA256 with the API secret.
+
+
+    ## Environments
+
+    - **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`
+
+    - **Production**: `https://api.pro.coins.ph`'
+  version: '2.7'
+  contact:
+    name: Coins.ph Tech Ops
+    email: tech_ops@coins.ph
 servers:
 - url: https://api.pro.coins.ph
   description: Production
 - url: https://api.9001.pl-qa.coinsxyz.me
   description: Sandbox
+security:
+- ApiKeyAuth: []
+  TimestampAuth: []
+  SignatureAuth: []
 tags:
 - name: Tokenized Checkout
   description: Password-free (auto-debit) checkout
@@ -172,79 +200,21 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
-    FiatBaseResponse:
+    TokenApplyResponse:
       type: object
       properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type: object
-          nullable: true
-    ProductDetail:
-      type: object
-      required:
-      - name
-      - type
-      - amount
-      properties:
-        name:
-          type: string
-          example: iPhone 15 Pro
-        type:
-          type: string
-          enum:
-          - retail_goods
-          - food_and_beverage
-          - transportation
-          - utilities_and_bills
-          - digital_goods
-          - ecommerce_vouchers
-          - online_subscriptions
-          - mobile_load
-          - gaming_and_gambling
-          - cash_equivalents
-          - high_value_goods
-          - others
-        quantity:
-          type: string
-          example: '1'
-        code:
-          type: string
-          example: IPHONE-256GB-BLUE
-        desc:
-          type: string
-          example: iPhone 15 Pro 256GB Blue
-        amount:
-          type: string
-          example: '100.00'
-    TokenQueryResponse:
-      type: object
-      properties:
-        customerId:
-          type: string
-        currency:
-          type: string
         tokenId:
           type: string
+          example: token_abc123def456
         tokenStatus:
           type: string
-          enum:
-          - PENDING
-          - ACTIVE
-          - EXPIRED
-          - REVOKED
-        tokenCreateTime:
+          example: PENDING
+        redirectUrl:
           type: string
-        tokenExpireTime:
-          type: integer
-          description: Unix timestamp in seconds.
-        accountDisplay:
+          example: https://payment.example.com/auth?token=...
+        token:
           type: string
+          example: tk_1234567890abcdef
     TokenApplyRequest:
       type: object
       required:
@@ -275,6 +245,43 @@ components:
               type: string
             cancel:
               type: string
+    TokenQueryResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+        currency:
+          type: string
+        tokenId:
+          type: string
+        tokenStatus:
+          type: string
+          enum:
+          - PENDING
+          - ACTIVE
+          - EXPIRED
+          - REVOKED
+        tokenCreateTime:
+          type: string
+        tokenExpireTime:
+          type: integer
+          description: Unix timestamp in seconds.
+        accountDisplay:
+          type: string
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
     CheckoutRedirectUrl:
       type: object
       required:
@@ -301,48 +308,6 @@ components:
         requestId:
           type: string
           description: Request ID used when applying for the token.
-    TokenPayResponse:
-      type: object
-      properties:
-        requestId:
-          type: string
-        status:
-          type: string
-        paymentStatus:
-          type: string
-          enum:
-          - INIT
-          - PROCESSING
-          - SUCCEEDED
-          - FAILED
-        needManualPay:
-          type: boolean
-          description: If true, checkoutUrl is provided for manual payment.
-        failReason:
-          type: string
-        orderId:
-          type: string
-        checkoutUrl:
-          type: string
-        checkoutDeeplinkUrl:
-          type: string
-        customerId:
-          type: string
-    TokenApplyResponse:
-      type: object
-      properties:
-        tokenId:
-          type: string
-          example: token_abc123def456
-        tokenStatus:
-          type: string
-          example: PENDING
-        redirectUrl:
-          type: string
-          example: https://payment.example.com/auth?token=...
-        token:
-          type: string
-          example: tk_1234567890abcdef
     TokenPayRequest:
       type: object
       required:
@@ -393,10 +358,90 @@ components:
         token:
           type: string
           description: Authorization token for passwordless (auto-debit) payment.
+    ProductDetail:
+      type: object
+      required:
+      - name
+      - type
+      - amount
+      properties:
+        name:
+          type: string
+          example: iPhone 15 Pro
+        type:
+          type: string
+          enum:
+          - retail_goods
+          - food_and_beverage
+          - transportation
+          - utilities_and_bills
+          - digital_goods
+          - ecommerce_vouchers
+          - online_subscriptions
+          - mobile_load
+          - gaming_and_gambling
+          - cash_equivalents
+          - high_value_goods
+          - others
+        quantity:
+          type: string
+          example: '1'
+        code:
+          type: string
+          example: IPHONE-256GB-BLUE
+        desc:
+          type: string
+          example: iPhone 15 Pro 256GB Blue
+        amount:
+          type: string
+          example: '100.00'
+    TokenPayResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+        status:
+          type: string
+        paymentStatus:
+          type: string
+          enum:
+          - INIT
+          - PROCESSING
+          - SUCCEEDED
+          - FAILED
+        needManualPay:
+          type: boolean
+          description: If true, checkoutUrl is provided for manual payment.
+        failReason:
+          type: string
+        orderId:
+          type: string
+        checkoutUrl:
+          type: string
+        checkoutDeeplinkUrl:
+          type: string
+        customerId:
+          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+      description: API key provided by Coins.ph
+    TimestampAuth:
+      type: apiKey
+      in: header
+      name: Timestamp
+      description: Unix timestamp of the request
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HMAC-SHA256 signature of the request
 x-readme:
   proxy-enabled: false
+  samples-languages:
+  - java
+  - python
+  - php
+  - ruby

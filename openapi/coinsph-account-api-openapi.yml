@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   title: TRADING Account API
   version: 1.0.0
@@ -30,7 +30,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
@@ -46,7 +46,7 @@ paths:
         Processing Transactions, and Order-Related Locks.
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Deposit Tracking** — Monitor pending balance to track deposit confirmations.
@@ -63,9 +63,7 @@ paths:
 
         - Don''t poll more frequently than necessary (respect rate limits).
 
-        - Use WebSocket for real-time balance updates if available.
-
-        '
+        - Use WebSocket for real-time balance updates if available.'
       operationId: query_crypto_account_balance
       parameters:
       - in: header
@@ -215,7 +213,67 @@ paths:
       tags:
       - Account
       summary: Account Information (USER_DATA)
-      description: "Retrieve comprehensive information about trading account, including permissions,\nbalances, withdrawal limits (daily, monthly, annual), fee tier, and configuration settings.\nUse this endpoint to get a complete snapshot of account's current state for portfolio\nmanagement, compliance checks, and monitoring.\n\n**Permission Flags**\n\n- **canDeposit**: `true` = Account can receive deposits; `false` = Deposits are blocked\n  (reasons: pending verification, compliance hold, security review).\n- **canTrade**: `true` = Account can execute buy/sell orders; `false` = Trading is restricted\n  (reasons: KYC incomplete, account suspension, regulatory restrictions).\n- **canWithdraw**: `true` = Account can withdraw funds; `false` = Withdrawals are blocked\n  (reasons: security review, 2FA setup required, compliance hold).\n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Withdrawal Validation** — Check if withdrawal amount is within limits before submission.\n- **Trading Permission Check** — Verify account can trade before placing orders.\n- **Compliance Monitoring** — Track transaction limits for regulatory compliance.\n- **Balance Verification** — Confirm available balance before placing trades.\n\n**Best Practices**\n\n- Cache account information and refresh after transactions.\n- Use `updateTime` to track data freshness.\n- Always check `canTrade` before placing orders.\n- Always check `canWithdraw` before initiating withdrawals.\n- Check all three limit tiers (daily, monthly, annual).\n"
+      description: 'Retrieve comprehensive information about trading account, including permissions,
+
+        balances, withdrawal limits (daily, monthly, annual), fee tier, and configuration settings.
+
+        Use this endpoint to get a complete snapshot of account''s current state for portfolio
+
+        management, compliance checks, and monitoring.
+
+
+        **Permission Flags**
+
+
+        - **canDeposit**: `true` = Account can receive deposits; `false` = Deposits are blocked
+
+        (reasons: pending verification, compliance hold, security review).
+
+        - **canTrade**: `true` = Account can execute buy/sell orders; `false` = Trading is restricted
+
+        (reasons: KYC incomplete, account suspension, regulatory restrictions).
+
+        - **canWithdraw**: `true` = Account can withdraw funds; `false` = Withdrawals are blocked
+
+        (reasons: security review, 2FA setup required, compliance hold).
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** 📖 Learn More
+
+
+        Weight: 10
+
+
+        **Use Cases** 🧩 SDK
+
+
+        - **Withdrawal Validation** — Check if withdrawal amount is within limits before submission.
+
+        - **Trading Permission Check** — Verify account can trade before placing orders.
+
+        - **Compliance Monitoring** — Track transaction limits for regulatory compliance.
+
+        - **Balance Verification** — Confirm available balance before placing trades.
+
+
+        **Best Practices**
+
+
+        - Cache account information and refresh after transactions.
+
+        - Use `updateTime` to track data freshness.
+
+        - Always check `canTrade` before placing orders.
+
+        - Always check `canWithdraw` before initiating withdrawals.
+
+        - Check all three limit tiers (daily, monthly, annual).'
       operationId: get_account_information
       parameters:
       - in: header

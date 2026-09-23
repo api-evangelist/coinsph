@@ -1,13 +1,44 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Ramp Callback API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: ON/OFF Ramp Ramp Callback API
+  description: 'Coins.ph Partner Integration API - ON/OFF Ramp Service
+
+
+    Fiat-to-crypto and crypto-to-fiat ramp operations.
+
+
+    ## Authentication
+
+    All requests must include the following headers:
+
+    - `X-COINS-APIKEY`: Your API key
+
+    - `Timestamp`: Unix timestamp of the request
+
+    - `Signature`: HMAC-SHA256 signature of the request
+
+
+    Requests and webhook payloads must be signed using HMAC-SHA256 with the API secret.
+
+
+    ## Environments
+
+    - **Sandbox**: `https://9001.pl-qa.coinsxyz.me`
+
+    - **Production**: `https://pro.coins.ph`'
+  version: '2.7'
+  contact:
+    name: Coins.ph Tech Ops
+    email: tech_ops@coins.ph
 servers:
-- url: https://api.pro.coins.ph
-  description: Production
-- url: https://api.9001.pl-qa.coinsxyz.me
+- url: https://ramp.pro.coins.ph
   description: Sandbox
+- url: https://ramp.pro.coins.ph
+  description: Production
+security:
+- ApiKeyAuth: []
+  TimestampAuth: []
+  SignatureAuth: []
 tags:
 - name: Ramp Callback
   description: Webhook callbacks sent to the merchant's configured callback URL when order status changes
@@ -129,6 +160,21 @@ paths:
                 data: {}
 components:
   schemas:
+    RampCallbackResponse:
+      type: object
+      description: Expected response from merchant after receiving the callback.
+      properties:
+        code:
+          type: string
+          description: Response code. '0' indicates success.
+          example: '0'
+        message:
+          type: string
+          description: Response message.
+          example: success
+        data:
+          type: object
+          description: Response data (can be empty).
     RampCallbackRequest:
       type: object
       description: Callback payload sent to the merchant's configured callback URL when order status changes.
@@ -284,37 +330,35 @@ components:
               - OFF_RAMP
               example: OFF_RAMP
         callbackKey:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Callback key (if configured).
         merchantId:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Merchant ID (if configured).
         timestamp:
           type: integer
           format: int64
           description: Callback timestamp (epoch millis).
           example: 1776924592732
-    RampCallbackResponse:
-      type: object
-      description: Expected response from merchant after receiving the callback.
-      properties:
-        code:
-          type: string
-          description: Response code. '0' indicates success.
-          example: '0'
-        message:
-          type: string
-          description: Response message.
-          example: success
-        data:
-          type: object
-          description: Response data (can be empty).
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+      description: API key provided by Coins.ph
+    TimestampAuth:
+      type: apiKey
+      in: header
+      name: Timestamp
+      description: Unix timestamp of the request
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HMAC-SHA256 signature of the request
 x-readme:
-  proxy-enabled: false
+  proxy-enabled: true

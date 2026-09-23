@@ -1,13 +1,22 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Account Validation API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: Open Account Validation API
+  version: '1.0'
+  description: 'Account Validation allows merchants to verify a recipient''s account before initiating a fund transfer.
+
+    Supported methods include internal Coins user lookup, historical transaction database lookup, and real-time PennyDrop verification.
+
+
+    All verifications are **asynchronous**. The create endpoint returns `PENDING` immediately.
+
+    Poll the status-check endpoint (or use webhook) for the final result.
+
+
+    **Webhook:** Supported (requires Coins configuration)'
 servers:
-- url: https://api.pro.coins.ph
-  description: Production
-- url: https://api.9001.pl-qa.coinsxyz.me
-  description: Sandbox
+- url: https://api.coins.ph
+security:
+- ApiKeyAuth: []
 tags:
 - name: Account Validation
 paths:
@@ -19,9 +28,7 @@ paths:
         Use the `validationRequestId` from the response to poll the status-check endpoint.
 
 
-        **Idempotency**: Submitting the same `requestId` twice returns the original result without creating a duplicate validation.
-
-        '
+        **Idempotency**: Submitting the same `requestId` twice returns the original result without creating a duplicate validation.'
       operationId: createAccountValidation
       tags:
       - Account Validation
@@ -125,9 +132,7 @@ paths:
         `validationRequestId` takes precedence if both are provided.
 
 
-        **Polling recommendation**: Send the first poll 3 seconds after submission, then use exponential backoff with a max interval of 30 seconds.
-
-        '
+        **Polling recommendation**: Send the first poll 3 seconds after submission, then use exponential backoff with a max interval of 30 seconds.'
       operationId: getAccountValidationStatus
       tags:
       - Account Validation
@@ -268,17 +273,6 @@ paths:
           description: Internal server error
 components:
   schemas:
-    FiatMoney:
-      type: object
-      properties:
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: PHP
-        amount:
-          type: string
-          description: Decimal amount
-          example: '1.00'
     CreateValidationResponse:
       type: object
       properties:
@@ -286,8 +280,9 @@ components:
           type: integer
           example: 0
         error:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         data:
           type: object
           properties:
@@ -309,6 +304,22 @@ components:
               description: Request creation time (Unix milliseconds, UTC)
             accountInfo:
               $ref: '#/components/schemas/AccountInfo'
+    AccountInfo:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: Bank account number. Required for DATABASE / PENNY_DROP / AUTO methods.
+        accountName:
+          type: string
+          description: Account holder name. Required for DATABASE / PENNY_DROP / AUTO; optional for INTERNAL. If omitted, nameMatchStatus returns N/A.
+        phone:
+          type: string
+          description: Phone number. For INTERNAL method only.
+          example: 09171234567
+        email:
+          type: string
+          description: Email address. For INTERNAL method only.
     ValidationStatusResponse:
       type: object
       properties:
@@ -316,8 +327,9 @@ components:
           type: integer
           example: 0
         error:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         data:
           type: object
           properties:
@@ -427,6 +439,16 @@ components:
               type: integer
               format: int64
               description: Last updated time (Unix milliseconds, UTC)
+    RemainingDepositLimit:
+      type: object
+      description: Remaining deposit limits (INTERNAL method only)
+      properties:
+        daily:
+          $ref: '#/components/schemas/FiatMoney'
+        monthly:
+          $ref: '#/components/schemas/FiatMoney'
+        annual:
+          $ref: '#/components/schemas/FiatMoney'
     CreateValidationRequest:
       type: object
       required:
@@ -480,36 +502,19 @@ components:
           example: PHP
         accountInfo:
           $ref: '#/components/schemas/AccountInfo'
-    AccountInfo:
+    FiatMoney:
       type: object
       properties:
-        accountNumber:
+        currency:
           type: string
-          description: Bank account number. Required for DATABASE / PENNY_DROP / AUTO methods.
-        accountName:
+          description: ISO 4217 currency code
+          example: PHP
+        amount:
           type: string
-          description: Account holder name. Required for DATABASE / PENNY_DROP / AUTO; optional for INTERNAL. If omitted, nameMatchStatus returns N/A.
-        phone:
-          type: string
-          description: Phone number. For INTERNAL method only.
-          example: 09171234567
-        email:
-          type: string
-          description: Email address. For INTERNAL method only.
-    RemainingDepositLimit:
-      type: object
-      description: Remaining deposit limits (INTERNAL method only)
-      properties:
-        daily:
-          $ref: '#/components/schemas/FiatMoney'
-        monthly:
-          $ref: '#/components/schemas/FiatMoney'
-        annual:
-          $ref: '#/components/schemas/FiatMoney'
+          description: Decimal amount
+          example: '1.00'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
-x-readme:
-  proxy-enabled: false

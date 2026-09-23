@@ -1,13 +1,44 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account ON/OFF Ramp API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: ON/OFF Ramp API
+  description: 'Coins.ph Partner Integration API - ON/OFF Ramp Service
+
+
+    Fiat-to-crypto and crypto-to-fiat ramp operations.
+
+
+    ## Authentication
+
+    All requests must include the following headers:
+
+    - `X-COINS-APIKEY`: Your API key
+
+    - `Timestamp`: Unix timestamp of the request
+
+    - `Signature`: HMAC-SHA256 signature of the request
+
+
+    Requests and webhook payloads must be signed using HMAC-SHA256 with the API secret.
+
+
+    ## Environments
+
+    - **Sandbox**: `https://9001.pl-qa.coinsxyz.me`
+
+    - **Production**: `https://pro.coins.ph`'
+  version: '2.7'
+  contact:
+    name: Coins.ph Tech Ops
+    email: tech_ops@coins.ph
 servers:
-- url: https://api.pro.coins.ph
-  description: Production
-- url: https://api.9001.pl-qa.coinsxyz.me
+- url: https://ramp.pro.coins.ph
   description: Sandbox
+- url: https://ramp.pro.coins.ph
+  description: Production
+security:
+- ApiKeyAuth: []
+  TimestampAuth: []
+  SignatureAuth: []
 tags:
 - name: ON/OFF Ramp
   description: Fiat-to-crypto and crypto-to-fiat ramp operations
@@ -291,6 +322,142 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
+    OffRampTokenPair:
+      type: object
+      properties:
+        fromToken:
+          type: string
+        toToken:
+          type: string
+        fromTokenIcon:
+          type: string
+        toTokenIcon:
+          type: string
+        fromTokenName:
+          type: string
+        toTokenName:
+          type: string
+        limits:
+          type: object
+          properties:
+            perOrder:
+              type: object
+              properties:
+                fromToken:
+                  $ref: '#/components/schemas/AmountLimit'
+                toToken:
+                  $ref: '#/components/schemas/AmountLimit'
+    RampTrialPriceResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            sourceCurrency:
+              type: string
+            targetCurrency:
+              type: string
+            sourceAmount:
+              type: string
+            targetAmount:
+              type: string
+            price:
+              type: string
+            fee:
+              type: string
+            feeCurrency:
+              type: string
+            resultAmount:
+              type: string
+            totalCostAmount:
+              type: string
+            expiry:
+              type: integer
+              description: Validity of the quote in seconds.
+            inversePrice:
+              type: string
+            expiryTime:
+              type: integer
+              format: int64
+              description: Quote expiry timestamp (epoch millis).
+    AmountLimit:
+      type: object
+      properties:
+        min:
+          type: string
+        max:
+          type: string
+        precision:
+          type: integer
+    RampPaymentConfigResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            supportedNetworksByToken:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  networks:
+                    type: array
+                    items:
+                      type: string
+            onRampFormTokenList:
+              type:
+              - array
+              - 'null'
+              items:
+                $ref: '#/components/schemas/OnRampTokenPair'
+            offRampToTokenList:
+              type:
+              - array
+              - 'null'
+              items:
+                $ref: '#/components/schemas/OffRampTokenPair'
+    InitOnChainFundResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type:
+          - object
+          - 'null'
+          properties:
+            depositId:
+              type: string
+              description: Deposit identifier returned by the merchant.
+              example: DEP20260427000001
+            errorCode:
+              type:
+              - string
+              - 'null'
+              description: Error code returned by the merchant (if any).
+              example: INVALID_QUOTE
+            errorMessage:
+              type:
+              - string
+              - 'null'
+              description: Error message returned by the merchant (if any).
+              example: Quote has expired
     OnRampTokenPair:
       type: object
       properties:
@@ -363,141 +530,21 @@ components:
             maxPollingCount:
               type: integer
               description: Maximum number of polling attempts.
-    AmountLimit:
-      type: object
-      properties:
-        min:
-          type: string
-        max:
-          type: string
-        precision:
-          type: integer
-    OffRampTokenPair:
-      type: object
-      properties:
-        fromToken:
-          type: string
-        toToken:
-          type: string
-        fromTokenIcon:
-          type: string
-        toTokenIcon:
-          type: string
-        fromTokenName:
-          type: string
-        toTokenName:
-          type: string
-        limits:
-          type: object
-          properties:
-            perOrder:
-              type: object
-              properties:
-                fromToken:
-                  $ref: '#/components/schemas/AmountLimit'
-                toToken:
-                  $ref: '#/components/schemas/AmountLimit'
-    RampPaymentConfigResponse:
-      type: object
-      properties:
-        code:
-          type: string
-          example: '000000'
-        message:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            supportedNetworksByToken:
-              type: object
-              additionalProperties:
-                type: object
-                properties:
-                  networks:
-                    type: array
-                    items:
-                      type: string
-            onRampFormTokenList:
-              type: array
-              nullable: true
-              items:
-                $ref: '#/components/schemas/OnRampTokenPair'
-            offRampToTokenList:
-              type: array
-              nullable: true
-              items:
-                $ref: '#/components/schemas/OffRampTokenPair'
-    RampTrialPriceResponse:
-      type: object
-      properties:
-        code:
-          type: string
-          example: '000000'
-        message:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            sourceCurrency:
-              type: string
-            targetCurrency:
-              type: string
-            sourceAmount:
-              type: string
-            targetAmount:
-              type: string
-            price:
-              type: string
-            fee:
-              type: string
-            feeCurrency:
-              type: string
-            resultAmount:
-              type: string
-            totalCostAmount:
-              type: string
-            expiry:
-              type: integer
-              description: Validity of the quote in seconds.
-            inversePrice:
-              type: string
-            expiryTime:
-              type: integer
-              format: int64
-              description: Quote expiry timestamp (epoch millis).
-    InitOnChainFundResponse:
-      type: object
-      properties:
-        code:
-          type: string
-          example: '000000'
-        message:
-          type: string
-          example: success
-        data:
-          type: object
-          nullable: true
-          properties:
-            depositId:
-              type: string
-              description: Deposit identifier returned by the merchant.
-              example: DEP20260427000001
-            errorCode:
-              type: string
-              nullable: true
-              description: Error code returned by the merchant (if any).
-              example: INVALID_QUOTE
-            errorMessage:
-              type: string
-              nullable: true
-              description: Error message returned by the merchant (if any).
-              example: Quote has expired
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+      description: API key provided by Coins.ph
+    TimestampAuth:
+      type: apiKey
+      in: header
+      name: Timestamp
+      description: Unix timestamp of the request
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HMAC-SHA256 signature of the request
 x-readme:
-  proxy-enabled: false
+  proxy-enabled: true

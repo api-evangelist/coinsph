@@ -1,13 +1,41 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Reconciliation API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: Payment Reconciliation API
+  description: 'Coins.ph Partner Integration API v2.7
+
+
+    ## Authentication
+
+    All requests must include the following headers:
+
+    - `X-COINS-APIKEY`: Your API key
+
+    - `Timestamp`: Unix timestamp of the request
+
+    - `Signature`: HMAC-SHA256 signature of the request
+
+
+    Requests and webhook payloads must be signed using HMAC-SHA256 with the API secret.
+
+
+    ## Environments
+
+    - **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`
+
+    - **Production**: `https://api.pro.coins.ph`'
+  version: '2.7'
+  contact:
+    name: Coins.ph Tech Ops
+    email: tech_ops@coins.ph
 servers:
 - url: https://api.pro.coins.ph
   description: Production
 - url: https://api.9001.pl-qa.coinsxyz.me
   description: Sandbox
+security:
+- ApiKeyAuth: []
+  TimestampAuth: []
+  SignatureAuth: []
 tags:
 - name: Reconciliation
   description: Reconciliation report
@@ -118,12 +146,29 @@ components:
           type: string
           example: OK
         params:
-          type: object
-          nullable: true
+          type:
+          - object
+          - 'null'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+      description: API key provided by Coins.ph
+    TimestampAuth:
+      type: apiKey
+      in: header
+      name: Timestamp
+      description: Unix timestamp of the request
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HMAC-SHA256 signature of the request
 x-readme:
   proxy-enabled: false
+  samples-languages:
+  - java
+  - python
+  - php
+  - ruby

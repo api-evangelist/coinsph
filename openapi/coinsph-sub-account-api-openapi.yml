@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Sub Account API
+  title: TRADING Sub Account API
   version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  description: Sub Account endpoints for the Coins.ph Trading API — covering Sub Account deposit addresses, deposit history, and inter-account transfers.
 servers:
 - url: https://api.pro.coins.ph
   description: Production
@@ -56,7 +56,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         | Weight (IP) | Weight (UID) |
@@ -66,7 +66,7 @@ paths:
         | 60 | 30 |
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Multi-Strategy Trading** — Separate accounts for different trading strategies.
@@ -89,9 +89,7 @@ paths:
 
         - Implement access control for sub-account operations.
 
-        - Regular audit of sub-account activities.
-
-        '
+        - Regular audit of sub-account activities.'
       operationId: create_virtual_sub_account
       parameters:
       - in: header
@@ -226,7 +224,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
@@ -240,7 +238,7 @@ paths:
         - `true` = Frozen (operations blocked).
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Account Inventory** — Get complete list of all sub-accounts.
@@ -255,9 +253,7 @@ paths:
 
         - Default limit is 10 accounts per page; maximum is 200.
 
-        - Cache results to reduce API calls (typical cache: 1–5 minutes).
-
-        '
+        - Cache results to reduce API calls (typical cache: 1–5 minutes).'
       operationId: query_sub_account_list
       parameters:
       - in: header
@@ -429,13 +425,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Portfolio Management** — Monitor total holdings across sub-accounts.
@@ -454,9 +450,7 @@ paths:
 
         - All balance values are returned as strings to preserve precision.
 
-        - Use decimal libraries for financial calculations.
-
-        '
+        - Use decimal libraries for financial calculations.'
       operationId: query_sub_account_assets
       parameters:
       - in: header
@@ -609,7 +603,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
@@ -633,7 +627,7 @@ paths:
         | FAILED | Collection completely failed | Check error, retry if needed |
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Liquidity Management** — Pool assets for large trades.
@@ -652,9 +646,7 @@ paths:
 
         - Poll the records endpoint every 10 seconds for INIT/PROCESSING tasks.
 
-        - Check if a collection task already exists before submitting.
-
-        '
+        - Check if a collection task already exists before submitting.'
       operationId: collect_sub_account_assets
       parameters:
       - in: header
@@ -821,13 +813,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Status Monitoring** — Query to check collection task progress.
@@ -844,9 +836,7 @@ paths:
 
         - Cache results for final states (SUCCESS, PARTIAL_SUCCESS, FAILED).
 
-        - Use specific `clientRequestId` queries for faster lookup.
-
-        '
+        - Use specific `clientRequestId` queries for faster lookup.'
       operationId: retrieve_asset_collection_records
       parameters:
       - in: header
@@ -1039,13 +1029,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Security Audit** — Verify IP restriction settings for all sub-accounts.
@@ -1062,9 +1052,7 @@ paths:
 
         - Check role assignments match intended use.
 
-        - Use correct sub-account API key (not master) in the `apikey` query parameter.
-
-        '
+        - Use correct sub-account API key (not master) in the `apikey` query parameter.'
       operationId: get_sub_account_ip_restriction
       parameters:
       - in: header
@@ -1188,7 +1176,73 @@ paths:
       tags:
       - Sub Account
       summary: Add IP Restriction for Sub-Account API Key (For Master Account)
-      description: "Add or update IP whitelist restrictions for a sub-account's API key. This endpoint enables\nthe master account to configure which IP addresses are allowed to use a specific sub-account\nAPI key, enhancing security by limiting access to trusted locations only. Multiple IP addresses\ncan be added in a single request, and the IP restriction status can be toggled between\nrestricted and unrestricted modes.\n\n**Access Control**\n\n- This endpoint can only be accessed by master accounts.\n- Requires both master account API key (in header) and sub-account API key (in request body).\n- Changes take effect immediately.\n\n**ipRestriction Modes**\n\n- **\"1\" — Restricted Mode (Recommended for Production)**: Only whitelisted IP addresses can\n  use the API key. If no `ipAddress` provided, the API key becomes unusable.\n- **\"2\" — Unrestricted Mode (Use with Caution)**: API key can be used from any IP address.\n  Not recommended for production. `ipAddress` parameter is ignored in this mode.\n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 30\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Initial Security Setup** — Configure IP restrictions during sub-account onboarding.\n- **IP Whitelist Update** — Add new trusted IP addresses as business needs change.\n- **Multi-location Support** — Whitelist IPs from multiple office locations.\n- **VPN Integration** — Configure VPN gateway IP for remote access.\n\n**Best Practices**\n\n- Use static IP addresses only (not dynamic IPs).\n- Limit to necessary IPs only (principle of least privilege).\n- Document each IP address purpose.\n- Test thoroughly before production deployment.\n"
+      description: 'Add or update IP whitelist restrictions for a sub-account''s API key. This endpoint enables
+
+        the master account to configure which IP addresses are allowed to use a specific sub-account
+
+        API key, enhancing security by limiting access to trusted locations only. Multiple IP addresses
+
+        can be added in a single request, and the IP restriction status can be toggled between
+
+        restricted and unrestricted modes.
+
+
+        **Access Control**
+
+
+        - This endpoint can only be accessed by master accounts.
+
+        - Requires both master account API key (in header) and sub-account API key (in request body).
+
+        - Changes take effect immediately.
+
+
+        **ipRestriction Modes**
+
+
+        - **"1" — Restricted Mode (Recommended for Production)**: Only whitelisted IP addresses can
+
+        use the API key. If no `ipAddress` provided, the API key becomes unusable.
+
+        - **"2" — Unrestricted Mode (Use with Caution)**: API key can be used from any IP address.
+
+        Not recommended for production. `ipAddress` parameter is ignored in this mode.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** 📖 Learn More
+
+
+        Weight: 30
+
+
+        **Use Cases** 🧩 SDK
+
+
+        - **Initial Security Setup** — Configure IP restrictions during sub-account onboarding.
+
+        - **IP Whitelist Update** — Add new trusted IP addresses as business needs change.
+
+        - **Multi-location Support** — Whitelist IPs from multiple office locations.
+
+        - **VPN Integration** — Configure VPN gateway IP for remote access.
+
+
+        **Best Practices**
+
+
+        - Use static IP addresses only (not dynamic IPs).
+
+        - Limit to necessary IPs only (principle of least privilege).
+
+        - Document each IP address purpose.
+
+        - Test thoroughly before production deployment.'
       operationId: add_sub_account_ip_restriction
       parameters:
       - in: header
@@ -1368,13 +1422,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 30
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Security Incident Response** — Immediately revoke access from compromised IP.
@@ -1393,9 +1447,7 @@ paths:
 
         - Verify with team members before removing their IPs.
 
-        - Confirm IPs are actually in the whitelist before attempting deletion.
-
-        '
+        - Confirm IPs are actually in the whitelist before attempting deletion.'
       operationId: delete_sub_account_ip_restriction
       parameters:
       - in: header
@@ -1567,13 +1619,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Sub-Account Transfer History** — View all incoming or outgoing transfers for the calling sub-account.
@@ -1592,9 +1644,7 @@ paths:
 
         - Use `startTime` and `endTime` for time-range queries.
 
-        - Default behavior returns type 2 (transfer out) if type is not specified.
-
-        '
+        - Default behavior returns type 2 (transfer out) if type is not specified.'
       operationId: get_sub_account_transfer_history
       parameters:
       - in: header
@@ -1802,13 +1852,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 100
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Sub-Account Fund Return** — Sub-account sends assets back to master without requiring master account intervention.
@@ -1823,9 +1873,7 @@ paths:
 
         - Use `clientTranId` for idempotency to safely retry on network failures.
 
-        - Check sub-account balance before transfer to avoid insufficient balance errors.
-
-        '
+        - Check sub-account balance before transfer to avoid insufficient balance errors.'
       operationId: post_sub_account_transfer_to_master
       parameters:
       - in: header
@@ -1965,13 +2013,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 100
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Cross-Account Asset Management** — Move assets between master and sub-account wallets.
@@ -1988,9 +2036,7 @@ paths:
 
         - Verify source account has sufficient balance before initiating transfer.
 
-        - Use string format for amounts to preserve decimal precision.
-
-        '
+        - Use string format for amounts to preserve decimal precision.'
       operationId: post_sub_account_universal_transfer
       parameters:
       - in: header
@@ -2155,13 +2201,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Transfer Audit** — Review all universal transfers between master and sub-accounts.
@@ -2178,9 +2224,7 @@ paths:
 
         - Use `toEmail` to see all incoming transfers to a specific account. Cannot use both simultaneously.
 
-        - Maximum query period is 30 days; use `startTime` and `endTime` for specific periods.
-
-        '
+        - Maximum query period is 30 days; use `startTime` and `endTime` for specific periods.'
       operationId: get_sub_account_universal_transfer_history
       parameters:
       - in: header
@@ -2376,13 +2420,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Sub-Account Deposit Routing** — Generate deposit addresses for sub-accounts so they can receive funds independently.
@@ -2397,9 +2441,7 @@ paths:
 
         - Include the `addressTag` in the deposit instructions for memo-based coins (e.g., XRP, XLM) to prevent loss of funds.
 
-        - Cache the address per sub-account + coin + network combination since deposit addresses rarely change.
-
-        '
+        - Cache the address per sub-account + coin + network combination since deposit addresses rarely change.'
       operationId: get_sub_account_deposit_address
       parameters:
       - in: header
@@ -2561,13 +2603,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Sub-Account Deposit Monitoring** — Track all deposits into a sub-account for balance reconciliation.
@@ -2582,9 +2624,7 @@ paths:
 
         - Filter by `coin` and time range (`startTime`/`endTime`) to reduce response size.
 
-        - Use `offset` for pagination when a sub-account has a large deposit history.
-
-        '
+        - Use `offset` for pagination when a sub-account has a large deposit history.'
       operationId: get_sub_account_deposit_history
       parameters:
       - in: header
@@ -2784,5 +2824,9 @@ components:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+x-tagGroups:
+- name: TRADING
+  tags:
+  - Sub Account
 x-readme:
   proxy-enabled: false

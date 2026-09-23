@@ -1,13 +1,41 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Virtual Account API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: Payment Virtual Account API
+  description: 'Coins.ph Partner Integration API v2.7
+
+
+    ## Authentication
+
+    All requests must include the following headers:
+
+    - `X-COINS-APIKEY`: Your API key
+
+    - `Timestamp`: Unix timestamp of the request
+
+    - `Signature`: HMAC-SHA256 signature of the request
+
+
+    Requests and webhook payloads must be signed using HMAC-SHA256 with the API secret.
+
+
+    ## Environments
+
+    - **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`
+
+    - **Production**: `https://api.pro.coins.ph`'
+  version: '2.7'
+  contact:
+    name: Coins.ph Tech Ops
+    email: tech_ops@coins.ph
 servers:
 - url: https://api.pro.coins.ph
   description: Production
 - url: https://api.9001.pl-qa.coinsxyz.me
   description: Sandbox
+security:
+- ApiKeyAuth: []
+  TimestampAuth: []
+  SignatureAuth: []
 tags:
 - name: Virtual Account
   description: Virtual account creation and management
@@ -251,8 +279,9 @@ paths:
                   $ref: '#/components/schemas/CryptoDestination'
                   description: Crypto destination to update. `null` = no change; empty object `{}` = clear; with value = overwrite.
                 needStaticQrCode:
-                  type: boolean
-                  nullable: true
+                  type:
+                  - boolean
+                  - 'null'
                   description: '`null` = no action; `true` = activate or create static QR code; `false` = suspend static QR code.'
                   example: true
             example:
@@ -821,6 +850,118 @@ paths:
                 - $ref: '#/components/schemas/VAErrorResponse'
 components:
   schemas:
+    CreateVirtualAccountSuccess:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
+        data:
+          type: object
+          properties:
+            vAccountId:
+              type: string
+              description: Virtual account ID.
+              example: '2229106125796322048'
+    VAErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code.
+          example: -70020002
+        msg:
+          type: string
+          description: Error message.
+          example: Virtual account does not exist.
+    CurrencyNetworkSetting:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Currency or token (e.g., `PHP`, `USDT`, `USDC`).
+          example: PHP
+        network:
+          type: string
+          description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `TRC20`, `TRONSCAN`).
+          example: INSTAPAY
+    CryptoDestination:
+      type: object
+      required:
+      - currency
+      - transactionChannel
+      - recipientAccountNumber
+      - recipientName
+      - recipientAddress
+      properties:
+        currency:
+          type: string
+          description: Fiat currency (e.g., `PHP`).
+          example: PHP
+        transactionChannel:
+          type: string
+          description: Transaction channel (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`).
+          example: INSTAPAY
+        transactionSubject:
+          type:
+          - string
+          - 'null'
+          description: Transaction subject. from https://api.docs.coins.ph/reference/getsupportchannel
+          example: gcash
+        recipientAccountNumber:
+          type: string
+          description: Recipient account number.
+          example: 09171234567
+        recipientName:
+          type: string
+          description: Recipient name.
+          example: Juan dela Cruz
+        recipientAddress:
+          type: string
+          description: Recipient address.
+          example: 123 Main St, Quezon City
+        remarks:
+          type:
+          - string
+          - 'null'
+          description: Remarks.
+          example: null
+    VirtualAccountExtend:
+      type: object
+      description: Extended information stored in the VA. When `needStaticQrCode=true`, the following static QR code fields are populated automatically.
+      properties:
+        staticQrCodeRequestId:
+          type:
+          - string
+          - 'null'
+          description: 'Unique request ID used to generate the static QR code (format: `VA` + snowflake ID). Used internally to activate/suspend the QR code via `needStaticQrCode`.'
+          example: VA2250098734532233984
+        staticQrCodeStatus:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ACTIVE
+          - SUSPEND
+          description: Current status of the static QR code.
+          example: ACTIVE
+        staticQrCode:
+          type:
+          - string
+          - 'null'
+          description: Full EMVCo-compliant QRPH static QR code string.
+          example: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
+      example:
+        staticQrCodeRequestId: VA2250098734532233984
+        staticQrCodeStatus: ACTIVE
+        staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
     BooleanSuccessResponse:
       type: object
       properties:
@@ -834,136 +975,31 @@ components:
           type: boolean
           description: Returns true on success.
           example: true
-    VirtualAccountTransaction:
+    FiatDestination:
       type: object
+      required:
+      - token
+      - network
+      - address
       properties:
-        userId:
-          type: string
-          description: User ID of the merchant.
-          example: userId
-        vAccountUsage:
-          type: integer
-          description: Virtual Account Usage Type.
-          example: 1
-        vAccountId:
-          type: string
-          description: Virtual account ID.
-          example: vAccountId
-        orderId:
-          type: string
-          description: Transaction ID.
-          example: orderId
         token:
           type: string
-          description: Currency (e.g., `PHP`, `USDT`).
+          description: Token name (e.g., `USDT`).
           example: USDT
         network:
           type: string
-          description: Fiat channel or crypto network.
-          example: TRC20
+          description: Network (e.g., `TRC20`, `BSC`).
+          example: BSC
         address:
           type: string
-          nullable: true
-          description: Crypto deposit address.
-          example: TN123456789abcdef
-        amount:
-          type: number
-          description: Transaction amount (number).
-          example: 100.5
-        totalAmount:
-          type: string
-          description: Transaction amount (string).
-          example: '100.50'
-        channelOrderId:
-          type: string
-          description: Third-party order ID.
-          example: CH20240115001
-        fromUserName:
-          type: string
-          nullable: true
-          description: Transaction sender name.
-          example: Alice
-        fromUserNumber:
-          type: string
-          nullable: true
-          description: Transaction sender number.
-          example: U10001
-        fromUserEmail:
-          type: string
-          nullable: true
-          description: Transaction sender email.
-          example: alice@coisn.ph
-        sender:
-          type: string
-          nullable: true
-          description: Transaction sender name + number.
-          example: TN987654321fedcba
-        transactionDate:
-          type: string
-          description: Transaction date.
-          example: '2024-01-15 10:30:00'
-    VirtualAccountExtend:
-      type: object
-      description: Extended information stored in the VA. When `needStaticQrCode=true`, the following static QR code fields are populated automatically.
-      properties:
-        staticQrCodeRequestId:
-          type: string
-          nullable: true
-          description: 'Unique request ID used to generate the static QR code (format: `VA` + snowflake ID). Used internally to activate/suspend the QR code via `needStaticQrCode`.'
-          example: VA2250098734532233984
-        staticQrCodeStatus:
-          type: string
-          enum:
-          - ACTIVE
-          - SUSPEND
-          nullable: true
-          description: Current status of the static QR code.
-          example: ACTIVE
-        staticQrCode:
-          type: string
-          nullable: true
-          description: Full EMVCo-compliant QRPH static QR code string.
-          example: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
-      example:
-        staticQrCodeRequestId: VA2250098734532233984
-        staticQrCodeStatus: ACTIVE
-        staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
-    VirtualAccountSettingDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Address setting ID. Use this in `idList` when deleting settings.
-          example: '201'
-        token:
-          type: string
-          description: Currency or token.
-          example: PHP
-        network:
-          type: string
-          description: Fiat channel or crypto network.
-          example: INSTAPAY
-        tokenLogo:
-          type: string
-          nullable: true
-          description: Token logo URL.
-          example: https://static.pro.coins.xyz/upload/images/PHP.png
-        networkLogo:
-          type: string
-          nullable: true
-          description: Network logo URL.
-        status:
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 3
-          description: 'Setting status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
-          example: 1
-        address:
-          type: string
-          nullable: true
-          description: Crypto deposit address. Empty when fiat is used.
+          description: On-chain address, must match the addressRegex of the network.
+          example: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
+        tag:
+          type:
+          - string
+          - 'null'
+          description: Memo / Tag (required by some networks).
+          example: null
     VirtualAccountDetail:
       type: object
       properties:
@@ -986,8 +1022,9 @@ components:
           description: 'Virtual Account Usage Type. `0`: ONE_TIME, `1`: MULTIPLE.'
           example: 1
         validityPeriod:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Remaining validity in seconds (only for one-time accounts).
           example: 0
         cAccountNumber:
@@ -1003,8 +1040,9 @@ components:
           description: Merchant userId on Coins. **Returned as a string** to avoid large integer precision loss.
           example: '2067534261742978048'
         coinsUserId:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: PERSONAL type only. The Coins end-user's userId (external ID). **Returned as a string** to avoid large integer precision loss. `0` or `null` if not applicable.
           example: '2248914299514407681'
         status:
@@ -1030,18 +1068,20 @@ components:
           description: 'Crypto channel status. `1`: ACTIVE, `2`: DEACTIVATED.'
           example: 2
         businessScenario:
-          type: string
+          type:
+          - string
+          - 'null'
           enum:
           - AUTO_ON_RAMP
           - AUTO_OFF_RAMP
           - AUTO_RAMP
           - ''
-          nullable: true
           description: Business scenario.
           example: AUTO_ON_RAMP
         requestId:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Idempotency key used when creating the virtual account.
           example: SEC-EVATEST-Q20260630153000000022
         fiatSettings:
@@ -1064,28 +1104,27 @@ components:
             - **list API**: Only returned when `containsAddress=true`; returns up to 100 **ACTIVE** entries ordered by update time descending.'
         fiatDestination:
           $ref: '#/components/schemas/FiatDestination'
-          nullable: true
           description: Fiat destination for AUTO_ON_RAMP / AUTO_RAMP scenario. `null` if not configured.
         cryptoDestination:
           $ref: '#/components/schemas/CryptoDestination'
-          nullable: true
           description: Crypto destination for AUTO_OFF_RAMP / AUTO_RAMP scenario. `null` if not configured.
         staticQrCode:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Shortcut field — same as `extend.staticQrCode`. QRPH static QR code string. `null` if not generated.
           example: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
         staticQrCodeStatus:
-          type: string
+          type:
+          - string
+          - 'null'
           enum:
           - ACTIVE
           - SUSPEND
-          nullable: true
           description: Shortcut field — same as `extend.staticQrCodeStatus`. Static QR code status.
           example: ACTIVE
         extend:
           $ref: '#/components/schemas/VirtualAccountExtend'
-          nullable: true
           description: Extended information. Contains static QR code fields (`staticQrCodeRequestId`, `staticQrCodeStatus`, `staticQrCode`) when `needStaticQrCode=true` was set during create/update. See `VirtualAccountExtend` schema for field details.
         createTime:
           type: string
@@ -1140,114 +1179,138 @@ components:
           - 3
           description: 'Virtual account status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
           example: 1
-    CurrencyNetworkSetting:
+    VirtualAccountSettingDetail:
       type: object
       properties:
+        id:
+          type: string
+          description: Address setting ID. Use this in `idList` when deleting settings.
+          example: '201'
         token:
           type: string
-          description: Currency or token (e.g., `PHP`, `USDT`, `USDC`).
+          description: Currency or token.
           example: PHP
         network:
           type: string
-          description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `TRC20`, `TRONSCAN`).
+          description: Fiat channel or crypto network.
           example: INSTAPAY
-    CryptoDestination:
+        tokenLogo:
+          type:
+          - string
+          - 'null'
+          description: Token logo URL.
+          example: https://static.pro.coins.xyz/upload/images/PHP.png
+        networkLogo:
+          type:
+          - string
+          - 'null'
+          description: Network logo URL.
+        status:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          description: 'Setting status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
+          example: 1
+        address:
+          type:
+          - string
+          - 'null'
+          description: Crypto deposit address. Empty when fiat is used.
+    VirtualAccountTransaction:
       type: object
-      required:
-      - currency
-      - transactionChannel
-      - recipientAccountNumber
-      - recipientName
-      - recipientAddress
       properties:
-        currency:
+        userId:
           type: string
-          description: Fiat currency (e.g., `PHP`).
-          example: PHP
-        transactionChannel:
+          description: User ID of the merchant.
+          example: userId
+        vAccountUsage:
+          type: integer
+          description: Virtual Account Usage Type.
+          example: 1
+        vAccountId:
           type: string
-          description: Transaction channel (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`).
-          example: INSTAPAY
-        transactionSubject:
+          description: Virtual account ID.
+          example: vAccountId
+        orderId:
           type: string
-          nullable: true
-          description: Transaction subject. from https://api.docs.coins.ph/reference/getsupportchannel
-          example: gcash
-        recipientAccountNumber:
-          type: string
-          description: Recipient account number.
-          example: 09171234567
-        recipientName:
-          type: string
-          description: Recipient name.
-          example: Juan dela Cruz
-        recipientAddress:
-          type: string
-          description: Recipient address.
-          example: 123 Main St, Quezon City
-        remarks:
-          type: string
-          nullable: true
-          description: Remarks.
-          example: null
-    FiatDestination:
-      type: object
-      required:
-      - token
-      - network
-      - address
-      properties:
+          description: Transaction ID.
+          example: orderId
         token:
           type: string
-          description: Token name (e.g., `USDT`).
+          description: Currency (e.g., `PHP`, `USDT`).
           example: USDT
         network:
           type: string
-          description: Network (e.g., `TRC20`, `BSC`).
-          example: BSC
+          description: Fiat channel or crypto network.
+          example: TRC20
         address:
+          type:
+          - string
+          - 'null'
+          description: Crypto deposit address.
+          example: TN123456789abcdef
+        amount:
+          type: number
+          description: Transaction amount (number).
+          example: 100.5
+        totalAmount:
           type: string
-          description: On-chain address, must match the addressRegex of the network.
-          example: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
-        tag:
+          description: Transaction amount (string).
+          example: '100.50'
+        channelOrderId:
           type: string
-          nullable: true
-          description: Memo / Tag (required by some networks).
-          example: null
-    VAErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code.
-          example: -70020002
-        msg:
+          description: Third-party order ID.
+          example: CH20240115001
+        fromUserName:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender name.
+          example: Alice
+        fromUserNumber:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender number.
+          example: U10001
+        fromUserEmail:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender email.
+          example: alice@coisn.ph
+        sender:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender name + number.
+          example: TN987654321fedcba
+        transactionDate:
           type: string
-          description: Error message.
-          example: Virtual account does not exist.
-    CreateVirtualAccountSuccess:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type: object
-          nullable: true
-        data:
-          type: object
-          properties:
-            vAccountId:
-              type: string
-              description: Virtual account ID.
-              example: '2229106125796322048'
+          description: Transaction date.
+          example: '2024-01-15 10:30:00'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+      description: API key provided by Coins.ph
+    TimestampAuth:
+      type: apiKey
+      in: header
+      name: Timestamp
+      description: Unix timestamp of the request
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HMAC-SHA256 signature of the request
 x-readme:
   proxy-enabled: false
+  samples-languages:
+  - java
+  - python
+  - php
+  - ruby

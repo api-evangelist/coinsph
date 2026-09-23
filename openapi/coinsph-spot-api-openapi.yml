@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Spot API
+  title: TRADING Spot API
   version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  description: Spot trading endpoints for the Coins.ph Trading API.
 servers:
 - url: https://api.pro.coins.ph
   description: Production
@@ -40,13 +40,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Order Validation** — Fetch PRICE_FILTER and LOT_SIZE filters before placing orders to avoid rejection
@@ -63,9 +63,7 @@ paths:
 
         - Always check `status === ''TRADING''` before allowing orders on a symbol
 
-        - Validate order price and quantity against PRICE_FILTER and LOT_SIZE before submitting
-
-        '
+        - Validate order price and quantity against PRICE_FILTER and LOT_SIZE before submitting'
       operationId: get_exchange_info
       parameters:
       - in: header
@@ -247,13 +245,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Dry-Run Validation** — Submit a test order to confirm that price, quantity, and parameter formatting pass all exchange filters
@@ -266,9 +264,7 @@ paths:
 
         - Use during development to validate request format before placing live orders
 
-        - Test all parameter combinations for each order type
-
-        '
+        - Test all parameter combinations for each order type'
       operationId: test_new_order
       parameters:
       - in: header
@@ -485,13 +481,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Limit Order** - Buy/sell at a specific price; stays in order book until filled or cancelled
@@ -512,9 +508,7 @@ paths:
 
         - Use newOrderRespType=FULL to receive fill details in the response
 
-        - Validate price/quantity against exchangeInfo filters before placing orders
-
-        '
+        - Validate price/quantity against exchangeInfo filters before placing orders'
       operationId: create_new_order
       parameters:
       - in: header
@@ -812,13 +806,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 2
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Fill Confirmation** — Query order status after submission to confirm whether a fill occurred before placing a follow-up order
@@ -833,9 +827,7 @@ paths:
 
         - Use orderId for precision when available
 
-        - Cache order details locally to reduce API calls
-
-        '
+        - Cache order details locally to reduce API calls'
       operationId: query_order
       parameters:
       - in: header
@@ -1004,13 +996,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Price Update** — Cancel an existing limit order to replace it at a more competitive price level
@@ -1025,9 +1017,7 @@ paths:
 
         - Verify order status is cancellable before sending cancel request
 
-        - Always check response status is CANCELED to confirm success
-
-        '
+        - Always check response status is CANCELED to confirm success'
       operationId: cancel_order
       parameters:
       - in: header
@@ -1176,13 +1166,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Exposure Check** — Retrieve all open orders on a symbol to calculate total pending exposure before placing additional orders
@@ -1197,9 +1187,7 @@ paths:
 
         - Always pass symbol when possible to minimize weight usage
 
-        - Use this endpoint to sync local order state with the exchange
-
-        '
+        - Use this endpoint to sync local order state with the exchange'
       operationId: get_open_orders
       parameters:
       - in: header
@@ -1371,13 +1359,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Emergency Stop** — Cancel all orders immediately during unexpected market conditions
@@ -1392,9 +1380,7 @@ paths:
 
         - Verify the `symbol` parameter is correctly formatted and valid
 
-        - Use cautiously — this is a powerful operation that affects all orders on a symbol
-
-        '
+        - Use cautiously — this is a powerful operation that affects all orders on a symbol'
       operationId: cancel_all_open_orders
       parameters:
       - in: header
@@ -1610,13 +1596,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Price Adjustment** — Modify the price of an existing limit order without missing fills between cancel and new order
@@ -1635,9 +1621,7 @@ paths:
 
         - Always provide `newClientOrderId` for tracking and idempotency
 
-        - Check response `cancelResult` and `newOrderResult` fields to verify both operations succeeded
-
-        '
+        - Check response `cancelResult` and `newOrderResult` fields to verify both operations succeeded'
       operationId: cancel_replace_order
       parameters:
       - in: header
@@ -1984,7 +1968,7 @@ paths:
 
         - This endpoint filters orders by their **create time** (`time` field), i.e., the timestamp when the order was originally submitted to the exchange.
 
-        - If you need to filter by the time an order was last updated (filled, cancelled, etc.), use the [History Orders By Update Time](/openapi/v1/getHistoryOrdersByUpdateTime) endpoint instead.
+        - If you need to filter by the time an order was last updated (filled, cancelled, etc.), use the History Orders By Update Time endpoint instead.
 
 
         ---
@@ -1993,7 +1977,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         | Condition | Weight |
@@ -2005,7 +1989,7 @@ paths:
         | Without symbol | 40 |
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Trade History** — Retrieve complete order history for reconciliation based on when orders were placed
@@ -2024,9 +2008,7 @@ paths:
 
         - Set a reasonable `limit` to balance API calls and data volume
 
-        - Use this endpoint when you want to find orders created within a specific window; use History Orders By Update Time when you need orders whose status changed within a window
-
-        '
+        - Use this endpoint when you want to find orders created within a specific window; use History Orders By Update Time when you need orders whose status changed within a window'
       operationId: get_history_orders
       parameters:
       - in: header
@@ -2234,7 +2216,70 @@ paths:
       tags:
       - Spot
       summary: History Orders By Update Time (USER_DATA)
-      description: "Get all historical orders of the account filtered by order **update time**: cancelled, filled, or rejected.\nThis endpoint is identical to History Orders By Create Time except that `startTime` and `endTime` filter\nbased on the order's **last update time** rather than the order's **create time**.\n\n**Key Notes**\n\n- `symbol` is required.\n- If `orderId` is set, returns orders with order ID >= this value (pagination).\n- `startTime` and `endTime` filter by order update time (e.g., the time an order was filled, cancelled, or partially filled).\n- Default limit is 500; maximum is 1000.\n- Only data from the **last 90 days** is available. \n\nThis endpoint returns only **closed** orders. Returned statuses: FILLED, CANCELED, REJECTED, EXPIRED.\nOpen orders (NEW, PARTIALLY_FILLED) are not returned — use the Current Open Orders endpoint for those.\n\n**Difference from History Orders By Create Time**\n\n- History Orders By Create Time (`/openapi/v1/historyOrders`): `startTime` / `endTime` match against order **create time** (`time` field).\n- This endpoint: `startTime` / `endTime` match against order **update time** (`updateTime` field).\n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Recent Activity Sync** — Retrieve orders that were recently filled or cancelled, regardless of when they were originally placed\n- **Incremental Polling** — Poll for order status changes since the last sync using `startTime` = last poll time\n- **Reconciliation** — Identify all orders whose state changed within a specific time window\n\n**Best Practices**\n\n- Use `startTime` / `endTime` based on the last known `updateTime` for efficient incremental sync\n- Use `orderId` from the last result as pagination cursor for the next query\n- Set a reasonable `limit` to balance API calls and data volume\n"
+      description: 'Get all historical orders of the account filtered by order **update time**: cancelled, filled, or rejected.
+
+        This endpoint is identical to History Orders By Create Time except that `startTime` and `endTime` filter
+
+        based on the order''s **last update time** rather than the order''s **create time**.
+
+
+        **Key Notes**
+
+
+        - `symbol` is required.
+
+        - If `orderId` is set, returns orders with order ID >= this value (pagination).
+
+        - `startTime` and `endTime` filter by order update time (e.g., the time an order was filled, cancelled, or partially filled).
+
+        - Default limit is 500; maximum is 1000.
+
+        - Only data from the **last 90 days** is available.
+
+
+        This endpoint returns only **closed** orders. Returned statuses: FILLED, CANCELED, REJECTED, EXPIRED.
+
+        Open orders (NEW, PARTIALLY_FILLED) are not returned — use the Current Open Orders endpoint for those.
+
+
+        **Difference from History Orders By Create Time**
+
+
+        - History Orders By Create Time (`/openapi/v1/historyOrders`): `startTime` / `endTime` match against order **create time** (`time` field).
+
+        - This endpoint: `startTime` / `endTime` match against order **update time** (`updateTime` field).
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** 📖 Learn More
+
+
+        Weight: 10
+
+
+        **Use Cases** 🧩 SDK
+
+
+        - **Recent Activity Sync** — Retrieve orders that were recently filled or cancelled, regardless of when they were originally placed
+
+        - **Incremental Polling** — Poll for order status changes since the last sync using `startTime` = last poll time
+
+        - **Reconciliation** — Identify all orders whose state changed within a specific time window
+
+
+        **Best Practices**
+
+
+        - Use `startTime` / `endTime` based on the last known `updateTime` for efficient incremental sync
+
+        - Use `orderId` from the last result as pagination cursor for the next query
+
+        - Set a reasonable `limit` to balance API calls and data volume'
       operationId: get_history_orders_by_update_time
       parameters:
       - in: header
@@ -2442,7 +2487,50 @@ paths:
       tags:
       - Spot
       summary: Account Trade List (USER_DATA)
-      description: "Get trades for a specific account and symbol.\n\n- If fromId is set, returns trades with id >= fromId.\n- If startTime and endTime are both set, fromId is not required.\n- startTime and endTime cannot span more than 24 hours.\n- Maximum 1000 trades returned per request.\n- Only data from the **last 90 days** is available. \n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **P&L Calculation** - Calculate realized profit/loss from fills\n- **Fee Audit** - Track commissions paid per trade\n- **Reconciliation** - Match trades against order history\n\n**Best Practices**\n\n- Use time range (startTime/endTime) to paginate large histories\n- Use fromId to continue from last known trade when polling\n- Commission amounts and assets vary by fee tier and promotions\n"
+      description: 'Get trades for a specific account and symbol.
+
+
+        - If fromId is set, returns trades with id >= fromId.
+
+        - If startTime and endTime are both set, fromId is not required.
+
+        - startTime and endTime cannot span more than 24 hours.
+
+        - Maximum 1000 trades returned per request.
+
+        - Only data from the **last 90 days** is available.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** 📖 Learn More
+
+
+        Weight: 10
+
+
+        **Use Cases** 🧩 SDK
+
+
+        - **P&L Calculation** - Calculate realized profit/loss from fills
+
+        - **Fee Audit** - Track commissions paid per trade
+
+        - **Reconciliation** - Match trades against order history
+
+
+        **Best Practices**
+
+
+        - Use time range (startTime/endTime) to paginate large histories
+
+        - Use fromId to continue from last known trade when polling
+
+        - Commission amounts and assets vary by fee tier and promotions'
       operationId: get_my_trades
       parameters:
       - in: header
@@ -2617,7 +2705,73 @@ paths:
       tags:
       - Spot
       summary: Transaction History (USER_DATA)
-      description: "Get historical fund flow records (transaction history) for a specific token on the account.\nThis endpoint returns all balance changes including deposits, withdrawals, trades, fees,\ntransfers, and other fund movements — providing a complete audit trail of asset changes.\n\n**Key Notes**\n\n- `tokenId` is required — specifies which asset's transaction history to retrieve.\n- Supports pagination via `pageNum` and `pageSize`.\n- Only data from the **last 90 days** is available. \n- `startTime` and `endTime` filter by transaction time; their range cannot exceed 90 days.\n- `endTime` must be greater than `startTime`.\n- Maximum `pageSize` is 100; maximum `pageNum` is 1000.\n- Optionally filter by `subUserId` to view a sub-account's transaction history.\n\n**Difference from Account Trade List**\n\n- Account Trade List (`/openapi/v1/myTrades`): Returns only trade fills (buy/sell executions).\n- This endpoint: Returns all types of fund movements including deposits, withdrawals, trades, fees, transfers, dividends, and other balance changes.\n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 5\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Fund Reconciliation** — Track all balance changes for a specific asset across all activity types.\n- **Audit Trail** — Generate a complete history of fund movements for compliance or accounting.\n- **Sub-Account Monitoring** — View transaction history for specific sub-accounts.\n- **Balance Verification** — Cross-reference fund flows against expected balance changes.\n\n**Best Practices**\n\n- Use `startTime` / `endTime` to limit results to a specific time window for faster queries.\n- Paginate through large result sets using `pageNum` incrementally.\n- Keep `pageSize` at a reasonable value (e.g., 50-100) to balance response time and data volume.\n- Use in conjunction with Account Trade List for a complete picture: trades + other fund movements.\n"
+      description: 'Get historical fund flow records (transaction history) for a specific token on the account.
+
+        This endpoint returns all balance changes including deposits, withdrawals, trades, fees,
+
+        transfers, and other fund movements — providing a complete audit trail of asset changes.
+
+
+        **Key Notes**
+
+
+        - `tokenId` is required — specifies which asset''s transaction history to retrieve.
+
+        - Supports pagination via `pageNum` and `pageSize`.
+
+        - Only data from the **last 90 days** is available.
+
+        - `startTime` and `endTime` filter by transaction time; their range cannot exceed 90 days.
+
+        - `endTime` must be greater than `startTime`.
+
+        - Maximum `pageSize` is 100; maximum `pageNum` is 1000.
+
+        - Optionally filter by `subUserId` to view a sub-account''s transaction history.
+
+
+        **Difference from Account Trade List**
+
+
+        - Account Trade List (`/openapi/v1/myTrades`): Returns only trade fills (buy/sell executions).
+
+        - This endpoint: Returns all types of fund movements including deposits, withdrawals, trades, fees, transfers, dividends, and other balance changes.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** 📖 Learn More
+
+
+        Weight: 5
+
+
+        **Use Cases** 🧩 SDK
+
+
+        - **Fund Reconciliation** — Track all balance changes for a specific asset across all activity types.
+
+        - **Audit Trail** — Generate a complete history of fund movements for compliance or accounting.
+
+        - **Sub-Account Monitoring** — View transaction history for specific sub-accounts.
+
+        - **Balance Verification** — Cross-reference fund flows against expected balance changes.
+
+
+        **Best Practices**
+
+
+        - Use `startTime` / `endTime` to limit results to a specific time window for faster queries.
+
+        - Paginate through large result sets using `pageNum` incrementally.
+
+        - Keep `pageSize` at a reasonable value (e.g., 50-100) to balance response time and data volume.
+
+        - Use in conjunction with Account Trade List for a complete picture: trades + other fund movements.'
       operationId: get_transaction_history
       parameters:
       - in: header
@@ -2860,13 +3014,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Cost Calculation** — Calculate trading costs before placing orders
@@ -2883,9 +3037,7 @@ paths:
 
         - Use maker orders (LIMIT_MAKER) to benefit from lower maker fees
 
-        - Calculate total cost: `fee = executedQty * price * commissionRate`
-
-        '
+        - Calculate total cost: `fee = executedQty * price * commissionRate`'
       operationId: get_trade_fee
       parameters:
       - in: header
@@ -3005,5 +3157,9 @@ components:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+x-tagGroups:
+- name: TRADING
+  tags:
+  - Spot
 x-readme:
   proxy-enabled: false

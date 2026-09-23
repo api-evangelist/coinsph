@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Wallet API
+  title: TRADING Wallet API
   version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  description: Wallet endpoints for the Coins.ph Trading API — covering Convert, Deposit, Withdraw, and Transfers.
 servers:
 - url: https://api.pro.coins.ph
   description: Production
@@ -28,13 +28,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Network Selection** — Enumerate available networks for a coin before generating a deposit address or submitting a withdrawal
@@ -53,9 +53,7 @@ paths:
 
         - Check `depositEnable` and `withdrawEnable` on the specific network before generating addresses or submitting withdrawals
 
-        - Use `memoRegex` to validate whether an `addressTag` is required for a coin (e.g., XRP, XLM)
-
-        '
+        - Use `memoRegex` to validate whether an `addressTag` is required for a coin (e.g., XRP, XLM)'
       operationId: wallet_get_all_coins_info
       parameters:
       - in: header
@@ -227,7 +225,45 @@ paths:
       tags:
       - Wallet
       summary: Deposit Address (USER_DATA)
-      description: "Fetch the deposit address for a specific coin and network.\n\n**Key Notes**\n\n- An `addressTag` (memo/tag) is required for certain coins such as XRP and XLM.\n  Check the `memoRegex` field from the coin info endpoint to determine if a tag is needed.\n\n---\n\n## Additional Info\n\n**Rate Limit** [\U0001F4D6 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [\U0001F9E9 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Deposit Address Lookup** — Fetch the deposit address for a specific coin and network before directing an inbound transfer\n- **Multi-Network Deposits** — Fetch addresses for different networks (e.g., ERC-20 vs BEP-20 for USDT) to support multiple chains\n\n**Best Practices**\n\n- Always specify the correct `network`; depositing on the wrong network may result in permanent loss of funds\n- Check `memoRegex` from the coin info endpoint first; if non-empty, an `addressTag` is required\n- Cache the address per coin+network — it does not change frequently\n"
+      description: 'Fetch the deposit address for a specific coin and network.
+
+
+        **Key Notes**
+
+
+        - An `addressTag` (memo/tag) is required for certain coins such as XRP and XLM.
+
+        Check the `memoRegex` field from the coin info endpoint to determine if a tag is needed.
+
+
+        ---
+
+
+        ## Additional Info
+
+
+        **Rate Limit** 📖 Learn More
+
+
+        Weight: 10
+
+
+        **Use Cases** 🧩 SDK
+
+
+        - **Deposit Address Lookup** — Fetch the deposit address for a specific coin and network before directing an inbound transfer
+
+        - **Multi-Network Deposits** — Fetch addresses for different networks (e.g., ERC-20 vs BEP-20 for USDT) to support multiple chains
+
+
+        **Best Practices**
+
+
+        - Always specify the correct `network`; depositing on the wrong network may result in permanent loss of funds
+
+        - Check `memoRegex` from the coin info endpoint first; if non-empty, an `addressTag` is required
+
+        - Cache the address per coin+network — it does not change frequently'
       operationId: wallet_get_deposit_address
       parameters:
       - in: header
@@ -388,13 +424,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 2 (IP)
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Deposit Confirmation** — Check if a specific deposit has been completed.
@@ -409,9 +445,7 @@ paths:
 
         - Always filter by `coin` to reduce response size when you only need a specific asset.
 
-        - Use `startTime` and `endTime` for time-range queries to avoid fetching the full default 90-day window.
-
-        '
+        - Use `startTime` and `endTime` for time-range queries to avoid fetching the full default 90-day window.'
       operationId: get_deposit_history
       parameters:
       - in: header
@@ -622,13 +656,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 100 (UID)
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Crypto Withdrawal** — Send cryptocurrency to an external wallet address on a specified network.
@@ -647,9 +681,7 @@ paths:
 
         - Always include `addressTag` for memo-based coins to prevent loss of funds.
 
-        - Double-check the destination address and network before submitting — withdrawals are irreversible.
-
-        '
+        - Double-check the destination address and network before submitting — withdrawals are irreversible.'
       operationId: post_withdraw_apply
       requestBody:
         required: true
@@ -807,13 +839,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 2 (IP)
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Withdrawal Tracking** — Monitor the status of pending or in-progress withdrawals to determine when they complete.
@@ -828,9 +860,7 @@ paths:
 
         - Use the `coin` filter to narrow results when you only care about a specific asset.
 
-        - Store the returned `txId` for independent blockchain verification.
-
-        '
+        - Store the returned `txId` for independent blockchain verification.'
       operationId: get_withdraw_history
       parameters:
       - in: header
@@ -1055,13 +1085,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Pre-Withdrawal Verification** — Confirm that the target address is whitelisted before submitting a withdrawal request.
@@ -1074,9 +1104,7 @@ paths:
 
         - Always verify addresses are whitelisted before attempting withdrawals to avoid rejections.
 
-        - Cache the whitelist response temporarily (5-10 minutes) and refresh after adding or removing addresses
-
-        '
+        - Cache the whitelist response temporarily (5-10 minutes) and refresh after adding or removing addresses'
       operationId: get_withdraw_address_whitelist
       parameters:
       - in: header
@@ -1209,5 +1237,9 @@ components:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+x-tagGroups:
+- name: TRADING
+  tags:
+  - Wallet
 x-readme:
   proxy-enabled: false

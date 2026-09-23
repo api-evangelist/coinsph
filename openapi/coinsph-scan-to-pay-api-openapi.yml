@@ -1,13 +1,41 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Scan to Pay API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: Payment Scan to Pay API
+  description: 'Coins.ph Partner Integration API v2.7
+
+
+    ## Authentication
+
+    All requests must include the following headers:
+
+    - `X-COINS-APIKEY`: Your API key
+
+    - `Timestamp`: Unix timestamp of the request
+
+    - `Signature`: HMAC-SHA256 signature of the request
+
+
+    Requests and webhook payloads must be signed using HMAC-SHA256 with the API secret.
+
+
+    ## Environments
+
+    - **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`
+
+    - **Production**: `https://api.pro.coins.ph`'
+  version: '2.7'
+  contact:
+    name: Coins.ph Tech Ops
+    email: tech_ops@coins.ph
 servers:
 - url: https://api.pro.coins.ph
   description: Production
 - url: https://api.9001.pl-qa.coinsxyz.me
   description: Sandbox
+security:
+- ApiKeyAuth: []
+  TimestampAuth: []
+  SignatureAuth: []
 tags:
 - name: Scan to Pay
   description: QR code scan-to-pay payment operations
@@ -510,126 +538,6 @@ paths:
                     middleName: ''
 components:
   schemas:
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type: object
-          nullable: true
-    ChannelQRCodeMap:
-      type: object
-      required:
-      - clientUserId
-      - amount
-      - subQrType
-      - productType
-      - clientReqId
-      - token
-      properties:
-        clientUserId:
-          type: string
-          description: Debit user id.
-        amount:
-          type: string
-          description: Amount.
-        recipientAccountNumber:
-          type: string
-          description: Recipient account number.
-        recipientName:
-          type: string
-          description: Recipient name.
-        recipientAddress:
-          type: string
-          description: Recipient address.
-        subQrType:
-          type: string
-          description: QR type.
-        productType:
-          type: string
-          description: 'Business product type: SCAN_TO_PAY.'
-          example: SCAN_TO_PAY
-        clientReqId:
-          type: string
-          description: Request id.
-        token:
-          type: string
-          description: Encrypted token.
-        tfrName:
-          type: string
-          description: Recipient name.
-        tfrBnkCode:
-          type: string
-          description: Recipient bank code.
-        tfrAcctNo:
-          type: string
-          description: Recipient account number.
-        fee:
-          type: string
-          description: Fee amount.
-    PaymentPreviewResponse:
-      type: object
-      required:
-      - qrType
-      - channel
-      - channelSubject
-      - channelQRCodeMap
-      properties:
-        qrType:
-          type: string
-          description: QR code type.
-          example: ph.ppmi.p2m
-        channel:
-          type: string
-          description: Payment channel.
-        channelSubject:
-          type: string
-          description: Payment channel subject.
-        minLimit:
-          type: string
-          description: Minimum transaction amount.
-        maxLimit:
-          type: string
-          description: Maximum transaction amount.
-        channelQRCodeMap:
-          $ref: '#/components/schemas/ChannelQRCodeMap'
-          description: QR channel Info.
-    CreateAccountResponse:
-      type: object
-      required:
-      - status
-      - requestId
-      - customerId
-      - redirectUrl
-      properties:
-        status:
-          type: string
-          enum:
-          - APPROVED
-          - FAILED
-          - REJECTED
-          - PENDING
-          - CANCELLED
-          description: 'Status, reference enumeration: StatusEnum.'
-        requestId:
-          type: string
-          description: The requestId passed in when the customer requests.
-        customerId:
-          type: string
-          description: customerId passed in when the customer requests.
-        coinsUserId:
-          type: integer
-          format: int64
-          description: The external user ID of the user in Coins, which is only available after successful registration.
-        redirectUrl:
-          type: string
-          description: Jump verification page.
     PaymentResultResponse:
       type: object
       required:
@@ -740,6 +648,115 @@ components:
         dealCancel:
           type: boolean
           description: If order can be canceled, value will be true.
+    PaymentPreviewResponse:
+      type: object
+      required:
+      - qrType
+      - channel
+      - channelSubject
+      - channelQRCodeMap
+      properties:
+        qrType:
+          type: string
+          description: QR code type.
+          example: ph.ppmi.p2m
+        channel:
+          type: string
+          description: Payment channel.
+        channelSubject:
+          type: string
+          description: Payment channel subject.
+        minLimit:
+          type: string
+          description: Minimum transaction amount.
+        maxLimit:
+          type: string
+          description: Maximum transaction amount.
+        channelQRCodeMap:
+          $ref: '#/components/schemas/ChannelQRCodeMap'
+          description: QR channel Info.
+    ChannelQRCodeMap:
+      type: object
+      required:
+      - clientUserId
+      - amount
+      - subQrType
+      - productType
+      - clientReqId
+      - token
+      properties:
+        clientUserId:
+          type: string
+          description: Debit user id.
+        amount:
+          type: string
+          description: Amount.
+        recipientAccountNumber:
+          type: string
+          description: Recipient account number.
+        recipientName:
+          type: string
+          description: Recipient name.
+        recipientAddress:
+          type: string
+          description: Recipient address.
+        subQrType:
+          type: string
+          description: QR type.
+        productType:
+          type: string
+          description: 'Business product type: SCAN_TO_PAY.'
+          example: SCAN_TO_PAY
+        clientReqId:
+          type: string
+          description: Request id.
+        token:
+          type: string
+          description: Encrypted token.
+        tfrName:
+          type: string
+          description: Recipient name.
+        tfrBnkCode:
+          type: string
+          description: Recipient bank code.
+        tfrAcctNo:
+          type: string
+          description: Recipient account number.
+        fee:
+          type: string
+          description: Fee amount.
+    PaymentExecutionResponse:
+      type: object
+      required:
+      - externalOrderId
+      - internalOrderId
+      - status
+      properties:
+        externalOrderId:
+          type: string
+          description: Coin's internal ID.
+        internalOrderId:
+          type: string
+          description: The unique order id generated by the server or the passed internalOrderId.
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - CANCEL
+          description: 'Indicates the current state of the order.
+
+            - PENDING: The order is still being processed and is not in a final state.
+
+            - SUCCEEDED: The order has been successfully processed.
+
+            - FAILED: The order processing has failed.
+
+            - CANCEL: The order has been canceled by the user and is considered equivalent to a failure.
+
+
+            Only orders in a final state (SUCCEEDED, FAILED, or CANCEL) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (PENDING) as their status may change.'
     GetCreateAccountResponse:
       type: object
       required:
@@ -783,42 +800,70 @@ components:
         middleName:
           type: string
           description: Middle name.
-    PaymentExecutionResponse:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
+    CreateAccountResponse:
       type: object
       required:
-      - externalOrderId
-      - internalOrderId
       - status
+      - requestId
+      - customerId
+      - redirectUrl
       properties:
-        externalOrderId:
-          type: string
-          description: Coin's internal ID.
-        internalOrderId:
-          type: string
-          description: The unique order id generated by the server or the passed internalOrderId.
         status:
           type: string
           enum:
-          - PENDING
-          - SUCCEEDED
+          - APPROVED
           - FAILED
-          - CANCEL
-          description: 'Indicates the current state of the order.
-
-            - PENDING: The order is still being processed and is not in a final state.
-
-            - SUCCEEDED: The order has been successfully processed.
-
-            - FAILED: The order processing has failed.
-
-            - CANCEL: The order has been canceled by the user and is considered equivalent to a failure.
-
-
-            Only orders in a final state (SUCCEEDED, FAILED, or CANCEL) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (PENDING) as their status may change.'
+          - REJECTED
+          - PENDING
+          - CANCELLED
+          description: 'Status, reference enumeration: StatusEnum.'
+        requestId:
+          type: string
+          description: The requestId passed in when the customer requests.
+        customerId:
+          type: string
+          description: customerId passed in when the customer requests.
+        coinsUserId:
+          type: integer
+          format: int64
+          description: The external user ID of the user in Coins, which is only available after successful registration.
+        redirectUrl:
+          type: string
+          description: Jump verification page.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+      description: API key provided by Coins.ph
+    TimestampAuth:
+      type: apiKey
+      in: header
+      name: Timestamp
+      description: Unix timestamp of the request
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HMAC-SHA256 signature of the request
 x-readme:
   proxy-enabled: false
+  samples-languages:
+  - java
+  - python
+  - php
+  - ruby

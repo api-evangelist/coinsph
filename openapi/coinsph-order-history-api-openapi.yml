@@ -1,13 +1,41 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Order History API
-  version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  title: Payment Order History API
+  description: 'Coins.ph Partner Integration API v2.7
+
+
+    ## Authentication
+
+    All requests must include the following headers:
+
+    - `X-COINS-APIKEY`: Your API key
+
+    - `Timestamp`: Unix timestamp of the request
+
+    - `Signature`: HMAC-SHA256 signature of the request
+
+
+    Requests and webhook payloads must be signed using HMAC-SHA256 with the API secret.
+
+
+    ## Environments
+
+    - **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`
+
+    - **Production**: `https://api.pro.coins.ph`'
+  version: '2.7'
+  contact:
+    name: Coins.ph Tech Ops
+    email: tech_ops@coins.ph
 servers:
 - url: https://api.pro.coins.ph
   description: Production
 - url: https://api.9001.pl-qa.coinsxyz.me
   description: Sandbox
+security:
+- ApiKeyAuth: []
+  TimestampAuth: []
+  SignatureAuth: []
 tags:
 - name: Order History
   description: Order history and details
@@ -308,6 +336,47 @@ paths:
           description: Internal server error
 components:
   schemas:
+    OrderExtendedMap:
+      type: object
+      additionalProperties: true
+      description: Extended order data, key-value pairs providing additional transaction details.
+      properties:
+        channelReferenceNo:
+          type:
+          - string
+          - 'null'
+          description: Channel reference number.
+          example: 000008
+        senderAccountNumber:
+          type:
+          - string
+          - 'null'
+          description: Sender's account number.
+          example: '8613989193526'
+        recipientName:
+          type:
+          - string
+          - 'null'
+          description: Recipient's name.
+          example: sandyopenapitest
+        recipientAccountNumber:
+          type:
+          - string
+          - 'null'
+          description: Recipient's account number.
+          example: '123456789'
+        recipientAddress:
+          type:
+          - string
+          - 'null'
+          description: Recipient's address.
+          example: 123 Main St, Mandaluyong
+        remarks:
+          type:
+          - string
+          - 'null'
+          description: Remarks or notes for the transaction.
+          example: Payment for services
     FiatBaseResponse:
       type: object
       properties:
@@ -319,43 +388,9 @@ components:
           type: string
           example: OK
         params:
-          type: object
-          nullable: true
-    OrderExtendedMap:
-      type: object
-      additionalProperties: true
-      description: Extended order data, key-value pairs providing additional transaction details.
-      properties:
-        channelReferenceNo:
-          type: string
-          nullable: true
-          description: Channel reference number.
-          example: 000008
-        senderAccountNumber:
-          type: string
-          nullable: true
-          description: Sender's account number.
-          example: '8613989193526'
-        recipientName:
-          type: string
-          nullable: true
-          description: Recipient's name.
-          example: sandyopenapitest
-        recipientAccountNumber:
-          type: string
-          nullable: true
-          description: Recipient's account number.
-          example: '123456789'
-        recipientAddress:
-          type: string
-          nullable: true
-          description: Recipient's address.
-          example: 123 Main St, Mandaluyong
-        remarks:
-          type: string
-          nullable: true
-          description: Remarks or notes for the transaction.
-          example: Payment for services
+          type:
+          - object
+          - 'null'
     OrderDetailsResponse:
       type: object
       properties:
@@ -418,5 +453,21 @@ components:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+      description: API key provided by Coins.ph
+    TimestampAuth:
+      type: apiKey
+      in: header
+      name: Timestamp
+      description: Unix timestamp of the request
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HMAC-SHA256 signature of the request
 x-readme:
   proxy-enabled: false
+  samples-languages:
+  - java
+  - python
+  - php
+  - ruby

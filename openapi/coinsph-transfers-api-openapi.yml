@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Transfers API
+  title: TRADING Transfers API
   version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  description: Wallet endpoints for the Coins.ph Trading API — covering Convert, Deposit, Withdraw, and Transfers.
 servers:
 - url: https://api.pro.coins.ph
   description: Production
@@ -37,13 +37,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 50
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Idempotency Management** — Always use `client_transfer_id` for production transfers to prevent duplicate transfers.
@@ -62,9 +62,7 @@ paths:
 
         - Validate the recipient email/phone exists before initiating a transfer.
 
-        - Use string format for amounts to preserve precision.
-
-        '
+        - Use string format for amounts to preserve precision.'
       operationId: post_transfers
       parameters:
       - in: header
@@ -249,13 +247,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 10
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Single Transfer Lookup** — Use `id` or `client_transfer_id` for precise lookup.
@@ -272,9 +270,7 @@ paths:
 
         - Avoid querying all transfers repeatedly — cache recent results.
 
-        - Use `meta.next_page` to determine if more pages exist.
-
-        '
+        - Use `meta.next_page` to determine if more pages exist.'
       operationId: get_transfers
       parameters:
       - in: header
@@ -419,8 +415,9 @@ paths:
                         description: Total number of records.
                         example: 1
                       next_page:
-                        type: integer
-                        nullable: true
+                        type:
+                        - integer
+                        - 'null'
                         description: Next page number, null if no more pages.
                         example: null
               examples:
@@ -463,5 +460,9 @@ components:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+x-tagGroups:
+- name: TRADING
+  tags:
+  - Wallet
 x-readme:
   proxy-enabled: false

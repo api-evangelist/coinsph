@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Listens API
+  title: TRADING Listens API
   version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  description: API reference for listenKey
 servers:
 - url: https://api.pro.coins.ph
   description: Production
@@ -29,7 +29,7 @@ paths:
 
         - The `listenKey` is valid for **60 minutes** from creation.
 
-        - After creation, connect to: `wss://stream.coins.ph/openapi/ws/<listenKey>`
+        - After creation, connect to: `wss://stream.coins.ph/openapi/ws/`
 
         - A single WebSocket connection is valid for a maximum of **24 hours**.
 
@@ -45,7 +45,7 @@ paths:
 
         ```
 
-        wss://stream.coins.ph/openapi/ws/<listenKey>
+        wss://stream.coins.ph/openapi/ws/
 
         ```
 
@@ -68,13 +68,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Real-Time Order Tracking** — Receive instant notifications when orders are filled, cancelled, or rejected
@@ -91,9 +91,7 @@ paths:
 
         - Implement reconnection logic that creates a new `listenKey` if the WebSocket disconnects
 
-        - Close the `listenKey` during graceful application shutdown to release server resources
-
-        '
+        - Close the `listenKey` during graceful application shutdown to release server resources'
       operationId: create_listen_key
       parameters:
       - in: header
@@ -180,13 +178,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Stream Keepalive** — Send periodic keepalive requests to prevent the listenKey from expiring during a long-running session
@@ -201,9 +199,7 @@ paths:
 
         - Implement error handling: if keepalive returns `-1125`, the stream has expired — create a new `listenKey`
 
-        - Log keepalive failures for monitoring and alerting purposes
-
-        '
+        - Log keepalive failures for monitoring and alerting purposes'
       operationId: keepalive_listen_key
       parameters:
       - in: header
@@ -283,13 +279,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Graceful Shutdown** — Close the listenKey explicitly on exit to release server-side resources immediately rather than waiting for the 60-minute timeout
@@ -306,9 +302,7 @@ paths:
 
         - Implement a shutdown hook that calls this endpoint before process termination
 
-        - After closing, clean up local references to the old `listenKey` and WebSocket connection
-
-        '
+        - After closing, clean up local references to the old `listenKey` and WebSocket connection'
       operationId: close_listen_key
       parameters:
       - in: header
@@ -359,11 +353,9 @@ paths:
             For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
 
             '
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-COINS-APIKEY
 x-readme:
   proxy-enabled: false
+x-tagGroups:
+- name: TRADING
+  tags:
+  - Listens

@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Markets API
+  title: TRADING Markets API
   version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  description: Market data endpoints for Coins.ph Trading API — real-time prices, order book, klines, ticker statistics, and trade data.
 servers:
 - url: https://api.pro.coins.ph
   description: Production
@@ -32,13 +32,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Instrument Discovery** — Enumerate all active trading pairs to know which symbols are available before placing order.
@@ -53,9 +53,7 @@ paths:
 
         - Validate trading pairs before attempting to place orders.
 
-        - Handle empty arrays gracefully in case no trading pairs are available.
-
-        '
+        - Handle empty arrays gracefully in case no trading pairs are available.'
       operationId: get_cryptoasset_trading_pairs
       x-codeSamples:
       - lang: Shell
@@ -132,7 +130,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         | Limit Values | Weight |
@@ -144,7 +142,7 @@ paths:
         | 200 | 5 |
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Pre-Trade Liquidity Check** — Inspect available depth before placing a large order to estimate fill size and average execution price.
@@ -165,9 +163,7 @@ paths:
 
         - Consider using WebSocket streams for real-time updates.
 
-        - Monitor your weight consumption and implement exponential backoff for retries.
-
-        '
+        - Monitor your weight consumption and implement exponential backoff for retries.'
       operationId: get_order_book
       parameters:
       - in: query
@@ -293,13 +289,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Technical Analysis** — Fetch recent klines to compute indicators (MA, RSI, Bollinger Bands) before an algorithm decides to place an order.
@@ -320,9 +316,7 @@ paths:
 
         - Don''t request more data than needed; use appropriate limit values.
 
-        - All price and volume fields are returned as strings to maintain precision.
-
-        '
+        - All price and volume fields are returned as strings to maintain precision.'
       operationId: get_kline_candlestick_data
       parameters:
       - in: query
@@ -517,7 +511,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         | Parameter | Weight |
@@ -535,7 +529,7 @@ paths:
         | symbol omitted (all symbols) | 40 |
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Market Overview** — Load 24h stats for all symbols to render a market screener with price change, volume, and high/low per pair.
@@ -554,9 +548,7 @@ paths:
 
         - Use WebSocket streams for continuous real-time data instead of polling.
 
-        - Requesting all symbols uses 40× more weight than a single symbol.
-
-        '
+        - Requesting all symbols uses 40× more weight than a single symbol.'
       operationId: get_24hr_ticker_price_change_statistics
       parameters:
       - in: query
@@ -745,7 +737,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         | Parameter | Symbols Provided | Weight |
@@ -757,7 +749,7 @@ paths:
         | symbol omitted | All symbols | 2 |
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Pre-Order Price Check** — Fetch the latest price before sizing an order to calculate quantity based on an up-to-date rate.
@@ -778,9 +770,7 @@ paths:
 
         - For real-time updates, consider WebSocket streams.
 
-        - Use `symbols` for specific pairs; omit parameters only when you need all symbols.
-
-        '
+        - Use `symbols` for specific pairs; omit parameters only when you need all symbols.'
       operationId: get_latest_price_for_symbol
       parameters:
       - in: query
@@ -888,7 +878,7 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         | Parameter | Symbols Provided | Weight |
@@ -902,7 +892,7 @@ paths:
         | symbols | Any | 2 |
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Limit Order Pricing** — Read the best bid and ask before submitting a limit order to set a competitive price without crossing the spread unnecessarily.
@@ -921,9 +911,7 @@ paths:
 
         - Calculate spread as `askPrice − bidPrice`; tight spreads indicate liquid markets.
 
-        - For continuous updates, consider WebSocket streams (`<symbol>@bookTicker`).
-
-        '
+        - For continuous updates, consider WebSocket streams (`@bookTicker`).'
       operationId: get_best_price_quantity_on_order_book
       parameters:
       - in: query
@@ -1047,13 +1035,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Trade Feed** — Fetch the most recent executions to display a live trade ticker or track real transaction prices.
@@ -1070,13 +1058,11 @@ paths:
 
         - Use `limit` to control response size; default is 500.
 
-        - For real-time trade updates, use WebSocket streams (`<symbol>@trade`) instead of polling.
+        - For real-time trade updates, use WebSocket streams (`@trade`) instead of polling.
 
         - Use `isBuyerMaker` to distinguish buy-initiated vs. sell-initiated trades.
 
-        - Parse prices and quantities as high-precision decimals, not floating-point.
-
-        '
+        - Parse prices and quantities as high-precision decimals, not floating-point.'
       operationId: get_recent_trades_list
       parameters:
       - in: query
@@ -1198,13 +1184,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Fair Price Reference** — Fetch the average to get a smoothed reference price that filters out short-term spikes before deciding to trade.
@@ -1223,9 +1209,7 @@ paths:
 
         - Do not use as the sole trading signal; combine with other indicators
 
-        - Average price is not suitable for high-frequency trading due to its inherent lag
-
-        '
+        - Average price is not suitable for high-frequency trading due to its inherent lag'
       operationId: get_current_average_price
       parameters:
       - in: query
@@ -1279,11 +1263,3 @@ paths:
             For the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).
 
             '
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-COINS-APIKEY
-x-readme:
-  proxy-enabled: false

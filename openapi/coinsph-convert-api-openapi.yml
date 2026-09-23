@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: TRADING Account Convert API
+  title: TRADING Convert API
   version: 1.0.0
-  description: API reference for Account management — Coins.ph
+  description: Convert endpoints for the Coins.ph Trading API — covering quote fetching and acceptance.
 servers:
 - url: https://api.pro.coins.ph
   description: Production
@@ -28,13 +28,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Pre-conversion Validation** — Check if a desired currency pair is supported before requesting a quote
@@ -49,9 +49,7 @@ paths:
 
         - Use the `precision` field to format display amounts correctly for each pair
 
-        - Filter by `sourceCurrency` or `targetCurrency` client-side to reduce UI clutter
-
-        '
+        - Filter by `sourceCurrency` or `targetCurrency` client-side to reduce UI clutter'
       operationId: convert_get_supported_trading_pairs
       parameters:
       - in: header
@@ -184,13 +182,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Large Volume Conversion (OTC Mode)** — Enable high-value conversions through our OTC desk, offering dedicated liquidity and execution for trades above **$20,000**. Access is available to whitelisted users only.
@@ -203,9 +201,7 @@ paths:
 
         - Use `sourceAmount` for fixed-spend conversions; use `targetAmount` for fixed-receive conversions
 
-        - Leave the `type` parameter empty or omit it entirely to perform a standard Convert transaction. Set `type` to `OTC` to execute the conversion through OTC Mode (whitelisted users only).
-
-        '
+        - Leave the `type` parameter empty or omit it entirely to perform a standard Convert transaction. Set `type` to `OTC` to execute the conversion through OTC Mode (whitelisted users only).'
       operationId: convert_get_quote
       parameters:
       - in: header
@@ -369,13 +365,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Instant Conversion** — Execute a currency swap immediately at the quoted rate
@@ -390,9 +386,7 @@ paths:
 
         - Accept the quote immediately after confirming the rate to avoid expiry
 
-        - Store the returned `orderId` for reconciliation and support queries
-
-        '
+        - Store the returned `orderId` for reconciliation and support queries'
       operationId: convert_accept_quote
       parameters:
       - in: header
@@ -527,13 +521,13 @@ paths:
         ## Additional Info
 
 
-        **Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)
+        **Rate Limit** 📖 Learn More
 
 
         Weight: 1
 
 
-        **Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)
+        **Use Cases** 🧩 SDK
 
 
         - **Conversion Audit** — Review all past conversions for a given time period
@@ -548,9 +542,7 @@ paths:
 
         - Filter by `status=PROCESSING` to identify orders that may need follow-up
 
-        - Paginate using `page` and `size` rather than fetching all records at once
-
-        '
+        - Paginate using `page` and `size` rather than fetching all records at once'
       operationId: convert_query_order_history
       parameters:
       - in: header
@@ -751,5 +743,9 @@ components:
       type: apiKey
       in: header
       name: X-COINS-APIKEY
+x-tagGroups:
+- name: TRADING
+  tags:
+  - Convert
 x-readme:
   proxy-enabled: false
