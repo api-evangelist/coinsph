@@ -273,6 +273,86 @@ paths:
           description: Internal server error
 components:
   schemas:
+    AccountInfo:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: Bank account number. Required for DATABASE / PENNY_DROP / AUTO methods.
+        accountName:
+          type: string
+          description: Account holder name. Required for DATABASE / PENNY_DROP / AUTO; optional for INTERNAL. If omitted, nameMatchStatus returns N/A.
+        phone:
+          type: string
+          description: Phone number. For INTERNAL method only.
+          example: 09171234567
+        email:
+          type: string
+          description: Email address. For INTERNAL method only.
+    FiatMoney:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: PHP
+        amount:
+          type: string
+          description: Decimal amount
+          example: '1.00'
+    CreateValidationRequest:
+      type: object
+      required:
+      - requestId
+      - verificationMethod
+      - transactionChannel
+      - transactionSubject
+      - currency
+      - accountInfo
+      properties:
+        requestId:
+          type: string
+          minLength: 1
+          maxLength: 64
+          description: Merchant idempotency key. Reusing the same requestId returns the original result without creating a new validation.
+          example: VAL-20240423-001
+        verificationMethod:
+          type: string
+          enum:
+          - INTERNAL
+          - DATABASE
+          - PENNY_DROP
+          - AUTO
+          description: 'Validation method:
+
+            - `INTERNAL`: Look up Coins user database by phone / email / account name. No fee.
+
+            - `DATABASE`: Look up historical transaction records (shared across merchants). No fee.
+
+            - `PENNY_DROP`: Send a real micro-transfer (1 or 2 PHP, random) to verify live bank account. Fee applies.
+
+            - `AUTO`: Try DATABASE first; auto-upgrade to PENNY_DROP if no record found. Fee per actual method.
+
+            '
+        transactionChannel:
+          type: string
+          enum:
+          - COINS
+          - INSTAPAY
+          - SWIFTPAY_PESONET
+          description: Channel. Use `COINS` for INTERNAL method; `INSTAPAY` or `SWIFTPAY_PESONET` for external methods.
+        transactionSubject:
+          type: string
+          description: Bank code (e.g. BDO, BPI) or `coins.ph` for Coins internal.
+          example: BDO
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          description: Currency code.
+          example: PHP
+        accountInfo:
+          $ref: '#/components/schemas/AccountInfo'
     CreateValidationResponse:
       type: object
       properties:
@@ -304,22 +384,16 @@ components:
               description: Request creation time (Unix milliseconds, UTC)
             accountInfo:
               $ref: '#/components/schemas/AccountInfo'
-    AccountInfo:
+    RemainingDepositLimit:
       type: object
+      description: Remaining deposit limits (INTERNAL method only)
       properties:
-        accountNumber:
-          type: string
-          description: Bank account number. Required for DATABASE / PENNY_DROP / AUTO methods.
-        accountName:
-          type: string
-          description: Account holder name. Required for DATABASE / PENNY_DROP / AUTO; optional for INTERNAL. If omitted, nameMatchStatus returns N/A.
-        phone:
-          type: string
-          description: Phone number. For INTERNAL method only.
-          example: 09171234567
-        email:
-          type: string
-          description: Email address. For INTERNAL method only.
+        daily:
+          $ref: '#/components/schemas/FiatMoney'
+        monthly:
+          $ref: '#/components/schemas/FiatMoney'
+        annual:
+          $ref: '#/components/schemas/FiatMoney'
     ValidationStatusResponse:
       type: object
       properties:
@@ -439,80 +513,6 @@ components:
               type: integer
               format: int64
               description: Last updated time (Unix milliseconds, UTC)
-    RemainingDepositLimit:
-      type: object
-      description: Remaining deposit limits (INTERNAL method only)
-      properties:
-        daily:
-          $ref: '#/components/schemas/FiatMoney'
-        monthly:
-          $ref: '#/components/schemas/FiatMoney'
-        annual:
-          $ref: '#/components/schemas/FiatMoney'
-    CreateValidationRequest:
-      type: object
-      required:
-      - requestId
-      - verificationMethod
-      - transactionChannel
-      - transactionSubject
-      - currency
-      - accountInfo
-      properties:
-        requestId:
-          type: string
-          minLength: 1
-          maxLength: 64
-          description: Merchant idempotency key. Reusing the same requestId returns the original result without creating a new validation.
-          example: VAL-20240423-001
-        verificationMethod:
-          type: string
-          enum:
-          - INTERNAL
-          - DATABASE
-          - PENNY_DROP
-          - AUTO
-          description: 'Validation method:
-
-            - `INTERNAL`: Look up Coins user database by phone / email / account name. No fee.
-
-            - `DATABASE`: Look up historical transaction records (shared across merchants). No fee.
-
-            - `PENNY_DROP`: Send a real micro-transfer (1 or 2 PHP, random) to verify live bank account. Fee applies.
-
-            - `AUTO`: Try DATABASE first; auto-upgrade to PENNY_DROP if no record found. Fee per actual method.
-
-            '
-        transactionChannel:
-          type: string
-          enum:
-          - COINS
-          - INSTAPAY
-          - SWIFTPAY_PESONET
-          description: Channel. Use `COINS` for INTERNAL method; `INSTAPAY` or `SWIFTPAY_PESONET` for external methods.
-        transactionSubject:
-          type: string
-          description: Bank code (e.g. BDO, BPI) or `coins.ph` for Coins internal.
-          example: BDO
-        currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          description: Currency code.
-          example: PHP
-        accountInfo:
-          $ref: '#/components/schemas/AccountInfo'
-    FiatMoney:
-      type: object
-      properties:
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: PHP
-        amount:
-          type: string
-          description: Decimal amount
-          example: '1.00'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

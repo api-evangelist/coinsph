@@ -399,91 +399,6 @@ paths:
                       $ref: '#/components/schemas/QRPHStatusResponse'
 components:
   schemas:
-    CancelQRPHResponse:
-      type: object
-      properties:
-        requestStatus:
-          type: string
-          enum:
-          - SUCCEEDED
-          - FAILED
-        requestId:
-          type: string
-        referenceId:
-          type: string
-        qrcodeStatus:
-          type: string
-          enum:
-          - PENDING
-          - SUCCEEDED
-          - FAILED
-          - EXPIRED
-          - CANCELED
-          - ACTIVE
-          - SUSPEND
-        createdTime:
-          type: string
-        updatedTime:
-          type: string
-        completionTime:
-          type: string
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMsg:
-          type:
-          - string
-          - 'null'
-    QRPHStatusResponse:
-      type: object
-      properties:
-        qrCode:
-          type: string
-        requestId:
-          type: string
-        referenceId:
-          type: string
-        expiredTime:
-          type: string
-          description: Unix timestamp. 0 for static QR (never expires).
-        amount:
-          type: number
-          format: decimal
-        currency:
-          type: string
-        status:
-          type: string
-          enum:
-          - PENDING
-          - SUCCEEDED
-          - FAILED
-          - EXPIRED
-          - CANCELED
-          - ACTIVE
-          - SUSPEND
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMsg:
-          type:
-          - string
-          - 'null'
-        remark:
-          type: string
-        channelInvoiceNo:
-          type:
-          - string
-          - 'null'
-        cashInBank:
-          type:
-          - string
-          - 'null'
-        settleDate:
-          type:
-          - string
-          - 'null'
     DynamicQRPHResponse:
       type: object
       properties:
@@ -553,6 +468,55 @@ components:
           type: string
           enum:
           - STATIC
+    QRPHStatusResponse:
+      type: object
+      properties:
+        qrCode:
+          type: string
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        expiredTime:
+          type: string
+          description: Unix timestamp. 0 for static QR (never expires).
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - CANCELED
+          - ACTIVE
+          - SUSPEND
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        remark:
+          type: string
+        channelInvoiceNo:
+          type:
+          - string
+          - 'null'
+        cashInBank:
+          type:
+          - string
+          - 'null'
+        settleDate:
+          type:
+          - string
+          - 'null'
     FiatBaseResponse:
       type: object
       properties:
@@ -566,6 +530,42 @@ components:
         params:
           type:
           - object
+          - 'null'
+    CancelQRPHResponse:
+      type: object
+      properties:
+        requestStatus:
+          type: string
+          enum:
+          - SUCCEEDED
+          - FAILED
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        qrcodeStatus:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - CANCELED
+          - ACTIVE
+          - SUSPEND
+        createdTime:
+          type: string
+        updatedTime:
+          type: string
+        completionTime:
+          type: string
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
           - 'null'
   securitySchemes:
     ApiKeyAuth:

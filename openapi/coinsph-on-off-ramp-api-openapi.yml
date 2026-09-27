@@ -322,6 +322,39 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
+    RampPaymentConfigResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            supportedNetworksByToken:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  networks:
+                    type: array
+                    items:
+                      type: string
+            onRampFormTokenList:
+              type:
+              - array
+              - 'null'
+              items:
+                $ref: '#/components/schemas/OnRampTokenPair'
+            offRampToTokenList:
+              type:
+              - array
+              - 'null'
+              items:
+                $ref: '#/components/schemas/OffRampTokenPair'
     OffRampTokenPair:
       type: object
       properties:
@@ -386,16 +419,7 @@ components:
               type: integer
               format: int64
               description: Quote expiry timestamp (epoch millis).
-    AmountLimit:
-      type: object
-      properties:
-        min:
-          type: string
-        max:
-          type: string
-        precision:
-          type: integer
-    RampPaymentConfigResponse:
+    RampOrderDetailResponse:
       type: object
       properties:
         code:
@@ -407,27 +431,48 @@ components:
         data:
           type: object
           properties:
-            supportedNetworksByToken:
-              type: object
-              additionalProperties:
-                type: object
-                properties:
-                  networks:
-                    type: array
-                    items:
-                      type: string
-            onRampFormTokenList:
-              type:
-              - array
-              - 'null'
-              items:
-                $ref: '#/components/schemas/OnRampTokenPair'
-            offRampToTokenList:
-              type:
-              - array
-              - 'null'
-              items:
-                $ref: '#/components/schemas/OffRampTokenPair'
+            status:
+              type: string
+              enum:
+              - CREATE
+              - PROCESSING
+              - SUCCEEDED
+              - FAILED
+              - CANCELLED
+              - REFUNDED
+              - EXPIRED
+              - MANUAL_REVIEW
+            orderId:
+              type: string
+            sourceCurrency:
+              type: string
+            targetCurrency:
+              type: string
+            sourceAmount:
+              type: string
+            targetAmount:
+              type: string
+            orderCreatedTime:
+              type: integer
+              format: int64
+            fee:
+              type: string
+            pollingInterval:
+              type: integer
+              format: int64
+              description: Recommended polling interval in milliseconds.
+            maxPollingCount:
+              type: integer
+              description: Maximum number of polling attempts.
+    AmountLimit:
+      type: object
+      properties:
+        min:
+          type: string
+        max:
+          type: string
+        precision:
+          type: integer
     InitOnChainFundResponse:
       type: object
       properties:
@@ -485,51 +530,6 @@ components:
                   $ref: '#/components/schemas/AmountLimit'
                 fromTokenAmount:
                   $ref: '#/components/schemas/AmountLimit'
-    RampOrderDetailResponse:
-      type: object
-      properties:
-        code:
-          type: string
-          example: '000000'
-        message:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            status:
-              type: string
-              enum:
-              - CREATE
-              - PROCESSING
-              - SUCCEEDED
-              - FAILED
-              - CANCELLED
-              - REFUNDED
-              - EXPIRED
-              - MANUAL_REVIEW
-            orderId:
-              type: string
-            sourceCurrency:
-              type: string
-            targetCurrency:
-              type: string
-            sourceAmount:
-              type: string
-            targetAmount:
-              type: string
-            orderCreatedTime:
-              type: integer
-              format: int64
-            fee:
-              type: string
-            pollingInterval:
-              type: integer
-              format: int64
-              description: Recommended polling interval in milliseconds.
-            maxPollingCount:
-              type: integer
-              description: Maximum number of polling attempts.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

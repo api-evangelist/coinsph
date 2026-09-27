@@ -426,20 +426,6 @@ paths:
                     example: '459165282044051456'
 components:
   schemas:
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
     SupportChannelItem:
       type: object
       properties:
@@ -500,6 +486,20 @@ components:
           description: 1 = available, 0 = maintenance
         maxWithdrawBalance:
           type: string
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

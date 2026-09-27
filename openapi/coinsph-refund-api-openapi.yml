@@ -137,20 +137,6 @@ paths:
                           type: string
 components:
   schemas:
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
     CashInRefundRequest:
       type: object
       required:
@@ -209,6 +195,20 @@ components:
           type: string
           maxLength: 64
           description: Payment provider/bank name.
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

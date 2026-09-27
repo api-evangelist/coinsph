@@ -199,6 +199,21 @@ components:
           $ref: '#/components/schemas/LimitPeriod'
         annually:
           $ref: '#/components/schemas/LimitPeriod'
+    LimitPeriod:
+      type: object
+      properties:
+        cashInLimit:
+          type: string
+        cashInRemaining:
+          type: string
+        cashOutLimit:
+          type: string
+        cashOutRemaining:
+          type: string
+        totalWithdrawLimit:
+          type: string
+        totalWithdrawRemaining:
+          type: string
     TransferResponse:
       type: object
       properties:
@@ -229,21 +244,6 @@ components:
         target_address:
           type: string
         client_transfer_id:
-          type: string
-    LimitPeriod:
-      type: object
-      properties:
-        cashInLimit:
-          type: string
-        cashInRemaining:
-          type: string
-        cashOutLimit:
-          type: string
-        cashOutRemaining:
-          type: string
-        totalWithdrawLimit:
-          type: string
-        totalWithdrawRemaining:
           type: string
   securitySchemes:
     ApiKeyAuth:

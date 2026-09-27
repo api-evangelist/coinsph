@@ -200,114 +200,6 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
-    TokenApplyResponse:
-      type: object
-      properties:
-        tokenId:
-          type: string
-          example: token_abc123def456
-        tokenStatus:
-          type: string
-          example: PENDING
-        redirectUrl:
-          type: string
-          example: https://payment.example.com/auth?token=...
-        token:
-          type: string
-          example: tk_1234567890abcdef
-    TokenApplyRequest:
-      type: object
-      required:
-      - requestId
-      - currency
-      - customerId
-      - redirectUrl
-      properties:
-        requestId:
-          type: string
-          maxLength: 64
-        currency:
-          type: string
-          example: PHP
-        customerId:
-          type: string
-          maxLength: 64
-        redirectUrl:
-          type: object
-          required:
-          - success
-          - failure
-          - cancel
-          properties:
-            success:
-              type: string
-            failure:
-              type: string
-            cancel:
-              type: string
-    TokenQueryResponse:
-      type: object
-      properties:
-        customerId:
-          type: string
-        currency:
-          type: string
-        tokenId:
-          type: string
-        tokenStatus:
-          type: string
-          enum:
-          - PENDING
-          - ACTIVE
-          - EXPIRED
-          - REVOKED
-        tokenCreateTime:
-          type: string
-        tokenExpireTime:
-          type: integer
-          description: Unix timestamp in seconds.
-        accountDisplay:
-          type: string
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
-    CheckoutRedirectUrl:
-      type: object
-      required:
-      - defaultUrl
-      properties:
-        success:
-          type: string
-          example: https://merchant.example.com/payment/success
-        failure:
-          type: string
-          example: https://merchant.example.com/payment/failure
-        cancel:
-          type: string
-          example: https://merchant.example.com/payment/cancel
-        defaultUrl:
-          type: string
-          example: https://merchant.example.com/payment/default
-    TokenQueryRequest:
-      type: object
-      properties:
-        tokenId:
-          type: string
-          description: Token ID (either tokenId or requestId must be provided).
-        requestId:
-          type: string
-          description: Request ID used when applying for the token.
     TokenPayRequest:
       type: object
       required:
@@ -358,6 +250,71 @@ components:
         token:
           type: string
           description: Authorization token for passwordless (auto-debit) payment.
+    TokenQueryResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+        currency:
+          type: string
+        tokenId:
+          type: string
+        tokenStatus:
+          type: string
+          enum:
+          - PENDING
+          - ACTIVE
+          - EXPIRED
+          - REVOKED
+        tokenCreateTime:
+          type: string
+        tokenExpireTime:
+          type: integer
+          description: Unix timestamp in seconds.
+        accountDisplay:
+          type: string
+    TokenPayResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+        status:
+          type: string
+        paymentStatus:
+          type: string
+          enum:
+          - INIT
+          - PROCESSING
+          - SUCCEEDED
+          - FAILED
+        needManualPay:
+          type: boolean
+          description: If true, checkoutUrl is provided for manual payment.
+        failReason:
+          type: string
+        orderId:
+          type: string
+        checkoutUrl:
+          type: string
+        checkoutDeeplinkUrl:
+          type: string
+        customerId:
+          type: string
+    TokenApplyResponse:
+      type: object
+      properties:
+        tokenId:
+          type: string
+          example: token_abc123def456
+        tokenStatus:
+          type: string
+          example: PENDING
+        redirectUrl:
+          type: string
+          example: https://payment.example.com/auth?token=...
+        token:
+          type: string
+          example: tk_1234567890abcdef
     ProductDetail:
       type: object
       required:
@@ -395,33 +352,76 @@ components:
         amount:
           type: string
           example: '100.00'
-    TokenPayResponse:
+    TokenApplyRequest:
       type: object
+      required:
+      - requestId
+      - currency
+      - customerId
+      - redirectUrl
       properties:
         requestId:
           type: string
-        status:
+          maxLength: 64
+        currency:
           type: string
-        paymentStatus:
-          type: string
-          enum:
-          - INIT
-          - PROCESSING
-          - SUCCEEDED
-          - FAILED
-        needManualPay:
-          type: boolean
-          description: If true, checkoutUrl is provided for manual payment.
-        failReason:
-          type: string
-        orderId:
-          type: string
-        checkoutUrl:
-          type: string
-        checkoutDeeplinkUrl:
-          type: string
+          example: PHP
         customerId:
           type: string
+          maxLength: 64
+        redirectUrl:
+          type: object
+          required:
+          - success
+          - failure
+          - cancel
+          properties:
+            success:
+              type: string
+            failure:
+              type: string
+            cancel:
+              type: string
+    CheckoutRedirectUrl:
+      type: object
+      required:
+      - defaultUrl
+      properties:
+        success:
+          type: string
+          example: https://merchant.example.com/payment/success
+        failure:
+          type: string
+          example: https://merchant.example.com/payment/failure
+        cancel:
+          type: string
+          example: https://merchant.example.com/payment/cancel
+        defaultUrl:
+          type: string
+          example: https://merchant.example.com/payment/default
+    TokenQueryRequest:
+      type: object
+      properties:
+        tokenId:
+          type: string
+          description: Token ID (either tokenId or requestId must be provided).
+        requestId:
+          type: string
+          description: Request ID used when applying for the token.
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
