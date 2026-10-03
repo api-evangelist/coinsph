@@ -322,39 +322,42 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
-    RampPaymentConfigResponse:
+    OnRampTokenPair:
       type: object
       properties:
-        code:
+        toToken:
           type: string
-          example: '000000'
-        message:
+        fromToken:
           type: string
-          example: success
-        data:
+        fromTokenIcon:
+          type: string
+        toTokenIcon:
+          type: string
+        balance:
+          type: string
+        fromTokenName:
+          type: string
+        toTokenName:
+          type: string
+        limits:
           type: object
           properties:
-            supportedNetworksByToken:
+            perOrder:
               type: object
-              additionalProperties:
-                type: object
-                properties:
-                  networks:
-                    type: array
-                    items:
-                      type: string
-            onRampFormTokenList:
-              type:
-              - array
-              - 'null'
-              items:
-                $ref: '#/components/schemas/OnRampTokenPair'
-            offRampToTokenList:
-              type:
-              - array
-              - 'null'
-              items:
-                $ref: '#/components/schemas/OffRampTokenPair'
+              properties:
+                toTokenAmount:
+                  $ref: '#/components/schemas/AmountLimit'
+                fromTokenAmount:
+                  $ref: '#/components/schemas/AmountLimit'
+    AmountLimit:
+      type: object
+      properties:
+        min:
+          type: string
+        max:
+          type: string
+        precision:
+          type: integer
     OffRampTokenPair:
       type: object
       properties:
@@ -419,6 +422,36 @@ components:
               type: integer
               format: int64
               description: Quote expiry timestamp (epoch millis).
+    InitOnChainFundResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type:
+          - object
+          - 'null'
+          properties:
+            depositId:
+              type: string
+              description: Deposit identifier returned by the merchant.
+              example: DEP20260427000001
+            errorCode:
+              type:
+              - string
+              - 'null'
+              description: Error code returned by the merchant (if any).
+              example: INVALID_QUOTE
+            errorMessage:
+              type:
+              - string
+              - 'null'
+              description: Error message returned by the merchant (if any).
+              example: Quote has expired
     RampOrderDetailResponse:
       type: object
       properties:
@@ -464,16 +497,7 @@ components:
             maxPollingCount:
               type: integer
               description: Maximum number of polling attempts.
-    AmountLimit:
-      type: object
-      properties:
-        min:
-          type: string
-        max:
-          type: string
-        precision:
-          type: integer
-    InitOnChainFundResponse:
+    RampPaymentConfigResponse:
       type: object
       properties:
         code:
@@ -483,53 +507,29 @@ components:
           type: string
           example: success
         data:
-          type:
-          - object
-          - 'null'
-          properties:
-            depositId:
-              type: string
-              description: Deposit identifier returned by the merchant.
-              example: DEP20260427000001
-            errorCode:
-              type:
-              - string
-              - 'null'
-              description: Error code returned by the merchant (if any).
-              example: INVALID_QUOTE
-            errorMessage:
-              type:
-              - string
-              - 'null'
-              description: Error message returned by the merchant (if any).
-              example: Quote has expired
-    OnRampTokenPair:
-      type: object
-      properties:
-        toToken:
-          type: string
-        fromToken:
-          type: string
-        fromTokenIcon:
-          type: string
-        toTokenIcon:
-          type: string
-        balance:
-          type: string
-        fromTokenName:
-          type: string
-        toTokenName:
-          type: string
-        limits:
           type: object
           properties:
-            perOrder:
+            supportedNetworksByToken:
               type: object
-              properties:
-                toTokenAmount:
-                  $ref: '#/components/schemas/AmountLimit'
-                fromTokenAmount:
-                  $ref: '#/components/schemas/AmountLimit'
+              additionalProperties:
+                type: object
+                properties:
+                  networks:
+                    type: array
+                    items:
+                      type: string
+            onRampFormTokenList:
+              type:
+              - array
+              - 'null'
+              items:
+                $ref: '#/components/schemas/OnRampTokenPair'
+            offRampToTokenList:
+              type:
+              - array
+              - 'null'
+              items:
+                $ref: '#/components/schemas/OffRampTokenPair'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

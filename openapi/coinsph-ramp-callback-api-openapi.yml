@@ -160,21 +160,6 @@ paths:
                 data: {}
 components:
   schemas:
-    RampCallbackResponse:
-      type: object
-      description: Expected response from merchant after receiving the callback.
-      properties:
-        code:
-          type: string
-          description: Response code. '0' indicates success.
-          example: '0'
-        message:
-          type: string
-          description: Response message.
-          example: success
-        data:
-          type: object
-          description: Response data (can be empty).
     RampCallbackRequest:
       type: object
       description: Callback payload sent to the merchant's configured callback URL when order status changes.
@@ -344,6 +329,21 @@ components:
           format: int64
           description: Callback timestamp (epoch millis).
           example: 1776924592732
+    RampCallbackResponse:
+      type: object
+      description: Expected response from merchant after receiving the callback.
+      properties:
+        code:
+          type: string
+          description: Response code. '0' indicates success.
+          example: '0'
+        message:
+          type: string
+          description: Response message.
+          example: success
+        data:
+          type: object
+          description: Response data (can be empty).
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

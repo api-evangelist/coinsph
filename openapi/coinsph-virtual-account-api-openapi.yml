@@ -850,79 +850,6 @@ paths:
                 - $ref: '#/components/schemas/VAErrorResponse'
 components:
   schemas:
-    VirtualAccountTransaction:
-      type: object
-      properties:
-        userId:
-          type: string
-          description: User ID of the merchant.
-          example: userId
-        vAccountUsage:
-          type: integer
-          description: Virtual Account Usage Type.
-          example: 1
-        vAccountId:
-          type: string
-          description: Virtual account ID.
-          example: vAccountId
-        orderId:
-          type: string
-          description: Transaction ID.
-          example: orderId
-        token:
-          type: string
-          description: Currency (e.g., `PHP`, `USDT`).
-          example: USDT
-        network:
-          type: string
-          description: Fiat channel or crypto network.
-          example: TRC20
-        address:
-          type:
-          - string
-          - 'null'
-          description: Crypto deposit address.
-          example: TN123456789abcdef
-        amount:
-          type: number
-          description: Transaction amount (number).
-          example: 100.5
-        totalAmount:
-          type: string
-          description: Transaction amount (string).
-          example: '100.50'
-        channelOrderId:
-          type: string
-          description: Third-party order ID.
-          example: CH20240115001
-        fromUserName:
-          type:
-          - string
-          - 'null'
-          description: Transaction sender name.
-          example: Alice
-        fromUserNumber:
-          type:
-          - string
-          - 'null'
-          description: Transaction sender number.
-          example: U10001
-        fromUserEmail:
-          type:
-          - string
-          - 'null'
-          description: Transaction sender email.
-          example: alice@coisn.ph
-        sender:
-          type:
-          - string
-          - 'null'
-          description: Transaction sender name + number.
-          example: TN987654321fedcba
-        transactionDate:
-          type: string
-          description: Transaction date.
-          example: '2024-01-15 10:30:00'
     VirtualAccountDetail:
       type: object
       properties:
@@ -1057,17 +984,79 @@ components:
           type: string
           description: 'Virtual account last update time (format: `yyyy-MM-dd HH:mm:ss`).'
           example: '2026-06-30 15:30:05'
-    VAErrorResponse:
+    VirtualAccountTransaction:
       type: object
       properties:
-        code:
-          type: integer
-          description: Error code.
-          example: -70020002
-        msg:
+        userId:
           type: string
-          description: Error message.
-          example: Virtual account does not exist.
+          description: User ID of the merchant.
+          example: userId
+        vAccountUsage:
+          type: integer
+          description: Virtual Account Usage Type.
+          example: 1
+        vAccountId:
+          type: string
+          description: Virtual account ID.
+          example: vAccountId
+        orderId:
+          type: string
+          description: Transaction ID.
+          example: orderId
+        token:
+          type: string
+          description: Currency (e.g., `PHP`, `USDT`).
+          example: USDT
+        network:
+          type: string
+          description: Fiat channel or crypto network.
+          example: TRC20
+        address:
+          type:
+          - string
+          - 'null'
+          description: Crypto deposit address.
+          example: TN123456789abcdef
+        amount:
+          type: number
+          description: Transaction amount (number).
+          example: 100.5
+        totalAmount:
+          type: string
+          description: Transaction amount (string).
+          example: '100.50'
+        channelOrderId:
+          type: string
+          description: Third-party order ID.
+          example: CH20240115001
+        fromUserName:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender name.
+          example: Alice
+        fromUserNumber:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender number.
+          example: U10001
+        fromUserEmail:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender email.
+          example: alice@coisn.ph
+        sender:
+          type:
+          - string
+          - 'null'
+          description: Transaction sender name + number.
+          example: TN987654321fedcba
+        transactionDate:
+          type: string
+          description: Transaction date.
+          example: '2024-01-15 10:30:00'
     BooleanSuccessResponse:
       type: object
       properties:
@@ -1101,47 +1090,17 @@ components:
               type: string
               description: Virtual account ID.
               example: '2229106125796322048'
-    CryptoDestination:
+    CurrencyNetworkSetting:
       type: object
-      required:
-      - currency
-      - transactionChannel
-      - recipientAccountNumber
-      - recipientName
-      - recipientAddress
       properties:
-        currency:
+        token:
           type: string
-          description: Fiat currency (e.g., `PHP`).
+          description: Currency or token (e.g., `PHP`, `USDT`, `USDC`).
           example: PHP
-        transactionChannel:
+        network:
           type: string
-          description: Transaction channel (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`).
+          description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `TRC20`, `TRONSCAN`).
           example: INSTAPAY
-        transactionSubject:
-          type:
-          - string
-          - 'null'
-          description: Transaction subject. from https://api.docs.coins.ph/reference/getsupportchannel
-          example: gcash
-        recipientAccountNumber:
-          type: string
-          description: Recipient account number.
-          example: 09171234567
-        recipientName:
-          type: string
-          description: Recipient name.
-          example: Juan dela Cruz
-        recipientAddress:
-          type: string
-          description: Recipient address.
-          example: 123 Main St, Quezon City
-        remarks:
-          type:
-          - string
-          - 'null'
-          description: Remarks.
-          example: null
     VirtualAccountCheckResult:
       type: object
       properties:
@@ -1216,6 +1175,42 @@ components:
         staticQrCodeRequestId: VA2250098734532233984
         staticQrCodeStatus: ACTIVE
         staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
+    VAErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code.
+          example: -70020002
+        msg:
+          type: string
+          description: Error message.
+          example: Virtual account does not exist.
+    FiatDestination:
+      type: object
+      required:
+      - token
+      - network
+      - address
+      properties:
+        token:
+          type: string
+          description: Token name (e.g., `USDT`).
+          example: USDT
+        network:
+          type: string
+          description: Network (e.g., `TRC20`, `BSC`).
+          example: BSC
+        address:
+          type: string
+          description: On-chain address, must match the addressRegex of the network.
+          example: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
+        tag:
+          type:
+          - string
+          - 'null'
+          description: Memo / Tag (required by some networks).
+          example: null
     VirtualAccountSettingDetail:
       type: object
       properties:
@@ -1255,41 +1250,46 @@ components:
           - string
           - 'null'
           description: Crypto deposit address. Empty when fiat is used.
-    CurrencyNetworkSetting:
-      type: object
-      properties:
-        token:
-          type: string
-          description: Currency or token (e.g., `PHP`, `USDT`, `USDC`).
-          example: PHP
-        network:
-          type: string
-          description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `TRC20`, `TRONSCAN`).
-          example: INSTAPAY
-    FiatDestination:
+    CryptoDestination:
       type: object
       required:
-      - token
-      - network
-      - address
+      - currency
+      - transactionChannel
+      - recipientAccountNumber
+      - recipientName
+      - recipientAddress
       properties:
-        token:
+        currency:
           type: string
-          description: Token name (e.g., `USDT`).
-          example: USDT
-        network:
+          description: Fiat currency (e.g., `PHP`).
+          example: PHP
+        transactionChannel:
           type: string
-          description: Network (e.g., `TRC20`, `BSC`).
-          example: BSC
-        address:
-          type: string
-          description: On-chain address, must match the addressRegex of the network.
-          example: '0x434f31cff8dc8ab55a58b6e12f6297df105ebfac'
-        tag:
+          description: Transaction channel (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`).
+          example: INSTAPAY
+        transactionSubject:
           type:
           - string
           - 'null'
-          description: Memo / Tag (required by some networks).
+          description: Transaction subject. from https://api.docs.coins.ph/reference/getsupportchannel
+          example: gcash
+        recipientAccountNumber:
+          type: string
+          description: Recipient account number.
+          example: 09171234567
+        recipientName:
+          type: string
+          description: Recipient name.
+          example: Juan dela Cruz
+        recipientAddress:
+          type: string
+          description: Recipient address.
+          example: 123 Main St, Quezon City
+        remarks:
+          type:
+          - string
+          - 'null'
+          description: Remarks.
           example: null
   securitySchemes:
     ApiKeyAuth:

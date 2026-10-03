@@ -450,6 +450,56 @@ components:
           - string
           - 'null'
           description: Unix timestamp when the transaction reached final status.
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
+    CancelQRPHResponse:
+      type: object
+      properties:
+        requestStatus:
+          type: string
+          enum:
+          - SUCCEEDED
+          - FAILED
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        qrcodeStatus:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - CANCELED
+          - ACTIVE
+          - SUSPEND
+        createdTime:
+          type: string
+        updatedTime:
+          type: string
+        completionTime:
+          type: string
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
     StaticQRPHResponse:
       type: object
       properties:
@@ -514,56 +564,6 @@ components:
           - string
           - 'null'
         settleDate:
-          type:
-          - string
-          - 'null'
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
-    CancelQRPHResponse:
-      type: object
-      properties:
-        requestStatus:
-          type: string
-          enum:
-          - SUCCEEDED
-          - FAILED
-        requestId:
-          type: string
-        referenceId:
-          type: string
-        qrcodeStatus:
-          type: string
-          enum:
-          - PENDING
-          - SUCCEEDED
-          - FAILED
-          - EXPIRED
-          - CANCELED
-          - ACTIVE
-          - SUSPEND
-        createdTime:
-          type: string
-        updatedTime:
-          type: string
-        completionTime:
-          type: string
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMsg:
           type:
           - string
           - 'null'

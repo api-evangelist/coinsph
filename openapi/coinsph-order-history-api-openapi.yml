@@ -336,6 +336,47 @@ paths:
           description: Internal server error
 components:
   schemas:
+    OrderExtendedMap:
+      type: object
+      additionalProperties: true
+      description: Extended order data, key-value pairs providing additional transaction details.
+      properties:
+        channelReferenceNo:
+          type:
+          - string
+          - 'null'
+          description: Channel reference number.
+          example: 000008
+        senderAccountNumber:
+          type:
+          - string
+          - 'null'
+          description: Sender's account number.
+          example: '8613989193526'
+        recipientName:
+          type:
+          - string
+          - 'null'
+          description: Recipient's name.
+          example: sandyopenapitest
+        recipientAccountNumber:
+          type:
+          - string
+          - 'null'
+          description: Recipient's account number.
+          example: '123456789'
+        recipientAddress:
+          type:
+          - string
+          - 'null'
+          description: Recipient's address.
+          example: 123 Main St, Mandaluyong
+        remarks:
+          type:
+          - string
+          - 'null'
+          description: Remarks or notes for the transaction.
+          example: Payment for services
     OrderDetailsResponse:
       type: object
       properties:
@@ -393,47 +434,6 @@ components:
         dealCancel:
           type: boolean
           description: If the order can be canceled.
-    OrderExtendedMap:
-      type: object
-      additionalProperties: true
-      description: Extended order data, key-value pairs providing additional transaction details.
-      properties:
-        channelReferenceNo:
-          type:
-          - string
-          - 'null'
-          description: Channel reference number.
-          example: 000008
-        senderAccountNumber:
-          type:
-          - string
-          - 'null'
-          description: Sender's account number.
-          example: '8613989193526'
-        recipientName:
-          type:
-          - string
-          - 'null'
-          description: Recipient's name.
-          example: sandyopenapitest
-        recipientAccountNumber:
-          type:
-          - string
-          - 'null'
-          description: Recipient's account number.
-          example: '123456789'
-        recipientAddress:
-          type:
-          - string
-          - 'null'
-          description: Recipient's address.
-          example: 123 Main St, Mandaluyong
-        remarks:
-          type:
-          - string
-          - 'null'
-          description: Remarks or notes for the transaction.
-          example: Payment for services
     FiatBaseResponse:
       type: object
       properties:

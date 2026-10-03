@@ -273,22 +273,37 @@ paths:
           description: Internal server error
 components:
   schemas:
-    AccountInfo:
+    CreateValidationResponse:
       type: object
       properties:
-        accountNumber:
-          type: string
-          description: Bank account number. Required for DATABASE / PENNY_DROP / AUTO methods.
-        accountName:
-          type: string
-          description: Account holder name. Required for DATABASE / PENNY_DROP / AUTO; optional for INTERNAL. If omitted, nameMatchStatus returns N/A.
-        phone:
-          type: string
-          description: Phone number. For INTERNAL method only.
-          example: 09171234567
-        email:
-          type: string
-          description: Email address. For INTERNAL method only.
+        status:
+          type: integer
+          example: 0
+        error:
+          type:
+          - string
+          - 'null'
+        data:
+          type: object
+          properties:
+            requestId:
+              type: string
+              description: Merchant idempotency key (echoed back)
+            validationRequestId:
+              type: string
+              description: Coins-generated validation request ID. Use this to query the result.
+              example: AV20240423000001
+            status:
+              type: string
+              enum:
+              - PENDING
+              description: Always PENDING on creation
+            createdAt:
+              type: integer
+              format: int64
+              description: Request creation time (Unix milliseconds, UTC)
+            accountInfo:
+              $ref: '#/components/schemas/AccountInfo'
     FiatMoney:
       type: object
       properties:
@@ -353,47 +368,6 @@ components:
           example: PHP
         accountInfo:
           $ref: '#/components/schemas/AccountInfo'
-    CreateValidationResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 0
-        error:
-          type:
-          - string
-          - 'null'
-        data:
-          type: object
-          properties:
-            requestId:
-              type: string
-              description: Merchant idempotency key (echoed back)
-            validationRequestId:
-              type: string
-              description: Coins-generated validation request ID. Use this to query the result.
-              example: AV20240423000001
-            status:
-              type: string
-              enum:
-              - PENDING
-              description: Always PENDING on creation
-            createdAt:
-              type: integer
-              format: int64
-              description: Request creation time (Unix milliseconds, UTC)
-            accountInfo:
-              $ref: '#/components/schemas/AccountInfo'
-    RemainingDepositLimit:
-      type: object
-      description: Remaining deposit limits (INTERNAL method only)
-      properties:
-        daily:
-          $ref: '#/components/schemas/FiatMoney'
-        monthly:
-          $ref: '#/components/schemas/FiatMoney'
-        annual:
-          $ref: '#/components/schemas/FiatMoney'
     ValidationStatusResponse:
       type: object
       properties:
@@ -513,6 +487,32 @@ components:
               type: integer
               format: int64
               description: Last updated time (Unix milliseconds, UTC)
+    RemainingDepositLimit:
+      type: object
+      description: Remaining deposit limits (INTERNAL method only)
+      properties:
+        daily:
+          $ref: '#/components/schemas/FiatMoney'
+        monthly:
+          $ref: '#/components/schemas/FiatMoney'
+        annual:
+          $ref: '#/components/schemas/FiatMoney'
+    AccountInfo:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: Bank account number. Required for DATABASE / PENNY_DROP / AUTO methods.
+        accountName:
+          type: string
+          description: Account holder name. Required for DATABASE / PENNY_DROP / AUTO; optional for INTERNAL. If omitted, nameMatchStatus returns N/A.
+        phone:
+          type: string
+          description: Phone number. For INTERNAL method only.
+          example: 09171234567
+        email:
+          type: string
+          description: Email address. For INTERNAL method only.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

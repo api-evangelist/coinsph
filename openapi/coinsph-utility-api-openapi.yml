@@ -163,6 +163,21 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
+    LimitPeriod:
+      type: object
+      properties:
+        cashInLimit:
+          type: string
+        cashInRemaining:
+          type: string
+        cashOutLimit:
+          type: string
+        cashOutRemaining:
+          type: string
+        totalWithdrawLimit:
+          type: string
+        totalWithdrawRemaining:
+          type: string
     AccountBalanceResponse:
       type: object
       properties:
@@ -199,21 +214,6 @@ components:
           $ref: '#/components/schemas/LimitPeriod'
         annually:
           $ref: '#/components/schemas/LimitPeriod'
-    LimitPeriod:
-      type: object
-      properties:
-        cashInLimit:
-          type: string
-        cashInRemaining:
-          type: string
-        cashOutLimit:
-          type: string
-        cashOutRemaining:
-          type: string
-        totalWithdrawLimit:
-          type: string
-        totalWithdrawRemaining:
-          type: string
     TransferResponse:
       type: object
       properties:
