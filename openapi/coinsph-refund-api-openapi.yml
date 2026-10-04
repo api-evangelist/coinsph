@@ -137,30 +137,6 @@ paths:
                           type: string
 components:
   schemas:
-    ReceiveAccount:
-      type: object
-      required:
-      - tfrAcctNo
-      - tfrName
-      - receiveChannel
-      - receiveSubject
-      properties:
-        tfrAcctNo:
-          type: string
-          maxLength: 64
-          description: Recipient account number without spaces.
-        tfrName:
-          type: string
-          maxLength: 64
-          description: Recipient account name.
-        receiveChannel:
-          type: string
-          maxLength: 64
-          description: Payment channel (e.g., INSTAPAY, GCASH)
-        receiveSubject:
-          type: string
-          maxLength: 64
-          description: Payment provider/bank name.
     FiatBaseResponse:
       type: object
       properties:
@@ -209,6 +185,30 @@ components:
           description: 1 = original route, 2 = manual input
         receiveAccount:
           $ref: '#/components/schemas/ReceiveAccount'
+    ReceiveAccount:
+      type: object
+      required:
+      - tfrAcctNo
+      - tfrName
+      - receiveChannel
+      - receiveSubject
+      properties:
+        tfrAcctNo:
+          type: string
+          maxLength: 64
+          description: Recipient account number without spaces.
+        tfrName:
+          type: string
+          maxLength: 64
+          description: Recipient account name.
+        receiveChannel:
+          type: string
+          maxLength: 64
+          description: Payment channel (e.g., INSTAPAY, GCASH)
+        receiveSubject:
+          type: string
+          maxLength: 64
+          description: Payment provider/bank name.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

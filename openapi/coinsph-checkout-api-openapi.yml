@@ -123,6 +123,88 @@ paths:
                       $ref: '#/components/schemas/CheckoutStatusResponse'
 components:
   schemas:
+    CreateCheckoutResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+        checkoutId:
+          type: string
+          example: '1984059672474453473'
+        checkoutUrl:
+          type: string
+          description: Redirect URL to the Coins hosted checkout page.
+        checkoutDeeplinkUrl:
+          type: string
+          description: Deep link URL to open the Coins app.
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
+    ProductDetail:
+      type: object
+      required:
+      - name
+      - type
+      - amount
+      properties:
+        name:
+          type: string
+          example: iPhone 15 Pro
+        type:
+          type: string
+          enum:
+          - retail_goods
+          - food_and_beverage
+          - transportation
+          - utilities_and_bills
+          - digital_goods
+          - ecommerce_vouchers
+          - online_subscriptions
+          - mobile_load
+          - gaming_and_gambling
+          - cash_equivalents
+          - high_value_goods
+          - others
+        quantity:
+          type: string
+          example: '1'
+        code:
+          type: string
+          example: IPHONE-256GB-BLUE
+        desc:
+          type: string
+          example: iPhone 15 Pro 256GB Blue
+        amount:
+          type: string
+          example: '100.00'
+    CheckoutRedirectUrl:
+      type: object
+      required:
+      - defaultUrl
+      properties:
+        success:
+          type: string
+          example: https://merchant.example.com/payment/success
+        failure:
+          type: string
+          example: https://merchant.example.com/payment/failure
+        cancel:
+          type: string
+          example: https://merchant.example.com/payment/cancel
+        defaultUrl:
+          type: string
+          example: https://merchant.example.com/payment/default
     CheckoutStatusResponse:
       type: object
       properties:
@@ -163,88 +245,6 @@ components:
           type:
           - string
           - 'null'
-    CheckoutRedirectUrl:
-      type: object
-      required:
-      - defaultUrl
-      properties:
-        success:
-          type: string
-          example: https://merchant.example.com/payment/success
-        failure:
-          type: string
-          example: https://merchant.example.com/payment/failure
-        cancel:
-          type: string
-          example: https://merchant.example.com/payment/cancel
-        defaultUrl:
-          type: string
-          example: https://merchant.example.com/payment/default
-    ProductDetail:
-      type: object
-      required:
-      - name
-      - type
-      - amount
-      properties:
-        name:
-          type: string
-          example: iPhone 15 Pro
-        type:
-          type: string
-          enum:
-          - retail_goods
-          - food_and_beverage
-          - transportation
-          - utilities_and_bills
-          - digital_goods
-          - ecommerce_vouchers
-          - online_subscriptions
-          - mobile_load
-          - gaming_and_gambling
-          - cash_equivalents
-          - high_value_goods
-          - others
-        quantity:
-          type: string
-          example: '1'
-        code:
-          type: string
-          example: IPHONE-256GB-BLUE
-        desc:
-          type: string
-          example: iPhone 15 Pro 256GB Blue
-        amount:
-          type: string
-          example: '100.00'
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
-    CreateCheckoutResponse:
-      type: object
-      properties:
-        requestId:
-          type: string
-        checkoutId:
-          type: string
-          example: '1984059672474453473'
-        checkoutUrl:
-          type: string
-          description: Redirect URL to the Coins hosted checkout page.
-        checkoutDeeplinkUrl:
-          type: string
-          description: Deep link URL to open the Coins app.
     CreateCheckoutRequest:
       type: object
       required:

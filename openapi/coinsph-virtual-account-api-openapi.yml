@@ -850,6 +850,55 @@ paths:
                 - $ref: '#/components/schemas/VAErrorResponse'
 components:
   schemas:
+    VirtualAccountExtend:
+      type: object
+      description: Extended information stored in the VA. When `needStaticQrCode=true`, the following static QR code fields are populated automatically.
+      properties:
+        staticQrCodeRequestId:
+          type:
+          - string
+          - 'null'
+          description: 'Unique request ID used to generate the static QR code (format: `VA` + snowflake ID). Used internally to activate/suspend the QR code via `needStaticQrCode`.'
+          example: VA2250098734532233984
+        staticQrCodeStatus:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ACTIVE
+          - SUSPEND
+          description: Current status of the static QR code.
+          example: ACTIVE
+        staticQrCode:
+          type:
+          - string
+          - 'null'
+          description: Full EMVCo-compliant QRPH static QR code string.
+          example: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
+      example:
+        staticQrCodeRequestId: VA2250098734532233984
+        staticQrCodeStatus: ACTIVE
+        staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
+    CreateVirtualAccountSuccess:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
+        data:
+          type: object
+          properties:
+            vAccountId:
+              type: string
+              description: Virtual account ID.
+              example: '2229106125796322048'
     VirtualAccountDetail:
       type: object
       properties:
@@ -984,6 +1033,17 @@ components:
           type: string
           description: 'Virtual account last update time (format: `yyyy-MM-dd HH:mm:ss`).'
           example: '2026-06-30 15:30:05'
+    VAErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code.
+          example: -70020002
+        msg:
+          type: string
+          description: Error message.
+          example: Virtual account does not exist.
     VirtualAccountTransaction:
       type: object
       properties:
@@ -1057,135 +1117,6 @@ components:
           type: string
           description: Transaction date.
           example: '2024-01-15 10:30:00'
-    BooleanSuccessResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 0
-        error:
-          type: string
-          example: OK
-        data:
-          type: boolean
-          description: Returns true on success.
-          example: true
-    CreateVirtualAccountSuccess:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
-        data:
-          type: object
-          properties:
-            vAccountId:
-              type: string
-              description: Virtual account ID.
-              example: '2229106125796322048'
-    CurrencyNetworkSetting:
-      type: object
-      properties:
-        token:
-          type: string
-          description: Currency or token (e.g., `PHP`, `USDT`, `USDC`).
-          example: PHP
-        network:
-          type: string
-          description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `TRC20`, `TRONSCAN`).
-          example: INSTAPAY
-    VirtualAccountCheckResult:
-      type: object
-      properties:
-        userId:
-          type: string
-          description: User ID of the merchant.
-          example: userId
-        isValid:
-          type: boolean
-          description: Whether the virtual account is valid.
-          example: true
-        vAccountId:
-          type: string
-          description: Virtual account ID.
-          example: vAccountId
-        cAccountNumber:
-          type: string
-          description: User ID on other platforms.
-          example: '1234567890'
-        cAccountName:
-          type: string
-          description: User name on other platforms.
-          example: John Doe
-        vAccountType:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: 'Virtual Account Type. `0`: ENTERPRISE, `1`: PERSONAL.'
-          example: 1
-        vAccountUsage:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: 'Virtual Account Usage Type. `0`: ONE_TIME, `1`: MULTIPLE.'
-          example: 1
-        status:
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 3
-          description: 'Virtual account status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
-          example: 1
-    VirtualAccountExtend:
-      type: object
-      description: Extended information stored in the VA. When `needStaticQrCode=true`, the following static QR code fields are populated automatically.
-      properties:
-        staticQrCodeRequestId:
-          type:
-          - string
-          - 'null'
-          description: 'Unique request ID used to generate the static QR code (format: `VA` + snowflake ID). Used internally to activate/suspend the QR code via `needStaticQrCode`.'
-          example: VA2250098734532233984
-        staticQrCodeStatus:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ACTIVE
-          - SUSPEND
-          description: Current status of the static QR code.
-          example: ACTIVE
-        staticQrCode:
-          type:
-          - string
-          - 'null'
-          description: Full EMVCo-compliant QRPH static QR code string.
-          example: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
-      example:
-        staticQrCodeRequestId: VA2250098734532233984
-        staticQrCodeStatus: ACTIVE
-        staticQrCode: 00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197344355314117529605030105204601653036085802PH5908XUQIZHAO6007Boliney62380011ph.ppmi.p2m0519225009873496285429063047410
-    VAErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Error code.
-          example: -70020002
-        msg:
-          type: string
-          description: Error message.
-          example: Virtual account does not exist.
     FiatDestination:
       type: object
       required:
@@ -1291,6 +1222,75 @@ components:
           - 'null'
           description: Remarks.
           example: null
+    CurrencyNetworkSetting:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Currency or token (e.g., `PHP`, `USDT`, `USDC`).
+          example: PHP
+        network:
+          type: string
+          description: Fiat channel or crypto network (e.g., `INSTAPAY`, `SWIFTPAY_PESONET`, `TRC20`, `TRONSCAN`).
+          example: INSTAPAY
+    VirtualAccountCheckResult:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User ID of the merchant.
+          example: userId
+        isValid:
+          type: boolean
+          description: Whether the virtual account is valid.
+          example: true
+        vAccountId:
+          type: string
+          description: Virtual account ID.
+          example: vAccountId
+        cAccountNumber:
+          type: string
+          description: User ID on other platforms.
+          example: '1234567890'
+        cAccountName:
+          type: string
+          description: User name on other platforms.
+          example: John Doe
+        vAccountType:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: 'Virtual Account Type. `0`: ENTERPRISE, `1`: PERSONAL.'
+          example: 1
+        vAccountUsage:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: 'Virtual Account Usage Type. `0`: ONE_TIME, `1`: MULTIPLE.'
+          example: 1
+        status:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          description: 'Virtual account status. `1`: ACTIVE, `2`: DEACTIVATED, `3`: EXPIRED.'
+          example: 1
+    BooleanSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 0
+        error:
+          type: string
+          example: OK
+        data:
+          type: boolean
+          description: Returns true on success.
+          example: true
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

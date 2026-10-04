@@ -200,6 +200,36 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
+    TokenApplyRequest:
+      type: object
+      required:
+      - requestId
+      - currency
+      - customerId
+      - redirectUrl
+      properties:
+        requestId:
+          type: string
+          maxLength: 64
+        currency:
+          type: string
+          example: PHP
+        customerId:
+          type: string
+          maxLength: 64
+        redirectUrl:
+          type: object
+          required:
+          - success
+          - failure
+          - cancel
+          properties:
+            success:
+              type: string
+            failure:
+              type: string
+            cancel:
+              type: string
     TokenPayRequest:
       type: object
       required:
@@ -250,23 +280,6 @@ components:
         token:
           type: string
           description: Authorization token for passwordless (auto-debit) payment.
-    CheckoutRedirectUrl:
-      type: object
-      required:
-      - defaultUrl
-      properties:
-        success:
-          type: string
-          example: https://merchant.example.com/payment/success
-        failure:
-          type: string
-          example: https://merchant.example.com/payment/failure
-        cancel:
-          type: string
-          example: https://merchant.example.com/payment/cancel
-        defaultUrl:
-          type: string
-          example: https://merchant.example.com/payment/default
     FiatBaseResponse:
       type: object
       properties:
@@ -345,15 +358,38 @@ components:
           type: string
         customerId:
           type: string
-    TokenQueryRequest:
+    TokenApplyResponse:
       type: object
       properties:
         tokenId:
           type: string
-          description: Token ID (either tokenId or requestId must be provided).
-        requestId:
+          example: token_abc123def456
+        tokenStatus:
           type: string
-          description: Request ID used when applying for the token.
+          example: PENDING
+        redirectUrl:
+          type: string
+          example: https://payment.example.com/auth?token=...
+        token:
+          type: string
+          example: tk_1234567890abcdef
+    CheckoutRedirectUrl:
+      type: object
+      required:
+      - defaultUrl
+      properties:
+        success:
+          type: string
+          example: https://merchant.example.com/payment/success
+        failure:
+          type: string
+          example: https://merchant.example.com/payment/failure
+        cancel:
+          type: string
+          example: https://merchant.example.com/payment/cancel
+        defaultUrl:
+          type: string
+          example: https://merchant.example.com/payment/default
     TokenQueryResponse:
       type: object
       properties:
@@ -377,51 +413,15 @@ components:
           description: Unix timestamp in seconds.
         accountDisplay:
           type: string
-    TokenApplyRequest:
-      type: object
-      required:
-      - requestId
-      - currency
-      - customerId
-      - redirectUrl
-      properties:
-        requestId:
-          type: string
-          maxLength: 64
-        currency:
-          type: string
-          example: PHP
-        customerId:
-          type: string
-          maxLength: 64
-        redirectUrl:
-          type: object
-          required:
-          - success
-          - failure
-          - cancel
-          properties:
-            success:
-              type: string
-            failure:
-              type: string
-            cancel:
-              type: string
-    TokenApplyResponse:
+    TokenQueryRequest:
       type: object
       properties:
         tokenId:
           type: string
-          example: token_abc123def456
-        tokenStatus:
+          description: Token ID (either tokenId or requestId must be provided).
+        requestId:
           type: string
-          example: PENDING
-        redirectUrl:
-          type: string
-          example: https://payment.example.com/auth?token=...
-        token:
-          type: string
-          example: tk_1234567890abcdef
+          description: Request ID used when applying for the token.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

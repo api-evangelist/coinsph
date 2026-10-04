@@ -399,6 +399,105 @@ paths:
                       $ref: '#/components/schemas/QRPHStatusResponse'
 components:
   schemas:
+    QRPHStatusResponse:
+      type: object
+      properties:
+        qrCode:
+          type: string
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        expiredTime:
+          type: string
+          description: Unix timestamp. 0 for static QR (never expires).
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - CANCELED
+          - ACTIVE
+          - SUSPEND
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        remark:
+          type: string
+        channelInvoiceNo:
+          type:
+          - string
+          - 'null'
+        cashInBank:
+          type:
+          - string
+          - 'null'
+        settleDate:
+          type:
+          - string
+          - 'null'
+    CancelQRPHResponse:
+      type: object
+      properties:
+        requestStatus:
+          type: string
+          enum:
+          - SUCCEEDED
+          - FAILED
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        qrcodeStatus:
+          type: string
+          enum:
+          - PENDING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - CANCELED
+          - ACTIVE
+          - SUSPEND
+        createdTime:
+          type: string
+        updatedTime:
+          type: string
+        completionTime:
+          type: string
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
     DynamicQRPHResponse:
       type: object
       properties:
@@ -450,56 +549,6 @@ components:
           - string
           - 'null'
           description: Unix timestamp when the transaction reached final status.
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
-    CancelQRPHResponse:
-      type: object
-      properties:
-        requestStatus:
-          type: string
-          enum:
-          - SUCCEEDED
-          - FAILED
-        requestId:
-          type: string
-        referenceId:
-          type: string
-        qrcodeStatus:
-          type: string
-          enum:
-          - PENDING
-          - SUCCEEDED
-          - FAILED
-          - EXPIRED
-          - CANCELED
-          - ACTIVE
-          - SUSPEND
-        createdTime:
-          type: string
-        updatedTime:
-          type: string
-        completionTime:
-          type: string
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMsg:
-          type:
-          - string
-          - 'null'
     StaticQRPHResponse:
       type: object
       properties:
@@ -518,55 +567,6 @@ components:
           type: string
           enum:
           - STATIC
-    QRPHStatusResponse:
-      type: object
-      properties:
-        qrCode:
-          type: string
-        requestId:
-          type: string
-        referenceId:
-          type: string
-        expiredTime:
-          type: string
-          description: Unix timestamp. 0 for static QR (never expires).
-        amount:
-          type: number
-          format: decimal
-        currency:
-          type: string
-        status:
-          type: string
-          enum:
-          - PENDING
-          - SUCCEEDED
-          - FAILED
-          - EXPIRED
-          - CANCELED
-          - ACTIVE
-          - SUSPEND
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMsg:
-          type:
-          - string
-          - 'null'
-        remark:
-          type: string
-        channelInvoiceNo:
-          type:
-          - string
-          - 'null'
-        cashInBank:
-          type:
-          - string
-          - 'null'
-        settleDate:
-          type:
-          - string
-          - 'null'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

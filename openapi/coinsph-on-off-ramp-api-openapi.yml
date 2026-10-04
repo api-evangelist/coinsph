@@ -322,136 +322,6 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
-    OnRampTokenPair:
-      type: object
-      properties:
-        toToken:
-          type: string
-        fromToken:
-          type: string
-        fromTokenIcon:
-          type: string
-        toTokenIcon:
-          type: string
-        balance:
-          type: string
-        fromTokenName:
-          type: string
-        toTokenName:
-          type: string
-        limits:
-          type: object
-          properties:
-            perOrder:
-              type: object
-              properties:
-                toTokenAmount:
-                  $ref: '#/components/schemas/AmountLimit'
-                fromTokenAmount:
-                  $ref: '#/components/schemas/AmountLimit'
-    AmountLimit:
-      type: object
-      properties:
-        min:
-          type: string
-        max:
-          type: string
-        precision:
-          type: integer
-    OffRampTokenPair:
-      type: object
-      properties:
-        fromToken:
-          type: string
-        toToken:
-          type: string
-        fromTokenIcon:
-          type: string
-        toTokenIcon:
-          type: string
-        fromTokenName:
-          type: string
-        toTokenName:
-          type: string
-        limits:
-          type: object
-          properties:
-            perOrder:
-              type: object
-              properties:
-                fromToken:
-                  $ref: '#/components/schemas/AmountLimit'
-                toToken:
-                  $ref: '#/components/schemas/AmountLimit'
-    RampTrialPriceResponse:
-      type: object
-      properties:
-        code:
-          type: string
-          example: '000000'
-        message:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            sourceCurrency:
-              type: string
-            targetCurrency:
-              type: string
-            sourceAmount:
-              type: string
-            targetAmount:
-              type: string
-            price:
-              type: string
-            fee:
-              type: string
-            feeCurrency:
-              type: string
-            resultAmount:
-              type: string
-            totalCostAmount:
-              type: string
-            expiry:
-              type: integer
-              description: Validity of the quote in seconds.
-            inversePrice:
-              type: string
-            expiryTime:
-              type: integer
-              format: int64
-              description: Quote expiry timestamp (epoch millis).
-    InitOnChainFundResponse:
-      type: object
-      properties:
-        code:
-          type: string
-          example: '000000'
-        message:
-          type: string
-          example: success
-        data:
-          type:
-          - object
-          - 'null'
-          properties:
-            depositId:
-              type: string
-              description: Deposit identifier returned by the merchant.
-              example: DEP20260427000001
-            errorCode:
-              type:
-              - string
-              - 'null'
-              description: Error code returned by the merchant (if any).
-              example: INVALID_QUOTE
-            errorMessage:
-              type:
-              - string
-              - 'null'
-              description: Error message returned by the merchant (if any).
-              example: Quote has expired
     RampOrderDetailResponse:
       type: object
       properties:
@@ -497,6 +367,111 @@ components:
             maxPollingCount:
               type: integer
               description: Maximum number of polling attempts.
+    InitOnChainFundResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type:
+          - object
+          - 'null'
+          properties:
+            depositId:
+              type: string
+              description: Deposit identifier returned by the merchant.
+              example: DEP20260427000001
+            errorCode:
+              type:
+              - string
+              - 'null'
+              description: Error code returned by the merchant (if any).
+              example: INVALID_QUOTE
+            errorMessage:
+              type:
+              - string
+              - 'null'
+              description: Error message returned by the merchant (if any).
+              example: Quote has expired
+    AmountLimit:
+      type: object
+      properties:
+        min:
+          type: string
+        max:
+          type: string
+        precision:
+          type: integer
+    RampTrialPriceResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: '000000'
+        message:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            sourceCurrency:
+              type: string
+            targetCurrency:
+              type: string
+            sourceAmount:
+              type: string
+            targetAmount:
+              type: string
+            price:
+              type: string
+            fee:
+              type: string
+            feeCurrency:
+              type: string
+            resultAmount:
+              type: string
+            totalCostAmount:
+              type: string
+            expiry:
+              type: integer
+              description: Validity of the quote in seconds.
+            inversePrice:
+              type: string
+            expiryTime:
+              type: integer
+              format: int64
+              description: Quote expiry timestamp (epoch millis).
+    OnRampTokenPair:
+      type: object
+      properties:
+        toToken:
+          type: string
+        fromToken:
+          type: string
+        fromTokenIcon:
+          type: string
+        toTokenIcon:
+          type: string
+        balance:
+          type: string
+        fromTokenName:
+          type: string
+        toTokenName:
+          type: string
+        limits:
+          type: object
+          properties:
+            perOrder:
+              type: object
+              properties:
+                toTokenAmount:
+                  $ref: '#/components/schemas/AmountLimit'
+                fromTokenAmount:
+                  $ref: '#/components/schemas/AmountLimit'
     RampPaymentConfigResponse:
       type: object
       properties:
@@ -530,6 +505,31 @@ components:
               - 'null'
               items:
                 $ref: '#/components/schemas/OffRampTokenPair'
+    OffRampTokenPair:
+      type: object
+      properties:
+        fromToken:
+          type: string
+        toToken:
+          type: string
+        fromTokenIcon:
+          type: string
+        toTokenIcon:
+          type: string
+        fromTokenName:
+          type: string
+        toTokenName:
+          type: string
+        limits:
+          type: object
+          properties:
+            perOrder:
+              type: object
+              properties:
+                fromToken:
+                  $ref: '#/components/schemas/AmountLimit'
+                toToken:
+                  $ref: '#/components/schemas/AmountLimit'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

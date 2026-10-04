@@ -163,21 +163,6 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
-    LimitPeriod:
-      type: object
-      properties:
-        cashInLimit:
-          type: string
-        cashInRemaining:
-          type: string
-        cashOutLimit:
-          type: string
-        cashOutRemaining:
-          type: string
-        totalWithdrawLimit:
-          type: string
-        totalWithdrawRemaining:
-          type: string
     AccountBalanceResponse:
       type: object
       properties:
@@ -244,6 +229,21 @@ components:
         target_address:
           type: string
         client_transfer_id:
+          type: string
+    LimitPeriod:
+      type: object
+      properties:
+        cashInLimit:
+          type: string
+        cashInRemaining:
+          type: string
+        cashOutLimit:
+          type: string
+        cashOutRemaining:
+          type: string
+        totalWithdrawLimit:
+          type: string
+        totalWithdrawRemaining:
           type: string
   securitySchemes:
     ApiKeyAuth:
