@@ -200,36 +200,61 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
-    TokenApplyRequest:
+    TokenQueryRequest:
       type: object
-      required:
-      - requestId
-      - currency
-      - customerId
-      - redirectUrl
       properties:
+        tokenId:
+          type: string
+          description: Token ID (either tokenId or requestId must be provided).
         requestId:
           type: string
-          maxLength: 64
-        currency:
+          description: Request ID used when applying for the token.
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
           type: string
-          example: PHP
-        customerId:
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
+    CheckoutRedirectUrl:
+      type: object
+      required:
+      - defaultUrl
+      properties:
+        success:
           type: string
-          maxLength: 64
+          example: https://merchant.example.com/payment/success
+        failure:
+          type: string
+          example: https://merchant.example.com/payment/failure
+        cancel:
+          type: string
+          example: https://merchant.example.com/payment/cancel
+        defaultUrl:
+          type: string
+          example: https://merchant.example.com/payment/default
+    TokenApplyResponse:
+      type: object
+      properties:
+        tokenId:
+          type: string
+          example: token_abc123def456
+        tokenStatus:
+          type: string
+          example: PENDING
         redirectUrl:
-          type: object
-          required:
-          - success
-          - failure
-          - cancel
-          properties:
-            success:
-              type: string
-            failure:
-              type: string
-            cancel:
-              type: string
+          type: string
+          example: https://payment.example.com/auth?token=...
+        token:
+          type: string
+          example: tk_1234567890abcdef
     TokenPayRequest:
       type: object
       required:
@@ -280,20 +305,33 @@ components:
         token:
           type: string
           description: Authorization token for passwordless (auto-debit) payment.
-    FiatBaseResponse:
+    TokenPayResponse:
       type: object
       properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
+        requestId:
           type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
+        status:
+          type: string
+        paymentStatus:
+          type: string
+          enum:
+          - INIT
+          - PROCESSING
+          - SUCCEEDED
+          - FAILED
+        needManualPay:
+          type: boolean
+          description: If true, checkoutUrl is provided for manual payment.
+        failReason:
+          type: string
+        orderId:
+          type: string
+        checkoutUrl:
+          type: string
+        checkoutDeeplinkUrl:
+          type: string
+        customerId:
+          type: string
     ProductDetail:
       type: object
       required:
@@ -331,65 +369,36 @@ components:
         amount:
           type: string
           example: '100.00'
-    TokenPayResponse:
+    TokenApplyRequest:
       type: object
+      required:
+      - requestId
+      - currency
+      - customerId
+      - redirectUrl
       properties:
         requestId:
           type: string
-        status:
+          maxLength: 64
+        currency:
           type: string
-        paymentStatus:
-          type: string
-          enum:
-          - INIT
-          - PROCESSING
-          - SUCCEEDED
-          - FAILED
-        needManualPay:
-          type: boolean
-          description: If true, checkoutUrl is provided for manual payment.
-        failReason:
-          type: string
-        orderId:
-          type: string
-        checkoutUrl:
-          type: string
-        checkoutDeeplinkUrl:
-          type: string
+          example: PHP
         customerId:
           type: string
-    TokenApplyResponse:
-      type: object
-      properties:
-        tokenId:
-          type: string
-          example: token_abc123def456
-        tokenStatus:
-          type: string
-          example: PENDING
+          maxLength: 64
         redirectUrl:
-          type: string
-          example: https://payment.example.com/auth?token=...
-        token:
-          type: string
-          example: tk_1234567890abcdef
-    CheckoutRedirectUrl:
-      type: object
-      required:
-      - defaultUrl
-      properties:
-        success:
-          type: string
-          example: https://merchant.example.com/payment/success
-        failure:
-          type: string
-          example: https://merchant.example.com/payment/failure
-        cancel:
-          type: string
-          example: https://merchant.example.com/payment/cancel
-        defaultUrl:
-          type: string
-          example: https://merchant.example.com/payment/default
+          type: object
+          required:
+          - success
+          - failure
+          - cancel
+          properties:
+            success:
+              type: string
+            failure:
+              type: string
+            cancel:
+              type: string
     TokenQueryResponse:
       type: object
       properties:
@@ -413,15 +422,6 @@ components:
           description: Unix timestamp in seconds.
         accountDisplay:
           type: string
-    TokenQueryRequest:
-      type: object
-      properties:
-        tokenId:
-          type: string
-          description: Token ID (either tokenId or requestId must be provided).
-        requestId:
-          type: string
-          description: Request ID used when applying for the token.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -137,20 +137,30 @@ paths:
                           type: string
 components:
   schemas:
-    FiatBaseResponse:
+    ReceiveAccount:
       type: object
+      required:
+      - tfrAcctNo
+      - tfrName
+      - receiveChannel
+      - receiveSubject
       properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
+        tfrAcctNo:
           type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
+          maxLength: 64
+          description: Recipient account number without spaces.
+        tfrName:
+          type: string
+          maxLength: 64
+          description: Recipient account name.
+        receiveChannel:
+          type: string
+          maxLength: 64
+          description: Payment channel (e.g., INSTAPAY, GCASH)
+        receiveSubject:
+          type: string
+          maxLength: 64
+          description: Payment provider/bank name.
     CashInRefundRequest:
       type: object
       required:
@@ -185,30 +195,20 @@ components:
           description: 1 = original route, 2 = manual input
         receiveAccount:
           $ref: '#/components/schemas/ReceiveAccount'
-    ReceiveAccount:
+    FiatBaseResponse:
       type: object
-      required:
-      - tfrAcctNo
-      - tfrName
-      - receiveChannel
-      - receiveSubject
       properties:
-        tfrAcctNo:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
           type: string
-          maxLength: 64
-          description: Recipient account number without spaces.
-        tfrName:
-          type: string
-          maxLength: 64
-          description: Recipient account name.
-        receiveChannel:
-          type: string
-          maxLength: 64
-          description: Payment channel (e.g., INSTAPAY, GCASH)
-        receiveSubject:
-          type: string
-          maxLength: 64
-          description: Payment provider/bank name.
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

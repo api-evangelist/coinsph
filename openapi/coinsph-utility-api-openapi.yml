@@ -163,6 +163,37 @@ paths:
         description: Validity duration of the request in milliseconds after the timestamp.
 components:
   schemas:
+    TransferResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - success
+        account:
+          type: string
+        amount:
+          type: string
+        exchange:
+          type:
+          - string
+          - 'null'
+          deprecated: true
+        payment:
+          type: string
+          deprecated: true
+        message:
+          type: string
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        target_address:
+          type: string
+        client_transfer_id:
+          type: string
     AccountBalanceResponse:
       type: object
       properties:
@@ -199,37 +230,6 @@ components:
           $ref: '#/components/schemas/LimitPeriod'
         annually:
           $ref: '#/components/schemas/LimitPeriod'
-    TransferResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - success
-        account:
-          type: string
-        amount:
-          type: string
-        exchange:
-          type:
-          - string
-          - 'null'
-          deprecated: true
-        payment:
-          type: string
-          deprecated: true
-        message:
-          type: string
-        errorMessage:
-          type:
-          - string
-          - 'null'
-        target_address:
-          type: string
-        client_transfer_id:
-          type: string
     LimitPeriod:
       type: object
       properties:

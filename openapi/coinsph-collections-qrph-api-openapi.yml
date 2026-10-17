@@ -399,6 +399,20 @@ paths:
                       $ref: '#/components/schemas/QRPHStatusResponse'
 components:
   schemas:
+    FiatBaseResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
+          type: string
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
     QRPHStatusResponse:
       type: object
       properties:
@@ -448,6 +462,24 @@ components:
           type:
           - string
           - 'null'
+    StaticQRPHResponse:
+      type: object
+      properties:
+        qrCode:
+          type: string
+        requestId:
+          type: string
+        referenceId:
+          type: string
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - SUSPEND
+        qrCodeType:
+          type: string
+          enum:
+          - STATIC
     CancelQRPHResponse:
       type: object
       properties:
@@ -483,20 +515,6 @@ components:
         errorMsg:
           type:
           - string
-          - 'null'
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
           - 'null'
     DynamicQRPHResponse:
       type: object
@@ -549,24 +567,6 @@ components:
           - string
           - 'null'
           description: Unix timestamp when the transaction reached final status.
-    StaticQRPHResponse:
-      type: object
-      properties:
-        qrCode:
-          type: string
-        requestId:
-          type: string
-        referenceId:
-          type: string
-        status:
-          type: string
-          enum:
-          - ACTIVE
-          - SUSPEND
-        qrCodeType:
-          type: string
-          enum:
-          - STATIC
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -123,6 +123,56 @@ paths:
                       $ref: '#/components/schemas/CheckoutStatusResponse'
 components:
   schemas:
+    CreateCheckoutRequest:
+      type: object
+      required:
+      - requestId
+      - totalAmount
+      - amount
+      - redirectUrl
+      - productDetails
+      properties:
+        requestId:
+          type: string
+          minLength: 15
+          maxLength: 19
+        totalAmount:
+          type: string
+          description: Amount including fees.
+          example: '100.12'
+        amount:
+          type: string
+          description: Amount excluding fees.
+          example: '100.00'
+        feeAmount:
+          type: string
+          description: Fee amount.
+          example: '0.12'
+        currency:
+          type: string
+          example: PHP
+        subMerchantId:
+          type: string
+          maxLength: 64
+        subMerchantReqRefNo:
+          type: string
+          maxLength: 64
+        merchantName:
+          type: string
+          maxLength: 128
+        redirectUrl:
+          $ref: '#/components/schemas/CheckoutRedirectUrl'
+        productDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetail'
+        expireSeconds:
+          type: string
+          description: Seconds before order expires. Range 300-1800, default 1800.
+          example: '600'
+        remark:
+          type: string
+          maxLength: 256
     CreateCheckoutResponse:
       type: object
       properties:
@@ -151,43 +201,6 @@ components:
           type:
           - object
           - 'null'
-    ProductDetail:
-      type: object
-      required:
-      - name
-      - type
-      - amount
-      properties:
-        name:
-          type: string
-          example: iPhone 15 Pro
-        type:
-          type: string
-          enum:
-          - retail_goods
-          - food_and_beverage
-          - transportation
-          - utilities_and_bills
-          - digital_goods
-          - ecommerce_vouchers
-          - online_subscriptions
-          - mobile_load
-          - gaming_and_gambling
-          - cash_equivalents
-          - high_value_goods
-          - others
-        quantity:
-          type: string
-          example: '1'
-        code:
-          type: string
-          example: IPHONE-256GB-BLUE
-        desc:
-          type: string
-          example: iPhone 15 Pro 256GB Blue
-        amount:
-          type: string
-          example: '100.00'
     CheckoutRedirectUrl:
       type: object
       required:
@@ -245,56 +258,43 @@ components:
           type:
           - string
           - 'null'
-    CreateCheckoutRequest:
+    ProductDetail:
       type: object
       required:
-      - requestId
-      - totalAmount
+      - name
+      - type
       - amount
-      - redirectUrl
-      - productDetails
       properties:
-        requestId:
+        name:
           type: string
-          minLength: 15
-          maxLength: 19
-        totalAmount:
+          example: iPhone 15 Pro
+        type:
           type: string
-          description: Amount including fees.
-          example: '100.12'
+          enum:
+          - retail_goods
+          - food_and_beverage
+          - transportation
+          - utilities_and_bills
+          - digital_goods
+          - ecommerce_vouchers
+          - online_subscriptions
+          - mobile_load
+          - gaming_and_gambling
+          - cash_equivalents
+          - high_value_goods
+          - others
+        quantity:
+          type: string
+          example: '1'
+        code:
+          type: string
+          example: IPHONE-256GB-BLUE
+        desc:
+          type: string
+          example: iPhone 15 Pro 256GB Blue
         amount:
           type: string
-          description: Amount excluding fees.
           example: '100.00'
-        feeAmount:
-          type: string
-          description: Fee amount.
-          example: '0.12'
-        currency:
-          type: string
-          example: PHP
-        subMerchantId:
-          type: string
-          maxLength: 64
-        subMerchantReqRefNo:
-          type: string
-          maxLength: 64
-        merchantName:
-          type: string
-          maxLength: 128
-        redirectUrl:
-          $ref: '#/components/schemas/CheckoutRedirectUrl'
-        productDetails:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductDetail'
-        expireSeconds:
-          type: string
-          description: Seconds before order expires. Range 300-1800, default 1800.
-          example: '600'
-        remark:
-          type: string
-          maxLength: 256
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

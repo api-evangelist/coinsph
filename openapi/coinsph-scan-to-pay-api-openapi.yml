@@ -538,36 +538,20 @@ paths:
                     middleName: ''
 components:
   schemas:
-    CreateAccountResponse:
+    FiatBaseResponse:
       type: object
-      required:
-      - status
-      - requestId
-      - customerId
-      - redirectUrl
       properties:
         status:
-          type: string
-          enum:
-          - APPROVED
-          - FAILED
-          - REJECTED
-          - PENDING
-          - CANCELLED
-          description: 'Status, reference enumeration: StatusEnum.'
-        requestId:
-          type: string
-          description: The requestId passed in when the customer requests.
-        customerId:
-          type: string
-          description: customerId passed in when the customer requests.
-        coinsUserId:
           type: integer
-          format: int64
-          description: The external user ID of the user in Coins, which is only available after successful registration.
-        redirectUrl:
+          description: 0 = success, non-zero = error code
+          example: 0
+        error:
           type: string
-          description: Jump verification page.
+          example: OK
+        params:
+          type:
+          - object
+          - 'null'
     PaymentResultResponse:
       type: object
       required:
@@ -728,47 +712,6 @@ components:
         fee:
           type: string
           description: Fee amount.
-    PaymentPreviewResponse:
-      type: object
-      required:
-      - qrType
-      - channel
-      - channelSubject
-      - channelQRCodeMap
-      properties:
-        qrType:
-          type: string
-          description: QR code type.
-          example: ph.ppmi.p2m
-        channel:
-          type: string
-          description: Payment channel.
-        channelSubject:
-          type: string
-          description: Payment channel subject.
-        minLimit:
-          type: string
-          description: Minimum transaction amount.
-        maxLimit:
-          type: string
-          description: Maximum transaction amount.
-        channelQRCodeMap:
-          $ref: '#/components/schemas/ChannelQRCodeMap'
-          description: QR channel Info.
-    FiatBaseResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 0 = success, non-zero = error code
-          example: 0
-        error:
-          type: string
-          example: OK
-        params:
-          type:
-          - object
-          - 'null'
     GetCreateAccountResponse:
       type: object
       required:
@@ -812,6 +755,36 @@ components:
         middleName:
           type: string
           description: Middle name.
+    CreateAccountResponse:
+      type: object
+      required:
+      - status
+      - requestId
+      - customerId
+      - redirectUrl
+      properties:
+        status:
+          type: string
+          enum:
+          - APPROVED
+          - FAILED
+          - REJECTED
+          - PENDING
+          - CANCELLED
+          description: 'Status, reference enumeration: StatusEnum.'
+        requestId:
+          type: string
+          description: The requestId passed in when the customer requests.
+        customerId:
+          type: string
+          description: customerId passed in when the customer requests.
+        coinsUserId:
+          type: integer
+          format: int64
+          description: The external user ID of the user in Coins, which is only available after successful registration.
+        redirectUrl:
+          type: string
+          description: Jump verification page.
     PaymentExecutionResponse:
       type: object
       required:
@@ -844,6 +817,33 @@ components:
 
 
             Only orders in a final state (SUCCEEDED, FAILED, or CANCEL) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (PENDING) as their status may change.'
+    PaymentPreviewResponse:
+      type: object
+      required:
+      - qrType
+      - channel
+      - channelSubject
+      - channelQRCodeMap
+      properties:
+        qrType:
+          type: string
+          description: QR code type.
+          example: ph.ppmi.p2m
+        channel:
+          type: string
+          description: Payment channel.
+        channelSubject:
+          type: string
+          description: Payment channel subject.
+        minLimit:
+          type: string
+          description: Minimum transaction amount.
+        maxLimit:
+          type: string
+          description: Maximum transaction amount.
+        channelQRCodeMap:
+          $ref: '#/components/schemas/ChannelQRCodeMap'
+          description: QR channel Info.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
