@@ -398,6 +398,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/coinsph/overview
 - type: DeveloperPortal
   url: https://api.docs.coins.ph
 - type: Documentation
