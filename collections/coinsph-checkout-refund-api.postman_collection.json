@@ -1,255 +1,334 @@
 {
+  "info": {
+    "_postman_id": "0a9b3063-d5d0-494b-a00a-cfa5344ffd35",
+    "name": "Payment Checkout Refund API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:56:09.000Z",
+    "updatedAt": "2026-10-22T02:56:09.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0a9b3063-d5d0-494b-a00a-cfa5344ffd35"
+  },
   "item": [
     {
-      "id": "318e57a6-a769-453a-a1d0-eb6837f7119d",
-      "name": "Checkout Refund",
-      "description": {
-        "content": "Checkout refund operations",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "39e40e2c-cbaf-4db1-87db-483dad1e3d6e",
-          "name": "Checkout Refund",
-          "request": {
-            "name": "Checkout Refund",
-            "description": {
-              "content": "This Endpoint allows Merchants to initiate a refund for a Checkout transaction.\n\n**Webhook:** ✅ Supported (requires Coins' configuration)",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "checkout",
-                "refund"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"requestId\": \"<string>\",\n  \"checkoutId\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"method\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "fiat",
+          "item": [
             {
-              "id": "480957f9-518f-487c-bec7-4313783b25f9",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "checkout",
-                    "refund"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"REQ123456789\",\n  \"checkoutId\": \"CHK20240101000001\",\n  \"amount\": \"100.00\",\n  \"currency\": \"PHP\",\n  \"reason\": \"Customer requested refund\",\n  \"method\": \"1\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "v1",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "checkout",
+                  "item": [
+                    {
+                      "name": "refund",
+                      "item": [
+                        {
+                          "name": "status-check",
+                          "item": [
+                            {
+                              "name": "Refund Status Check",
+                              "id": "8b35893a-bc21-4f57-913b-8859e8fbdfa7",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/refund/status-check?refundId=<string>&requestId=<string>&recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "checkout",
+                                    "refund",
+                                    "status-check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Coins-generated refund ID. At least one of `refundId` or `requestId` must be provided.",
+                                      "key": "refundId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Merchant refund request ID (idempotency key). At least one of `refundId` or `requestId` must be provided.",
+                                      "key": "requestId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                },
+                                "description": "This Endpoint allows Merchants to query the status of a Checkout refund by either `refundId` or `requestId`. At least one of the two must be provided."
+                              },
+                              "response": [
+                                {
+                                  "id": "421b1999-8423-442b-a534-91e47bdc0c1b",
+                                  "name": "Successful response",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-COINS-APIKEY",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/refund/status-check?refundId=<string>&requestId=<string>&recvWindow=<long>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "openapi",
+                                        "fiat",
+                                        "v1",
+                                        "checkout",
+                                        "refund",
+                                        "status-check"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "Coins-generated refund ID. At least one of `refundId` or `requestId` must be provided.",
+                                          "key": "refundId",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Merchant refund request ID (idempotency key). At least one of `refundId` or `requestId` must be provided.",
+                                          "key": "requestId",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                          "key": "recvWindow",
+                                          "value": "<long>"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<integer>\",\n  \"data\": {\n    \"refundId\": \"<string>\",\n    \"checkoutId\": \"<string>\",\n    \"requestId\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"status\": \"<string>\",\n    \"refundReferenceId\": \"<string>\",\n    \"paymentReferenceId\": \"<string>\",\n    \"completedAt\": \"<string,null>\",\n    \"createdAt\": \"<string>\"\n  }\n}",
+                                  "createdAt": "2026-10-22T02:56:10.000Z",
+                                  "updatedAt": "2026-10-22T02:56:10.000Z",
+                                  "uid": "35240-421b1999-8423-442b-a534-91e47bdc0c1b"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T02:56:10.000Z",
+                              "updatedAt": "2026-10-22T02:56:10.000Z",
+                              "uid": "35240-8b35893a-bc21-4f57-913b-8859e8fbdfa7"
+                            }
+                          ],
+                          "id": "cf28a534-8c10-4da7-8028-8054f263cb9b",
+                          "createdAt": "2026-10-22T02:56:10.000Z",
+                          "updatedAt": "2026-10-22T02:56:10.000Z",
+                          "uid": "35240-cf28a534-8c10-4da7-8028-8054f263cb9b"
+                        },
+                        {
+                          "name": "Checkout Refund",
+                          "id": "4d260dcc-c32b-4c00-991e-4439a58dff97",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"requestId\": \"<string>\",\n  \"checkoutId\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"method\": \"1\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/refund?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "checkout",
+                                "refund"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "description": "This Endpoint allows Merchants to initiate a refund for a Checkout transaction.\n\n**Webhook:** \u2705 Supported (requires Coins' configuration)"
+                          },
+                          "response": [
+                            {
+                              "id": "554826c0-3066-4d19-9b7f-6a4411e31424",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"checkoutId\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"method\": \"1\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/refund?recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "checkout",
+                                    "refund"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"data\": {\n    \"refundId\": \"<string>\",\n    \"checkoutId\": \"<string>\",\n    \"requestId\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"status\": \"<string>\",\n    \"refundReferenceId\": \"<string>\",\n    \"paymentReferenceId\": \"<string>\",\n    \"completedAt\": \"<string,null>\",\n    \"createdAt\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:56:10.000Z",
+                              "updatedAt": "2026-10-22T02:56:10.000Z",
+                              "uid": "35240-554826c0-3066-4d19-9b7f-6a4411e31424"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:56:10.000Z",
+                          "updatedAt": "2026-10-22T02:56:10.000Z",
+                          "uid": "35240-4d260dcc-c32b-4c00-991e-4439a58dff97"
+                        }
+                      ],
+                      "id": "7e1596b6-e776-4ad9-9ebc-c27ca2fd45d4",
+                      "createdAt": "2026-10-22T02:56:10.000Z",
+                      "updatedAt": "2026-10-22T02:56:10.000Z",
+                      "uid": "35240-7e1596b6-e776-4ad9-9ebc-c27ca2fd45d4"
+                    }
+                  ],
+                  "id": "1e9cb814-f30a-44ce-a9a3-013f832ea3f0",
+                  "createdAt": "2026-10-22T02:56:10.000Z",
+                  "updatedAt": "2026-10-22T02:56:10.000Z",
+                  "uid": "35240-1e9cb814-f30a-44ce-a9a3-013f832ea3f0"
                 }
               ],
-              "body": "{\n  \"status\": 0,\n  \"data\": {\n    \"refundId\": \"RFD987654321\",\n    \"checkoutId\": \"CHK20240101000001\",\n    \"requestId\": \"REQ123456789\",\n    \"amount\": \"100.00\",\n    \"currency\": \"PHP\",\n    \"status\": \"PROCESSING\",\n    \"refundReferenceId\": \"RREF202401150001\",\n    \"paymentReferenceId\": \"PREF202401100001\",\n    \"completedAt\": null,\n    \"createdAt\": \"2024-01-15T10:30:00Z\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "ac401634-1f16-4f87-a820-36d2f2835b99",
+              "createdAt": "2026-10-22T02:56:10.000Z",
+              "updatedAt": "2026-10-22T02:56:10.000Z",
+              "uid": "35240-ac401634-1f16-4f87-a820-36d2f2835b99"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "a90366aa-3d85-409b-a100-30127c3ee08d",
-          "name": "Refund Status Check",
-          "request": {
-            "name": "Refund Status Check",
-            "description": {
-              "content": "This Endpoint allows Merchants to query the status of a Checkout refund by either `refundId` or `requestId`. At least one of the two must be provided.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "checkout",
-                "refund",
-                "status-check"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "refundId",
-                  "value": "<string>",
-                  "description": "Coins-generated refund ID. At least one of `refundId` or `requestId` must be provided."
-                },
-                {
-                  "disabled": false,
-                  "key": "requestId",
-                  "value": "<string>",
-                  "description": "Merchant refund request ID (idempotency key). At least one of `refundId` or `requestId` must be provided."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "a2d212eb-a66f-442c-ac35-73926c54a311",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "checkout",
-                    "refund",
-                    "status-check"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "refundId",
-                      "value": "RFD987654321"
-                    },
-                    {
-                      "key": "requestId",
-                      "value": "REQ123456789"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"data\": {\n    \"refundId\": \"RFD987654321\",\n    \"checkoutId\": \"CHK20240101000001\",\n    \"requestId\": \"REQ123456789\",\n    \"amount\": \"100.00\",\n    \"currency\": \"PHP\",\n    \"status\": \"SUCCESS\",\n    \"refundReferenceId\": \"RREF202401150001\",\n    \"paymentReferenceId\": \"PREF202401100001\",\n    \"completedAt\": \"2024-01-15T11:00:00Z\",\n    \"createdAt\": \"2024-01-15T10:30:00Z\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "29939e97-c260-4e0a-8009-55b09a164c8b",
+          "createdAt": "2026-10-22T02:56:10.000Z",
+          "updatedAt": "2026-10-22T02:56:10.000Z",
+          "uid": "35240-29939e97-c260-4e0a-8009-55b09a164c8b"
         }
       ],
-      "event": []
+      "id": "8b984c45-41cf-40e2-8bdb-4a558144e25b",
+      "createdAt": "2026-10-22T02:56:10.000Z",
+      "updatedAt": "2026-10-22T02:56:10.000Z",
+      "uid": "35240-8b984c45-41cf-40e2-8bdb-4a558144e25b"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "eea4f9f7-2d4c-411c-97e2-42afdec7ba44",
-    "name": "TRADING Account Checkout Refund API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

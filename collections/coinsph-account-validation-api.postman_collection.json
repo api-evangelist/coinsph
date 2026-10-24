@@ -1,917 +1,1020 @@
 {
+  "info": {
+    "_postman_id": "2e759987-dd59-47c8-aabe-32d615e70896",
+    "name": "Open Account Validation API",
+    "description": "Account Validation allows merchants to verify a recipient's account before initiating a fund transfer.\nSupported methods include internal Coins user lookup, historical transaction database lookup, and real-time PennyDrop verification.\n\nAll verifications are **asynchronous**. The create endpoint returns `PENDING` immediately.\nPoll the status-check endpoint (or use webhook) for the final result.\n\n**Webhook:** Supported (requires Coins configuration)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:55:55.000Z",
+    "updatedAt": "2026-10-22T02:55:55.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2e759987-dd59-47c8-aabe-32d615e70896"
+  },
   "item": [
     {
-      "id": "790d1eb5-c83a-456b-904e-c73bfff84336",
-      "name": "Account Validation",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "d02da13a-22e8-42cf-9b4b-443cae64f743",
-          "name": "Submit Account Validation Request",
-          "request": {
-            "name": "Submit Account Validation Request",
-            "description": {
-              "content": "Create an account validation request. Returns `PENDING` immediately.\nUse the `validationRequestId` from the response to poll the status-check endpoint.\n\n**Idempotency**: Submitting the same `requestId` twice returns the original result without creating a duplicate validation.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "account-validation",
-                "create"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                "key": "signature",
-                "value": "<string>"
-              },
-              {
-                "disabled": false,
-                "description": "(Required) Current Unix timestamp in milliseconds",
-                "key": "timestamp",
-                "value": "<string>"
-              },
-              {
-                "disabled": false,
-                "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                "key": "recvWindow",
-                "value": "<integer>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"<string>\",\n  \"transactionChannel\": \"<string>\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "fiat",
+          "item": [
             {
-              "id": "f3b7dd4a-5d8a-4048-b4bd-297b49a6ce14",
-              "name": "Validation request created successfully",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                    "key": "recvWindow",
-                    "value": "<integer>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"VAL-20240423-001\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"COINS\",\n  \"transactionSubject\": \"coins.ph\",\n  \"currency\": \"PHP\",\n  \"accountInfo\": {\n    \"phone\": 9171234567,\n    \"accountName\": \"Juan Dela Cruz\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "v1",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "account-validation",
+                  "item": [
+                    {
+                      "name": "create",
+                      "item": [
+                        {
+                          "name": "Submit Account Validation Request",
+                          "id": "bf89d7ff-8a03-4f47-b2f2-19f1983732e6",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                "key": "signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) Current Unix timestamp in milliseconds",
+                                "key": "timestamp",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                "key": "recvWindow",
+                                "value": "<integer>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "account-validation",
+                                "create"
+                              ]
+                            },
+                            "description": "Create an account validation request. Returns `PENDING` immediately.\nUse the `validationRequestId` from the response to poll the status-check endpoint.\n\n**Idempotency**: Submitting the same `requestId` twice returns the original result without creating a duplicate validation."
+                          },
+                          "response": [
+                            {
+                              "id": "9fd9ea9a-3f10-4cd1-bcc3-c7e80c6cfd5b",
+                              "name": "Validation request created successfully",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                    "key": "recvWindow",
+                                    "value": "<integer>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "create"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string,null>\",\n  \"data\": {\n    \"requestId\": \"<string>\",\n    \"validationRequestId\": \"<string>\",\n    \"status\": \"PENDING\",\n    \"createdAt\": \"<long>\",\n    \"accountInfo\": {\n      \"accountNumber\": \"<string>\",\n      \"accountName\": \"<string>\",\n      \"phone\": \"<string>\",\n      \"email\": \"<string>\"\n    }\n  }\n}",
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-9fd9ea9a-3f10-4cd1-bcc3-c7e80c6cfd5b"
+                            },
+                            {
+                              "id": "8822cc3c-6160-4d04-bc2c-c2049fefe589",
+                              "name": "Validation error on request body fields",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                    "key": "recvWindow",
+                                    "value": "<integer>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "create"
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-8822cc3c-6160-4d04-bc2c-c2049fefe589"
+                            },
+                            {
+                              "id": "dcb2a0b9-e420-48e5-a126-c6b3c32ecdbd",
+                              "name": "Invalid signature or API key",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                    "key": "recvWindow",
+                                    "value": "<integer>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "create"
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-dcb2a0b9-e420-48e5-a126-c6b3c32ecdbd"
+                            },
+                            {
+                              "id": "8fcbffa5-b41e-4ba6-9321-db4b5632ef76",
+                              "name": "Non-PH or non-fiat account. This API is restricted to Philippine fiat accounts only.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                    "key": "recvWindow",
+                                    "value": "<integer>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "create"
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-8fcbffa5-b41e-4ba6-9321-db4b5632ef76"
+                            },
+                            {
+                              "id": "9ecbf744-1b74-46c3-824e-ef2e41c2184f",
+                              "name": "Timestamp outside recvWindow. Sync system clock; ensure recvWindow \u2264 60000 ms.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                    "key": "recvWindow",
+                                    "value": "<integer>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "create"
+                                  ]
+                                }
+                              },
+                              "status": "Request Timeout",
+                              "code": 408,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-9ecbf744-1b74-46c3-824e-ef2e41c2184f"
+                            },
+                            {
+                              "id": "9e39bd94-67b2-4c2d-9485-db7ed21c2493",
+                              "name": "Rate limit exceeded",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                    "key": "recvWindow",
+                                    "value": "<integer>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "create"
+                                  ]
+                                }
+                              },
+                              "status": "Too Many Requests",
+                              "code": 429,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-9e39bd94-67b2-4c2d-9485-db7ed21c2493"
+                            },
+                            {
+                              "id": "783a7945-7cf2-44ec-ab00-b637e1c6e760",
+                              "name": "Internal server error",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
+                                    "key": "recvWindow",
+                                    "value": "<integer>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"INSTAPAY\",\n  \"transactionSubject\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"accountInfo\": {\n    \"accountNumber\": \"<string>\",\n    \"accountName\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  }\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/create",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "create"
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-783a7945-7cf2-44ec-ab00-b637e1c6e760"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:55:55.000Z",
+                          "updatedAt": "2026-10-22T02:55:55.000Z",
+                          "uid": "35240-bf89d7ff-8a03-4f47-b2f2-19f1983732e6"
+                        }
+                      ],
+                      "id": "00ac6177-cd7b-44ff-af5d-b66cfabdc40a",
+                      "createdAt": "2026-10-22T02:55:55.000Z",
+                      "updatedAt": "2026-10-22T02:55:55.000Z",
+                      "uid": "35240-00ac6177-cd7b-44ff-af5d-b66cfabdc40a"
+                    },
+                    {
+                      "name": "status-check",
+                      "item": [
+                        {
+                          "name": "Query Account Validation Status",
+                          "id": "aa72de72-e2b4-4ecb-8302-027c4a5de0e5",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) Your API key",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) HMAC-SHA256 signature of the query string",
+                                "key": "signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) Current Unix timestamp in milliseconds",
+                                "key": "timestamp",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/status-check?requestId=<string>&validationRequestId=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "account-validation",
+                                "status-check"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Merchant idempotency key (one of requestId or validationRequestId required)",
+                                  "key": "requestId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided.",
+                                  "key": "validationRequestId",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Query the result of an account validation request.\nAt least one of `requestId` or `validationRequestId` must be provided.\n`validationRequestId` takes precedence if both are provided.\n\n**Polling recommendation**: Send the first poll 3 seconds after submission, then use exponential backoff with a max interval of 30 seconds."
+                          },
+                          "response": [
+                            {
+                              "id": "3f1693ce-9fe4-4832-9937-f9816decb442",
+                              "name": "Validation status retrieved successfully",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) Your API key",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the query string",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/status-check?requestId=<string>&validationRequestId=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "status-check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Merchant idempotency key (one of requestId or validationRequestId required)",
+                                      "key": "requestId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided.",
+                                      "key": "validationRequestId",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string,null>\",\n  \"data\": {\n    \"requestId\": \"<string>\",\n    \"validationRequestId\": \"<string>\",\n    \"status\": \"PENDING\",\n    \"accountStatus\": \"VALID\",\n    \"verificationMethod\": \"PENNY_DROP\",\n    \"actualMethod\": \"DATABASE\",\n    \"accountInfo\": {\n      \"accountNumber\": \"<string>\",\n      \"accountName\": \"<string>\",\n      \"phone\": \"<string>\",\n      \"email\": \"<string>\"\n    },\n    \"nameMatchStatus\": \"MATCH\",\n    \"nameMatchScore\": \"<integer>\",\n    \"activityPeriod\": \"7_DAYS\",\n    \"remainingDepositLimit\": {\n      \"daily\": {\n        \"currency\": \"<string>\",\n        \"amount\": \"<string>\"\n      },\n      \"monthly\": {\n        \"currency\": \"<string>\",\n        \"amount\": \"<string>\"\n      },\n      \"annual\": {\n        \"currency\": \"<string>\",\n        \"amount\": \"<string>\"\n      }\n    },\n    \"fee\": {\n      \"currency\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"pennyDropAmount\": {\n      \"currency\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"createdAt\": \"<long>\",\n    \"updatedAt\": \"<long>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-3f1693ce-9fe4-4832-9937-f9816decb442"
+                            },
+                            {
+                              "id": "dd4022d1-cd95-40ca-8fdb-5a2e78062880",
+                              "name": "Missing parameter \u2014 provide at least one of requestId or validationRequestId",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) Your API key",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the query string",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/status-check?requestId=<string>&validationRequestId=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "status-check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Merchant idempotency key (one of requestId or validationRequestId required)",
+                                      "key": "requestId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided.",
+                                      "key": "validationRequestId",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-dd4022d1-cd95-40ca-8fdb-5a2e78062880"
+                            },
+                            {
+                              "id": "00e61e4a-c773-4d1f-84c4-9a594dd07509",
+                              "name": "Invalid signature or API key",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) Your API key",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the query string",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/status-check?requestId=<string>&validationRequestId=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "status-check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Merchant idempotency key (one of requestId or validationRequestId required)",
+                                      "key": "requestId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided.",
+                                      "key": "validationRequestId",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-00e61e4a-c773-4d1f-84c4-9a594dd07509"
+                            },
+                            {
+                              "id": "13ccf57e-37e5-44ef-a275-1d391750aaa5",
+                              "name": "Rate limit exceeded",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) Your API key",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the query string",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/status-check?requestId=<string>&validationRequestId=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "status-check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Merchant idempotency key (one of requestId or validationRequestId required)",
+                                      "key": "requestId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided.",
+                                      "key": "validationRequestId",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Too Many Requests",
+                              "code": 429,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-13ccf57e-37e5-44ef-a275-1d391750aaa5"
+                            },
+                            {
+                              "id": "52180643-5d7a-4130-9dcd-6f373b8ec28f",
+                              "name": "Internal server error",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) Your API key",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) HMAC-SHA256 signature of the query string",
+                                    "key": "signature",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "(Required) Current Unix timestamp in milliseconds",
+                                    "key": "timestamp",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/account-validation/status-check?requestId=<string>&validationRequestId=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "account-validation",
+                                    "status-check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Merchant idempotency key (one of requestId or validationRequestId required)",
+                                      "key": "requestId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided.",
+                                      "key": "validationRequestId",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:55:55.000Z",
+                              "updatedAt": "2026-10-22T02:55:55.000Z",
+                              "uid": "35240-52180643-5d7a-4130-9dcd-6f373b8ec28f"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:55:55.000Z",
+                          "updatedAt": "2026-10-22T02:55:55.000Z",
+                          "uid": "35240-aa72de72-e2b4-4ecb-8302-027c4a5de0e5"
+                        }
+                      ],
+                      "id": "272bd368-8d73-4f5c-98fd-f56a9f9acf5d",
+                      "createdAt": "2026-10-22T02:55:55.000Z",
+                      "updatedAt": "2026-10-22T02:55:55.000Z",
+                      "uid": "35240-272bd368-8d73-4f5c-98fd-f56a9f9acf5d"
+                    }
+                  ],
+                  "id": "effd24b6-5799-4da1-83b7-f88948df31d2",
+                  "createdAt": "2026-10-22T02:55:55.000Z",
+                  "updatedAt": "2026-10-22T02:55:55.000Z",
+                  "uid": "35240-effd24b6-5799-4da1-83b7-f88948df31d2"
                 }
               ],
-              "body": "{\n  \"status\": 0,\n  \"error\": null,\n  \"data\": {\n    \"requestId\": \"VAL-20240423-001\",\n    \"validationRequestId\": \"AV20240423000001\",\n    \"status\": \"PENDING\",\n    \"createdAt\": 1713859200000,\n    \"accountInfo\": {\n      \"accountNumber\": \"1234567890\",\n      \"accountName\": \"Juan Dela Cruz\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "f2403f9e-ed71-452f-a052-a116c35a379a",
-              "name": "Validation error on request body fields",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                    "key": "recvWindow",
-                    "value": "<integer>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"VAL-20240423-001\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"COINS\",\n  \"transactionSubject\": \"coins.ph\",\n  \"currency\": \"PHP\",\n  \"accountInfo\": {\n    \"phone\": 9171234567,\n    \"accountName\": \"Juan Dela Cruz\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "a847295e-f855-4d2f-9890-040dd4cd7f38",
-              "name": "Invalid signature or API key",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                    "key": "recvWindow",
-                    "value": "<integer>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"VAL-20240423-001\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"COINS\",\n  \"transactionSubject\": \"coins.ph\",\n  \"currency\": \"PHP\",\n  \"accountInfo\": {\n    \"phone\": 9171234567,\n    \"accountName\": \"Juan Dela Cruz\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "5208eb98-6562-4871-aadd-5c8f418e3178",
-              "name": "Non-PH or non-fiat account. This API is restricted to Philippine fiat accounts only.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                    "key": "recvWindow",
-                    "value": "<integer>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"VAL-20240423-001\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"COINS\",\n  \"transactionSubject\": \"coins.ph\",\n  \"currency\": \"PHP\",\n  \"accountInfo\": {\n    \"phone\": 9171234567,\n    \"accountName\": \"Juan Dela Cruz\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "a36b5422-4826-416f-a849-38309b3db31f",
-              "name": "Timestamp outside recvWindow. Sync system clock; ensure recvWindow ≤ 60000 ms.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                    "key": "recvWindow",
-                    "value": "<integer>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"VAL-20240423-001\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"COINS\",\n  \"transactionSubject\": \"coins.ph\",\n  \"currency\": \"PHP\",\n  \"accountInfo\": {\n    \"phone\": 9171234567,\n    \"accountName\": \"Juan Dela Cruz\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Request Timeout",
-              "code": 408,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "2e4009b3-b218-472b-ab61-f3563b2f4f8c",
-              "name": "Rate limit exceeded",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                    "key": "recvWindow",
-                    "value": "<integer>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"VAL-20240423-001\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"COINS\",\n  \"transactionSubject\": \"coins.ph\",\n  \"currency\": \"PHP\",\n  \"accountInfo\": {\n    \"phone\": 9171234567,\n    \"accountName\": \"Juan Dela Cruz\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Too Many Requests",
-              "code": 429,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "0fa6ecff-0635-4ba2-b0dd-e17bb380a9a2",
-              "name": "Internal server error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the raw JSON request body",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Time window in milliseconds for request validity (max 60000)",
-                    "key": "recvWindow",
-                    "value": "<integer>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"VAL-20240423-001\",\n  \"verificationMethod\": \"INTERNAL\",\n  \"transactionChannel\": \"COINS\",\n  \"transactionSubject\": \"coins.ph\",\n  \"currency\": \"PHP\",\n  \"accountInfo\": {\n    \"phone\": 9171234567,\n    \"accountName\": \"Juan Dela Cruz\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
+              "id": "07bc0846-d0ed-4ada-8566-d444d1c6dc96",
+              "createdAt": "2026-10-22T02:55:55.000Z",
+              "updatedAt": "2026-10-22T02:55:55.000Z",
+              "uid": "35240-07bc0846-d0ed-4ada-8566-d444d1c6dc96"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "5534a180-4fee-4ca9-8a8a-3c8723112124",
-          "name": "Query Account Validation Status",
-          "request": {
-            "name": "Query Account Validation Status",
-            "description": {
-              "content": "Query the result of an account validation request.\nAt least one of `requestId` or `validationRequestId` must be provided.\n`validationRequestId` takes precedence if both are provided.\n\n**Polling recommendation**: Send the first poll 3 seconds after submission, then use exponential backoff with a max interval of 30 seconds.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "account-validation",
-                "status-check"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "requestId",
-                  "value": "<string>",
-                  "description": "Merchant idempotency key (one of requestId or validationRequestId required)"
-                },
-                {
-                  "disabled": false,
-                  "key": "validationRequestId",
-                  "value": "<string>",
-                  "description": "Coins-generated validation request ID. Takes precedence over requestId if both are provided."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) Your API key",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "disabled": false,
-                "description": "(Required) HMAC-SHA256 signature of the query string",
-                "key": "signature",
-                "value": "<string>"
-              },
-              {
-                "disabled": false,
-                "description": "(Required) Current Unix timestamp in milliseconds",
-                "key": "timestamp",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "503f901e-c99e-488b-a3f1-9d70fd9c816a",
-              "name": "Validation status retrieved successfully",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "status-check"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "requestId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "validationRequestId",
-                      "value": "AV20240423000001"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) Your API key",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the query string",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": null,\n  \"data\": {\n    \"requestId\": \"VAL-20240423-001\",\n    \"validationRequestId\": \"AV20240423000001\",\n    \"status\": \"SUCCESS\",\n    \"accountStatus\": \"VALID\",\n    \"verificationMethod\": \"DATABASE\",\n    \"nameMatchStatus\": \"MATCH\",\n    \"nameMatchScore\": 95,\n    \"activityPeriod\": \"1_MONTH\",\n    \"createdAt\": 1713859200000,\n    \"updatedAt\": 1713859205000\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "589a2b24-21e1-4942-85e2-b46f1cc76924",
-              "name": "Missing parameter — provide at least one of requestId or validationRequestId",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "status-check"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "requestId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "validationRequestId",
-                      "value": "AV20240423000001"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) Your API key",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the query string",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "19ee26f5-534e-4757-92c3-35fe4cb2b117",
-              "name": "Invalid signature or API key",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "status-check"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "requestId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "validationRequestId",
-                      "value": "AV20240423000001"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) Your API key",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the query string",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "3140283f-4e7a-4969-9fb4-64b3013fc53b",
-              "name": "Rate limit exceeded",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "status-check"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "requestId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "validationRequestId",
-                      "value": "AV20240423000001"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) Your API key",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the query string",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Too Many Requests",
-              "code": 429,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "06e278dd-cea6-41ce-959e-0fdb240cc570",
-              "name": "Internal server error",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "account-validation",
-                    "status-check"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "requestId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "validationRequestId",
-                      "value": "AV20240423000001"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) Your API key",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) HMAC-SHA256 signature of the query string",
-                    "key": "signature",
-                    "value": "<string>"
-                  },
-                  {
-                    "disabled": false,
-                    "description": "(Required) Current Unix timestamp in milliseconds",
-                    "key": "timestamp",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "3de700ef-6caf-4755-8a4c-91c812d84aa1",
+          "createdAt": "2026-10-22T02:55:55.000Z",
+          "updatedAt": "2026-10-22T02:55:55.000Z",
+          "uid": "35240-3de700ef-6caf-4755-8a4c-91c812d84aa1"
         }
       ],
-      "event": []
+      "id": "ea1cb950-9009-478d-a4f0-17238b4a3987",
+      "createdAt": "2026-10-22T02:55:55.000Z",
+      "updatedAt": "2026-10-22T02:55:55.000Z",
+      "uid": "35240-ea1cb950-9009-478d-a4f0-17238b4a3987"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "62e540ba-82aa-418c-9e72-c1df1e710f4f",
-    "name": "TRADING Account Account Validation API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

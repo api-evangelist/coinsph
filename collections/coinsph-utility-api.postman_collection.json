@@ -1,363 +1,457 @@
 {
+  "info": {
+    "_postman_id": "ec5cc5f0-ef0b-450d-bbf0-257e25a542a9",
+    "name": "Payment Utility API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:58:23.000Z",
+    "updatedAt": "2026-10-22T02:58:23.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ec5cc5f0-ef0b-450d-bbf0-257e25a542a9"
+  },
   "item": [
     {
-      "id": "a9b7293f-ebee-46fc-b26d-a49250d5f12f",
-      "name": "Utility",
-      "description": {
-        "content": "Account balance, transfers, and utility endpoints",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "b7e1515e-fa56-4861-9cd8-14ed59f3fdf4",
-          "name": "Account Balance",
-          "request": {
-            "name": "Account Balance",
-            "description": {
-              "content": "Obtain the current balance of the account.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "account"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds. Default 5000, max 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp indicating when the request was made."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "v1",
+          "item": [
             {
-              "id": "d98c510d-3adf-413d-8b22-0cdc7f779234",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "account"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
+              "name": "account",
+              "item": [
+                {
+                  "name": "Account Balance",
+                  "id": "fd1f436a-ad01-42e4-9b91-9f9f29c1962c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/openapi/v1/account?recvWindow=<long>&timestamp=<long>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "openapi",
+                        "v1",
+                        "account"
+                      ],
+                      "query": [
+                        {
+                          "description": "Validity duration of the request in milliseconds. Default 5000, max 60000.",
+                          "key": "recvWindow",
+                          "value": "<long>"
+                        },
+                        {
+                          "description": "(Required) Unix timestamp indicating when the request was made.",
+                          "key": "timestamp",
+                          "value": "<long>"
+                        }
+                      ]
                     },
+                    "description": "Obtain the current balance of the account."
+                  },
+                  "response": [
                     {
-                      "key": "timestamp",
-                      "value": "<long>"
+                      "id": "fda2ebbc-a156-4fc4-aa69-51471ee553f4",
+                      "name": "Successful response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-COINS-APIKEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/account?recvWindow=<long>&timestamp=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "account"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds. Default 5000, max 60000.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) Unix timestamp indicating when the request was made.",
+                              "key": "timestamp",
+                              "value": "<long>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"canTrade\": \"<boolean>\",\n  \"canDeposit\": \"<boolean>\",\n  \"canWithdraw\": \"<boolean>\",\n  \"accountType\": \"<string>\",\n  \"updateTime\": \"<long>\",\n  \"balances\": [\n    {\n      \"asset\": \"<string>\",\n      \"free\": \"<string>\",\n      \"locked\": \"<string>\"\n    },\n    {\n      \"asset\": \"<string>\",\n      \"free\": \"<string>\",\n      \"locked\": \"<string>\"\n    }\n  ],\n  \"token\": \"<string>\",\n  \"daily\": {\n    \"cashInLimit\": \"<string>\",\n    \"cashInRemaining\": \"<string>\",\n    \"cashOutLimit\": \"<string>\",\n    \"cashOutRemaining\": \"<string>\",\n    \"totalWithdrawLimit\": \"<string>\",\n    \"totalWithdrawRemaining\": \"<string>\"\n  },\n  \"monthly\": {\n    \"cashInLimit\": \"<string>\",\n    \"cashInRemaining\": \"<string>\",\n    \"cashOutLimit\": \"<string>\",\n    \"cashOutRemaining\": \"<string>\",\n    \"totalWithdrawLimit\": \"<string>\",\n    \"totalWithdrawRemaining\": \"<string>\"\n  },\n  \"annually\": {\n    \"cashInLimit\": \"<string>\",\n    \"cashInRemaining\": \"<string>\",\n    \"cashOutLimit\": \"<string>\",\n    \"cashOutRemaining\": \"<string>\",\n    \"totalWithdrawLimit\": \"<string>\",\n    \"totalWithdrawRemaining\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:58:23.000Z",
+                      "updatedAt": "2026-10-22T02:58:23.000Z",
+                      "uid": "35240-fda2ebbc-a156-4fc4-aa69-51471ee553f4"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "createdAt": "2026-10-22T02:58:23.000Z",
+                  "updatedAt": "2026-10-22T02:58:23.000Z",
+                  "uid": "35240-fd1f436a-ad01-42e4-9b91-9f9f29c1962c"
                 }
               ],
-              "body": "{\n  \"canTrade\": false,\n  \"canDeposit\": false,\n  \"canWithdraw\": true,\n  \"accountType\": \"SPOT\",\n  \"updateTime\": 3476,\n  \"balances\": [\n    {\n      \"asset\": \"string\",\n      \"free\": \"string\",\n      \"locked\": \"string\"\n    },\n    {\n      \"asset\": \"string\",\n      \"free\": \"string\",\n      \"locked\": \"string\"\n    }\n  ],\n  \"token\": \"PHP\",\n  \"daily\": {\n    \"cashInLimit\": \"string\",\n    \"cashInRemaining\": \"string\",\n    \"cashOutLimit\": \"string\",\n    \"cashOutRemaining\": \"string\",\n    \"totalWithdrawLimit\": \"string\",\n    \"totalWithdrawRemaining\": \"string\"\n  },\n  \"monthly\": {\n    \"cashInLimit\": \"string\",\n    \"cashInRemaining\": \"string\",\n    \"cashOutLimit\": \"string\",\n    \"cashOutRemaining\": \"string\",\n    \"totalWithdrawLimit\": \"string\",\n    \"totalWithdrawRemaining\": \"string\"\n  },\n  \"annually\": {\n    \"cashInLimit\": \"string\",\n    \"cashInRemaining\": \"string\",\n    \"cashOutLimit\": \"string\",\n    \"cashOutRemaining\": \"string\",\n    \"totalWithdrawLimit\": \"string\",\n    \"totalWithdrawRemaining\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "ba6670dd-e232-47fc-a3eb-5bfa3e9b34d1",
+              "createdAt": "2026-10-22T02:58:23.000Z",
+              "updatedAt": "2026-10-22T02:58:23.000Z",
+              "uid": "35240-ba6670dd-e232-47fc-a3eb-5bfa3e9b34d1"
+            },
+            {
+              "name": "user",
+              "item": [
+                {
+                  "name": "ip",
+                  "item": [
+                    {
+                      "name": "Get User IP",
+                      "id": "83f992bb-c98f-4c2f-bb13-8b4a117116f5",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/user/ip?recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "user",
+                            "ip"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns the current IP address."
+                      },
+                      "response": [
+                        {
+                          "id": "8c2801db-bc5c-4c0e-b525-d772f58d5144",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/user/ip?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "user",
+                                "ip"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"ip\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:58:23.000Z",
+                          "updatedAt": "2026-10-22T02:58:23.000Z",
+                          "uid": "35240-8c2801db-bc5c-4c0e-b525-d772f58d5144"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:23.000Z",
+                      "updatedAt": "2026-10-22T02:58:23.000Z",
+                      "uid": "35240-83f992bb-c98f-4c2f-bb13-8b4a117116f5"
+                    }
+                  ],
+                  "id": "3a0b1c75-fd7b-4804-ba06-76a269103ab9",
+                  "createdAt": "2026-10-22T02:58:23.000Z",
+                  "updatedAt": "2026-10-22T02:58:23.000Z",
+                  "uid": "35240-3a0b1c75-fd7b-4804-ba06-76a269103ab9"
+                }
+              ],
+              "id": "37056602-ad31-4b92-a79d-f5744f2ee776",
+              "createdAt": "2026-10-22T02:58:23.000Z",
+              "updatedAt": "2026-10-22T02:58:23.000Z",
+              "uid": "35240-37056602-ad31-4b92-a79d-f5744f2ee776"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "38015612-c570-435c-9d13-bb6da3383255",
+          "createdAt": "2026-10-22T02:58:23.000Z",
+          "updatedAt": "2026-10-22T02:58:23.000Z",
+          "uid": "35240-38015612-c570-435c-9d13-bb6da3383255"
         },
         {
-          "id": "b467abb1-44aa-4a46-a53e-564543e17a67",
-          "name": "P2P Transfers",
-          "request": {
-            "name": "P2P Transfers",
-            "description": {
-              "content": "Conduct transfer of funds between two Coins.ph accounts.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "transfer",
-                "v3",
-                "transfers"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "client_transfer_id",
-                  "value": "<string>",
-                  "description": "Assigned by the partner."
-                },
-                {
-                  "disabled": false,
-                  "key": "account",
-                  "value": "<string>",
-                  "description": "(Required) The currency to be transferred."
-                },
-                {
-                  "disabled": false,
-                  "key": "target_address",
-                  "value": "<string>",
-                  "description": "(Required) The registered phone number or email of the recipient."
-                },
-                {
-                  "disabled": false,
-                  "key": "amount",
-                  "value": "<decimal>",
-                  "description": "(Required) The amount to be transferred."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>"
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "key": "message",
-                  "value": "<string>",
-                  "description": "Message to be sent to the recipient account."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null
-          },
-          "response": [
+          "name": "transfer",
+          "item": [
             {
-              "id": "7aadf00c-154d-4fe0-a8c9-5fd39cd0181e",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "transfer",
-                    "v3",
-                    "transfers"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+              "name": "v3",
+              "item": [
+                {
+                  "name": "transfers",
+                  "item": [
                     {
-                      "key": "client_transfer_id",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "account",
-                      "value": "PHP"
-                    },
-                    {
-                      "key": "target_address",
-                      "value": "+63 9686490252"
-                    },
-                    {
-                      "key": "amount",
-                      "value": "200.99"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "message",
-                      "value": "<string>"
+                      "name": "P2P Transfers",
+                      "id": "e1488caa-7ae2-4b1f-92dc-41e2aeb31e5b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/transfer/v3/transfers?client_transfer_id=<string>&account=<string>&target_address=<string>&amount=<number>&recvWindow=<long>&timestamp=<long>&message=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "transfer",
+                            "v3",
+                            "transfers"
+                          ],
+                          "query": [
+                            {
+                              "description": "Assigned by the partner.",
+                              "key": "client_transfer_id",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The currency to be transferred.",
+                              "key": "account",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The registered phone number or email of the recipient.",
+                              "key": "target_address",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The amount to be transferred.",
+                              "key": "amount",
+                              "value": "<number>"
+                            },
+                            {
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) ",
+                              "key": "timestamp",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "Message to be sent to the recipient account.",
+                              "key": "message",
+                              "value": "<string>"
+                            }
+                          ]
+                        },
+                        "description": "Conduct transfer of funds between two Coins.ph accounts."
+                      },
+                      "response": [
+                        {
+                          "id": "f4dc2efb-e5c9-4657-b158-ca5072e06901",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/transfer/v3/transfers?client_transfer_id=<string>&account=<string>&target_address=<string>&amount=<number>&recvWindow=<long>&timestamp=<long>&message=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "transfer",
+                                "v3",
+                                "transfers"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Assigned by the partner.",
+                                  "key": "client_transfer_id",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) The currency to be transferred.",
+                                  "key": "account",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) The registered phone number or email of the recipient.",
+                                  "key": "target_address",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) The amount to be transferred.",
+                                  "key": "amount",
+                                  "value": "<number>"
+                                },
+                                {
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) ",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "Message to be sent to the recipient account.",
+                                  "key": "message",
+                                  "value": "<string>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transfer\": {\n    \"id\": \"<string>\",\n    \"status\": \"success\",\n    \"account\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"exchange\": \"<string,null>\",\n    \"payment\": \"<string>\",\n    \"message\": \"<string>\",\n    \"errorMessage\": \"<string,null>\",\n    \"target_address\": \"<string>\",\n    \"client_transfer_id\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:58:23.000Z",
+                          "updatedAt": "2026-10-22T02:58:23.000Z",
+                          "uid": "35240-f4dc2efb-e5c9-4657-b158-ca5072e06901"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:23.000Z",
+                      "updatedAt": "2026-10-22T02:58:23.000Z",
+                      "uid": "35240-e1488caa-7ae2-4b1f-92dc-41e2aeb31e5b"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "ec57b44e-469c-45c8-a9f7-b7dca45d6726",
+                  "createdAt": "2026-10-22T02:58:23.000Z",
+                  "updatedAt": "2026-10-22T02:58:23.000Z",
+                  "uid": "35240-ec57b44e-469c-45c8-a9f7-b7dca45d6726"
                 }
               ],
-              "body": "{\n  \"transfer\": {\n    \"id\": \"string\",\n    \"status\": \"success\",\n    \"account\": \"string\",\n    \"amount\": \"string\",\n    \"exchange\": \"string\",\n    \"payment\": \"string\",\n    \"message\": \"string\",\n    \"errorMessage\": \"string\",\n    \"target_address\": \"string\",\n    \"client_transfer_id\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "b0215894-95a2-4757-ac5f-44766804c6a9",
+              "createdAt": "2026-10-22T02:58:23.000Z",
+              "updatedAt": "2026-10-22T02:58:23.000Z",
+              "uid": "35240-b0215894-95a2-4757-ac5f-44766804c6a9"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "0fc26037-8b80-401b-b8e4-1122037d1a55",
-          "name": "Get User IP",
-          "request": {
-            "name": "Get User IP",
-            "description": {
-              "content": "Returns the current IP address.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "user",
-                "ip"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "ffb5f89e-3349-4b1e-a36e-baa32e7987c1",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "user",
-                    "ip"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"ip\": \"35.75.185.122\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "4a7bb860-defc-41a8-b30e-1ecc3fc0cc24",
+          "createdAt": "2026-10-22T02:58:23.000Z",
+          "updatedAt": "2026-10-22T02:58:23.000Z",
+          "uid": "35240-4a7bb860-defc-41a8-b30e-1ecc3fc0cc24"
         }
       ],
-      "event": []
+      "id": "3196302d-5d63-44f8-9d3c-181002ab928c",
+      "createdAt": "2026-10-22T02:58:23.000Z",
+      "updatedAt": "2026-10-22T02:58:23.000Z",
+      "uid": "35240-3196302d-5d63-44f8-9d3c-181002ab928c"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "44789b14-5b1a-40c9-9c5d-9a9cf787dd24",
-    "name": "TRADING Account Utility API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

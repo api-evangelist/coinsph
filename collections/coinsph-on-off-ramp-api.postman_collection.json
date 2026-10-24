@@ -1,577 +1,726 @@
 {
+  "info": {
+    "_postman_id": "a5c67793-2df5-467d-a326-69a9e94d26e8",
+    "name": "ON/OFF Ramp API",
+    "description": "Coins.ph Partner Integration API - ON/OFF Ramp Service\n\nFiat-to-crypto and crypto-to-fiat ramp operations.\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://9001.pl-qa.coinsxyz.me`\n- **Production**: `https://pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:57:04.000Z",
+    "updatedAt": "2026-10-22T02:57:05.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a5c67793-2df5-467d-a326-69a9e94d26e8"
+  },
   "item": [
     {
-      "id": "b65596d2-e55d-4e83-8788-9c17d5c54a4a",
-      "name": "ON/OFF Ramp",
-      "description": {
-        "content": "Fiat-to-crypto and crypto-to-fiat ramp operations",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "1f2d547f-516f-4b9f-a53f-c128a0d93284",
-          "name": "Ramp Get Payment Configurations",
-          "request": {
-            "name": "Ramp Get Payment Configurations",
-            "description": {
-              "content": "Returns a list of supported token pairs and network information for a given ramp type and country.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "ramp",
-                "v1",
-                "paymentConfigurations"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"rampType\": \"<string>\",\n  \"country\": \"<string>\",\n  \"toToken\": \"<string>\",\n  \"fromToken\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "ramp",
+          "item": [
             {
-              "id": "933287b8-7932-4bf0-af2a-d559426869cf",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "ramp",
-                    "v1",
-                    "paymentConfigurations"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"rampType\": \"<string>\",\n  \"country\": \"PH\",\n  \"toToken\": \"USDT\",\n  \"fromToken\": \"USDT\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "v1",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "paymentConfigurations",
+                  "item": [
+                    {
+                      "name": "Ramp Get Payment Configurations",
+                      "id": "ac4dbb7f-3827-4e2a-88bf-15836fc3c694",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"rampType\": \"ON_RAMP\",\n  \"country\": \"<string>\",\n  \"toToken\": \"<string>\",\n  \"fromToken\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/ramp/v1/paymentConfigurations?recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "ramp",
+                            "v1",
+                            "paymentConfigurations"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns a list of supported token pairs and network information for a given ramp type and country."
+                      },
+                      "response": [
+                        {
+                          "id": "697b55b7-ec68-47e2-8096-ee2c163ee356",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"rampType\": \"ON_RAMP\",\n  \"country\": \"<string>\",\n  \"toToken\": \"<string>\",\n  \"fromToken\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/ramp/v1/paymentConfigurations?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "ramp",
+                                "v1",
+                                "paymentConfigurations"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"supportedNetworksByToken\": {\n      \"deserunta4\": {\n        \"networks\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"laboref_9\": {\n        \"networks\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"exercitation_5\": {\n        \"networks\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"onRampFormTokenList\": \"<array,null>\",\n    \"offRampToTokenList\": \"<array,null>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:57:05.000Z",
+                          "updatedAt": "2026-10-22T02:57:05.000Z",
+                          "uid": "35240-697b55b7-ec68-47e2-8096-ee2c163ee356"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:57:05.000Z",
+                      "updatedAt": "2026-10-22T02:57:05.000Z",
+                      "uid": "35240-ac4dbb7f-3827-4e2a-88bf-15836fc3c694"
+                    }
+                  ],
+                  "id": "960bff7e-b5e1-4d01-945c-873aee5c9677",
+                  "createdAt": "2026-10-22T02:57:05.000Z",
+                  "updatedAt": "2026-10-22T02:57:05.000Z",
+                  "uid": "35240-960bff7e-b5e1-4d01-945c-873aee5c9677"
+                },
+                {
+                  "name": "trialPrice",
+                  "item": [
+                    {
+                      "name": "Ramp Trial Price",
+                      "id": "16ff252e-a6ae-4472-a82c-6f8621331fc9",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"rampType\": \"ON_RAMP\",\n  \"country\": \"<string>\",\n  \"sourceCurrency\": \"<string>\",\n  \"targetCurrency\": \"<string>\",\n  \"network\": \"<string>\",\n  \"address\": \"<string>\",\n  \"sourceAmount\": \"<string>\",\n  \"targetAmount\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/ramp/v1/trialPrice?recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "ramp",
+                            "v1",
+                            "trialPrice"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns a price estimation for a ramp transaction. This is a trial quote and does not create a persistent quote record."
+                      },
+                      "response": [
+                        {
+                          "id": "2d3e9141-db3d-4fd5-b2b6-1f7726a126b1",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"rampType\": \"ON_RAMP\",\n  \"country\": \"<string>\",\n  \"sourceCurrency\": \"<string>\",\n  \"targetCurrency\": \"<string>\",\n  \"network\": \"<string>\",\n  \"address\": \"<string>\",\n  \"sourceAmount\": \"<string>\",\n  \"targetAmount\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/ramp/v1/trialPrice?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "ramp",
+                                "v1",
+                                "trialPrice"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"sourceCurrency\": \"<string>\",\n    \"targetCurrency\": \"<string>\",\n    \"sourceAmount\": \"<string>\",\n    \"targetAmount\": \"<string>\",\n    \"price\": \"<string>\",\n    \"fee\": \"<string>\",\n    \"feeCurrency\": \"<string>\",\n    \"resultAmount\": \"<string>\",\n    \"totalCostAmount\": \"<string>\",\n    \"expiry\": \"<integer>\",\n    \"inversePrice\": \"<string>\",\n    \"expiryTime\": \"<long>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:57:05.000Z",
+                          "updatedAt": "2026-10-22T02:57:05.000Z",
+                          "uid": "35240-2d3e9141-db3d-4fd5-b2b6-1f7726a126b1"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:57:05.000Z",
+                      "updatedAt": "2026-10-22T02:57:05.000Z",
+                      "uid": "35240-16ff252e-a6ae-4472-a82c-6f8621331fc9"
+                    }
+                  ],
+                  "id": "6cbbea29-0fa1-44e1-a7b6-3c4b7026a0cc",
+                  "createdAt": "2026-10-22T02:57:05.000Z",
+                  "updatedAt": "2026-10-22T02:57:05.000Z",
+                  "uid": "35240-6cbbea29-0fa1-44e1-a7b6-3c4b7026a0cc"
+                },
+                {
+                  "name": "confirmOnChainFunding",
+                  "item": [
+                    {
+                      "name": "Ramp Confirm On-Chain Funding",
+                      "id": "ded1cddb-645a-411e-9542-e71d2c6dbfde",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"quoteId\": \"<string>\",\n  \"txId\": \"<string>\",\n  \"remark\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/ramp/v1/confirmOnChainFunding?recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "ramp",
+                            "v1",
+                            "confirmOnChainFunding"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "After the merchant completes the on-chain crypto transfer (for OFF_RAMP), call this endpoint to confirm the funding and provide the transaction ID."
+                      },
+                      "response": [
+                        {
+                          "id": "e5e9f3cd-ca45-4a35-9f86-d472560d0d31",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"quoteId\": \"<string>\",\n  \"txId\": \"<string>\",\n  \"remark\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/ramp/v1/confirmOnChainFunding?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "ramp",
+                                "v1",
+                                "confirmOnChainFunding"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"data\": \"<boolean>\"\n}",
+                          "createdAt": "2026-10-22T02:57:05.000Z",
+                          "updatedAt": "2026-10-22T02:57:05.000Z",
+                          "uid": "35240-e5e9f3cd-ca45-4a35-9f86-d472560d0d31"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:57:05.000Z",
+                      "updatedAt": "2026-10-22T02:57:05.000Z",
+                      "uid": "35240-ded1cddb-645a-411e-9542-e71d2c6dbfde"
+                    }
+                  ],
+                  "id": "dfced393-d8ee-480d-826b-3d93956bdc55",
+                  "createdAt": "2026-10-22T02:57:05.000Z",
+                  "updatedAt": "2026-10-22T02:57:05.000Z",
+                  "uid": "35240-dfced393-d8ee-480d-826b-3d93956bdc55"
+                },
+                {
+                  "name": "orderDetail",
+                  "item": [
+                    {
+                      "name": "Ramp Get Order Detail",
+                      "id": "a35c1647-5637-4057-975e-6f39434ac26c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"orderId\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/ramp/v1/orderDetail?recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "ramp",
+                            "v1",
+                            "orderDetail"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns the detail and current status of a specific order."
+                      },
+                      "response": [
+                        {
+                          "id": "b1168e9f-2255-478d-91a8-fc63dbdf919a",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"orderId\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/ramp/v1/orderDetail?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "ramp",
+                                "v1",
+                                "orderDetail"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"status\": \"SUCCEEDED\",\n    \"orderId\": \"<string>\",\n    \"sourceCurrency\": \"<string>\",\n    \"targetCurrency\": \"<string>\",\n    \"sourceAmount\": \"<string>\",\n    \"targetAmount\": \"<string>\",\n    \"orderCreatedTime\": \"<long>\",\n    \"fee\": \"<string>\",\n    \"pollingInterval\": \"<long>\",\n    \"maxPollingCount\": \"<integer>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:57:05.000Z",
+                          "updatedAt": "2026-10-22T02:57:05.000Z",
+                          "uid": "35240-b1168e9f-2255-478d-91a8-fc63dbdf919a"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:57:05.000Z",
+                      "updatedAt": "2026-10-22T02:57:05.000Z",
+                      "uid": "35240-a35c1647-5637-4057-975e-6f39434ac26c"
+                    }
+                  ],
+                  "id": "10ca8aac-e2ed-41d7-976e-b6eba6e90714",
+                  "createdAt": "2026-10-22T02:57:05.000Z",
+                  "updatedAt": "2026-10-22T02:57:05.000Z",
+                  "uid": "35240-10ca8aac-e2ed-41d7-976e-b6eba6e90714"
                 }
               ],
-              "body": "{\n  \"code\": \"000000\",\n  \"message\": \"success\",\n  \"data\": {\n    \"supportedNetworksByToken\": {\n      \"key_0\": {\n        \"networks\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"key_1\": {\n        \"networks\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    \"onRampFormTokenList\": [\n      {\n        \"toToken\": \"string\",\n        \"fromToken\": \"string\",\n        \"fromTokenIcon\": \"string\",\n        \"toTokenIcon\": \"string\",\n        \"balance\": \"string\",\n        \"fromTokenName\": \"string\",\n        \"toTokenName\": \"string\",\n        \"limits\": {\n          \"perOrder\": {\n            \"toTokenAmount\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 3117\n            },\n            \"fromTokenAmount\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 7901\n            }\n          }\n        }\n      },\n      {\n        \"toToken\": \"string\",\n        \"fromToken\": \"string\",\n        \"fromTokenIcon\": \"string\",\n        \"toTokenIcon\": \"string\",\n        \"balance\": \"string\",\n        \"fromTokenName\": \"string\",\n        \"toTokenName\": \"string\",\n        \"limits\": {\n          \"perOrder\": {\n            \"toTokenAmount\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 3849\n            },\n            \"fromTokenAmount\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 6436\n            }\n          }\n        }\n      }\n    ],\n    \"offRampToTokenList\": [\n      {\n        \"fromToken\": \"string\",\n        \"toToken\": \"string\",\n        \"fromTokenIcon\": \"string\",\n        \"toTokenIcon\": \"string\",\n        \"fromTokenName\": \"string\",\n        \"toTokenName\": \"string\",\n        \"limits\": {\n          \"perOrder\": {\n            \"fromToken\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 4836\n            },\n            \"toToken\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 9561\n            }\n          }\n        }\n      },\n      {\n        \"fromToken\": \"string\",\n        \"toToken\": \"string\",\n        \"fromTokenIcon\": \"string\",\n        \"toTokenIcon\": \"string\",\n        \"fromTokenName\": \"string\",\n        \"toTokenName\": \"string\",\n        \"limits\": {\n          \"perOrder\": {\n            \"fromToken\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 9648\n            },\n            \"toToken\": {\n              \"min\": \"string\",\n              \"max\": \"string\",\n              \"precision\": 9631\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "934a8803-8ebb-4862-8ea2-403ab7e12bb9",
+              "createdAt": "2026-10-22T02:57:05.000Z",
+              "updatedAt": "2026-10-22T02:57:05.000Z",
+              "uid": "35240-934a8803-8ebb-4862-8ea2-403ab7e12bb9"
+            },
+            {
+              "name": "outbound",
+              "item": [
+                {
+                  "name": "initOnChainFund",
+                  "item": [
+                    {
+                      "name": "Ramp Init On-Chain Fund",
+                      "id": "5328c76b-02cf-43c4-b65b-c928c8bdc61b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"quoteId\": \"<string>\",\n  \"webhookUrl\": \"<string>\",\n  \"callbackKey\": \"<string>\",\n  \"merchantId\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/ramp/outbound/initOnChainFund?recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "ramp",
+                            "outbound",
+                            "initOnChainFund"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Notify merchant to prepare on-chain fund transfer. The gateway will forward the request to the merchant's webhook URL with HMAC signature headers, and return the merchant's response containing a deposit ID."
+                      },
+                      "response": [
+                        {
+                          "id": "567019c6-7d8a-4dfc-8593-531f5002812b",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"quoteId\": \"<string>\",\n  \"webhookUrl\": \"<string>\",\n  \"callbackKey\": \"<string>\",\n  \"merchantId\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/ramp/outbound/initOnChainFund?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "ramp",
+                                "outbound",
+                                "initOnChainFund"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"data\": {\n    \"depositId\": \"<string>\",\n    \"errorCode\": \"<string,null>\",\n    \"errorMessage\": \"<string,null>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:57:05.000Z",
+                          "updatedAt": "2026-10-22T02:57:05.000Z",
+                          "uid": "35240-567019c6-7d8a-4dfc-8593-531f5002812b"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:57:05.000Z",
+                      "updatedAt": "2026-10-22T02:57:05.000Z",
+                      "uid": "35240-5328c76b-02cf-43c4-b65b-c928c8bdc61b"
+                    }
+                  ],
+                  "id": "6ad2cdd1-3d6d-4b20-9fd3-bb3d84bb2960",
+                  "createdAt": "2026-10-22T02:57:05.000Z",
+                  "updatedAt": "2026-10-22T02:57:05.000Z",
+                  "uid": "35240-6ad2cdd1-3d6d-4b20-9fd3-bb3d84bb2960"
+                }
+              ],
+              "id": "9edad259-7a1a-4755-960b-7431d403d438",
+              "createdAt": "2026-10-22T02:57:05.000Z",
+              "updatedAt": "2026-10-22T02:57:05.000Z",
+              "uid": "35240-9edad259-7a1a-4755-960b-7431d403d438"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "0208d1d3-f0ab-423d-9bbf-1e4aa637e657",
-          "name": "Ramp Trial Price",
-          "request": {
-            "name": "Ramp Trial Price",
-            "description": {
-              "content": "Returns a price estimation for a ramp transaction. This is a trial quote and does not create a persistent quote record.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "ramp",
-                "v1",
-                "trialPrice"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"rampType\": \"<string>\",\n  \"country\": \"<string>\",\n  \"sourceCurrency\": \"<string>\",\n  \"targetCurrency\": \"<string>\",\n  \"network\": \"<string>\",\n  \"address\": \"<string>\",\n  \"sourceAmount\": \"<string>\",\n  \"targetAmount\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "3c4bd1b7-f502-4edb-9656-caceba0d437a",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "ramp",
-                    "v1",
-                    "trialPrice"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"rampType\": \"<string>\",\n  \"country\": \"PH\",\n  \"sourceCurrency\": \"PHP\",\n  \"targetCurrency\": \"USDT\",\n  \"network\": \"ETHEREUM\",\n  \"address\": \"0x1234567890abcdef1234567890abcdef12345678\",\n  \"sourceAmount\": \"5000\",\n  \"targetAmount\": \"84.68\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"code\": \"000000\",\n  \"message\": \"success\",\n  \"data\": {\n    \"sourceCurrency\": \"string\",\n    \"targetCurrency\": \"string\",\n    \"sourceAmount\": \"string\",\n    \"targetAmount\": \"string\",\n    \"price\": \"string\",\n    \"fee\": \"string\",\n    \"feeCurrency\": \"string\",\n    \"resultAmount\": \"string\",\n    \"totalCostAmount\": \"string\",\n    \"expiry\": 5513,\n    \"inversePrice\": \"string\",\n    \"expiryTime\": 3283\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "cb7c7b4e-8c96-460a-9d8a-c0a1a610b324",
-          "name": "Ramp Confirm On-Chain Funding",
-          "request": {
-            "name": "Ramp Confirm On-Chain Funding",
-            "description": {
-              "content": "After the merchant completes the on-chain crypto transfer (for OFF_RAMP), call this endpoint to confirm the funding and provide the transaction ID.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "ramp",
-                "v1",
-                "confirmOnChainFunding"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"quoteId\": \"<string>\",\n  \"txId\": \"<string>\",\n  \"remark\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "b4621b60-7e9a-438c-8e0b-b310319b1e38",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "ramp",
-                    "v1",
-                    "confirmOnChainFunding"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"quoteId\": \"QT202604210001\",\n  \"txId\": \"0xabc123def456789abcdef123456789abcdef1234567890abcdef1234567890ab\",\n  \"remark\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"code\": \"000000\",\n  \"message\": \"success\",\n  \"data\": true\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "231ada29-679d-4d22-9560-07395e32a7e2",
-          "name": "Ramp Get Order Detail",
-          "request": {
-            "name": "Ramp Get Order Detail",
-            "description": {
-              "content": "Returns the detail and current status of a specific order.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "ramp",
-                "v1",
-                "orderDetail"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"orderId\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "ba02af81-4a16-4a12-ad89-b17c9fc9ce77",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "ramp",
-                    "v1",
-                    "orderDetail"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"orderId\": \"21378276707306408966convert\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"code\": \"000000\",\n  \"message\": \"success\",\n  \"data\": {\n    \"status\": \"PROCESSING\",\n    \"orderId\": \"string\",\n    \"sourceCurrency\": \"string\",\n    \"targetCurrency\": \"string\",\n    \"sourceAmount\": \"string\",\n    \"targetAmount\": \"string\",\n    \"orderCreatedTime\": 4609,\n    \"fee\": \"string\",\n    \"pollingInterval\": 7019,\n    \"maxPollingCount\": 5613\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "0b7fc2eb-d976-4514-969b-2cb7f4437212",
-          "name": "Ramp Init On-Chain Fund",
-          "request": {
-            "name": "Ramp Init On-Chain Fund",
-            "description": {
-              "content": "Notify merchant to prepare on-chain fund transfer. The gateway will forward the request to the merchant's webhook URL with HMAC signature headers, and return the merchant's response containing a deposit ID.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "ramp",
-                "outbound",
-                "initOnChainFund"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"quoteId\": \"<string>\",\n  \"webhookUrl\": \"<string>\",\n  \"callbackKey\": \"<string>\",\n  \"merchantId\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "c5d2bcdc-1507-4f96-98f2-a9458c807178",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "ramp",
-                    "outbound",
-                    "initOnChainFund"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"quoteId\": \"QT20260427000001\",\n  \"webhookUrl\": \"https://merchant.example.com/callback/onchain\",\n  \"callbackKey\": \"ak_xxxxxxxx\",\n  \"merchantId\": \"100001\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"code\": \"000000\",\n  \"message\": \"success\",\n  \"data\": {\n    \"depositId\": \"DEP20260427000001\",\n    \"errorCode\": null,\n    \"errorMessage\": null\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "0174c5a5-465d-42ba-b201-e59b9bc3651e",
+          "createdAt": "2026-10-22T02:57:05.000Z",
+          "updatedAt": "2026-10-22T02:57:05.000Z",
+          "uid": "35240-0174c5a5-465d-42ba-b201-e59b9bc3651e"
         }
       ],
-      "event": []
+      "id": "db0f5a02-61cd-4540-a78b-120450488e74",
+      "createdAt": "2026-10-22T02:57:05.000Z",
+      "updatedAt": "2026-10-22T02:57:05.000Z",
+      "uid": "35240-db0f5a02-61cd-4540-a78b-120450488e74"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://ramp.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "009dfe48-e900-41dc-8b99-acc948b3afb3",
-    "name": "TRADING Account ON/OFF Ramp API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

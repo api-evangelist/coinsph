@@ -1,374 +1,449 @@
 {
+  "info": {
+    "_postman_id": "0c4ce326-f96c-4138-97a2-86cfec311a9a",
+    "name": "Payment Trading - Convert API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:58:06.000Z",
+    "updatedAt": "2026-10-22T02:58:06.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0c4ce326-f96c-4138-97a2-86cfec311a9a"
+  },
   "item": [
     {
-      "id": "23eea663-0b6a-44f2-89d3-75d9962e46d4",
-      "name": "Trading - Convert",
-      "description": {
-        "content": "Convert trading operations",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "404b3aab-d959-4de6-a244-4d992b4f55cd",
-          "name": "Get Supported Convert Trading Pairs",
-          "request": {
-            "name": "Get Supported Convert Trading Pairs",
-            "description": {
-              "content": "Returns a list of all available trading pairs. You may need to be whitelisted for OTC-Convert mode.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "convert",
-                "v1",
-                "get-supported-trading-pairs"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "type",
-                  "value": "<string>",
-                  "description": "Designed to support large trading volume with a minimum trade size of $20,000."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null
-          },
-          "response": [
+          "name": "convert",
+          "item": [
             {
-              "id": "6615e0d5-4307-49a8-8a6b-c66d67f0c195",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "convert",
-                    "v1",
-                    "get-supported-trading-pairs"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+              "name": "v1",
+              "item": [
+                {
+                  "name": "get-supported-trading-pairs",
+                  "item": [
                     {
-                      "key": "type",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
+                      "name": "Get Supported Convert Trading Pairs",
+                      "id": "d5b51cca-547d-4255-b9f5-cec31babdf85",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/convert/v1/get-supported-trading-pairs?type=OTC&recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "convert",
+                            "v1",
+                            "get-supported-trading-pairs"
+                          ],
+                          "query": [
+                            {
+                              "description": "Designed to support large trading volume with a minimum trade size of $20,000.",
+                              "key": "type",
+                              "value": "OTC"
+                            },
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns a list of all available trading pairs. You may need to be whitelisted for OTC-Convert mode."
+                      },
+                      "response": [
+                        {
+                          "id": "9ff28615-c84e-479f-b260-bfb6442345f4",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/convert/v1/get-supported-trading-pairs?type=OTC&recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "convert",
+                                "v1",
+                                "get-supported-trading-pairs"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Designed to support large trading volume with a minimum trade size of $20,000.",
+                                  "key": "type",
+                                  "value": "OTC"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "[\n  {\n    \"sourceCurrency\": \"<string>\",\n    \"targetCurrency\": \"<string>\",\n    \"minSourceAmount\": \"<string>\",\n    \"maxSourceAmount\": \"<string>\",\n    \"precision\": \"<string>\"\n  },\n  {\n    \"sourceCurrency\": \"<string>\",\n    \"targetCurrency\": \"<string>\",\n    \"minSourceAmount\": \"<string>\",\n    \"maxSourceAmount\": \"<string>\",\n    \"precision\": \"<string>\"\n  }\n]",
+                          "createdAt": "2026-10-22T02:58:06.000Z",
+                          "updatedAt": "2026-10-22T02:58:06.000Z",
+                          "uid": "35240-9ff28615-c84e-479f-b260-bfb6442345f4"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:06.000Z",
+                      "updatedAt": "2026-10-22T02:58:06.000Z",
+                      "uid": "35240-d5b51cca-547d-4255-b9f5-cec31babdf85"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "[\n  {\n    \"sourceCurrency\": \"USDT\",\n    \"targetCurrency\": \"PHP\",\n    \"minSourceAmount\": \"100\",\n    \"maxSourceAmount\": \"1000\",\n    \"precision\": \"2\"\n  },\n  {\n    \"sourceCurrency\": \"USDT\",\n    \"targetCurrency\": \"PHP\",\n    \"minSourceAmount\": \"100\",\n    \"maxSourceAmount\": \"1000\",\n    \"precision\": \"2\"\n  }\n]",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "3e392343-819b-46c6-92f4-ec80d405a351",
-          "name": "Convert Fetch Quote",
-          "request": {
-            "name": "Convert Fetch Quote",
-            "description": {
-              "content": "Returns a quote for a specified source currency and target currency pair.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "convert",
-                "v1",
-                "get-quote"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "sourceCurrency",
-                  "value": "<string>",
-                  "description": "(Required) "
+                  "id": "8bbb36d0-a777-4543-ac26-4f06c91eda8b",
+                  "createdAt": "2026-10-22T02:58:06.000Z",
+                  "updatedAt": "2026-10-22T02:58:06.000Z",
+                  "uid": "35240-8bbb36d0-a777-4543-ac26-4f06c91eda8b"
                 },
                 {
-                  "disabled": false,
-                  "key": "targetCurrency",
-                  "value": "<string>",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "key": "sourceAmount",
-                  "value": "<string>",
-                  "description": "Amount to convert from. Target amount must not be filled when this is filled."
-                },
-                {
-                  "disabled": false,
-                  "key": "targetAmount",
-                  "value": "<string>",
-                  "description": "Amount to convert to. Source amount must not be filled when this is filled."
-                },
-                {
-                  "disabled": false,
-                  "key": "type",
-                  "value": "<string>"
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "d4a64d60-5447-4106-9425-828b1e5fe1ce",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "convert",
-                    "v1",
-                    "get-quote"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "name": "get-quote",
+                  "item": [
                     {
-                      "key": "sourceCurrency",
-                      "value": "USDT"
-                    },
-                    {
-                      "key": "targetCurrency",
-                      "value": "PHP"
-                    },
-                    {
-                      "key": "sourceAmount",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "targetAmount",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "type",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
+                      "name": "Convert Fetch Quote",
+                      "id": "5035dcaa-59f4-45bd-8c8d-9e7c9a096702",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/convert/v1/get-quote?sourceCurrency=<string>&targetCurrency=<string>&sourceAmount=<string>&targetAmount=<string>&type=OTC&recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "convert",
+                            "v1",
+                            "get-quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) ",
+                              "key": "sourceCurrency",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) ",
+                              "key": "targetCurrency",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Amount to convert from. Target amount must not be filled when this is filled.",
+                              "key": "sourceAmount",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Amount to convert to. Source amount must not be filled when this is filled.",
+                              "key": "targetAmount",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "type",
+                              "value": "OTC"
+                            },
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns a quote for a specified source currency and target currency pair."
+                      },
+                      "response": [
+                        {
+                          "id": "2d831ee0-8f67-4576-95a3-e2d7c94e0a55",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/convert/v1/get-quote?sourceCurrency=<string>&targetCurrency=<string>&sourceAmount=<string>&targetAmount=<string>&type=OTC&recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "convert",
+                                "v1",
+                                "get-quote"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) ",
+                                  "key": "sourceCurrency",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) ",
+                                  "key": "targetCurrency",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Amount to convert from. Target amount must not be filled when this is filled.",
+                                  "key": "sourceAmount",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Amount to convert to. Source amount must not be filled when this is filled.",
+                                  "key": "targetAmount",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "key": "type",
+                                  "value": "OTC"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"quoteId\": \"<string>\",\n  \"sourceCurrency\": \"<string>\",\n  \"targetCurrency\": \"<string>\",\n  \"sourceAmount\": \"<string>\",\n  \"targetAmount\": \"<string>\",\n  \"price\": \"<string>\",\n  \"expiry\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:58:06.000Z",
+                          "updatedAt": "2026-10-22T02:58:06.000Z",
+                          "uid": "35240-2d831ee0-8f67-4576-95a3-e2d7c94e0a55"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:06.000Z",
+                      "updatedAt": "2026-10-22T02:58:06.000Z",
+                      "uid": "35240-5035dcaa-59f4-45bd-8c8d-9e7c9a096702"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"quoteId\": \"2182b4fc18ff4556a18332245dba75ea\",\n  \"sourceCurrency\": \"string\",\n  \"targetCurrency\": \"string\",\n  \"sourceAmount\": \"string\",\n  \"targetAmount\": \"string\",\n  \"price\": \"string\",\n  \"expiry\": \"string\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "5edb71e3-68ff-4bcb-a411-c16aba4031d6",
-          "name": "Convert Accept Quote",
-          "request": {
-            "name": "Convert Accept Quote",
-            "description": {
-              "content": "Accept a quote for a specified source currency and target currency pair.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "convert",
-                "v1",
-                "accept-quote"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "quoteId",
-                  "value": "<string>",
-                  "description": "(Required) Server generated id for the quote."
+                  "id": "3f5ca888-f2e2-45e8-85c8-bd11231ab2a1",
+                  "createdAt": "2026-10-22T02:58:06.000Z",
+                  "updatedAt": "2026-10-22T02:58:06.000Z",
+                  "uid": "35240-3f5ca888-f2e2-45e8-85c8-bd11231ab2a1"
                 },
                 {
-                  "disabled": false,
-                  "key": "type",
-                  "value": "<string>"
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "333c4355-6d74-4452-a669-d06b3b7f0076",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "convert",
-                    "v1",
-                    "accept-quote"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "name": "accept-quote",
+                  "item": [
                     {
-                      "key": "quoteId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "type",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
+                      "name": "Convert Accept Quote",
+                      "id": "b57e236c-c1b7-4479-b332-5dcb8f4024d6",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/convert/v1/accept-quote?quoteId=<string>&type=OTC&recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "convert",
+                            "v1",
+                            "accept-quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Server generated id for the quote.",
+                              "key": "quoteId",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "type",
+                              "value": "OTC"
+                            },
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Accept a quote for a specified source currency and target currency pair."
+                      },
+                      "response": [
+                        {
+                          "id": "28df81f6-8a46-4576-a4da-c02337a9dfd8",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/convert/v1/accept-quote?quoteId=<string>&type=OTC&recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "convert",
+                                "v1",
+                                "accept-quote"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Server generated id for the quote.",
+                                  "key": "quoteId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "key": "type",
+                                  "value": "OTC"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"orderId\": \"<string>\",\n  \"status\": \"SUCCESS\"\n}",
+                          "createdAt": "2026-10-22T02:58:06.000Z",
+                          "updatedAt": "2026-10-22T02:58:06.000Z",
+                          "uid": "35240-28df81f6-8a46-4576-a4da-c02337a9dfd8"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:06.000Z",
+                      "updatedAt": "2026-10-22T02:58:06.000Z",
+                      "uid": "35240-b57e236c-c1b7-4479-b332-5dcb8f4024d6"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "369a916e-3bf7-4716-b984-b312f0500743",
+                  "createdAt": "2026-10-22T02:58:06.000Z",
+                  "updatedAt": "2026-10-22T02:58:06.000Z",
+                  "uid": "35240-369a916e-3bf7-4716-b984-b312f0500743"
                 }
               ],
-              "body": "{\n  \"orderId\": \"49d10b74c60a475298c6bbed08dd58fa\",\n  \"status\": \"PROCESSING\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "1e90f3aa-8c2f-4e8a-9ea1-c17c44a64318",
+              "createdAt": "2026-10-22T02:58:06.000Z",
+              "updatedAt": "2026-10-22T02:58:06.000Z",
+              "uid": "35240-1e90f3aa-8c2f-4e8a-9ea1-c17c44a64318"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "467e7f21-8f54-47d6-87e5-559817ce405d",
+          "createdAt": "2026-10-22T02:58:06.000Z",
+          "updatedAt": "2026-10-22T02:58:06.000Z",
+          "uid": "35240-467e7f21-8f54-47d6-87e5-559817ce405d"
         }
       ],
-      "event": []
+      "id": "fd0c4c58-26b6-4e83-8403-c319bfb490b9",
+      "createdAt": "2026-10-22T02:58:06.000Z",
+      "updatedAt": "2026-10-22T02:58:06.000Z",
+      "uid": "35240-fd0c4c58-26b6-4e83-8403-c319bfb490b9"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "7a69f699-1c9b-46d6-9f02-a068d94c3b5e",
-    "name": "TRADING Account Trading - Convert API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

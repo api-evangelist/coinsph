@@ -1,704 +1,749 @@
 {
+  "info": {
+    "_postman_id": "96a13f3e-a754-484d-829d-e34cf14e6d2e",
+    "name": "TRADING General API",
+    "description": "API reference for General endpoints \u2014 Coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:56:41.000Z",
+    "updatedAt": "2026-10-22T02:56:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-96a13f3e-a754-484d-829d-e34cf14e6d2e"
+  },
   "item": [
     {
-      "id": "ebaf224f-fd04-4eb8-b6db-2541d9bd3f2e",
-      "name": "General",
-      "description": {
-        "content": "General endpoints for connectivity, server time, system status, and user IP.",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "dec593d2-894a-4ef0-8ec6-623a471f8aa1",
-          "name": "Test Connectivity",
-          "request": {
-            "name": "Test Connectivity",
-            "description": {
-              "content": "Test connectivity to the Rest API. This endpoint can be used to verify that the API\nis reachable and responsive. It returns an empty object on success and requires no\nparameters or authentication.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Health Check** — Verify API availability before executing trading logic.\n- **Connection Monitoring** — Use in watchdog scripts to detect API outages.\n- **Pre-flight Check** — Confirm connectivity before sending authenticated requests.\n\n**Best Practices**\n\n- Use response time as a latency indicator for your network connection to the API.\n- Do not use this endpoint as a substitute for WebSocket keep-alive mechanisms.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "ping"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "v1",
+          "item": [
             {
-              "id": "6b865efd-ba0d-4932-baf6-2c51e7af4674",
-              "name": "API is reachable. Returns an empty object.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "ping"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "ping",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "ae3cb9f6-556a-4be6-9678-3034a107fa0a",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "ping"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "2338e2c4-ac36-4eae-b139-b70f29f4457a",
-          "name": "Check Server Time",
-          "request": {
-            "name": "Check Server Time",
-            "description": {
-              "content": "Test connectivity to the Rest API and get the current server time. The returned\n`serverTime` value is a Unix timestamp in milliseconds and can be used to synchronize\nclient-side clocks for accurate signature generation.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Clock Synchronization** — Align local system clock with server time before signing requests.\n- **Signature Debugging** — Diagnose timestamp mismatch errors (-1021) by comparing server and local time.\n- **Latency Calculation** — Measure round-trip time to estimate request delivery delay.\n\n**Best Practices**\n\n- Sync your local clock with `serverTime` at startup and periodically during long-running sessions.\n- Account for network latency when calculating the effective timestamp offset.\n- Use `serverTime` as the base when generating `timestamp` parameters for signed endpoints.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "time"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "74f577b3-8b25-4bb6-824f-212ba724f100",
-              "name": "Current server time returned successfully.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "time"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"serverTime\": 1538323200000\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "112f3aeb-1397-4ee5-941d-b8785bcdf30e",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "time"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "48e9b0a0-53c2-45d1-b4ec-28ec33ae51cb",
-          "name": "Get User IP",
-          "request": {
-            "name": "Get User IP",
-            "description": {
-              "content": "Get the IP address of the current request as seen by the API server. This endpoint\nis useful for diagnosing connectivity issues, verifying the IP address that will be\nvalidated against API key IP restrictions, and confirming the outbound IP when\noperating behind proxies or NAT.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **IP Whitelist Verification** — Confirm the outbound IP before configuring API key IP restrictions.\n- **Proxy/NAT Diagnosis** — Identify the effective public IP when operating behind a proxy or NAT gateway.\n- **Security Audit** — Verify which IP address is being used for API calls in production.\n\n**Best Practices**\n\n- Call this endpoint after setting up a new server or VPN to confirm the correct IP is used.\n- Use the returned IP to pre-populate the IP whitelist when creating or updating API key restrictions.\n- Re-check after infrastructure changes (e.g., IP reassignment, new NAT gateway).\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "user",
-                "ip"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "e46cc970-43e9-4850-8985-8427cc2a4bbe",
-              "name": "User IP address returned successfully.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "user",
-                    "ip"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"ip\": \"57.181.16.43\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "9fb013ac-710d-4fc1-bd6d-f382df026ed7",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "user",
-                    "ip"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "792392c9-be2e-4f66-b47e-ed7311ab8283",
-          "name": "Check System Status",
-          "request": {
-            "name": "Check System Status",
-            "description": {
-              "content": "Check the system business status. Returns the current operational status for each\nsupported business type (SPOT, CONVERT). If no `businessType` parameter is provided,\nthe response includes the status for all business types. Use this endpoint to verify\nservice availability before placing orders or executing conversions.\n\n**businessStatus Values**\n\n- `on` — Business type is enabled and fully operational.\n- `off` — Business type is disabled or under maintenance.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 2 (UID)\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Pre-Trade Verification** — Check SPOT status before placing orders to avoid unnecessary failures.\n- **Maintenance Detection** — Detect planned or unplanned maintenance windows programmatically.\n- **Multi-Business Monitoring** — Monitor status of both SPOT and CONVERT in one call.\n\n**Best Practices**\n\n- Check this endpoint before initiating critical trading or conversion workflows.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "check-sys-status"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "businessType",
-                  "value": "<string>",
-                  "description": "Business type to query. Optional values: SPOT, CONVERT. If not provided, returns status for all business types.\n"
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "ba76d105-fba1-4642-97e1-cefbf07b25b6",
-              "name": "System business status returned successfully.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "check-sys-status"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "businessType",
-                      "value": "SPOT"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1499827319559"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
+                  "name": "Test Connectivity",
+                  "id": "a22959fd-9e67-423b-924b-a180b4a51190",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "[\n  {\n    \"businessType\": \"SPOT\",\n    \"businessStatus\": \"on\"\n  },\n  {\n    \"businessType\": \"CONVERT\",\n    \"businessStatus\": \"on\"\n  }\n]",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "2e43e5de-a83d-4490-8f3f-d4f01b8c0eb3",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "check-sys-status"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "businessType",
-                      "value": "SPOT"
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/openapi/v1/ping",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "openapi",
+                        "v1",
+                        "ping"
+                      ]
                     },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1499827319559"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "VGkCt1GWUqWsxsCtsTvqLP7xNxOikd6wd7uPbnMIk8RUHQZ2bNd4Gcmq6NgQ6VlK"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "f7e131a0-3ce2-435b-beb7-021f276174cb",
-          "name": "Get API Keys (USER_DATA)",
-          "request": {
-            "name": "Get API Keys (USER_DATA)",
-            "description": {
-              "content": "Retrieve all API keys associated with your account. You may have created multiple API keys\nwith different permissions and IP restrictions. This endpoint returns information about all\nof them, with the API key values partially masked for security.\n\n**Key Notes**\n\n- Returns all API keys associated with your account.\n- Each key includes its permission scopes (`apiType`), IP restrictions, and status.\n\n**API Key Status Values**\n\n| Status | Description |\n|---|---|\n| ENABLE | Active |\n| NOT_ENABLE | Disabled |\n\n**apiType Permission Values**\n\n| Value | Description |\n|---|---|\n| Read only | Read-only access |\n| Enable Spot | Spot trading |\n| Enable Convert | Convert operations |\n| Enable Crypto Wallet | Crypto wallet operations |\n| Enable Fiat | Fiat operations |\n| Enable Account | Account management |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Key Management** — View all API keys and their configurations in one call.\n- **Security Audit** — Review IP whitelist settings and permission levels across all keys.\n- **Status Monitoring** — Check which keys are active or disabled.\n\n**Best Practices**\n\n- Periodically review API keys and disable any that are no longer needed.\n- Verify IP whitelist settings are correctly configured for production environments.\n- Use the `apiName` field to label keys for easier identification (e.g., \"trading-bot\", \"read-only\").\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "api-keys"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the request parameters [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "7c67657c-69e3-4747-a264-3bbe484cfbf4",
-              "name": "API keys retrieved successfully.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "api-keys"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1499827319559"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
+                    "description": "Test connectivity to the Rest API. This endpoint can be used to verify that the API\nis reachable and responsive. It returns an empty object on success and requires no\nparameters or authentication.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 1\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Health Check** \u2014 Verify API availability before executing trading logic.\n- **Connection Monitoring** \u2014 Use in watchdog scripts to detect API outages.\n- **Pre-flight Check** \u2014 Confirm connectivity before sending authenticated requests.\n\n**Best Practices**\n\n- Use response time as a latency indicator for your network connection to the API.\n- Do not use this endpoint as a substitute for WebSocket keep-alive mechanisms."
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "[\n  {\n    \"apiKey\": \"QdGqqftMXzW3qKceYHqwR...\",\n    \"apiName\": \"trading-bot\",\n    \"apiType\": [\n      \"Enable Spot\",\n      \"Enable Convert\"\n    ],\n    \"createTime\": \"1711520996538\",\n    \"ipAccessRestrictions\": [\n      \"57.181.16.43\",\n      \"57.181.16.55\"\n    ],\n    \"status\": \"ENABLE\"\n  }\n]",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "2cc9b85b-aa50-4091-9340-994c144c6426",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1021 | Timestamp for this request is outside of the recvWindow |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "api-keys"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "response": [
                     {
-                      "key": "recvWindow",
-                      "value": "<long>"
+                      "id": "fa57502c-667f-473e-8f73-6009001fe90d",
+                      "name": "API is reachable. Returns an empty object.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/ping",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "ping"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{}",
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-fa57502c-667f-473e-8f73-6009001fe90d"
                     },
                     {
-                      "key": "timestamp",
-                      "value": "1499827319559"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
+                      "id": "28c26d74-da14-4d3b-977c-485b46a202fa",
+                      "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/ping",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "ping"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-28c26d74-da14-4d3b-977c-485b46a202fa"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
+                  "createdAt": "2026-10-22T02:56:42.000Z",
+                  "updatedAt": "2026-10-22T02:56:42.000Z",
+                  "uid": "35240-a22959fd-9e67-423b-924b-a180b4a51190"
                 }
               ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
+              "id": "eb22ae2a-e893-4c37-810c-2fe2bc0a81a6",
+              "createdAt": "2026-10-22T02:56:42.000Z",
+              "updatedAt": "2026-10-22T02:56:42.000Z",
+              "uid": "35240-eb22ae2a-e893-4c37-810c-2fe2bc0a81a6"
+            },
+            {
+              "name": "time",
+              "item": [
+                {
+                  "name": "Check Server Time",
+                  "id": "5ce966f4-a222-432b-b3ce-9079c26b1fc9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/openapi/v1/time",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "openapi",
+                        "v1",
+                        "time"
+                      ]
+                    },
+                    "description": "Test connectivity to the Rest API and get the current server time. The returned\n`serverTime` value is a Unix timestamp in milliseconds and can be used to synchronize\nclient-side clocks for accurate signature generation.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 1\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Clock Synchronization** \u2014 Align local system clock with server time before signing requests.\n- **Signature Debugging** \u2014 Diagnose timestamp mismatch errors (-1021) by comparing server and local time.\n- **Latency Calculation** \u2014 Measure round-trip time to estimate request delivery delay.\n\n**Best Practices**\n\n- Sync your local clock with `serverTime` at startup and periodically during long-running sessions.\n- Account for network latency when calculating the effective timestamp offset.\n- Use `serverTime` as the base when generating `timestamp` parameters for signed endpoints."
+                  },
+                  "response": [
+                    {
+                      "id": "c7e9bc57-a1a0-4205-a713-c68c9572fd8e",
+                      "name": "Current server time returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/time",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "time"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"serverTime\": \"<long>\"\n}",
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-c7e9bc57-a1a0-4205-a713-c68c9572fd8e"
+                    },
+                    {
+                      "id": "e48ef185-2178-4979-9b8c-551e55a2f762",
+                      "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/time",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "time"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-e48ef185-2178-4979-9b8c-551e55a2f762"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:56:42.000Z",
+                  "updatedAt": "2026-10-22T02:56:42.000Z",
+                  "uid": "35240-5ce966f4-a222-432b-b3ce-9079c26b1fc9"
+                }
+              ],
+              "id": "a2b1773f-9b2d-421d-ba87-c672a5e07092",
+              "createdAt": "2026-10-22T02:56:42.000Z",
+              "updatedAt": "2026-10-22T02:56:42.000Z",
+              "uid": "35240-a2b1773f-9b2d-421d-ba87-c672a5e07092"
+            },
+            {
+              "name": "user",
+              "item": [
+                {
+                  "name": "ip",
+                  "item": [
+                    {
+                      "name": "Get User IP",
+                      "id": "ef67751a-97d9-4dee-8aba-762fd3c2840c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/user/ip",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "user",
+                            "ip"
+                          ]
+                        },
+                        "description": "Get the IP address of the current request as seen by the API server. This endpoint\nis useful for diagnosing connectivity issues, verifying the IP address that will be\nvalidated against API key IP restrictions, and confirming the outbound IP when\noperating behind proxies or NAT.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 1\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **IP Whitelist Verification** \u2014 Confirm the outbound IP before configuring API key IP restrictions.\n- **Proxy/NAT Diagnosis** \u2014 Identify the effective public IP when operating behind a proxy or NAT gateway.\n- **Security Audit** \u2014 Verify which IP address is being used for API calls in production.\n\n**Best Practices**\n\n- Call this endpoint after setting up a new server or VPN to confirm the correct IP is used.\n- Use the returned IP to pre-populate the IP whitelist when creating or updating API key restrictions.\n- Re-check after infrastructure changes (e.g., IP reassignment, new NAT gateway)."
+                      },
+                      "response": [
+                        {
+                          "id": "89056f43-9e05-4ce3-81a3-85cedb8a86e1",
+                          "name": "User IP address returned successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/user/ip",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "user",
+                                "ip"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"ip\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:56:42.000Z",
+                          "updatedAt": "2026-10-22T02:56:42.000Z",
+                          "uid": "35240-89056f43-9e05-4ce3-81a3-85cedb8a86e1"
+                        },
+                        {
+                          "id": "84105aa9-33b6-4f08-a37a-2855df274e2b",
+                          "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/user/ip",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "user",
+                                "ip"
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-10-22T02:56:42.000Z",
+                          "updatedAt": "2026-10-22T02:56:42.000Z",
+                          "uid": "35240-84105aa9-33b6-4f08-a37a-2855df274e2b"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-ef67751a-97d9-4dee-8aba-762fd3c2840c"
+                    }
+                  ],
+                  "id": "f23cf45e-bbae-4b00-8fda-4e68101e00f6",
+                  "createdAt": "2026-10-22T02:56:42.000Z",
+                  "updatedAt": "2026-10-22T02:56:42.000Z",
+                  "uid": "35240-f23cf45e-bbae-4b00-8fda-4e68101e00f6"
+                }
+              ],
+              "id": "dc86e838-4874-48c9-8968-37304781190c",
+              "createdAt": "2026-10-22T02:56:42.000Z",
+              "updatedAt": "2026-10-22T02:56:42.000Z",
+              "uid": "35240-dc86e838-4874-48c9-8968-37304781190c"
+            },
+            {
+              "name": "check-sys-status",
+              "item": [
+                {
+                  "name": "Check System Status",
+                  "id": "a1e81049-85a8-44d2-a476-2762a0c48b4b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "(Required) API key for authentication.",
+                        "key": "X-COINS-APIKEY",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/openapi/v1/check-sys-status?businessType=SPOT&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "openapi",
+                        "v1",
+                        "check-sys-status"
+                      ],
+                      "query": [
+                        {
+                          "description": "Business type to query. Optional values: SPOT, CONVERT. If not provided, returns status for all business types.\n",
+                          "key": "businessType",
+                          "value": "SPOT"
+                        },
+                        {
+                          "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                          "key": "recvWindow",
+                          "value": "<long>"
+                        },
+                        {
+                          "description": "(Required) Unix timestamp in milliseconds.",
+                          "key": "timestamp",
+                          "value": "<long>"
+                        },
+                        {
+                          "description": "(Required) HMAC SHA256 signature of the request parameters [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                          "key": "signature",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Check the system business status. Returns the current operational status for each\nsupported business type (SPOT, CONVERT). If no `businessType` parameter is provided,\nthe response includes the status for all business types. Use this endpoint to verify\nservice availability before placing orders or executing conversions.\n\n**businessStatus Values**\n\n- `on` \u2014 Business type is enabled and fully operational.\n- `off` \u2014 Business type is disabled or under maintenance.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 2 (UID)\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Pre-Trade Verification** \u2014 Check SPOT status before placing orders to avoid unnecessary failures.\n- **Maintenance Detection** \u2014 Detect planned or unplanned maintenance windows programmatically.\n- **Multi-Business Monitoring** \u2014 Monitor status of both SPOT and CONVERT in one call.\n\n**Best Practices**\n\n- Check this endpoint before initiating critical trading or conversion workflows."
+                  },
+                  "response": [
+                    {
+                      "id": "458d89e5-ff42-4f04-a779-6c723e065d3d",
+                      "name": "System business status returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) API key for authentication.",
+                            "key": "X-COINS-APIKEY",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/check-sys-status?businessType=SPOT&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "check-sys-status"
+                          ],
+                          "query": [
+                            {
+                              "description": "Business type to query. Optional values: SPOT, CONVERT. If not provided, returns status for all business types.\n",
+                              "key": "businessType",
+                              "value": "SPOT"
+                            },
+                            {
+                              "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) Unix timestamp in milliseconds.",
+                              "key": "timestamp",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) HMAC SHA256 signature of the request parameters [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                              "key": "signature",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"businessType\": \"<string>\",\n    \"businessStatus\": \"<string>\"\n  },\n  {\n    \"businessType\": \"<string>\",\n    \"businessStatus\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-458d89e5-ff42-4f04-a779-6c723e065d3d"
+                    },
+                    {
+                      "id": "f6fe95e6-5828-45bd-856e-b4475e9cfd19",
+                      "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) API key for authentication.",
+                            "key": "X-COINS-APIKEY",
+                            "value": "<string>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/check-sys-status?businessType=SPOT&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "check-sys-status"
+                          ],
+                          "query": [
+                            {
+                              "description": "Business type to query. Optional values: SPOT, CONVERT. If not provided, returns status for all business types.\n",
+                              "key": "businessType",
+                              "value": "SPOT"
+                            },
+                            {
+                              "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) Unix timestamp in milliseconds.",
+                              "key": "timestamp",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) HMAC SHA256 signature of the request parameters [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                              "key": "signature",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-f6fe95e6-5828-45bd-856e-b4475e9cfd19"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:56:42.000Z",
+                  "updatedAt": "2026-10-22T02:56:42.000Z",
+                  "uid": "35240-a1e81049-85a8-44d2-a476-2762a0c48b4b"
+                }
+              ],
+              "id": "8c391b76-96a8-4323-b371-54ad9dbd7d47",
+              "createdAt": "2026-10-22T02:56:42.000Z",
+              "updatedAt": "2026-10-22T02:56:42.000Z",
+              "uid": "35240-8c391b76-96a8-4323-b371-54ad9dbd7d47"
+            },
+            {
+              "name": "api-keys",
+              "item": [
+                {
+                  "name": "Get API Keys (USER_DATA)",
+                  "id": "a47bd89c-a55f-4e4d-aa00-68f3c647edd6",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "(Required) API key for authentication.",
+                        "key": "X-COINS-APIKEY",
+                        "value": "<string>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/openapi/v1/api-keys?recvWindow=<long>&timestamp=<long>&signature=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "openapi",
+                        "v1",
+                        "api-keys"
+                      ],
+                      "query": [
+                        {
+                          "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                          "key": "recvWindow",
+                          "value": "<long>"
+                        },
+                        {
+                          "description": "(Required) Unix timestamp in milliseconds.",
+                          "key": "timestamp",
+                          "value": "<long>"
+                        },
+                        {
+                          "description": "(Required) HMAC SHA256 signature of the request parameters [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                          "key": "signature",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Retrieve all API keys associated with your account. You may have created multiple API keys\nwith different permissions and IP restrictions. This endpoint returns information about all\nof them, with the API key values partially masked for security.\n\n**Key Notes**\n\n- Returns all API keys associated with your account.\n- Each key includes its permission scopes (`apiType`), IP restrictions, and status.\n\n**API Key Status Values**\n\n| Status | Description |\n|---|---|\n| ENABLE | Active |\n| NOT_ENABLE | Disabled |\n\n**apiType Permission Values**\n\n| Value | Description |\n|---|---|\n| Read only | Read-only access |\n| Enable Spot | Spot trading |\n| Enable Convert | Convert operations |\n| Enable Crypto Wallet | Crypto wallet operations |\n| Enable Fiat | Fiat operations |\n| Enable Account | Account management |\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 1\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Key Management** \u2014 View all API keys and their configurations in one call.\n- **Security Audit** \u2014 Review IP whitelist settings and permission levels across all keys.\n- **Status Monitoring** \u2014 Check which keys are active or disabled.\n\n**Best Practices**\n\n- Periodically review API keys and disable any that are no longer needed.\n- Verify IP whitelist settings are correctly configured for production environments.\n- Use the `apiName` field to label keys for easier identification (e.g., \"trading-bot\", \"read-only\")."
+                  },
+                  "response": [
+                    {
+                      "id": "419f9a33-684d-4b46-a083-be2f025b56a8",
+                      "name": "API keys retrieved successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) API key for authentication.",
+                            "key": "X-COINS-APIKEY",
+                            "value": "<string>"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/api-keys?recvWindow=<long>&timestamp=<long>&signature=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "api-keys"
+                          ],
+                          "query": [
+                            {
+                              "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) Unix timestamp in milliseconds.",
+                              "key": "timestamp",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) HMAC SHA256 signature of the request parameters [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                              "key": "signature",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"apiKey\": \"<string>\",\n    \"apiName\": \"<string>\",\n    \"apiType\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"createTime\": \"<string>\",\n    \"ipAccessRestrictions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"status\": \"<string>\"\n  },\n  {\n    \"apiKey\": \"<string>\",\n    \"apiName\": \"<string>\",\n    \"apiType\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"createTime\": \"<string>\",\n    \"ipAccessRestrictions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"status\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-419f9a33-684d-4b46-a083-be2f025b56a8"
+                    },
+                    {
+                      "id": "cba39f14-596e-4065-a5af-b2b1b7a0ad33",
+                      "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1021 | Timestamp for this request is outside of the recvWindow |\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "(Required) API key for authentication.",
+                            "key": "X-COINS-APIKEY",
+                            "value": "<string>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/api-keys?recvWindow=<long>&timestamp=<long>&signature=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "api-keys"
+                          ],
+                          "query": [
+                            {
+                              "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) Unix timestamp in milliseconds.",
+                              "key": "timestamp",
+                              "value": "<long>"
+                            },
+                            {
+                              "description": "(Required) HMAC SHA256 signature of the request parameters [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                              "key": "signature",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-10-22T02:56:42.000Z",
+                      "updatedAt": "2026-10-22T02:56:42.000Z",
+                      "uid": "35240-cba39f14-596e-4065-a5af-b2b1b7a0ad33"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:56:42.000Z",
+                  "updatedAt": "2026-10-22T02:56:42.000Z",
+                  "uid": "35240-a47bd89c-a55f-4e4d-aa00-68f3c647edd6"
+                }
+              ],
+              "id": "a03b636a-33ec-4c7d-a87b-76884a19f0bd",
+              "createdAt": "2026-10-22T02:56:42.000Z",
+              "updatedAt": "2026-10-22T02:56:42.000Z",
+              "uid": "35240-a03b636a-33ec-4c7d-a87b-76884a19f0bd"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "058c44ce-43d1-4ffc-84d5-2882bbc19721",
+          "createdAt": "2026-10-22T02:56:42.000Z",
+          "updatedAt": "2026-10-22T02:56:42.000Z",
+          "uid": "35240-058c44ce-43d1-4ffc-84d5-2882bbc19721"
         }
       ],
-      "event": []
+      "id": "0b963220-4eb1-420a-b24d-24d2378d5042",
+      "createdAt": "2026-10-22T02:56:42.000Z",
+      "updatedAt": "2026-10-22T02:56:42.000Z",
+      "uid": "35240-0b963220-4eb1-420a-b24d-24d2378d5042"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "b44e49c8-fbdb-42db-a663-c8e2f83b899a",
-    "name": "TRADING Account General API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

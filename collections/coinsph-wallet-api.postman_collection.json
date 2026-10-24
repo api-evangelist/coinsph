@@ -1,1528 +1,1553 @@
 {
+  "info": {
+    "_postman_id": "f5cb64be-de1b-41ef-ba61-454d1c78d832",
+    "name": "TRADING Wallet API",
+    "description": "Wallet endpoints for the Coins.ph Trading API \u2014 covering Convert, Deposit, Withdraw, and Transfers.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:58:36.000Z",
+    "updatedAt": "2026-10-22T02:58:36.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-f5cb64be-de1b-41ef-ba61-454d1c78d832"
+  },
   "item": [
     {
-      "id": "3f8cfc37-8f97-478d-9a5e-cae7ebed6fd7",
-      "name": "Wallet",
-      "description": {
-        "content": "Convert, Deposit, Withdraw, Transfers, and Sub Account Transfer operations.",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "a01046eb-844e-4c22-ab97-2cce976c75d0",
-          "name": "All Coins' Information (USER_DATA)",
-          "request": {
-            "name": "All Coins' Information (USER_DATA)",
-            "description": {
-              "content": "Returns configuration information for all coins, including deposit/withdrawal\nstatus, available balances, network details, and fee information.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Network Selection** — Enumerate available networks for a coin before generating a deposit address or submitting a withdrawal\n- **Fee Preview** — Check withdrawal fees and minimum amounts for a coin/network before submitting a withdrawal request\n- **Deposit/Withdrawal Availability** — Check whether deposits or withdrawals are enabled for a specific coin and network before proceeding\n- **Balance Overview** — Retrieve free and locked balances for all assets in one call\n\n**Best Practices**\n\n- Cache this response and refresh every few minutes; configuration changes infrequently\n- Check `depositEnable` and `withdrawEnable` on the specific network before generating addresses or submitting withdrawals\n- Use `memoRegex` to validate whether an `addressTag` is required for a coin (e.g., XRP, XLM)\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "wallet",
-                "v1",
-                "config",
-                "getall"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "wallet",
+          "item": [
             {
-              "id": "830035de-4161-4775-bb79-3b50629a6339",
-              "name": "List of all coin configuration details.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "config",
-                    "getall"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+              "name": "v1",
+              "item": [
+                {
+                  "name": "config",
+                  "item": [
                     {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
+                      "name": "getall",
+                      "item": [
+                        {
+                          "name": "All Coins' Information (USER_DATA)",
+                          "id": "4bc00365-c52f-4e05-b393-ed2cbd35afc2",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) API key for authentication.",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/wallet/v1/config/getall?recvWindow=<long>&timestamp=<long>&signature=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "wallet",
+                                "v1",
+                                "config",
+                                "getall"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) Unix timestamp in milliseconds.",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                  "key": "signature",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Returns configuration information for all coins, including deposit/withdrawal\nstatus, available balances, network details, and fee information.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 10\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Network Selection** \u2014 Enumerate available networks for a coin before generating a deposit address or submitting a withdrawal\n- **Fee Preview** \u2014 Check withdrawal fees and minimum amounts for a coin/network before submitting a withdrawal request\n- **Deposit/Withdrawal Availability** \u2014 Check whether deposits or withdrawals are enabled for a specific coin and network before proceeding\n- **Balance Overview** \u2014 Retrieve free and locked balances for all assets in one call\n\n**Best Practices**\n\n- Cache this response and refresh every few minutes; configuration changes infrequently\n- Check `depositEnable` and `withdrawEnable` on the specific network before generating addresses or submitting withdrawals\n- Use `memoRegex` to validate whether an `addressTag` is required for a coin (e.g., XRP, XLM)"
+                          },
+                          "response": [
+                            {
+                              "id": "de436b8d-069e-4fc9-92ff-86df8cd6b4c4",
+                              "name": "List of all coin configuration details.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/config/getall?recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "config",
+                                    "getall"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  {\n    \"coin\": \"<string>\",\n    \"name\": \"<string>\",\n    \"depositAllEnable\": \"<boolean>\",\n    \"withdrawAllEnable\": \"<boolean>\",\n    \"free\": \"<string>\",\n    \"locked\": \"<string>\",\n    \"networkList\": [\n      {\n        \"network\": \"<string>\",\n        \"name\": \"<string>\",\n        \"depositEnable\": \"<boolean>\",\n        \"withdrawEnable\": \"<boolean>\",\n        \"withdrawFee\": \"<string>\",\n        \"withdrawMin\": \"<string>\",\n        \"withdrawMax\": \"<string>\",\n        \"minConfirm\": \"<integer>\",\n        \"unLockConfirm\": \"<integer>\",\n        \"memoRegex\": \"<string>\",\n        \"sameAddress\": \"<boolean>\"\n      },\n      {\n        \"network\": \"<string>\",\n        \"name\": \"<string>\",\n        \"depositEnable\": \"<boolean>\",\n        \"withdrawEnable\": \"<boolean>\",\n        \"withdrawFee\": \"<string>\",\n        \"withdrawMin\": \"<string>\",\n        \"withdrawMax\": \"<string>\",\n        \"minConfirm\": \"<integer>\",\n        \"unLockConfirm\": \"<integer>\",\n        \"memoRegex\": \"<string>\",\n        \"sameAddress\": \"<boolean>\"\n      }\n    ],\n    \"legalMoney\": \"<boolean>\"\n  },\n  {\n    \"coin\": \"<string>\",\n    \"name\": \"<string>\",\n    \"depositAllEnable\": \"<boolean>\",\n    \"withdrawAllEnable\": \"<boolean>\",\n    \"free\": \"<string>\",\n    \"locked\": \"<string>\",\n    \"networkList\": [\n      {\n        \"network\": \"<string>\",\n        \"name\": \"<string>\",\n        \"depositEnable\": \"<boolean>\",\n        \"withdrawEnable\": \"<boolean>\",\n        \"withdrawFee\": \"<string>\",\n        \"withdrawMin\": \"<string>\",\n        \"withdrawMax\": \"<string>\",\n        \"minConfirm\": \"<integer>\",\n        \"unLockConfirm\": \"<integer>\",\n        \"memoRegex\": \"<string>\",\n        \"sameAddress\": \"<boolean>\"\n      },\n      {\n        \"network\": \"<string>\",\n        \"name\": \"<string>\",\n        \"depositEnable\": \"<boolean>\",\n        \"withdrawEnable\": \"<boolean>\",\n        \"withdrawFee\": \"<string>\",\n        \"withdrawMin\": \"<string>\",\n        \"withdrawMax\": \"<string>\",\n        \"minConfirm\": \"<integer>\",\n        \"unLockConfirm\": \"<integer>\",\n        \"memoRegex\": \"<string>\",\n        \"sameAddress\": \"<boolean>\"\n      }\n    ],\n    \"legalMoney\": \"<boolean>\"\n  }\n]",
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-de436b8d-069e-4fc9-92ff-86df8cd6b4c4"
+                            },
+                            {
+                              "id": "bdf734ad-2cbc-40dc-8f79-304234162267",
+                              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1022 | Signature for this request is not valid |\n\nFor the full list",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/config/getall?recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "config",
+                                    "getall"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-bdf734ad-2cbc-40dc-8f79-304234162267"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:58:37.000Z",
+                          "updatedAt": "2026-10-22T02:58:37.000Z",
+                          "uid": "35240-4bc00365-c52f-4e05-b393-ed2cbd35afc2"
+                        }
+                      ],
+                      "id": "f440988c-1905-4a74-94a8-494421a5869a",
+                      "createdAt": "2026-10-22T02:58:37.000Z",
+                      "updatedAt": "2026-10-22T02:58:37.000Z",
+                      "uid": "35240-f440988c-1905-4a74-94a8-494421a5869a"
                     }
                   ],
-                  "variable": []
+                  "id": "0f62e587-8159-48d1-9dc6-0e55c9a949f2",
+                  "createdAt": "2026-10-22T02:58:37.000Z",
+                  "updatedAt": "2026-10-22T02:58:37.000Z",
+                  "uid": "35240-0f62e587-8159-48d1-9dc6-0e55c9a949f2"
                 },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "[\n  {\n    \"coin\": \"BTC\",\n    \"name\": \"Bitcoin\",\n    \"depositAllEnable\": true,\n    \"withdrawAllEnable\": true,\n    \"free\": \"0.00500000\",\n    \"locked\": \"0.00000000\",\n    \"networkList\": [\n      {\n        \"network\": \"BTC\",\n        \"name\": \"Bitcoin\",\n        \"depositEnable\": true,\n        \"withdrawEnable\": true,\n        \"withdrawFee\": \"0.0005\",\n        \"withdrawMin\": \"0.001\",\n        \"withdrawMax\": \"100\",\n        \"minConfirm\": 1,\n        \"unLockConfirm\": 2,\n        \"memoRegex\": \"\",\n        \"sameAddress\": false\n      }\n    ],\n    \"legalMoney\": false\n  }\n]",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "772598ed-b5dc-4819-a413-9a2e4de3b3d5",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1022 | Signature for this request is not valid |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "config",
-                    "getall"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "name": "deposit",
+                  "item": [
                     {
-                      "key": "recvWindow",
-                      "value": "<long>"
+                      "name": "address",
+                      "item": [
+                        {
+                          "name": "Deposit Address (USER_DATA)",
+                          "id": "6127e8ce-f9cc-41a6-92cc-9c16632d2ae6",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) API key for authentication.",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/address?coin=<string>&network=<string>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "wallet",
+                                "v1",
+                                "deposit",
+                                "address"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) The coin ticker symbol.",
+                                  "key": "coin",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) The network to use for the deposit.",
+                                  "key": "network",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) Unix timestamp in milliseconds.",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                  "key": "signature",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Fetch the deposit address for a specific coin and network.\n\n**Key Notes**\n\n- An `addressTag` (memo/tag) is required for certain coins such as XRP and XLM.\nCheck the `memoRegex` field from the coin info endpoint to determine if a tag is needed.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 10\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Deposit Address Lookup** \u2014 Fetch the deposit address for a specific coin and network before directing an inbound transfer\n- **Multi-Network Deposits** \u2014 Fetch addresses for different networks (e.g., ERC-20 vs BEP-20 for USDT) to support multiple chains\n\n**Best Practices**\n\n- Always specify the correct `network`; depositing on the wrong network may result in permanent loss of funds\n- Check `memoRegex` from the coin info endpoint first; if non-empty, an `addressTag` is required\n- Cache the address per coin+network \u2014 it does not change frequently"
+                          },
+                          "response": [
+                            {
+                              "id": "b2be9681-35c0-4bbb-8ed8-b1a485e65207",
+                              "name": "Deposit address details for the specified coin and network.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/address?coin=<string>&network=<string>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "deposit",
+                                    "address"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) The coin ticker symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) The network to use for the deposit.",
+                                      "key": "network",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"coin\": \"<string>\",\n  \"address\": \"<string>\",\n  \"addressTag\": \"<string>\",\n  \"network\": \"<string>\",\n  \"url\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-b2be9681-35c0-4bbb-8ed8-b1a485e65207"
+                            },
+                            {
+                              "id": "87185f1f-25b1-48a2-b205-2d892f25e2bc",
+                              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malform",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/address?coin=<string>&network=<string>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "deposit",
+                                    "address"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) The coin ticker symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) The network to use for the deposit.",
+                                      "key": "network",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-87185f1f-25b1-48a2-b205-2d892f25e2bc"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:58:37.000Z",
+                          "updatedAt": "2026-10-22T02:58:37.000Z",
+                          "uid": "35240-6127e8ce-f9cc-41a6-92cc-9c16632d2ae6"
+                        }
+                      ],
+                      "id": "51d624f9-fe40-445f-b1ce-4dad6cc82543",
+                      "createdAt": "2026-10-22T02:58:37.000Z",
+                      "updatedAt": "2026-10-22T02:58:37.000Z",
+                      "uid": "35240-51d624f9-fe40-445f-b1ce-4dad6cc82543"
                     },
                     {
-                      "key": "timestamp",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
+                      "name": "history",
+                      "item": [
+                        {
+                          "name": "Deposit History (USER_DATA)",
+                          "id": "910399cd-6cef-4df1-98e4-f00b1544fcb7",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) API key for authentication.",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/history?coin=<string>&txId=<string>&status=<integer>&startTime=<long>&endTime=<long>&statuses=<string>&limit=<integer>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "wallet",
+                                "v1",
+                                "deposit",
+                                "history"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter by coin symbol.",
+                                  "key": "coin",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by on-chain transaction ID.",
+                                  "key": "txId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data.",
+                                  "key": "status",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time.",
+                                  "key": "startTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "End time in milliseconds. Maximum query window is 90 days.",
+                                  "key": "endTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "Comma-separated list of deposit status values to filter by. Cannot be used together with `status`. Valid values: 0=Processing, 1=Success, 2=Failed.\n",
+                                  "key": "statuses",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Number of records to return. Default and maximum: 1000.",
+                                  "key": "limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) Unix timestamp in milliseconds.",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                  "key": "signature",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Retrieve the deposit history for the authenticated account.\n\n**Key Notes**\n\n- If `startTime` is not provided, defaults to 90 days before the current time.\n- Maximum query window is 90 days.\n- Default and maximum limit is 1000 records.\n- `statuses` and `status` cannot be used simultaneously.\n\n**Deposit Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | Processing |\n| 1 | Success |\n| 2 | Failed |\n| 3 | Need Fill Data (travel rule information required) |\n\n**Transfer Type Codes**\n\n| transferType | Description |\n|---|---|\n| 0 | External transfer |\n| 1 | Internal transfer |\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 2 (IP)\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Deposit Confirmation** \u2014 Check if a specific deposit has been completed.\n- **Balance Reconciliation** \u2014 Match incoming deposits against balance increases to ensure all funds are accounted for.\n- **Audit Trail** \u2014 Export deposit history for a given time range to support accounting or compliance reporting.\n\n**Best Practices**\n\n- Always filter by `coin` to reduce response size when you only need a specific asset.\n- Use `startTime` and `endTime` for time-range queries to avoid fetching the full default 90-day window."
+                          },
+                          "response": [
+                            {
+                              "id": "8b58aa7a-61b6-45d4-a60b-1aed20ad7c9c",
+                              "name": "Deposit history records.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/history?coin=<string>&txId=<string>&status=<integer>&startTime=<long>&endTime=<long>&statuses=<string>&limit=<integer>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "deposit",
+                                    "history"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter by coin symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by on-chain transaction ID.",
+                                      "key": "txId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data.",
+                                      "key": "status",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time.",
+                                      "key": "startTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "End time in milliseconds. Maximum query window is 90 days.",
+                                      "key": "endTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "Comma-separated list of deposit status values to filter by. Cannot be used together with `status`. Valid values: 0=Processing, 1=Success, 2=Failed.\n",
+                                      "key": "statuses",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Number of records to return. Default and maximum: 1000.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  {\n    \"txId\": \"<string>\",\n    \"insertTime\": \"<long>\",\n    \"amount\": \"<string>\",\n    \"coin\": \"<string>\",\n    \"address\": \"<string>\",\n    \"addressTag\": \"<string>\",\n    \"transferType\": \"<integer>\",\n    \"status\": \"<integer>\",\n    \"confirmTimes\": \"<string>\",\n    \"unlockConfirm\": \"<integer>\",\n    \"walletType\": \"<integer>\"\n  },\n  {\n    \"txId\": \"<string>\",\n    \"insertTime\": \"<long>\",\n    \"amount\": \"<string>\",\n    \"coin\": \"<string>\",\n    \"address\": \"<string>\",\n    \"addressTag\": \"<string>\",\n    \"transferType\": \"<integer>\",\n    \"status\": \"<integer>\",\n    \"confirmTimes\": \"<string>\",\n    \"unlockConfirm\": \"<integer>\",\n    \"walletType\": \"<integer>\"\n  }\n]",
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-8b58aa7a-61b6-45d4-a60b-1aed20ad7c9c"
+                            },
+                            {
+                              "id": "94aa90e5-1aa8-4fcb-bde7-eaf62793e6bb",
+                              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malform",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/history?coin=<string>&txId=<string>&status=<integer>&startTime=<long>&endTime=<long>&statuses=<string>&limit=<integer>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "deposit",
+                                    "history"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter by coin symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by on-chain transaction ID.",
+                                      "key": "txId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data.",
+                                      "key": "status",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time.",
+                                      "key": "startTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "End time in milliseconds. Maximum query window is 90 days.",
+                                      "key": "endTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "Comma-separated list of deposit status values to filter by. Cannot be used together with `status`. Valid values: 0=Processing, 1=Success, 2=Failed.\n",
+                                      "key": "statuses",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Number of records to return. Default and maximum: 1000.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-94aa90e5-1aa8-4fcb-bde7-eaf62793e6bb"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:58:37.000Z",
+                          "updatedAt": "2026-10-22T02:58:37.000Z",
+                          "uid": "35240-910399cd-6cef-4df1-98e4-f00b1544fcb7"
+                        }
+                      ],
+                      "id": "4dfa32b9-c44e-4209-a17c-39350f5e5ae6",
+                      "createdAt": "2026-10-22T02:58:37.000Z",
+                      "updatedAt": "2026-10-22T02:58:37.000Z",
+                      "uid": "35240-4dfa32b9-c44e-4209-a17c-39350f5e5ae6"
                     }
                   ],
-                  "variable": []
+                  "id": "32c3c59b-0101-4a50-a21b-43184e1ac404",
+                  "createdAt": "2026-10-22T02:58:37.000Z",
+                  "updatedAt": "2026-10-22T02:58:37.000Z",
+                  "uid": "35240-32c3c59b-0101-4a50-a21b-43184e1ac404"
                 },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "text/plain"
+                  "name": "withdraw",
+                  "item": [
+                    {
+                      "name": "apply",
+                      "item": [
+                        {
+                          "name": "Withdraw (USER_DATA)",
+                          "id": "e9b6117a-4c23-427d-b7f3-0f38c217e1bd",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) API key for authentication.",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "urlencoded",
+                              "urlencoded": [
+                                {
+                                  "description": "(Required) Coin symbol to withdraw.",
+                                  "key": "coin",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) Destination wallet address.",
+                                  "key": "address",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) Withdrawal amount.",
+                                  "key": "amount",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) Network to use for the withdrawal. Must match a network returned by /openapi/wallet/v1/config/getall. Required.\n",
+                                  "key": "network",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) Unix timestamp in milliseconds.",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                  "key": "signature",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Memo or tag for memo-based coins (e.g., XRP, XLM).",
+                                  "key": "addressTag",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Client-generated withdrawal order ID for idempotency. Maximum 30 characters.",
+                                  "key": "withdrawOrderId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/apply",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "wallet",
+                                "v1",
+                                "withdraw",
+                                "apply"
+                              ]
+                            },
+                            "description": "Submit a cryptocurrency withdrawal request to an external address.\n\n**Key Notes**\n\n- `coin` and `network` must match a valid combination returned by `/openapi/wallet/v1/config/getall`.\n- Verify `withdrawEnable=true` for the selected coin and network before submitting.\n- For memo-based coins (e.g., XRP, XLM, EOS), `addressTag` is required.\n- `withdrawOrderId` can be used as a client-generated idempotency key (max 30 characters).\n- The `coin`, `network`, `address`, and `addressTag` combination must exist in your withdrawal address whitelist. You can use the Withdraw Address Whitelist endpoint to verify or add addresses.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 100 (UID)\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Crypto Withdrawal** \u2014 Send cryptocurrency to an external wallet address on a specified network.\n- **Programmatic Payouts** \u2014 Automate bulk withdrawal payouts with client-tracked IDs for idempotency.\n- **Network-Specific Send** \u2014 Specify the exact network for multi-chain tokens (e.g., USDT on ERC-20 vs BEP-20).\n\n**Best Practices**\n\n- Use `withdrawOrderId` for idempotency so duplicate requests return the same result.\n- Verify `withdrawEnable=true` for the target coin and network using the config endpoint before submitting.\n- Always include `addressTag` for memo-based coins to prevent loss of funds.\n- Double-check the destination address and network before submitting \u2014 withdrawals are irreversible."
+                          },
+                          "response": [
+                            {
+                              "id": "6ee7274e-98a4-47b0-9d4b-0c23bd0cbde0",
+                              "name": "Withdrawal request submitted successfully.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/x-www-form-urlencoded"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "urlencoded",
+                                  "urlencoded": [
+                                    {
+                                      "description": "(Required) Coin symbol to withdraw.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Destination wallet address.",
+                                      "key": "address",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Withdrawal amount.",
+                                      "key": "amount",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Network to use for the withdrawal. Must match a network returned by /openapi/wallet/v1/config/getall. Required.\n",
+                                      "key": "network",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Memo or tag for memo-based coins (e.g., XRP, XLM).",
+                                      "key": "addressTag",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Client-generated withdrawal order ID for idempotency. Maximum 30 characters.",
+                                      "key": "withdrawOrderId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/apply",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "withdraw",
+                                    "apply"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-6ee7274e-98a4-47b0-9d4b-0c23bd0cbde0"
+                            },
+                            {
+                              "id": "063cfba1-1c63-4da7-bb69-bc0f9634a0f7",
+                              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malform",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/x-www-form-urlencoded"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "urlencoded",
+                                  "urlencoded": [
+                                    {
+                                      "description": "(Required) Coin symbol to withdraw.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Destination wallet address.",
+                                      "key": "address",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Withdrawal amount.",
+                                      "key": "amount",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Network to use for the withdrawal. Must match a network returned by /openapi/wallet/v1/config/getall. Required.\n",
+                                      "key": "network",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Memo or tag for memo-based coins (e.g., XRP, XLM).",
+                                      "key": "addressTag",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Client-generated withdrawal order ID for idempotency. Maximum 30 characters.",
+                                      "key": "withdrawOrderId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/apply",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "withdraw",
+                                    "apply"
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-063cfba1-1c63-4da7-bb69-bc0f9634a0f7"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:58:37.000Z",
+                          "updatedAt": "2026-10-22T02:58:37.000Z",
+                          "uid": "35240-e9b6117a-4c23-427d-b7f3-0f38c217e1bd"
+                        }
+                      ],
+                      "id": "5ca3f7e4-02a5-4aed-970c-81358e297127",
+                      "createdAt": "2026-10-22T02:58:37.000Z",
+                      "updatedAt": "2026-10-22T02:58:37.000Z",
+                      "uid": "35240-5ca3f7e4-02a5-4aed-970c-81358e297127"
+                    },
+                    {
+                      "name": "history",
+                      "item": [
+                        {
+                          "name": "Withdraw History (USER_DATA)",
+                          "id": "0b623020-7067-469a-bab5-03b992e6ad37",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) API key for authentication.",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/history?coin=<string>&withdrawOrderId=<string>&status=<integer>&startTime=<long>&endTime=<long>&limit=<integer>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "wallet",
+                                "v1",
+                                "withdraw",
+                                "history"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter by coin symbol.",
+                                  "key": "coin",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by client-generated withdrawal order ID.",
+                                  "key": "withdrawOrderId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by withdrawal status: 0=Email Sent, 1=Cancelled, 2=Awaiting Approval, 3=Rejected, 4=Processing, 5=Failure, 6=Completed.",
+                                  "key": "status",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time (or 7 days before endTime when `withdrawOrderId` is also provided).\n",
+                                  "key": "startTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "End time in milliseconds. The maximum interval between `startTime` and `endTime` is 90 days (or 7 days when `withdrawOrderId` is provided).\n",
+                                  "key": "endTime",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "Number of records to return. Default and maximum: 1000.",
+                                  "key": "limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) Unix timestamp in milliseconds.",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                  "key": "signature",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Retrieve the withdrawal history for the authenticated account.\n\n**Key Notes**\n\n- If `startTime` and `endTime` are not provided, defaults to 90 days before the current time.\n- If `withdrawOrderId` is provided without `startTime`/`endTime`, defaults to the last 7 days.\n- The maximum interval between `startTime` and `endTime` is 90 days (7 days when `withdrawOrderId` is provided).\n- Default and maximum limit is 1000 records.\n\n**Withdrawal Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | PROCESSING |\n| 1 | SUCCESS |\n| 2 | FAILED |\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 2 (IP)\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Withdrawal Tracking** \u2014 Monitor the status of pending or in-progress withdrawals to determine when they complete.\n- **Reconciliation** \u2014 Match withdrawal records against outgoing transaction IDs on-chain to confirm delivery.\n- **Fee Audit** \u2014 Track transaction fees paid per withdrawal for cost reporting.\n\n**Best Practices**\n\n- Use the `coin` filter to narrow results when you only care about a specific asset.\n- Store the returned `txId` for independent blockchain verification."
+                          },
+                          "response": [
+                            {
+                              "id": "19bc0aa3-9dfd-4d63-b6c1-ae4a700c0383",
+                              "name": "Withdrawal history records.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/history?coin=<string>&withdrawOrderId=<string>&status=<integer>&startTime=<long>&endTime=<long>&limit=<integer>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "withdraw",
+                                    "history"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter by coin symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by client-generated withdrawal order ID.",
+                                      "key": "withdrawOrderId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by withdrawal status: 0=Email Sent, 1=Cancelled, 2=Awaiting Approval, 3=Rejected, 4=Processing, 5=Failure, 6=Completed.",
+                                      "key": "status",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time (or 7 days before endTime when `withdrawOrderId` is also provided).\n",
+                                      "key": "startTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "End time in milliseconds. The maximum interval between `startTime` and `endTime` is 90 days (or 7 days when `withdrawOrderId` is provided).\n",
+                                      "key": "endTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "Number of records to return. Default and maximum: 1000.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  {\n    \"id\": \"<string>\",\n    \"withdrawOrderId\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"transactionFee\": \"<string>\",\n    \"coin\": \"<string>\",\n    \"status\": \"<integer>\",\n    \"address\": \"<string>\",\n    \"txId\": \"<string>\",\n    \"applyTime\": \"<string>\",\n    \"network\": \"<string>\",\n    \"transferType\": \"<integer>\",\n    \"info\": \"<string>\",\n    \"confirmNo\": \"<integer>\",\n    \"walletType\": \"<integer>\",\n    \"txKey\": \"<string>\"\n  },\n  {\n    \"id\": \"<string>\",\n    \"withdrawOrderId\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"transactionFee\": \"<string>\",\n    \"coin\": \"<string>\",\n    \"status\": \"<integer>\",\n    \"address\": \"<string>\",\n    \"txId\": \"<string>\",\n    \"applyTime\": \"<string>\",\n    \"network\": \"<string>\",\n    \"transferType\": \"<integer>\",\n    \"info\": \"<string>\",\n    \"confirmNo\": \"<integer>\",\n    \"walletType\": \"<integer>\",\n    \"txKey\": \"<string>\"\n  }\n]",
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-19bc0aa3-9dfd-4d63-b6c1-ae4a700c0383"
+                            },
+                            {
+                              "id": "323d8b77-51ac-4349-b847-de845be202b5",
+                              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malform",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/history?coin=<string>&withdrawOrderId=<string>&status=<integer>&startTime=<long>&endTime=<long>&limit=<integer>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "withdraw",
+                                    "history"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter by coin symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by client-generated withdrawal order ID.",
+                                      "key": "withdrawOrderId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by withdrawal status: 0=Email Sent, 1=Cancelled, 2=Awaiting Approval, 3=Rejected, 4=Processing, 5=Failure, 6=Completed.",
+                                      "key": "status",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time (or 7 days before endTime when `withdrawOrderId` is also provided).\n",
+                                      "key": "startTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "End time in milliseconds. The maximum interval between `startTime` and `endTime` is 90 days (or 7 days when `withdrawOrderId` is provided).\n",
+                                      "key": "endTime",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "Number of records to return. Default and maximum: 1000.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-323d8b77-51ac-4349-b847-de845be202b5"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:58:37.000Z",
+                          "updatedAt": "2026-10-22T02:58:37.000Z",
+                          "uid": "35240-0b623020-7067-469a-bab5-03b992e6ad37"
+                        }
+                      ],
+                      "id": "bbcf371e-c3cb-424d-a6cc-2702d0af40f5",
+                      "createdAt": "2026-10-22T02:58:37.000Z",
+                      "updatedAt": "2026-10-22T02:58:37.000Z",
+                      "uid": "35240-bbcf371e-c3cb-424d-a6cc-2702d0af40f5"
+                    },
+                    {
+                      "name": "address-whitelist",
+                      "item": [
+                        {
+                          "name": "Withdraw Address Whitelist (USER_DATA)",
+                          "id": "c8fcaef5-bf6b-480a-a158-d36397fe0f38",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "(Required) API key for authentication.",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<string>"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/address-whitelist?coin=<string>&network=<string>&address=<string>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "wallet",
+                                "v1",
+                                "withdraw",
+                                "address-whitelist"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter by coin symbol.",
+                                  "key": "coin",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by network identifier.",
+                                  "key": "network",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Filter by specific withdrawal address.",
+                                  "key": "address",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) Unix timestamp in milliseconds.",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                  "key": "signature",
+                                  "value": "<string>"
+                                }
+                              ]
+                            },
+                            "description": "Get the withdrawal address whitelist for the authenticated user. Returns all whitelisted\nwithdrawal addresses configured for the account, with optional filtering by coin, network,\nor specific address.\n\n**Key Notes**\n\n- Returns addresses saved in the account's withdrawal address whitelist.\n- The coin/network/address/addressTag combination **must** be in the whitelist before a withdrawal can be submitted.\n- Use the `coin`, `network`, or `address` filters to narrow results.\n\n---\n\n## Additional Info\n\n**Rate Limit** \ud83d\udcd6 Learn More\n\nWeight: 1\n\n**Use Cases** \ud83e\udde9 SDK\n\n- **Pre-Withdrawal Verification** \u2014 Confirm that the target address is whitelisted before submitting a withdrawal request.\n\n**Best Practices**\n\n- Use the `coin` filter to retrieve only relevant addresses and reduce response payload size.\n- Always verify addresses are whitelisted before attempting withdrawals to avoid rejections.\n- Cache the whitelist response temporarily (5-10 minutes) and refresh after adding or removing addresses"
+                          },
+                          "response": [
+                            {
+                              "id": "20b815b4-342e-4345-86b9-5f4c7118ca02",
+                              "name": "List of whitelisted withdrawal addresses.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/address-whitelist?coin=<string>&network=<string>&address=<string>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "withdraw",
+                                    "address-whitelist"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter by coin symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by network identifier.",
+                                      "key": "network",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by specific withdrawal address.",
+                                      "key": "address",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  {\n    \"address\": \"<string>\",\n    \"addressName\": \"<string>\",\n    \"addressTag\": \"<string>\",\n    \"coin\": \"<string>\",\n    \"network\": \"<string>\"\n  },\n  {\n    \"address\": \"<string>\",\n    \"addressName\": \"<string>\",\n    \"addressTag\": \"<string>\",\n    \"coin\": \"<string>\",\n    \"network\": \"<string>\"\n  }\n]",
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-20b815b4-342e-4345-86b9-5f4c7118ca02"
+                            },
+                            {
+                              "id": "b16fec00-9c78-4e62-8281-96442dde5be8",
+                              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malfo",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "(Required) API key for authentication.",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<string>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/withdraw/address-whitelist?coin=<string>&network=<string>&address=<string>&recvWindow=<long>&timestamp=<long>&signature=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "withdraw",
+                                    "address-whitelist"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter by coin symbol.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by network identifier.",
+                                      "key": "network",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Filter by specific withdrawal address.",
+                                      "key": "address",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp in milliseconds.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) HMAC SHA256 signature of the query string [\ud83d\udcd6 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
+                                      "key": "signature",
+                                      "value": "<string>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-10-22T02:58:37.000Z",
+                              "updatedAt": "2026-10-22T02:58:37.000Z",
+                              "uid": "35240-b16fec00-9c78-4e62-8281-96442dde5be8"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:58:37.000Z",
+                          "updatedAt": "2026-10-22T02:58:37.000Z",
+                          "uid": "35240-c8fcaef5-bf6b-480a-a158-d36397fe0f38"
+                        }
+                      ],
+                      "id": "2aca1b3b-87ed-4667-900a-737eb1546897",
+                      "createdAt": "2026-10-22T02:58:37.000Z",
+                      "updatedAt": "2026-10-22T02:58:37.000Z",
+                      "uid": "35240-2aca1b3b-87ed-4667-900a-737eb1546897"
+                    }
+                  ],
+                  "id": "bca0a4d2-5b40-4fc9-ad2e-d3b9d3f9be27",
+                  "createdAt": "2026-10-22T02:58:37.000Z",
+                  "updatedAt": "2026-10-22T02:58:37.000Z",
+                  "uid": "35240-bca0a4d2-5b40-4fc9-ad2e-d3b9d3f9be27"
                 }
               ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
+              "id": "9332de0c-39e9-4988-9d63-d52a7897a58e",
+              "createdAt": "2026-10-22T02:58:37.000Z",
+              "updatedAt": "2026-10-22T02:58:37.000Z",
+              "uid": "35240-9332de0c-39e9-4988-9d63-d52a7897a58e"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "4c6668c5-fd2f-41a7-8ff9-8045388c28bf",
-          "name": "Deposit Address (USER_DATA)",
-          "request": {
-            "name": "Deposit Address (USER_DATA)",
-            "description": {
-              "content": "Fetch the deposit address for a specific coin and network.\n\n**Key Notes**\n\n- An `addressTag` (memo/tag) is required for certain coins such as XRP and XLM.\n  Check the `memoRegex` field from the coin info endpoint to determine if a tag is needed.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 10\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Deposit Address Lookup** — Fetch the deposit address for a specific coin and network before directing an inbound transfer\n- **Multi-Network Deposits** — Fetch addresses for different networks (e.g., ERC-20 vs BEP-20 for USDT) to support multiple chains\n\n**Best Practices**\n\n- Always specify the correct `network`; depositing on the wrong network may result in permanent loss of funds\n- Check `memoRegex` from the coin info endpoint first; if non-empty, an `addressTag` is required\n- Cache the address per coin+network — it does not change frequently\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "wallet",
-                "v1",
-                "deposit",
-                "address"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "coin",
-                  "value": "<string>",
-                  "description": "(Required) The coin ticker symbol."
-                },
-                {
-                  "disabled": false,
-                  "key": "network",
-                  "value": "<string>",
-                  "description": "(Required) The network to use for the deposit."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "0c130e26-13c0-4319-8227-00ace49d4713",
-              "name": "Deposit address details for the specified coin and network.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "deposit",
-                    "address"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "network",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"coin\": \"BTC\",\n  \"address\": \"1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna\",\n  \"addressTag\": \"\",\n  \"network\": \"BTC\",\n  \"url\": \"https://btcscan.org/address/1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "ad49b81e-b4a8-433e-ac9e-fcddc70b7cca",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "deposit",
-                    "address"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "network",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "67a767bb-4fb3-48c1-8307-621b1b1b2eb5",
-          "name": "Deposit History (USER_DATA)",
-          "request": {
-            "name": "Deposit History (USER_DATA)",
-            "description": {
-              "content": "Retrieve the deposit history for the authenticated account.\n\n**Key Notes**\n\n- If `startTime` is not provided, defaults to 90 days before the current time.\n- Maximum query window is 90 days.\n- Default and maximum limit is 1000 records.\n- `statuses` and `status` cannot be used simultaneously.\n\n**Deposit Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | Processing |\n| 1 | Success |\n| 2 | Failed |\n| 3 | Need Fill Data (travel rule information required) |\n\n**Transfer Type Codes**\n\n| transferType | Description |\n|---|---|\n| 0 | External transfer |\n| 1 | Internal transfer |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 2 (IP)\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Deposit Confirmation** — Check if a specific deposit has been completed.\n- **Balance Reconciliation** — Match incoming deposits against balance increases to ensure all funds are accounted for.\n- **Audit Trail** — Export deposit history for a given time range to support accounting or compliance reporting.\n\n**Best Practices**\n\n- Always filter by `coin` to reduce response size when you only need a specific asset.\n- Use `startTime` and `endTime` for time-range queries to avoid fetching the full default 90-day window.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "wallet",
-                "v1",
-                "deposit",
-                "history"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "coin",
-                  "value": "<string>",
-                  "description": "Filter by coin symbol."
-                },
-                {
-                  "disabled": false,
-                  "key": "txId",
-                  "value": "<string>",
-                  "description": "Filter by on-chain transaction ID."
-                },
-                {
-                  "disabled": false,
-                  "key": "status",
-                  "value": "<integer>",
-                  "description": "Filter by deposit status: 0=Processing, 1=Success, 2=Failed, 3=Need Fill Data."
-                },
-                {
-                  "disabled": false,
-                  "key": "startTime",
-                  "value": "<long>",
-                  "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time."
-                },
-                {
-                  "disabled": false,
-                  "key": "endTime",
-                  "value": "<long>",
-                  "description": "End time in milliseconds. Maximum query window is 90 days."
-                },
-                {
-                  "disabled": false,
-                  "key": "statuses",
-                  "value": "<string>",
-                  "description": "Comma-separated list of deposit status values to filter by. Cannot be used together with `status`. Valid values: 0=Processing, 1=Success, 2=Failed.\n"
-                },
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "<integer>",
-                  "description": "Number of records to return. Default and maximum: 1000."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "fff0e8d2-fc12-4566-bb49-49971899f23f",
-              "name": "Deposit history records.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "deposit",
-                    "history"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "txId",
-                      "value": "abc123txhash"
-                    },
-                    {
-                      "key": "status",
-                      "value": "1"
-                    },
-                    {
-                      "key": "startTime",
-                      "value": "1640995200000"
-                    },
-                    {
-                      "key": "endTime",
-                      "value": "1641081600000"
-                    },
-                    {
-                      "key": "statuses",
-                      "value": "0,1"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "5000"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1641000000000"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "[\n  {\n    \"txId\": \"abc123txhash\",\n    \"insertTime\": 1641000000000,\n    \"amount\": \"0.001\",\n    \"coin\": \"BTC\",\n    \"address\": \"1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna\",\n    \"addressTag\": \"\",\n    \"transferType\": 0,\n    \"status\": 1,\n    \"confirmTimes\": \"3/2\",\n    \"unlockConfirm\": 2,\n    \"walletType\": 0\n  }\n]",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "56a5c8fe-ef91-416c-b69e-9b3ca0231664",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "deposit",
-                    "history"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "txId",
-                      "value": "abc123txhash"
-                    },
-                    {
-                      "key": "status",
-                      "value": "1"
-                    },
-                    {
-                      "key": "startTime",
-                      "value": "1640995200000"
-                    },
-                    {
-                      "key": "endTime",
-                      "value": "1641081600000"
-                    },
-                    {
-                      "key": "statuses",
-                      "value": "0,1"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "5000"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1641000000000"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "4fda51c7-6c45-4e43-ac12-ef674503c4b2",
-          "name": "Withdraw (USER_DATA)",
-          "request": {
-            "name": "Withdraw (USER_DATA)",
-            "description": {
-              "content": "Submit a cryptocurrency withdrawal request to an external address.\n\n**Key Notes**\n\n- `coin` and `network` must match a valid combination returned by `/openapi/wallet/v1/config/getall`.\n- Verify `withdrawEnable=true` for the selected coin and network before submitting.\n- For memo-based coins (e.g., XRP, XLM, EOS), `addressTag` is required.\n- `withdrawOrderId` can be used as a client-generated idempotency key (max 30 characters).\n- The `coin`, `network`, `address`, and `addressTag` combination must exist in your withdrawal address whitelist. You can use the Withdraw Address Whitelist endpoint to verify or add addresses.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 100 (UID)\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Crypto Withdrawal** — Send cryptocurrency to an external wallet address on a specified network.\n- **Programmatic Payouts** — Automate bulk withdrawal payouts with client-tracked IDs for idempotency.\n- **Network-Specific Send** — Specify the exact network for multi-chain tokens (e.g., USDT on ERC-20 vs BEP-20).\n\n**Best Practices**\n\n- Use `withdrawOrderId` for idempotency so duplicate requests return the same result.\n- Verify `withdrawEnable=true` for the target coin and network using the config endpoint before submitting.\n- Always include `addressTag` for memo-based coins to prevent loss of funds.\n- Double-check the destination address and network before submitting — withdrawals are irreversible.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "wallet",
-                "v1",
-                "withdraw",
-                "apply"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/x-www-form-urlencoded"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "disabled": false,
-                  "key": "coin",
-                  "value": "<string>",
-                  "description": "(Required) Coin symbol to withdraw."
-                },
-                {
-                  "disabled": false,
-                  "key": "address",
-                  "value": "<string>",
-                  "description": "(Required) Destination wallet address."
-                },
-                {
-                  "disabled": false,
-                  "key": "amount",
-                  "value": "<string>",
-                  "description": "(Required) Withdrawal amount."
-                },
-                {
-                  "disabled": false,
-                  "key": "network",
-                  "value": "<string>",
-                  "description": "(Required) Network to use for the withdrawal. Must match a network returned by /openapi/wallet/v1/config/getall. Required.\n"
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                },
-                {
-                  "disabled": false,
-                  "key": "addressTag",
-                  "value": "<string>",
-                  "description": "Memo or tag for memo-based coins (e.g., XRP, XLM)."
-                },
-                {
-                  "disabled": false,
-                  "key": "withdrawOrderId",
-                  "value": "<string>",
-                  "description": "Client-generated withdrawal order ID for idempotency. Maximum 30 characters."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "a48970fa-6054-44d1-b1c4-1cd99c35f457",
-              "name": "Withdrawal request submitted successfully.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "withdraw",
-                    "apply"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Coin symbol to withdraw.",
-                        "type": "text/plain"
-                      },
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Destination wallet address.",
-                        "type": "text/plain"
-                      },
-                      "key": "address",
-                      "value": "1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Withdrawal amount.",
-                        "type": "text/plain"
-                      },
-                      "key": "amount",
-                      "value": "0.001"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Network to use for the withdrawal. Must match a network returned by /openapi/wallet/v1/config/getall. Required.\n",
-                        "type": "text/plain"
-                      },
-                      "key": "network",
-                      "value": "BTC"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Unix timestamp in milliseconds.",
-                        "type": "text/plain"
-                      },
-                      "key": "timestamp",
-                      "value": "1641000000000"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
-                        "type": "text/plain"
-                      },
-                      "key": "signature",
-                      "value": "<string>"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "Memo or tag for memo-based coins (e.g., XRP, XLM).",
-                        "type": "text/plain"
-                      },
-                      "key": "addressTag",
-                      "value": "12345"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "Client-generated withdrawal order ID for idempotency. Maximum 30 characters.",
-                        "type": "text/plain"
-                      },
-                      "key": "withdrawOrderId",
-                      "value": "my-withdrawal-001"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
-                        "type": "text/plain"
-                      },
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"id\": \"7213fea8e94b4a5593d507237e5a555b\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "b2045431-9b58-42a8-87f3-a79ccf2f9929",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n| -1112 | No assets are available for withdrawal |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "withdraw",
-                    "apply"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Coin symbol to withdraw.",
-                        "type": "text/plain"
-                      },
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Destination wallet address.",
-                        "type": "text/plain"
-                      },
-                      "key": "address",
-                      "value": "1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Withdrawal amount.",
-                        "type": "text/plain"
-                      },
-                      "key": "amount",
-                      "value": "0.001"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Network to use for the withdrawal. Must match a network returned by /openapi/wallet/v1/config/getall. Required.\n",
-                        "type": "text/plain"
-                      },
-                      "key": "network",
-                      "value": "BTC"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) Unix timestamp in milliseconds.",
-                        "type": "text/plain"
-                      },
-                      "key": "timestamp",
-                      "value": "1641000000000"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)",
-                        "type": "text/plain"
-                      },
-                      "key": "signature",
-                      "value": "<string>"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "Memo or tag for memo-based coins (e.g., XRP, XLM).",
-                        "type": "text/plain"
-                      },
-                      "key": "addressTag",
-                      "value": "12345"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "Client-generated withdrawal order ID for idempotency. Maximum 30 characters.",
-                        "type": "text/plain"
-                      },
-                      "key": "withdrawOrderId",
-                      "value": "my-withdrawal-001"
-                    },
-                    {
-                      "disabled": false,
-                      "description": {
-                        "content": "Request validity window in milliseconds. Default: 5000, Maximum: 60000.",
-                        "type": "text/plain"
-                      },
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ]
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "a0f10475-4698-48ba-8ea9-809cc0de620f",
-          "name": "Withdraw History (USER_DATA)",
-          "request": {
-            "name": "Withdraw History (USER_DATA)",
-            "description": {
-              "content": "Retrieve the withdrawal history for the authenticated account.\n\n**Key Notes**\n\n- If `startTime` and `endTime` are not provided, defaults to 90 days before the current time.\n- If `withdrawOrderId` is provided without `startTime`/`endTime`, defaults to the last 7 days.\n- The maximum interval between `startTime` and `endTime` is 90 days (7 days when `withdrawOrderId` is provided).\n- Default and maximum limit is 1000 records.\n\n**Withdrawal Status Codes**\n\n| Status | Description |\n|---|---|\n| 0 | PROCESSING |\n| 1 | SUCCESS |\n| 2 | FAILED |\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 2 (IP)\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Withdrawal Tracking** — Monitor the status of pending or in-progress withdrawals to determine when they complete.\n- **Reconciliation** — Match withdrawal records against outgoing transaction IDs on-chain to confirm delivery.\n- **Fee Audit** — Track transaction fees paid per withdrawal for cost reporting.\n\n**Best Practices**\n\n- Use the `coin` filter to narrow results when you only care about a specific asset.\n- Store the returned `txId` for independent blockchain verification.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "wallet",
-                "v1",
-                "withdraw",
-                "history"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "coin",
-                  "value": "<string>",
-                  "description": "Filter by coin symbol."
-                },
-                {
-                  "disabled": false,
-                  "key": "withdrawOrderId",
-                  "value": "<string>",
-                  "description": "Filter by client-generated withdrawal order ID."
-                },
-                {
-                  "disabled": false,
-                  "key": "status",
-                  "value": "<integer>",
-                  "description": "Filter by withdrawal status: 0=Email Sent, 1=Cancelled, 2=Awaiting Approval, 3=Rejected, 4=Processing, 5=Failure, 6=Completed."
-                },
-                {
-                  "disabled": false,
-                  "key": "startTime",
-                  "value": "<long>",
-                  "description": "Start time in milliseconds. If not provided, defaults to 90 days before the current time (or 7 days before endTime when `withdrawOrderId` is also provided).\n"
-                },
-                {
-                  "disabled": false,
-                  "key": "endTime",
-                  "value": "<long>",
-                  "description": "End time in milliseconds. The maximum interval between `startTime` and `endTime` is 90 days (or 7 days when `withdrawOrderId` is provided).\n"
-                },
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "<integer>",
-                  "description": "Number of records to return. Default and maximum: 1000."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "74aaade8-987e-4dfb-9727-1d54542dd40b",
-              "name": "Withdrawal history records.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "withdraw",
-                    "history"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "withdrawOrderId",
-                      "value": "my-withdrawal-001"
-                    },
-                    {
-                      "key": "status",
-                      "value": "6"
-                    },
-                    {
-                      "key": "startTime",
-                      "value": "1640995200000"
-                    },
-                    {
-                      "key": "endTime",
-                      "value": "1641081600000"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "5000"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1641000000000"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "[\n  {\n    \"id\": \"7213fea8e94b4a5593d507237e5a555b\",\n    \"withdrawOrderId\": \"my-withdrawal-001\",\n    \"amount\": \"0.001\",\n    \"transactionFee\": \"0.0001\",\n    \"coin\": \"BTC\",\n    \"status\": 2,\n    \"address\": \"1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna\",\n    \"txId\": \"abc123txhash\",\n    \"applyTime\": \"2022-01-01 00:00:00\",\n    \"network\": \"BTC\",\n    \"transferType\": 0,\n    \"info\": \"\",\n    \"confirmNo\": 3,\n    \"walletType\": 0,\n    \"txKey\": \"\"\n  }\n]",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "da84bee7-26e6-4e79-9cb5-4fbaf511d32b",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1100 | Illegal characters found in parameter |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "withdraw",
-                    "history"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "BTC"
-                    },
-                    {
-                      "key": "withdrawOrderId",
-                      "value": "my-withdrawal-001"
-                    },
-                    {
-                      "key": "status",
-                      "value": "6"
-                    },
-                    {
-                      "key": "startTime",
-                      "value": "1640995200000"
-                    },
-                    {
-                      "key": "endTime",
-                      "value": "1641081600000"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "5000"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1641000000000"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "b160d642-db72-4eef-b8ec-5f82c0359bf3",
-          "name": "Withdraw Address Whitelist (USER_DATA)",
-          "request": {
-            "name": "Withdraw Address Whitelist (USER_DATA)",
-            "description": {
-              "content": "Get the withdrawal address whitelist for the authenticated user. Returns all whitelisted\nwithdrawal addresses configured for the account, with optional filtering by coin, network,\nor specific address.\n\n**Key Notes**\n\n- Returns addresses saved in the account's withdrawal address whitelist.\n- The coin/network/address/addressTag combination **must** be in the whitelist before a withdrawal can be submitted.\n- Use the `coin`, `network`, or `address` filters to narrow results.\n\n---\n\n## Additional Info\n\n**Rate Limit** [📖 Learn More](https://api.docs.coins.ph/reference/general#api-limit-introduction)\n\nWeight: 1\n\n**Use Cases** [🧩 SDK](https://api.docs.coins.ph/reference/general#sdk)\n\n- **Pre-Withdrawal Verification** — Confirm that the target address is whitelisted before submitting a withdrawal request.\n\n**Best Practices**\n\n- Use the `coin` filter to retrieve only relevant addresses and reduce response payload size.\n- Always verify addresses are whitelisted before attempting withdrawals to avoid rejections.\n- Cache the whitelist response temporarily (5-10 minutes) and refresh after adding or removing addresses\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "wallet",
-                "v1",
-                "withdraw",
-                "address-whitelist"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "coin",
-                  "value": "<string>",
-                  "description": "Filter by coin symbol."
-                },
-                {
-                  "disabled": false,
-                  "key": "network",
-                  "value": "<string>",
-                  "description": "Filter by network identifier."
-                },
-                {
-                  "disabled": false,
-                  "key": "address",
-                  "value": "<string>",
-                  "description": "Filter by specific withdrawal address."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Request validity window in milliseconds. Default: 5000, Maximum: 60000."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp in milliseconds."
-                },
-                {
-                  "disabled": false,
-                  "key": "signature",
-                  "value": "<string>",
-                  "description": "(Required) HMAC SHA256 signature of the query string [📖 Learn More](https://api.docs.coins.ph/reference/general#signed-endpoint-examples-for-post-openapiv1order)"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "disabled": false,
-                "description": "(Required) API key for authentication.",
-                "key": "X-COINS-APIKEY",
-                "value": "<string>"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "db25a749-5609-40f7-a1cc-0dc7f7dfb80b",
-              "name": "List of whitelisted withdrawal addresses.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "withdraw",
-                    "address-whitelist"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "TRX"
-                    },
-                    {
-                      "key": "network",
-                      "value": "TRX"
-                    },
-                    {
-                      "key": "address",
-                      "value": "TYDzsYUEpvnYmQk4zGP9sWWcTEd2MiAtW6"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "5000"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1638253478000"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "[\n  {\n    \"address\": \"TYDzsYUEpvnYmQk4zGP9sWWcTEd2MiAtW6\",\n    \"addressName\": \"TRX address\",\n    \"addressTag\": \"\",\n    \"coin\": \"TRX\",\n    \"network\": \"TRX\"\n  },\n  {\n    \"address\": \"0x1dce8f2494b77bb4e1c5851a109360135ba84ac2\",\n    \"addressName\": \"USDT address\",\n    \"addressTag\": \"\",\n    \"coin\": \"USDT\",\n    \"network\": \"ETH\"\n  }\n]",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "4d90344b-7d39-4039-9eab-38194eb40870",
-              "name": "API error response. The `code` field contains the internal API error code (not an HTTP status code).\n\n| Code | Description |\n|---|---|\n| -1022 | Signature for this request is not valid |\n| -1102 | Mandatory parameter was not sent, was empty/null, or malformed |\n\nFor the full list of error codes, see [Error Codes](https://api.docs.coins.ph/reference/error-codes).\n",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "withdraw",
-                    "address-whitelist"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "coin",
-                      "value": "TRX"
-                    },
-                    {
-                      "key": "network",
-                      "value": "TRX"
-                    },
-                    {
-                      "key": "address",
-                      "value": "TYDzsYUEpvnYmQk4zGP9sWWcTEd2MiAtW6"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "5000"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1638253478000"
-                    },
-                    {
-                      "key": "signature",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "disabled": false,
-                    "description": "(Required) API key for authentication.",
-                    "key": "X-COINS-APIKEY",
-                    "value": "<string>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "806080c5-b59b-4546-86a9-439380d6c886",
+          "createdAt": "2026-10-22T02:58:37.000Z",
+          "updatedAt": "2026-10-22T02:58:37.000Z",
+          "uid": "35240-806080c5-b59b-4546-86a9-439380d6c886"
         }
       ],
-      "event": []
+      "id": "8f943065-e83e-4a90-914d-942aa940acc3",
+      "createdAt": "2026-10-22T02:58:37.000Z",
+      "updatedAt": "2026-10-22T02:58:37.000Z",
+      "uid": "35240-8f943065-e83e-4a90-914d-942aa940acc3"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "eb1dc8a9-45f1-4472-9fae-ffb60da46a82",
-    "name": "TRADING Account Wallet API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

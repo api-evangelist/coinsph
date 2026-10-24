@@ -1,152 +1,210 @@
 {
+  "info": {
+    "_postman_id": "a51f0b0f-5c5a-4e08-bb8c-a2271458685d",
+    "name": "Payment Collections - Crypto API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:56:15.000Z",
+    "updatedAt": "2026-10-22T02:56:15.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a51f0b0f-5c5a-4e08-bb8c-a2271458685d"
+  },
   "item": [
     {
-      "id": "e958f208-a47b-403e-8ad8-a8ef292bb4d1",
-      "name": "Collections - Crypto",
-      "description": {
-        "content": "Crypto deposit address",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "56024a3b-270c-4cd9-adfc-4a467c45ce92",
-          "name": "Crypto Get Deposit Address",
-          "request": {
-            "name": "Crypto Get Deposit Address",
-            "description": {
-              "content": "Returns a crypto deposit address.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "wallet",
-                "v1",
-                "deposit",
-                "address"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "coin",
-                  "value": "<string>",
-                  "description": "(Required) Abbreviated token name."
-                },
-                {
-                  "disabled": false,
-                  "key": "network",
-                  "value": "<string>",
-                  "description": "(Required) Abbreviated network name."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                },
-                {
-                  "disabled": false,
-                  "key": "timestamp",
-                  "value": "<long>",
-                  "description": "(Required) Unix timestamp indicating when the request was made."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "wallet",
+          "item": [
             {
-              "id": "bfd816c7-4563-44c3-a7bf-e96892778379",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "wallet",
-                    "v1",
-                    "deposit",
-                    "address"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+              "name": "v1",
+              "item": [
+                {
+                  "name": "deposit",
+                  "item": [
                     {
-                      "key": "coin",
-                      "value": "USDT"
-                    },
-                    {
-                      "key": "network",
-                      "value": "XRP"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    },
-                    {
-                      "key": "timestamp",
-                      "value": "1747306565330"
+                      "name": "address",
+                      "item": [
+                        {
+                          "name": "Crypto Get Deposit Address",
+                          "id": "76ef28af-8f36-4a58-86aa-5abb3aee9842",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/address?coin=<string>&network=<string>&recvWindow=<long>&timestamp=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "wallet",
+                                "v1",
+                                "deposit",
+                                "address"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Abbreviated token name.",
+                                  "key": "coin",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) Abbreviated network name.",
+                                  "key": "network",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                },
+                                {
+                                  "description": "(Required) Unix timestamp indicating when the request was made.",
+                                  "key": "timestamp",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "description": "Returns a crypto deposit address."
+                          },
+                          "response": [
+                            {
+                              "id": "a9760e29-a45b-419d-982e-09eff3f1f729",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/wallet/v1/deposit/address?coin=<string>&network=<string>&recvWindow=<long>&timestamp=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "wallet",
+                                    "v1",
+                                    "deposit",
+                                    "address"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Abbreviated token name.",
+                                      "key": "coin",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) Abbreviated network name.",
+                                      "key": "network",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    },
+                                    {
+                                      "description": "(Required) Unix timestamp indicating when the request was made.",
+                                      "key": "timestamp",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"coin\": \"<string>\",\n  \"address\": \"<string>\",\n  \"addressTag\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T02:56:16.000Z",
+                              "updatedAt": "2026-10-22T02:56:16.000Z",
+                              "uid": "35240-a9760e29-a45b-419d-982e-09eff3f1f729"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:56:16.000Z",
+                          "updatedAt": "2026-10-22T02:56:16.000Z",
+                          "uid": "35240-76ef28af-8f36-4a58-86aa-5abb3aee9842"
+                        }
+                      ],
+                      "id": "67a04731-380d-4beb-b591-cfeda0b1bd08",
+                      "createdAt": "2026-10-22T02:56:16.000Z",
+                      "updatedAt": "2026-10-22T02:56:16.000Z",
+                      "uid": "35240-67a04731-380d-4beb-b591-cfeda0b1bd08"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "c235fe33-45fd-474b-a4db-98190eb14a14",
+                  "createdAt": "2026-10-22T02:56:16.000Z",
+                  "updatedAt": "2026-10-22T02:56:16.000Z",
+                  "uid": "35240-c235fe33-45fd-474b-a4db-98190eb14a14"
                 }
               ],
-              "body": "{\n  \"coin\": \"USDT\",\n  \"address\": \"rKrDJLGiSrKsRRtEQVgnWJnKALp5NJeDkC\",\n  \"addressTag\": \"1119001253\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "6a47b100-d1ee-4388-9273-7237ffe7e198",
+              "createdAt": "2026-10-22T02:56:16.000Z",
+              "updatedAt": "2026-10-22T02:56:16.000Z",
+              "uid": "35240-6a47b100-d1ee-4388-9273-7237ffe7e198"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "acc71e8c-6edb-4bee-b671-d6df0234fb09",
+          "createdAt": "2026-10-22T02:56:16.000Z",
+          "updatedAt": "2026-10-22T02:56:16.000Z",
+          "uid": "35240-acc71e8c-6edb-4bee-b671-d6df0234fb09"
         }
       ],
-      "event": []
+      "id": "54e159aa-45c0-412e-80dc-a0b6a409f87e",
+      "createdAt": "2026-10-22T02:56:16.000Z",
+      "updatedAt": "2026-10-22T02:56:16.000Z",
+      "uid": "35240-54e159aa-45c0-412e-80dc-a0b6a409f87e"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "b6121e76-3e55-4d91-8e1b-2fc98f48c2bb",
-    "name": "TRADING Account Collections - Crypto API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

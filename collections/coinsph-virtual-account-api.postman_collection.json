@@ -1,810 +1,1006 @@
 {
+  "info": {
+    "_postman_id": "b379c060-7503-4e65-b765-2c51bd1e1778",
+    "name": "Payment Virtual Account API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:58:29.000Z",
+    "updatedAt": "2026-10-22T02:58:29.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b379c060-7503-4e65-b765-2c51bd1e1778"
+  },
   "item": [
     {
-      "id": "db08f3e4-0d01-4268-abdb-28bddaf0433f",
-      "name": "Virtual Account",
-      "description": {
-        "content": "Virtual account creation and management",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "0635319c-dc54-435e-9226-dff0c8fc8205",
-          "name": "Create Virtual Account",
-          "request": {
-            "name": "Create Virtual Account",
-            "description": {
-              "content": "Create a new virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "create"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"vAccountType\": \"<integer>\",\n  \"vAccountUsage\": \"<integer>\",\n  \"cAccountNumber\": \"<string>\",\n  \"cAccountName\": \"<string>\",\n  \"validityPeriod\": \"<string>\",\n  \"coinsUserId\": \"<string>\",\n  \"requestId\": \"<string>\",\n  \"businessScenario\": \"<string>\",\n  \"fiatDestination\": {\n    \"token\": \"<string>\",\n    \"network\": \"<string>\",\n    \"address\": \"<string>\",\n    \"tag\": \"<string>\"\n  },\n  \"cryptoDestination\": {\n    \"currency\": \"<string>\",\n    \"transactionChannel\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"recipientAddress\": \"<string>\",\n    \"transactionSubject\": \"<string>\",\n    \"remarks\": \"<string>\"\n  },\n  \"needStaticQrCode\": \"<boolean>\",\n  \"extend\": {\n    \"key_0\": true\n  },\n  \"fiatSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"cryptoSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ]\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "v1",
+          "item": [
             {
-              "id": "a7b862d0-1c8a-4535-b201-77a0ec29c217",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "create"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"vAccountType\": 1,\n  \"vAccountUsage\": 1,\n  \"cAccountNumber\": \"EVA-SECVATEST-ACT-20260630-00022\",\n  \"cAccountName\": \"SecTestAccount\",\n  \"coinsUserId\": \"2248914299514407681\",\n  \"requestId\": \"SEC-EVATEST-Q20260630153000000022\",\n  \"businessScenario\": \"AUTO_RAMP\",\n  \"fiatSettings\": [\n    {\n      \"token\": \"PHP\",\n      \"network\": \"INSTAPAY\"\n    }\n  ],\n  \"fiatDestination\": {\n    \"token\": \"USDT\",\n    \"network\": \"BSC\",\n    \"address\": \"0x434f31cff8dc8ab55a58b6e12f6297df105ebfac\"\n  },\n  \"cryptoSettings\": [\n    {\n      \"token\": \"USDT\",\n      \"network\": \"BSC\"\n    }\n  ],\n  \"cryptoDestination\": {\n    \"currency\": \"PHP\",\n    \"transactionChannel\": \"INSTAPAY\",\n    \"transactionSubject\": \"gcash\",\n    \"recipientAccountNumber\": 9123456789,\n    \"recipientName\": \"Juan Dela Cruz\",\n    \"recipientAddress\": \"123 Manila Street, Manila City, Philippines\",\n    \"remarks\": \"Crypto withdrawal fund transfer\"\n  },\n  \"needStaticQrCode\": true,\n  \"extend\": {\n    \"accountAddress\": \"test address\"\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "virtual-account",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "create",
+                  "item": [
+                    {
+                      "name": "Create Virtual Account",
+                      "id": "b68afac5-a7d7-4c32-8a4a-346ccfe90fbd",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"vAccountType\": 1,\n  \"vAccountUsage\": 1,\n  \"cAccountNumber\": \"<string>\",\n  \"cAccountName\": \"<string>\",\n  \"validityPeriod\": \"D6\",\n  \"coinsUserId\": \"<string>\",\n  \"requestId\": \"<string>\",\n  \"businessScenario\": \"AUTO_ON_RAMP\",\n  \"fiatDestination\": {\n    \"token\": \"<string>\",\n    \"network\": \"<string>\",\n    \"address\": \"<string>\",\n    \"tag\": \"<string,null>\"\n  },\n  \"cryptoDestination\": {\n    \"currency\": \"<string>\",\n    \"transactionChannel\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"recipientAddress\": \"<string>\",\n    \"transactionSubject\": \"<string,null>\",\n    \"remarks\": \"<string,null>\"\n  },\n  \"needStaticQrCode\": \"<boolean>\",\n  \"extend\": {\n    \"nisi_b\": true\n  },\n  \"fiatSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"cryptoSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/virtual-account/create",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "virtual-account",
+                            "create"
+                          ]
+                        },
+                        "description": "Create a new virtual account.\n\n**Webhook:** \u2705 Supported (requires Coins.ph configuration)"
+                      },
+                      "response": [
+                        {
+                          "id": "8d521fee-d3b0-4afb-bc03-3687eb8b0a23",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"vAccountType\": 1,\n  \"vAccountUsage\": 1,\n  \"cAccountNumber\": \"<string>\",\n  \"cAccountName\": \"<string>\",\n  \"validityPeriod\": \"D6\",\n  \"coinsUserId\": \"<string>\",\n  \"requestId\": \"<string>\",\n  \"businessScenario\": \"AUTO_ON_RAMP\",\n  \"fiatDestination\": {\n    \"token\": \"<string>\",\n    \"network\": \"<string>\",\n    \"address\": \"<string>\",\n    \"tag\": \"<string,null>\"\n  },\n  \"cryptoDestination\": {\n    \"currency\": \"<string>\",\n    \"transactionChannel\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"recipientAddress\": \"<string>\",\n    \"transactionSubject\": \"<string,null>\",\n    \"remarks\": \"<string,null>\"\n  },\n  \"needStaticQrCode\": \"<boolean>\",\n  \"extend\": {\n    \"nisi_b\": true\n  },\n  \"fiatSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"cryptoSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/create",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "create"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"vAccountId\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-8d521fee-d3b0-4afb-bc03-3687eb8b0a23"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:30.000Z",
+                      "updatedAt": "2026-10-22T02:58:30.000Z",
+                      "uid": "35240-b68afac5-a7d7-4c32-8a4a-346ccfe90fbd"
+                    }
+                  ],
+                  "id": "e3b76318-dbdd-4b06-b9c7-3a095980e694",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-e3b76318-dbdd-4b06-b9c7-3a095980e694"
+                },
+                {
+                  "name": "update",
+                  "item": [
+                    {
+                      "name": "Update Virtual Account",
+                      "id": "03cfd4c2-1ef3-46e6-9a0b-2c899be5104e",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"fiatSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"cryptoSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"idList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"businessScenario\": \"AUTO_RAMP\",\n  \"fiatDestination\": {\n    \"token\": \"<string>\",\n    \"network\": \"<string>\",\n    \"address\": \"<string>\",\n    \"tag\": \"<string,null>\"\n  },\n  \"cryptoDestination\": {\n    \"currency\": \"<string>\",\n    \"transactionChannel\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"recipientAddress\": \"<string>\",\n    \"transactionSubject\": \"<string,null>\",\n    \"remarks\": \"<string,null>\"\n  },\n  \"needStaticQrCode\": \"<boolean,null>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/virtual-account/update",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "virtual-account",
+                            "update"
+                          ]
+                        },
+                        "description": "Update the fiat or crypto settings of an existing virtual account.\n\n**Webhook:** \u2705 Supported (requires Coins.ph configuration)"
+                      },
+                      "response": [
+                        {
+                          "id": "8c206e7a-5178-4dcb-aee6-bfae6168b1e5",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"fiatSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"cryptoSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"idList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"businessScenario\": \"AUTO_RAMP\",\n  \"fiatDestination\": {\n    \"token\": \"<string>\",\n    \"network\": \"<string>\",\n    \"address\": \"<string>\",\n    \"tag\": \"<string,null>\"\n  },\n  \"cryptoDestination\": {\n    \"currency\": \"<string>\",\n    \"transactionChannel\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"recipientAddress\": \"<string>\",\n    \"transactionSubject\": \"<string,null>\",\n    \"remarks\": \"<string,null>\"\n  },\n  \"needStaticQrCode\": \"<boolean,null>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/update",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "update"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"data\": \"<boolean>\"\n}",
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-8c206e7a-5178-4dcb-aee6-bfae6168b1e5"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:30.000Z",
+                      "updatedAt": "2026-10-22T02:58:30.000Z",
+                      "uid": "35240-03cfd4c2-1ef3-46e6-9a0b-2c899be5104e"
+                    }
+                  ],
+                  "id": "b42c4b4d-569a-46dc-a956-99b9af1ba0a3",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-b42c4b4d-569a-46dc-a956-99b9af1ba0a3"
+                },
+                {
+                  "name": "details",
+                  "item": [
+                    {
+                      "name": "Virtual Account Details",
+                      "id": "35085faf-30ae-45f5-ab3d-a5cb6a1d9b29",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"cAccountNumber\": \"<string>\",\n  \"requestId\": \"<string>\",\n  \"coinsUserId\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/virtual-account/details",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "virtual-account",
+                            "details"
+                          ]
+                        },
+                        "description": "Retrieve the full details of virtual accounts. At least one of `vAccountId`, `cAccountNumber`, `requestId`, or `coinsUserId` must be provided. Returns a list."
+                      },
+                      "response": [
+                        {
+                          "id": "846bdc54-a692-4297-8314-35d3d38ad153",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"cAccountNumber\": \"<string>\",\n  \"requestId\": \"<string>\",\n  \"coinsUserId\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/details",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "details"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"data\": [\n    {\n      \"vAccountId\": \"<string>\",\n      \"vAccountType\": 0,\n      \"vAccountUsage\": 1,\n      \"validityPeriod\": \"<string,null>\",\n      \"cAccountNumber\": \"<string>\",\n      \"cAccountName\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"coinsUserId\": \"<string,null>\",\n      \"status\": 1,\n      \"fiatStatus\": 1,\n      \"cryptoStatus\": 2,\n      \"businessScenario\": \"AUTO_OFF_RAMP\",\n      \"requestId\": \"<string,null>\",\n      \"fiatSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 2,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 1,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"cryptoSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 3,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 1,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"fiatDestination\": {\n        \"token\": \"<string>\",\n        \"network\": \"<string>\",\n        \"address\": \"<string>\",\n        \"tag\": \"<string,null>\"\n      },\n      \"cryptoDestination\": {\n        \"currency\": \"<string>\",\n        \"transactionChannel\": \"<string>\",\n        \"recipientAccountNumber\": \"<string>\",\n        \"recipientName\": \"<string>\",\n        \"recipientAddress\": \"<string>\",\n        \"transactionSubject\": \"<string,null>\",\n        \"remarks\": \"<string,null>\"\n      },\n      \"staticQrCode\": \"<string,null>\",\n      \"staticQrCodeStatus\": \"SUSPEND\",\n      \"extend\": {\n        \"staticQrCodeRequestId\": \"<string,null>\",\n        \"staticQrCodeStatus\": \"SUSPEND\",\n        \"staticQrCode\": \"<string,null>\"\n      },\n      \"createTime\": \"<string>\",\n      \"updateTime\": \"<string>\"\n    },\n    {\n      \"vAccountId\": \"<string>\",\n      \"vAccountType\": 1,\n      \"vAccountUsage\": 0,\n      \"validityPeriod\": \"<string,null>\",\n      \"cAccountNumber\": \"<string>\",\n      \"cAccountName\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"coinsUserId\": \"<string,null>\",\n      \"status\": 2,\n      \"fiatStatus\": 1,\n      \"cryptoStatus\": 1,\n      \"businessScenario\": \"\",\n      \"requestId\": \"<string,null>\",\n      \"fiatSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 1,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 2,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"cryptoSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 2,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 3,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"fiatDestination\": {\n        \"token\": \"<string>\",\n        \"network\": \"<string>\",\n        \"address\": \"<string>\",\n        \"tag\": \"<string,null>\"\n      },\n      \"cryptoDestination\": {\n        \"currency\": \"<string>\",\n        \"transactionChannel\": \"<string>\",\n        \"recipientAccountNumber\": \"<string>\",\n        \"recipientName\": \"<string>\",\n        \"recipientAddress\": \"<string>\",\n        \"transactionSubject\": \"<string,null>\",\n        \"remarks\": \"<string,null>\"\n      },\n      \"staticQrCode\": \"<string,null>\",\n      \"staticQrCodeStatus\": \"SUSPEND\",\n      \"extend\": {\n        \"staticQrCodeRequestId\": \"<string,null>\",\n        \"staticQrCodeStatus\": \"ACTIVE\",\n        \"staticQrCode\": \"<string,null>\"\n      },\n      \"createTime\": \"<string>\",\n      \"updateTime\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-846bdc54-a692-4297-8314-35d3d38ad153"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:30.000Z",
+                      "updatedAt": "2026-10-22T02:58:30.000Z",
+                      "uid": "35240-35085faf-30ae-45f5-ab3d-a5cb6a1d9b29"
+                    }
+                  ],
+                  "id": "1796be3e-4973-4b7b-b7b3-9d0151b902db",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-1796be3e-4973-4b7b-b7b3-9d0151b902db"
+                },
+                {
+                  "name": "list",
+                  "item": [
+                    {
+                      "name": "List Virtual Accounts",
+                      "id": "46f12101-b694-4fa4-b448-6a4637c478e2",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"pageNum\": \"<integer>\",\n  \"pageSize\": \"<integer>\",\n  \"vAccountId\": \"<string>\",\n  \"cAccountNumber\": \"<string>\",\n  \"coinsUserId\": \"<string>\",\n  \"vAccountType\": 1,\n  \"vAccountUsage\": 0,\n  \"vAddressType\": \"FIAT\",\n  \"status\": 2,\n  \"start\": \"<string>\",\n  \"end\": \"<string>\",\n  \"containsAddress\": \"<boolean>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/virtual-account/list",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "virtual-account",
+                            "list"
+                          ]
+                        },
+                        "description": "Paginate and filter all virtual accounts under the current merchant."
+                      },
+                      "response": [
+                        {
+                          "id": "34ce91d3-589b-40f2-a50d-f23641af9a44",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"pageNum\": \"<integer>\",\n  \"pageSize\": \"<integer>\",\n  \"vAccountId\": \"<string>\",\n  \"cAccountNumber\": \"<string>\",\n  \"coinsUserId\": \"<string>\",\n  \"vAccountType\": 1,\n  \"vAccountUsage\": 0,\n  \"vAddressType\": \"FIAT\",\n  \"status\": 2,\n  \"start\": \"<string>\",\n  \"end\": \"<string>\",\n  \"containsAddress\": \"<boolean>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/list",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "list"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"total\": \"<integer>\",\n  \"data\": [\n    {\n      \"vAccountId\": \"<string>\",\n      \"vAccountType\": 0,\n      \"vAccountUsage\": 1,\n      \"validityPeriod\": \"<string,null>\",\n      \"cAccountNumber\": \"<string>\",\n      \"cAccountName\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"coinsUserId\": \"<string,null>\",\n      \"status\": 3,\n      \"fiatStatus\": 2,\n      \"cryptoStatus\": 2,\n      \"businessScenario\": \"AUTO_OFF_RAMP\",\n      \"requestId\": \"<string,null>\",\n      \"fiatSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 1,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 3,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"cryptoSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 1,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 2,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"fiatDestination\": {\n        \"token\": \"<string>\",\n        \"network\": \"<string>\",\n        \"address\": \"<string>\",\n        \"tag\": \"<string,null>\"\n      },\n      \"cryptoDestination\": {\n        \"currency\": \"<string>\",\n        \"transactionChannel\": \"<string>\",\n        \"recipientAccountNumber\": \"<string>\",\n        \"recipientName\": \"<string>\",\n        \"recipientAddress\": \"<string>\",\n        \"transactionSubject\": \"<string,null>\",\n        \"remarks\": \"<string,null>\"\n      },\n      \"staticQrCode\": \"<string,null>\",\n      \"staticQrCodeStatus\": \"SUSPEND\",\n      \"extend\": {\n        \"staticQrCodeRequestId\": \"<string,null>\",\n        \"staticQrCodeStatus\": \"ACTIVE\",\n        \"staticQrCode\": \"<string,null>\"\n      },\n      \"createTime\": \"<string>\",\n      \"updateTime\": \"<string>\"\n    },\n    {\n      \"vAccountId\": \"<string>\",\n      \"vAccountType\": 0,\n      \"vAccountUsage\": 0,\n      \"validityPeriod\": \"<string,null>\",\n      \"cAccountNumber\": \"<string>\",\n      \"cAccountName\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"coinsUserId\": \"<string,null>\",\n      \"status\": 2,\n      \"fiatStatus\": 2,\n      \"cryptoStatus\": 1,\n      \"businessScenario\": \"AUTO_RAMP\",\n      \"requestId\": \"<string,null>\",\n      \"fiatSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 3,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 2,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"cryptoSettings\": [\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 1,\n          \"address\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"token\": \"<string>\",\n          \"network\": \"<string>\",\n          \"tokenLogo\": \"<string,null>\",\n          \"networkLogo\": \"<string,null>\",\n          \"status\": 1,\n          \"address\": \"<string,null>\"\n        }\n      ],\n      \"fiatDestination\": {\n        \"token\": \"<string>\",\n        \"network\": \"<string>\",\n        \"address\": \"<string>\",\n        \"tag\": \"<string,null>\"\n      },\n      \"cryptoDestination\": {\n        \"currency\": \"<string>\",\n        \"transactionChannel\": \"<string>\",\n        \"recipientAccountNumber\": \"<string>\",\n        \"recipientName\": \"<string>\",\n        \"recipientAddress\": \"<string>\",\n        \"transactionSubject\": \"<string,null>\",\n        \"remarks\": \"<string,null>\"\n      },\n      \"staticQrCode\": \"<string,null>\",\n      \"staticQrCodeStatus\": \"SUSPEND\",\n      \"extend\": {\n        \"staticQrCodeRequestId\": \"<string,null>\",\n        \"staticQrCodeStatus\": \"ACTIVE\",\n        \"staticQrCode\": \"<string,null>\"\n      },\n      \"createTime\": \"<string>\",\n      \"updateTime\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-34ce91d3-589b-40f2-a50d-f23641af9a44"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:30.000Z",
+                      "updatedAt": "2026-10-22T02:58:30.000Z",
+                      "uid": "35240-46f12101-b694-4fa4-b448-6a4637c478e2"
+                    }
+                  ],
+                  "id": "b60c6e15-0517-4afb-bafe-c4311703cc03",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-b60c6e15-0517-4afb-bafe-c4311703cc03"
+                },
+                {
+                  "name": "reactivate",
+                  "item": [
+                    {
+                      "name": "Reactivate Virtual Account",
+                      "id": "508ef02f-c001-44fe-9691-38a9fa2aaf31",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"vAddressType\": \"FIAT\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/virtual-account/reactivate",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "virtual-account",
+                            "reactivate"
+                          ]
+                        },
+                        "description": "Reactivate a deactivated virtual account.\n\n**Webhook:** \u2705 Supported (requires Coins.ph configuration)"
+                      },
+                      "response": [
+                        {
+                          "id": "4f3d009c-7878-40f0-b689-1f32a600717c",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"vAddressType\": \"FIAT\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/reactivate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "reactivate"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"data\": \"<boolean>\"\n}",
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-4f3d009c-7878-40f0-b689-1f32a600717c"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:30.000Z",
+                      "updatedAt": "2026-10-22T02:58:30.000Z",
+                      "uid": "35240-508ef02f-c001-44fe-9691-38a9fa2aaf31"
+                    }
+                  ],
+                  "id": "75851ef8-f8e1-426b-af53-c311b4b72ca5",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-75851ef8-f8e1-426b-af53-c311b4b72ca5"
+                },
+                {
+                  "name": "deactivate",
+                  "item": [
+                    {
+                      "name": "Deactivate Virtual Account",
+                      "id": "0f8d69e9-b045-4f94-af3f-0b50ed8fbdb8",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"vAddressType\": [\n    \"CRYPTO\",\n    \"CRYPTO\"\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/virtual-account/deactivate",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "virtual-account",
+                            "deactivate"
+                          ]
+                        },
+                        "description": "Deactivate fiat and/or crypto channels of a virtual account.\n\n**Webhook:** \u2705 Supported (requires Coins.ph configuration)"
+                      },
+                      "response": [
+                        {
+                          "id": "10cd405b-eca8-4c2e-8410-c3f6e59125be",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"vAddressType\": [\n    \"CRYPTO\",\n    \"CRYPTO\"\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/deactivate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "deactivate"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"data\": \"<boolean>\"\n}",
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-10cd405b-eca8-4c2e-8410-c3f6e59125be"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:30.000Z",
+                      "updatedAt": "2026-10-22T02:58:30.000Z",
+                      "uid": "35240-0f8d69e9-b045-4f94-af3f-0b50ed8fbdb8"
+                    }
+                  ],
+                  "id": "55160d09-73e3-4cd2-88eb-5337ef30f6e6",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-55160d09-73e3-4cd2-88eb-5337ef30f6e6"
+                },
+                {
+                  "name": "order",
+                  "item": [
+                    {
+                      "name": "list",
+                      "item": [
+                        {
+                          "name": "Virtual Account Transactions List",
+                          "id": "e00d0d98-4264-4ac7-9697-685dff32b8d0",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"vAddressType\": \"CRYPTO\",\n  \"vAccountId\": \"<string>\",\n  \"pageNum\": \"<integer>\",\n  \"pageSize\": \"<integer>\",\n  \"orderId\": \"<string>\",\n  \"start\": \"<string>\",\n  \"end\": \"<string>\",\n  \"network\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/order/list",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "order",
+                                "list"
+                              ]
+                            },
+                            "description": "Retrieve the transaction list for a virtual account."
+                          },
+                          "response": [
+                            {
+                              "id": "722ccd37-24e1-4772-ba3e-ee86cb664edc",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"vAddressType\": \"CRYPTO\",\n  \"vAccountId\": \"<string>\",\n  \"pageNum\": \"<integer>\",\n  \"pageSize\": \"<integer>\",\n  \"orderId\": \"<string>\",\n  \"start\": \"<string>\",\n  \"end\": \"<string>\",\n  \"network\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/v1/virtual-account/order/list",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "v1",
+                                    "virtual-account",
+                                    "order",
+                                    "list"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"total\": \"<integer>\",\n  \"data\": [\n    {\n      \"userId\": \"<string>\",\n      \"vAccountUsage\": \"<integer>\",\n      \"vAccountId\": \"<string>\",\n      \"orderId\": \"<string>\",\n      \"token\": \"<string>\",\n      \"network\": \"<string>\",\n      \"address\": \"<string,null>\",\n      \"amount\": \"<number>\",\n      \"totalAmount\": \"<string>\",\n      \"channelOrderId\": \"<string>\",\n      \"fromUserName\": \"<string,null>\",\n      \"fromUserNumber\": \"<string,null>\",\n      \"fromUserEmail\": \"<string,null>\",\n      \"sender\": \"<string,null>\",\n      \"transactionDate\": \"<string>\"\n    },\n    {\n      \"userId\": \"<string>\",\n      \"vAccountUsage\": \"<integer>\",\n      \"vAccountId\": \"<string>\",\n      \"orderId\": \"<string>\",\n      \"token\": \"<string>\",\n      \"network\": \"<string>\",\n      \"address\": \"<string,null>\",\n      \"amount\": \"<number>\",\n      \"totalAmount\": \"<string>\",\n      \"channelOrderId\": \"<string>\",\n      \"fromUserName\": \"<string,null>\",\n      \"fromUserNumber\": \"<string,null>\",\n      \"fromUserEmail\": \"<string,null>\",\n      \"sender\": \"<string,null>\",\n      \"transactionDate\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-10-22T02:58:30.000Z",
+                              "updatedAt": "2026-10-22T02:58:30.000Z",
+                              "uid": "35240-722ccd37-24e1-4772-ba3e-ee86cb664edc"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-e00d0d98-4264-4ac7-9697-685dff32b8d0"
+                        }
+                      ],
+                      "id": "8332cbe1-236f-4064-bbd7-601a32b7de7d",
+                      "createdAt": "2026-10-22T02:58:29.000Z",
+                      "updatedAt": "2026-10-22T02:58:29.000Z",
+                      "uid": "35240-8332cbe1-236f-4064-bbd7-601a32b7de7d"
+                    }
+                  ],
+                  "id": "4c8a8483-3328-461b-8019-20540f1bf1de",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-4c8a8483-3328-461b-8019-20540f1bf1de"
+                },
+                {
+                  "name": "check-network",
+                  "item": [
+                    {
+                      "name": "Check Virtual Account Network",
+                      "id": "c3d179b0-0bb1-44c3-9bb7-81a2add6cbbf",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"token\": \"<string>\",\n  \"network\": \"<string>\",\n  \"address\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/v1/virtual-account/check-network",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "v1",
+                            "virtual-account",
+                            "check-network"
+                          ]
+                        },
+                        "description": "Check whether a specific network/address combination is valid for a virtual account."
+                      },
+                      "response": [
+                        {
+                          "id": "0b22eb3a-81f8-4a0b-87c6-7e529f289e81",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"token\": \"<string>\",\n  \"network\": \"<string>\",\n  \"address\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/v1/virtual-account/check-network",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "v1",
+                                "virtual-account",
+                                "check-network"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"data\": {\n    \"userId\": \"<string>\",\n    \"isValid\": \"<boolean>\",\n    \"vAccountId\": \"<string>\",\n    \"cAccountNumber\": \"<string>\",\n    \"cAccountName\": \"<string>\",\n    \"vAccountType\": 0,\n    \"vAccountUsage\": 0,\n    \"status\": 3\n  }\n}",
+                          "createdAt": "2026-10-22T02:58:30.000Z",
+                          "updatedAt": "2026-10-22T02:58:30.000Z",
+                          "uid": "35240-0b22eb3a-81f8-4a0b-87c6-7e529f289e81"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:58:30.000Z",
+                      "updatedAt": "2026-10-22T02:58:30.000Z",
+                      "uid": "35240-c3d179b0-0bb1-44c3-9bb7-81a2add6cbbf"
+                    }
+                  ],
+                  "id": "ec08fdad-47e8-47bf-ab75-8cda0335e543",
+                  "createdAt": "2026-10-22T02:58:29.000Z",
+                  "updatedAt": "2026-10-22T02:58:29.000Z",
+                  "uid": "35240-ec08fdad-47e8-47bf-ab75-8cda0335e543"
                 }
               ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"data\": {\n    \"vAccountId\": \"2229106125796322048\"\n  },\n  \"params\": null\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "f79f2aec-21c9-40d5-ace2-c64e5d213ed6",
+              "createdAt": "2026-10-22T02:58:29.000Z",
+              "updatedAt": "2026-10-22T02:58:29.000Z",
+              "uid": "35240-f79f2aec-21c9-40d5-ace2-c64e5d213ed6"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "2eb08bd7-4a7f-4fd6-b4c5-9376a1b1a01c",
-          "name": "Update Virtual Account",
-          "request": {
-            "name": "Update Virtual Account",
-            "description": {
-              "content": "Update the fiat or crypto settings of an existing virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "update"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"fiatSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"cryptoSettings\": [\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    },\n    {\n      \"token\": \"<string>\",\n      \"network\": \"<string>\"\n    }\n  ],\n  \"idList\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"businessScenario\": \"<string>\",\n  \"fiatDestination\": {\n    \"token\": \"<string>\",\n    \"network\": \"<string>\",\n    \"address\": \"<string>\",\n    \"tag\": \"<string>\"\n  },\n  \"cryptoDestination\": {\n    \"currency\": \"<string>\",\n    \"transactionChannel\": \"<string>\",\n    \"recipientAccountNumber\": \"<string>\",\n    \"recipientName\": \"<string>\",\n    \"recipientAddress\": \"<string>\",\n    \"transactionSubject\": \"<string>\",\n    \"remarks\": \"<string>\"\n  },\n  \"needStaticQrCode\": \"<boolean>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "dffe3698-1088-489d-b186-a4cbb626b1a4",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "update"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"vAccountId\": \"2229106125796322048\",\n  \"fiatSettings\": [\n    {\n      \"token\": \"PHP\",\n      \"network\": \"SWIFTPAY_PESONET\"\n    }\n  ],\n  \"idList\": [\n    \"101\"\n  ],\n  \"businessScenario\": \"AUTO_RAMP\",\n  \"fiatDestination\": {\n    \"token\": \"USDT\",\n    \"network\": \"BSC\",\n    \"address\": \"0x434f31cff8dc8ab55a58b6e12f6297df105ebfac\"\n  },\n  \"needStaticQrCode\": true\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": true,\n  \"error\": \"OK\",\n  \"status\": 0\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "fa6bb444-cb20-400b-a110-27b71c70c9b0",
-          "name": "Virtual Account Details",
-          "request": {
-            "name": "Virtual Account Details",
-            "description": {
-              "content": "Retrieve the full details of virtual accounts. At least one of `vAccountId`, `cAccountNumber`, `requestId`, or `coinsUserId` must be provided. Returns a list.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "details"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"cAccountNumber\": \"<string>\",\n  \"requestId\": \"<string>\",\n  \"coinsUserId\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "8a90ebf5-e94d-44f1-99c2-bec6c8bcc30a",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "details"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"SEC-EVATEST-Q20260630153000000022\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"data\": [\n    {\n      \"vAccountId\": \"2250248269847533312\",\n      \"cAccountNumber\": \"EVA-SECVATEST-ACT-20260702-00075\",\n      \"cAccountName\": \"SecTestAccount\",\n      \"vAccountType\": 0,\n      \"vAccountUsage\": 1,\n      \"validityPeriod\": null,\n      \"userId\": \"1573829012941197056\",\n      \"coinsUserId\": \"0\",\n      \"status\": 1,\n      \"fiatStatus\": 1,\n      \"cryptoStatus\": 1,\n      \"businessScenario\": \"AUTO_OFF_RAMP\",\n      \"requestId\": \"SEC-EVATEST-Q202607015300000066\",\n      \"fiatSettings\": [\n        {\n          \"id\": \"478\",\n          \"token\": \"PHP\",\n          \"network\": \"SWIFTPAY_PESONET\",\n          \"tokenLogo\": \"https://static.pro.coins.xyz/upload/images/PHP.png\",\n          \"networkLogo\": \"https://static.pro.coins.xyz/upload/images/PESONet.png\",\n          \"status\": 1,\n          \"address\": \"\"\n        }\n      ],\n      \"cryptoSettings\": [\n        {\n          \"id\": \"479\",\n          \"token\": \"USDT\",\n          \"network\": \"BSC\",\n          \"tokenLogo\": \"https://static.pro.coins.xyz/upload/images/USDT-NEW.png\",\n          \"networkLogo\": \"https://static.pro.coins.xyz/resource/images/BNB.png\",\n          \"status\": 1,\n          \"address\": \"0x4905c1b6cc346dbc541f6a96c7d1f8ae7933e21c\"\n        }\n      ],\n      \"fiatDestination\": {\n        \"token\": \"ETH\",\n        \"network\": \"ETH\",\n        \"address\": \"0x72d367b5efeb5dbb364dfae83f245d1d6e35e6c9\",\n        \"tag\": null\n      },\n      \"cryptoDestination\": {\n        \"currency\": \"PHP\",\n        \"transactionChannel\": \"INSTAPAY\",\n        \"transactionSubject\": \"gcash\",\n        \"recipientAccountNumber\": 9123456789,\n        \"recipientName\": \"Juan Dela Cruz\",\n        \"recipientAddress\": \"123 Manila Street, Manila City, Philippines\",\n        \"remarks\": \"Crypto withdrawal fund transfer\"\n      },\n      \"staticQrCode\": \"00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197489344632592819205030105204076353036085802PH5923COINS TEST ACCT QR NAME6006Taguig62380011ph.ppmi.p2m051922502482749783040026304CA52\",\n      \"staticQrCodeStatus\": \"ACTIVE\",\n      \"extend\": {\n        \"staticQrCodeRequestId\": \"VA2250248274872309504\",\n        \"staticQrCodeStatus\": \"ACTIVE\",\n        \"staticQrCode\": \"00020101021128600011ph.ppmi.p2m0111DCPHPHM1XXX0319197489344632592819205030105204076353036085802PH5923COINS TEST ACCT QR NAME6006Taguig62380011ph.ppmi.p2m051922502482749783040026304CA52\"\n      },\n      \"createTime\": \"2026-07-02 10:01:37\",\n      \"updateTime\": \"2026-07-02 10:01:38\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "3d4bbb4d-3448-445b-844c-ca5fd0bc5651",
-          "name": "List Virtual Accounts",
-          "request": {
-            "name": "List Virtual Accounts",
-            "description": {
-              "content": "Paginate and filter all virtual accounts under the current merchant.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "list"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"pageNum\": \"<integer>\",\n  \"pageSize\": \"<integer>\",\n  \"vAccountId\": \"<string>\",\n  \"cAccountNumber\": \"<string>\",\n  \"coinsUserId\": \"<string>\",\n  \"vAccountType\": \"<integer>\",\n  \"vAccountUsage\": \"<integer>\",\n  \"vAddressType\": \"<string>\",\n  \"status\": \"<integer>\",\n  \"start\": \"<string>\",\n  \"end\": \"<string>\",\n  \"containsAddress\": \"<boolean>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "349763a6-124b-4275-beee-31015f77ceb6",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "list"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"vAccountType\": 1,\n  \"status\": 1,\n  \"cAccountNumber\": \"EVA-SECVATEST-ACT-20260630-00022\",\n  \"containsAddress\": true\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"total\": 1,\n  \"data\": [\n    {\n      \"vAccountId\": \"2229106125796322048\",\n      \"cAccountNumber\": \"EVA-SECVATEST-ACT-20260630-00022\",\n      \"cAccountName\": \"SecTestAccount\",\n      \"vAccountType\": 1,\n      \"vAccountUsage\": 1,\n      \"status\": 1,\n      \"fiatStatus\": 1,\n      \"cryptoStatus\": 2,\n      \"validityPeriod\": null,\n      \"businessScenario\": \"AUTO_ON_RAMP\",\n      \"requestId\": \"SEC-EVATEST-Q20260630153000000022\",\n      \"fiatSettings\": [\n        {\n          \"id\": \"201\",\n          \"token\": \"PHP\",\n          \"network\": \"INSTAPAY\",\n          \"tokenLogo\": \"https://static.coins.xyz/PHP.png\",\n          \"networkLogo\": null,\n          \"status\": 1,\n          \"address\": null\n        }\n      ],\n      \"cryptoSettings\": [],\n      \"fiatDestination\": {\n        \"token\": \"USDT\",\n        \"network\": \"BSC\",\n        \"address\": \"0x434f31cff8dc8ab55a58b6e12f6297df105ebfac\",\n        \"tag\": null\n      },\n      \"cryptoDestination\": null,\n      \"staticQrCode\": \"00020101021128600011ph.ppmi.p2m...\",\n      \"staticQrCodeStatus\": \"ACTIVE\",\n      \"extend\": {\n        \"accountAddress\": \"test address\"\n      },\n      \"userId\": \"2067534261742978048\",\n      \"createTime\": \"2026-06-30 15:30:00\",\n      \"updateTime\": \"2026-06-30 15:30:05\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "a2ed6539-0b40-4bb5-9a2b-ab3e7c3dd6ba",
-          "name": "Reactivate Virtual Account",
-          "request": {
-            "name": "Reactivate Virtual Account",
-            "description": {
-              "content": "Reactivate a deactivated virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "reactivate"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"vAddressType\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "0eb9ac65-1eae-4c38-b7a1-0dfc2b39dbab",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "reactivate"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"vAccountId\": \"100001\",\n  \"vAddressType\": \"FIAT\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": true,\n  \"error\": \"OK\",\n  \"status\": 0\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "e9230879-c3f5-4002-8499-07abc2eb594c",
-          "name": "Deactivate Virtual Account",
-          "request": {
-            "name": "Deactivate Virtual Account",
-            "description": {
-              "content": "Deactivate fiat and/or crypto channels of a virtual account.\n\n**Webhook:** ✅ Supported (requires Coins.ph configuration)",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "deactivate"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"vAddressType\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "51207440-e211-480c-bc8b-6810c88abb74",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "deactivate"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"vAccountId\": \"100001\",\n  \"vAddressType\": [\n    \"FIAT\",\n    \"CRYPTO\"\n  ]\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": true,\n  \"error\": \"OK\",\n  \"status\": 0\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "6630c172-4930-44d0-b225-d5cf83770675",
-          "name": "Virtual Account Transactions List",
-          "request": {
-            "name": "Virtual Account Transactions List",
-            "description": {
-              "content": "Retrieve the transaction list for a virtual account.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "order",
-                "list"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"vAddressType\": \"<string>\",\n  \"vAccountId\": \"<string>\",\n  \"pageNum\": \"<integer>\",\n  \"pageSize\": \"<integer>\",\n  \"orderId\": \"<string>\",\n  \"start\": \"<string>\",\n  \"end\": \"<string>\",\n  \"network\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "4725550d-af12-4624-ac5f-10163cf0a092",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "order",
-                    "list"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"vAccountId\": \"100001\",\n  \"vAddressType\": \"FIAT\",\n  \"orderId\": \"ORD20240115001\",\n  \"network\": \"INSTAPAY\",\n  \"start\": \"2024-01-01 00:00:00\",\n  \"end\": \"2024-01-31 23:59:59\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"total\": 200,\n  \"data\": [\n    {\n      \"userId\": \"userId\",\n      \"vAccountUsage\": 1,\n      \"vAccountId\": \"vAccountId\",\n      \"orderId\": \"orderId\",\n      \"token\": \"USDT\",\n      \"network\": \"TRC20\",\n      \"address\": \"TN123456789abcdef\",\n      \"amount\": 100.5,\n      \"totalAmount\": \"100.50\",\n      \"channelOrderId\": \"CH20240115001\",\n      \"fromUserName\": \"Alice\",\n      \"fromUserNumber\": \"U10001\",\n      \"fromUserEmail\": \"alice@coisn.ph\",\n      \"sender\": \"TN987654321fedcba\",\n      \"transactionDate\": \"2024-01-15 10:30:00\"\n    },\n    {\n      \"userId\": \"userId\",\n      \"vAccountUsage\": 1,\n      \"vAccountId\": \"vAccountId\",\n      \"orderId\": \"orderId\",\n      \"token\": \"USDT\",\n      \"network\": \"TRC20\",\n      \"address\": \"TN123456789abcdef\",\n      \"amount\": 100.5,\n      \"totalAmount\": \"100.50\",\n      \"channelOrderId\": \"CH20240115001\",\n      \"fromUserName\": \"Alice\",\n      \"fromUserNumber\": \"U10001\",\n      \"fromUserEmail\": \"alice@coisn.ph\",\n      \"sender\": \"TN987654321fedcba\",\n      \"transactionDate\": \"2024-01-15 10:30:00\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "bda01232-971b-4faf-bbbc-ad10786e5c0a",
-          "name": "Check Virtual Account Network",
-          "request": {
-            "name": "Check Virtual Account Network",
-            "description": {
-              "content": "Check whether a specific network/address combination is valid for a virtual account.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "v1",
-                "virtual-account",
-                "check-network"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"vAccountId\": \"<string>\",\n  \"token\": \"<string>\",\n  \"network\": \"<string>\",\n  \"address\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "f7145cc8-08ee-4618-9c9a-31b1a2461130",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "v1",
-                    "virtual-account",
-                    "check-network"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"vAccountId\": \"100001\",\n  \"token\": \"USDT\",\n  \"network\": \"TRC20\",\n  \"address\": \"TN123456789abcdef\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"data\": {\n    \"userId\": \"userId\",\n    \"isValid\": true,\n    \"vAccountId\": \"vAccountId\",\n    \"cAccountNumber\": \"1234567890\",\n    \"cAccountName\": \"John Doe\",\n    \"vAccountType\": 1,\n    \"vAccountUsage\": 1,\n    \"status\": 1\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "4255ba7d-664c-474a-86e6-749c86f4fbed",
+          "createdAt": "2026-10-22T02:58:29.000Z",
+          "updatedAt": "2026-10-22T02:58:29.000Z",
+          "uid": "35240-4255ba7d-664c-474a-86e6-749c86f4fbed"
         }
       ],
-      "event": []
+      "id": "71cffbae-f0a9-4102-bb73-11efc1af845a",
+      "createdAt": "2026-10-22T02:58:29.000Z",
+      "updatedAt": "2026-10-22T02:58:29.000Z",
+      "uid": "35240-71cffbae-f0a9-4102-bb73-11efc1af845a"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "87cc74b0-0fe3-49fd-ba35-c1c926cd220f",
-    "name": "TRADING Account Virtual Account API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

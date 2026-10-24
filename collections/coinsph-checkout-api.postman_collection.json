@@ -1,263 +1,342 @@
 {
+  "info": {
+    "_postman_id": "c08c8b23-7897-4994-9dd7-28a757b86086",
+    "name": "Payment Checkout API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:56:04.000Z",
+    "updatedAt": "2026-10-22T02:56:04.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c08c8b23-7897-4994-9dd7-28a757b86086"
+  },
   "item": [
     {
-      "id": "980f7e9b-054e-4391-aaa5-25cd58c53cfb",
-      "name": "Checkout",
-      "description": {
-        "content": "Checkout creation and management",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "49122f5a-c44e-4c9d-84a7-b02973d6a5da",
-          "name": "Create Checkout",
-          "request": {
-            "name": "Create Checkout",
-            "description": {
-              "content": "Create an instance of a checkout.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "checkout",
-                "create-checkout"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"requestId\": \"<string>\",\n  \"totalAmount\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"redirectUrl\": {\n    \"defaultUrl\": \"<string>\",\n    \"success\": \"<string>\",\n    \"failure\": \"<string>\",\n    \"cancel\": \"<string>\"\n  },\n  \"productDetails\": [\n    {\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    }\n  ],\n  \"feeAmount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"subMerchantId\": \"<string>\",\n  \"subMerchantReqRefNo\": \"<string>\",\n  \"merchantName\": \"<string>\",\n  \"expireSeconds\": \"<string>\",\n  \"remark\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "fiat",
+          "item": [
             {
-              "id": "b93be0fd-171f-48df-9ed8-5e2a3a3de1d7",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "checkout",
-                    "create-checkout"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"totalAmount\": \"100.12\",\n  \"amount\": \"100.00\",\n  \"redirectUrl\": {\n    \"defaultUrl\": \"https://merchant.example.com/payment/default\",\n    \"success\": \"https://merchant.example.com/payment/success\",\n    \"failure\": \"https://merchant.example.com/payment/failure\",\n    \"cancel\": \"https://merchant.example.com/payment/cancel\"\n  },\n  \"productDetails\": [\n    {\n      \"name\": \"iPhone 15 Pro\",\n      \"type\": \"<string>\",\n      \"amount\": \"100.00\",\n      \"quantity\": \"1\",\n      \"code\": \"IPHONE-256GB-BLUE\",\n      \"desc\": \"iPhone 15 Pro 256GB Blue\"\n    },\n    {\n      \"name\": \"iPhone 15 Pro\",\n      \"type\": \"<string>\",\n      \"amount\": \"100.00\",\n      \"quantity\": \"1\",\n      \"code\": \"IPHONE-256GB-BLUE\",\n      \"desc\": \"iPhone 15 Pro 256GB Blue\"\n    }\n  ],\n  \"feeAmount\": \"0.12\",\n  \"currency\": \"PHP\",\n  \"subMerchantId\": \"<string>\",\n  \"subMerchantReqRefNo\": \"<string>\",\n  \"merchantName\": \"<string>\",\n  \"expireSeconds\": \"600\",\n  \"remark\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "v1",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "checkout",
+                  "item": [
+                    {
+                      "name": "create-checkout",
+                      "item": [
+                        {
+                          "name": "Create Checkout",
+                          "id": "0e3399a9-b6f4-4c86-82aa-f8dce7f75551",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"requestId\": \"<string>\",\n  \"totalAmount\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"redirectUrl\": {\n    \"defaultUrl\": \"<string>\",\n    \"success\": \"<string>\",\n    \"failure\": \"<string>\",\n    \"cancel\": \"<string>\"\n  },\n  \"productDetails\": [\n    {\n      \"name\": \"<string>\",\n      \"type\": \"mobile_load\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"type\": \"utilities_and_bills\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    }\n  ],\n  \"feeAmount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"subMerchantId\": \"<string>\",\n  \"subMerchantReqRefNo\": \"<string>\",\n  \"merchantName\": \"<string>\",\n  \"expireSeconds\": \"<string>\",\n  \"remark\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/create-checkout?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "checkout",
+                                "create-checkout"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "description": "Create an instance of a checkout."
+                          },
+                          "response": [
+                            {
+                              "id": "b9651348-1f96-4360-8a1b-fe882492844b",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"totalAmount\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"redirectUrl\": {\n    \"defaultUrl\": \"<string>\",\n    \"success\": \"<string>\",\n    \"failure\": \"<string>\",\n    \"cancel\": \"<string>\"\n  },\n  \"productDetails\": [\n    {\n      \"name\": \"<string>\",\n      \"type\": \"mobile_load\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"type\": \"utilities_and_bills\",\n      \"amount\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"code\": \"<string>\",\n      \"desc\": \"<string>\"\n    }\n  ],\n  \"feeAmount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"subMerchantId\": \"<string>\",\n  \"subMerchantReqRefNo\": \"<string>\",\n  \"merchantName\": \"<string>\",\n  \"expireSeconds\": \"<string>\",\n  \"remark\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/create-checkout?recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "checkout",
+                                    "create-checkout"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"requestId\": \"<string>\",\n    \"checkoutId\": \"<string>\",\n    \"checkoutUrl\": \"<string>\",\n    \"checkoutDeeplinkUrl\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:56:04.000Z",
+                              "updatedAt": "2026-10-22T02:56:04.000Z",
+                              "uid": "35240-b9651348-1f96-4360-8a1b-fe882492844b"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:56:04.000Z",
+                          "updatedAt": "2026-10-22T02:56:04.000Z",
+                          "uid": "35240-0e3399a9-b6f4-4c86-82aa-f8dce7f75551"
+                        }
+                      ],
+                      "id": "070c6024-a1b5-4f8c-8b23-6c5f2acab176",
+                      "createdAt": "2026-10-22T02:56:04.000Z",
+                      "updatedAt": "2026-10-22T02:56:04.000Z",
+                      "uid": "35240-070c6024-a1b5-4f8c-8b23-6c5f2acab176"
+                    },
+                    {
+                      "name": "status-check",
+                      "item": [
+                        {
+                          "name": "Get Checkout Status",
+                          "id": "a83f9461-da9b-4f59-a957-0147c5fb9aca",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/status-check?checkoutId=<string>&refundId=<string>&requestId=<string>&recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "checkout",
+                                "status-check"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Server generated checkout id. This takes first priority.",
+                                  "key": "checkoutId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Server generated checkout id. This takes first priority.",
+                                  "key": "refundId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Assigned by the partner. This takes second priority.",
+                                  "key": "requestId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "description": "Returns the current status of a previously created checkout."
+                          },
+                          "response": [
+                            {
+                              "id": "28f873f6-22e3-49ae-b0c5-2a0aac270c3d",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/checkout/status-check?checkoutId=<string>&refundId=<string>&requestId=<string>&recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "checkout",
+                                    "status-check"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Server generated checkout id. This takes first priority.",
+                                      "key": "checkoutId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Server generated checkout id. This takes first priority.",
+                                      "key": "refundId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Assigned by the partner. This takes second priority.",
+                                      "key": "requestId",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"checkoutId\": \"<string>\",\n    \"checkoutUrl\": \"<string,null>\",\n    \"requestId\": \"<string>\",\n    \"subMerchantId\": \"<string>\",\n    \"merchantName\": \"<string>\",\n    \"subMerchantReqRefNo\": \"<string>\",\n    \"totalAmount\": \"<string>\",\n    \"feeAmount\": \"<string>\",\n    \"status\": \"CANCELED\",\n    \"completedAt\": \"<string>\",\n    \"errorCode\": \"<string,null>\",\n    \"errorMsg\": \"<string,null>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:56:04.000Z",
+                              "updatedAt": "2026-10-22T02:56:04.000Z",
+                              "uid": "35240-28f873f6-22e3-49ae-b0c5-2a0aac270c3d"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:56:04.000Z",
+                          "updatedAt": "2026-10-22T02:56:04.000Z",
+                          "uid": "35240-a83f9461-da9b-4f59-a957-0147c5fb9aca"
+                        }
+                      ],
+                      "id": "73ba4712-fc86-41df-a0c3-7661295c2165",
+                      "createdAt": "2026-10-22T02:56:04.000Z",
+                      "updatedAt": "2026-10-22T02:56:04.000Z",
+                      "uid": "35240-73ba4712-fc86-41df-a0c3-7661295c2165"
+                    }
+                  ],
+                  "id": "acf7e64d-4a7a-4ad2-b586-c56494d06aa6",
+                  "createdAt": "2026-10-22T02:56:04.000Z",
+                  "updatedAt": "2026-10-22T02:56:04.000Z",
+                  "uid": "35240-acf7e64d-4a7a-4ad2-b586-c56494d06aa6"
                 }
               ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"requestId\": \"string\",\n    \"checkoutId\": \"1984059672474453473\",\n    \"checkoutUrl\": \"string\",\n    \"checkoutDeeplinkUrl\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "4142213f-2bb6-43ad-a728-21814ed928a2",
+              "createdAt": "2026-10-22T02:56:04.000Z",
+              "updatedAt": "2026-10-22T02:56:04.000Z",
+              "uid": "35240-4142213f-2bb6-43ad-a728-21814ed928a2"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "f8b8a3cc-393b-4442-bc0e-f72409fe30e1",
-          "name": "Get Checkout Status",
-          "request": {
-            "name": "Get Checkout Status",
-            "description": {
-              "content": "Returns the current status of a previously created checkout.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "checkout",
-                "status-check"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "checkoutId",
-                  "value": "<string>",
-                  "description": "Server generated checkout id. This takes first priority."
-                },
-                {
-                  "disabled": false,
-                  "key": "refundId",
-                  "value": "<string>",
-                  "description": "Server generated checkout id. This takes first priority."
-                },
-                {
-                  "disabled": false,
-                  "key": "requestId",
-                  "value": "<string>",
-                  "description": "Assigned by the partner. This takes second priority."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "9e957991-b26e-4704-a7e0-e9caac21bcf3",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "checkout",
-                    "status-check"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "checkoutId",
-                      "value": "1984059672474453473"
-                    },
-                    {
-                      "key": "refundId",
-                      "value": "1984059672474453473"
-                    },
-                    {
-                      "key": "requestId",
-                      "value": "3C1706X9619A7614YWS"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"checkoutId\": \"string\",\n    \"checkoutUrl\": \"string\",\n    \"requestId\": \"string\",\n    \"subMerchantId\": \"string\",\n    \"merchantName\": \"string\",\n    \"subMerchantReqRefNo\": \"string\",\n    \"totalAmount\": \"string\",\n    \"feeAmount\": \"string\",\n    \"status\": \"CANCELED\",\n    \"completedAt\": \"string\",\n    \"errorCode\": \"string\",\n    \"errorMsg\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "fd74f180-b1d7-4512-853d-a0d76264673c",
+          "createdAt": "2026-10-22T02:56:04.000Z",
+          "updatedAt": "2026-10-22T02:56:04.000Z",
+          "uid": "35240-fd74f180-b1d7-4512-853d-a0d76264673c"
         }
       ],
-      "event": []
+      "id": "bff4ce6a-afb5-4062-b041-2053b6bc8d8b",
+      "createdAt": "2026-10-22T02:56:04.000Z",
+      "updatedAt": "2026-10-22T02:56:04.000Z",
+      "uid": "35240-bff4ce6a-afb5-4062-b041-2053b6bc8d8b"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "3506aed2-842c-44d8-9a9a-7d9c743cb554",
-    "name": "TRADING Account Checkout API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

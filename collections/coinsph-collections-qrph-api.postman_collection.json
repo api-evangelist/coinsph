@@ -1,663 +1,839 @@
 {
+  "info": {
+    "_postman_id": "ae8520ec-d6c7-430c-a31a-45dca5c03e38",
+    "name": "Payment Collections - QRPH API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:56:20.000Z",
+    "updatedAt": "2026-10-22T02:56:21.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ae8520ec-d6c7-430c-a31a-45dca5c03e38"
+  },
   "item": [
     {
-      "id": "4c83fe9b-8cbf-4215-a8ba-3866bf44cb94",
-      "name": "Collections - QRPH",
-      "description": {
-        "content": "QRPH code generation and management",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "5c2ab635-b7e3-488f-b3bd-74f8318939d3",
-          "name": "Generate Dynamic QRPH",
-          "request": {
-            "name": "Generate Dynamic QRPH",
-            "description": {
-              "content": "Returns a dynamic QRPH code.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "generate_qr_code"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"requestId\": \"<string>\",\n  \"source\": \"<string>\",\n  \"amount\": \"<decimal>\",\n  \"currency\": \"<string>\",\n  \"type\": \"<string>\",\n  \"remark\": \"<string>\",\n  \"expiredSeconds\": \"<integer>\",\n  \"qrCodeMerchantName\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"subMerchantId\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "fiat",
+          "item": [
             {
-              "id": "3386402a-7650-4de9-b06b-f95789158c1e",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "generate_qr_code"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+              "name": "v1",
+              "item": [
+                {
+                  "name": "generate_qr_code",
+                  "item": [
                     {
-                      "key": "recvWindow",
-                      "value": "<long>"
+                      "name": "Generate Dynamic QRPH",
+                      "id": "139534b1-1730-4373-ab0e-f2e9495c9fb8",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"requestId\": \"<string>\",\n  \"source\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"currency\": \"<string>\",\n  \"type\": \"DYNAMIC\",\n  \"remark\": \"<string>\",\n  \"expiredSeconds\": \"<integer>\",\n  \"qrCodeMerchantName\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"subMerchantId\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/fiat/v1/generate_qr_code?recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "fiat",
+                            "v1",
+                            "generate_qr_code"
+                          ],
+                          "query": [
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns a dynamic QRPH code."
+                      },
+                      "response": [
+                        {
+                          "id": "c14769f0-12e7-48d4-a9d1-e6485d0edb1b",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"requestId\": \"<string>\",\n  \"source\": \"<string>\",\n  \"amount\": \"<number>\",\n  \"currency\": \"<string>\",\n  \"type\": \"DYNAMIC\",\n  \"remark\": \"<string>\",\n  \"expiredSeconds\": \"<integer>\",\n  \"qrCodeMerchantName\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"subMerchantId\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/generate_qr_code?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "generate_qr_code"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"qrCode\": \"<string>\",\n    \"requestId\": \"<string>\",\n    \"referenceId\": \"<string>\",\n    \"expiredTime\": \"<string>\",\n    \"amount\": \"<number>\",\n    \"currency\": \"<string>\",\n    \"status\": \"EXPIRED\",\n    \"errorCode\": \"<string,null>\",\n    \"errorMsg\": \"<string,null>\",\n    \"remark\": \"<string>\",\n    \"channelInvoiceNo\": \"<string,null>\",\n    \"cashInBank\": \"<string,null>\",\n    \"settleDate\": \"<string,null>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:56:21.000Z",
+                          "updatedAt": "2026-10-22T02:56:21.000Z",
+                          "uid": "35240-c14769f0-12e7-48d4-a9d1-e6485d0edb1b"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:56:21.000Z",
+                      "updatedAt": "2026-10-22T02:56:21.000Z",
+                      "uid": "35240-139534b1-1730-4373-ab0e-f2e9495c9fb8"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"3C1706X9619A7614YWS\",\n  \"source\": \"CUSTOMIZABLE\",\n  \"amount\": 200.99,\n  \"currency\": \"PHP\",\n  \"type\": \"<string>\",\n  \"remark\": \"CUSTOMIZABLE\",\n  \"expiredSeconds\": 1200,\n  \"qrCodeMerchantName\": \"CUSTOMIZABLE\",\n  \"merchantId\": \"6904028542363648\",\n  \"subMerchantId\": \"2904028542363648\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"qrCode\": \"string\",\n    \"requestId\": \"string\",\n    \"referenceId\": \"string\",\n    \"expiredTime\": \"string\",\n    \"amount\": 782.3814259828677,\n    \"currency\": \"string\",\n    \"status\": \"EXPIRED\",\n    \"errorCode\": \"string\",\n    \"errorMsg\": \"string\",\n    \"remark\": \"string\",\n    \"channelInvoiceNo\": \"string\",\n    \"cashInBank\": \"string\",\n    \"settleDate\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "3cbce209-49f5-4a74-a6c6-cba9d0def4c0",
-          "name": "Cancel Dynamic QRPH",
-          "request": {
-            "name": "Cancel Dynamic QRPH",
-            "description": {
-              "content": "Cancels a previously created dynamic QRPH code.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "cancel_qr_code"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "referenceId",
-                  "value": "<string>",
-                  "description": "(Required) Server generated reference id."
+                  "id": "9191c0e1-3551-4a6d-9bab-7c78ab09648e",
+                  "createdAt": "2026-10-22T02:56:21.000Z",
+                  "updatedAt": "2026-10-22T02:56:21.000Z",
+                  "uid": "35240-9191c0e1-3551-4a6d-9bab-7c78ab09648e"
                 },
                 {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "87d969b1-c40d-4e9c-9f0b-e91a92e60865",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "cancel_qr_code"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "name": "cancel_qr_code",
+                  "item": [
                     {
-                      "key": "referenceId",
-                      "value": "1950928204919496214"
+                      "name": "Cancel Dynamic QRPH",
+                      "id": "7c4b060a-c31a-4317-a67c-a36d9aacf395",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/fiat/v1/cancel_qr_code?referenceId=<string>&recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "fiat",
+                            "v1",
+                            "cancel_qr_code"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Server generated reference id.",
+                              "key": "referenceId",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Cancels a previously created dynamic QRPH code."
+                      },
+                      "response": [
+                        {
+                          "id": "7d6b4552-0681-46d9-9771-1e83385babca",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/cancel_qr_code?referenceId=<string>&recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "cancel_qr_code"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Server generated reference id.",
+                                  "key": "referenceId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"requestStatus\": \"SUCCEEDED\",\n    \"requestId\": \"<string>\",\n    \"referenceId\": \"<string>\",\n    \"qrcodeStatus\": \"SUCCEEDED\",\n    \"createdTime\": \"<string>\",\n    \"updatedTime\": \"<string>\",\n    \"completionTime\": \"<string>\",\n    \"errorCode\": \"<string,null>\",\n    \"errorMsg\": \"<string,null>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:56:21.000Z",
+                          "updatedAt": "2026-10-22T02:56:21.000Z",
+                          "uid": "35240-7d6b4552-0681-46d9-9771-1e83385babca"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:56:21.000Z",
+                      "updatedAt": "2026-10-22T02:56:21.000Z",
+                      "uid": "35240-7c4b060a-c31a-4317-a67c-a36d9aacf395"
+                    }
+                  ],
+                  "id": "9f9c44c9-e2f3-42ce-8c65-da54552204b6",
+                  "createdAt": "2026-10-22T02:56:21.000Z",
+                  "updatedAt": "2026-10-22T02:56:21.000Z",
+                  "uid": "35240-9f9c44c9-e2f3-42ce-8c65-da54552204b6"
+                },
+                {
+                  "name": "generate",
+                  "item": [
+                    {
+                      "name": "static",
+                      "item": [
+                        {
+                          "name": "qr_code",
+                          "item": [
+                            {
+                              "name": "Generate Static QRPH",
+                              "id": "2a453248-e44b-4fa4-8364-89c79dd13c7e",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"source\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"remark\": \"<string>\",\n  \"qrCodeMerchantName\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"subMerchantId\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/generate/static/qr_code?recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "generate",
+                                    "static",
+                                    "qr_code"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                },
+                                "description": "Returns a static QRPH code."
+                              },
+                              "response": [
+                                {
+                                  "id": "5abbc359-9d97-4f13-8aaa-91084d89747a",
+                                  "name": "Successful response",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-COINS-APIKEY",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"requestId\": \"<string>\",\n  \"source\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"remark\": \"<string>\",\n  \"qrCodeMerchantName\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"subMerchantId\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/openapi/fiat/v1/generate/static/qr_code?recvWindow=<long>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "openapi",
+                                        "fiat",
+                                        "v1",
+                                        "generate",
+                                        "static",
+                                        "qr_code"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                          "key": "recvWindow",
+                                          "value": "<long>"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"qrCode\": \"<string>\",\n    \"requestId\": \"<string>\",\n    \"referenceId\": \"<string>\",\n    \"status\": \"SUSPEND\",\n    \"qrCodeType\": \"STATIC\"\n  }\n}",
+                                  "createdAt": "2026-10-22T02:56:21.000Z",
+                                  "updatedAt": "2026-10-22T02:56:21.000Z",
+                                  "uid": "35240-5abbc359-9d97-4f13-8aaa-91084d89747a"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T02:56:21.000Z",
+                              "updatedAt": "2026-10-22T02:56:21.000Z",
+                              "uid": "35240-2a453248-e44b-4fa4-8364-89c79dd13c7e"
+                            }
+                          ],
+                          "id": "14fbd00a-1b58-4844-ad59-f2103d89a90e",
+                          "createdAt": "2026-10-22T02:56:21.000Z",
+                          "updatedAt": "2026-10-22T02:56:21.000Z",
+                          "uid": "35240-14fbd00a-1b58-4844-ad59-f2103d89a90e"
+                        }
+                      ],
+                      "id": "786cda2a-11fb-4f0e-afe7-ad7155b6aac3",
+                      "createdAt": "2026-10-22T02:56:21.000Z",
+                      "updatedAt": "2026-10-22T02:56:21.000Z",
+                      "uid": "35240-786cda2a-11fb-4f0e-afe7-ad7155b6aac3"
+                    }
+                  ],
+                  "id": "317714ee-d3a4-424b-8c1c-35265427e197",
+                  "createdAt": "2026-10-22T02:56:21.000Z",
+                  "updatedAt": "2026-10-22T02:56:21.000Z",
+                  "uid": "35240-317714ee-d3a4-424b-8c1c-35265427e197"
+                },
+                {
+                  "name": "update",
+                  "item": [
+                    {
+                      "name": "qr_code",
+                      "item": [
+                        {
+                          "name": "Update Static QRPH",
+                          "id": "3729548a-ca51-4f28-ba25-e663f69a3b0b",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"requestId\": \"<string>\",\n  \"status\": \"ACTIVE\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/update/qr_code?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "update",
+                                "qr_code"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "description": "Change the state of a previously created static QRPH code."
+                          },
+                          "response": [
+                            {
+                              "id": "6d80056e-3f32-4ad2-bff2-c360ceebe465",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"status\": \"ACTIVE\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/update/qr_code?recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "update",
+                                    "qr_code"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"requestId\": \"<string>\",\n    \"referenceId\": \"<string>\",\n    \"type\": \"STATIC\",\n    \"qrCodeMerchantName\": \"<string>\",\n    \"status\": \"ACTIVE\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:56:21.000Z",
+                              "updatedAt": "2026-10-22T02:56:21.000Z",
+                              "uid": "35240-6d80056e-3f32-4ad2-bff2-c360ceebe465"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:56:21.000Z",
+                          "updatedAt": "2026-10-22T02:56:21.000Z",
+                          "uid": "35240-3729548a-ca51-4f28-ba25-e663f69a3b0b"
+                        }
+                      ],
+                      "id": "7987d9a1-60c5-4e7e-8bfe-617e41f52cd0",
+                      "createdAt": "2026-10-22T02:56:21.000Z",
+                      "updatedAt": "2026-10-22T02:56:21.000Z",
+                      "uid": "35240-7987d9a1-60c5-4e7e-8bfe-617e41f52cd0"
+                    }
+                  ],
+                  "id": "865de723-55a6-4a28-b5e6-dcdac31de630",
+                  "createdAt": "2026-10-22T02:56:21.000Z",
+                  "updatedAt": "2026-10-22T02:56:21.000Z",
+                  "uid": "35240-865de723-55a6-4a28-b5e6-dcdac31de630"
+                },
+                {
+                  "name": "get_qr_code",
+                  "item": [
+                    {
+                      "name": "static",
+                      "item": [
+                        {
+                          "name": "list",
+                          "item": [
+                            {
+                              "name": "Get Static QRPH List",
+                              "id": "8c84f97d-4e86-4502-8e3a-cb09acd7766d",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/get_qr_code/static/list?status=SUSPEND&recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "get_qr_code",
+                                    "static",
+                                    "list"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter by state of the QR code.",
+                                      "key": "status",
+                                      "value": "SUSPEND"
+                                    },
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                },
+                                "description": "Returns a list of static QR codes previously created."
+                              },
+                              "response": [
+                                {
+                                  "id": "bda5876e-7cbf-4235-9c05-110120dc584c",
+                                  "name": "Successful response",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-COINS-APIKEY",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/openapi/fiat/v1/get_qr_code/static/list?status=SUSPEND&recvWindow=<long>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "openapi",
+                                        "fiat",
+                                        "v1",
+                                        "get_qr_code",
+                                        "static",
+                                        "list"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "Filter by state of the QR code.",
+                                          "key": "status",
+                                          "value": "SUSPEND"
+                                        },
+                                        {
+                                          "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                          "key": "recvWindow",
+                                          "value": "<long>"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": [\n    {\n      \"requestId\": \"<string>\",\n      \"qrCode\": \"<string>\",\n      \"status\": \"SUSPEND\",\n      \"qrCodeMerchantName\": \"<string>\"\n    },\n    {\n      \"requestId\": \"<string>\",\n      \"qrCode\": \"<string>\",\n      \"status\": \"ACTIVE\",\n      \"qrCodeMerchantName\": \"<string>\"\n    }\n  ]\n}",
+                                  "createdAt": "2026-10-22T02:56:21.000Z",
+                                  "updatedAt": "2026-10-22T02:56:21.000Z",
+                                  "uid": "35240-bda5876e-7cbf-4235-9c05-110120dc584c"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T02:56:21.000Z",
+                              "updatedAt": "2026-10-22T02:56:21.000Z",
+                              "uid": "35240-8c84f97d-4e86-4502-8e3a-cb09acd7766d"
+                            }
+                          ],
+                          "id": "010d3de5-859b-4926-8318-2c332a57564a",
+                          "createdAt": "2026-10-22T02:56:21.000Z",
+                          "updatedAt": "2026-10-22T02:56:21.000Z",
+                          "uid": "35240-010d3de5-859b-4926-8318-2c332a57564a"
+                        }
+                      ],
+                      "id": "9a395ddf-0e52-4607-8d5b-37a3f4bf1fb6",
+                      "createdAt": "2026-10-22T02:56:21.000Z",
+                      "updatedAt": "2026-10-22T02:56:21.000Z",
+                      "uid": "35240-9a395ddf-0e52-4607-8d5b-37a3f4bf1fb6"
                     },
                     {
-                      "key": "recvWindow",
-                      "value": "<long>"
+                      "name": "Get QRPH Status",
+                      "id": "3e412c09-36e5-40b6-b372-90c5650e91e2",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/openapi/fiat/v1/get_qr_code?requestId=<string>&recvWindow=<long>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "openapi",
+                            "fiat",
+                            "v1",
+                            "get_qr_code"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Assigned by the partner for idempotency validation.",
+                              "key": "requestId",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Validity duration of the request in milliseconds after the timestamp.",
+                              "key": "recvWindow",
+                              "value": "<long>"
+                            }
+                          ]
+                        },
+                        "description": "Returns the current status of a previously created QRPH code."
+                      },
+                      "response": [
+                        {
+                          "id": "1ddb6233-4d74-4a67-8714-2b3599f7ea83",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-COINS-APIKEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/get_qr_code?requestId=<string>&recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "get_qr_code"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Assigned by the partner for idempotency validation.",
+                                  "key": "requestId",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"qrCode\": \"<string>\",\n    \"requestId\": \"<string>\",\n    \"referenceId\": \"<string>\",\n    \"expiredTime\": \"<string>\",\n    \"amount\": \"<number>\",\n    \"currency\": \"<string>\",\n    \"status\": \"EXPIRED\",\n    \"errorCode\": \"<string,null>\",\n    \"errorMsg\": \"<string,null>\",\n    \"remark\": \"<string>\",\n    \"channelInvoiceNo\": \"<string,null>\",\n    \"cashInBank\": \"<string,null>\",\n    \"settleDate\": \"<string,null>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:56:21.000Z",
+                          "updatedAt": "2026-10-22T02:56:21.000Z",
+                          "uid": "35240-1ddb6233-4d74-4a67-8714-2b3599f7ea83"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:56:21.000Z",
+                      "updatedAt": "2026-10-22T02:56:21.000Z",
+                      "uid": "35240-3e412c09-36e5-40b6-b372-90c5650e91e2"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "f3380c84-4846-42a9-9814-5bc02f958f40",
+                  "createdAt": "2026-10-22T02:56:21.000Z",
+                  "updatedAt": "2026-10-22T02:56:21.000Z",
+                  "uid": "35240-f3380c84-4846-42a9-9814-5bc02f958f40"
                 }
               ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"requestStatus\": \"SUCCEEDED\",\n    \"requestId\": \"string\",\n    \"referenceId\": \"string\",\n    \"qrcodeStatus\": \"PENDING\",\n    \"createdTime\": \"string\",\n    \"updatedTime\": \"string\",\n    \"completionTime\": \"string\",\n    \"errorCode\": \"string\",\n    \"errorMsg\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "57becae5-adf0-490d-a19a-042644e60e58",
+              "createdAt": "2026-10-22T02:56:21.000Z",
+              "updatedAt": "2026-10-22T02:56:21.000Z",
+              "uid": "35240-57becae5-adf0-490d-a19a-042644e60e58"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "e3296c61-cfa8-47a4-b09f-cafa061a0673",
-          "name": "Generate Static QRPH",
-          "request": {
-            "name": "Generate Static QRPH",
-            "description": {
-              "content": "Returns a static QRPH code.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "generate",
-                "static",
-                "qr_code"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"requestId\": \"<string>\",\n  \"source\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"remark\": \"<string>\",\n  \"qrCodeMerchantName\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"subMerchantId\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "c387e090-7c17-4083-9d18-31e44200947a",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "generate",
-                    "static",
-                    "qr_code"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"3C1706X9619A7614YWS\",\n  \"source\": \"CUSTOMIZABLE\",\n  \"currency\": \"PHP\",\n  \"remark\": \"<string>\",\n  \"qrCodeMerchantName\": \"<string>\",\n  \"merchantId\": \"<string>\",\n  \"subMerchantId\": \"2904028542363648\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"qrCode\": \"string\",\n    \"requestId\": \"string\",\n    \"referenceId\": \"string\",\n    \"status\": \"SUSPEND\",\n    \"qrCodeType\": \"STATIC\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "69cd2e67-52fb-49d1-958e-5033fde575af",
-          "name": "Update Static QRPH",
-          "request": {
-            "name": "Update Static QRPH",
-            "description": {
-              "content": "Change the state of a previously created static QRPH code.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "update",
-                "qr_code"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"requestId\": \"<string>\",\n  \"status\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "487f6a18-561f-4456-b893-209498f9a978",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "update",
-                    "qr_code"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"status\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"requestId\": \"3C1706X9619A7614YWS\",\n    \"referenceId\": \"1950928204919496214\",\n    \"type\": \"STATIC\",\n    \"qrCodeMerchantName\": \"CUSTOMIZABLE\",\n    \"status\": \"ACTIVE\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "8fd174c6-59f2-4628-8520-2951c2e298b3",
-          "name": "Get Static QRPH List",
-          "request": {
-            "name": "Get Static QRPH List",
-            "description": {
-              "content": "Returns a list of static QR codes previously created.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "get_qr_code",
-                "static",
-                "list"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "status",
-                  "value": "<string>",
-                  "description": "Filter by state of the QR code."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "e2ccc6b8-0df7-40ab-b8d0-6f164a213e64",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "get_qr_code",
-                    "static",
-                    "list"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": [\n    {\n      \"requestId\": \"3C1706X9619A7614YWS\",\n      \"qrCode\": \"string\",\n      \"status\": \"ACTIVE\",\n      \"qrCodeMerchantName\": \"CUSTOMIZABLE\"\n    },\n    {\n      \"requestId\": \"3C1706X9619A7614YWS\",\n      \"qrCode\": \"string\",\n      \"status\": \"SUSPEND\",\n      \"qrCodeMerchantName\": \"CUSTOMIZABLE\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "5cf01f61-1318-4318-bf9c-d57a7a59db37",
-          "name": "Get QRPH Status",
-          "request": {
-            "name": "Get QRPH Status",
-            "description": {
-              "content": "Returns the current status of a previously created QRPH code.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "get_qr_code"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "requestId",
-                  "value": "<string>",
-                  "description": "(Required) Assigned by the partner for idempotency validation."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "235c8145-7ebb-4705-92bd-1912c7e1d6c0",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "get_qr_code"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "requestId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"qrCode\": \"string\",\n    \"requestId\": \"string\",\n    \"referenceId\": \"string\",\n    \"expiredTime\": \"string\",\n    \"amount\": 936.9506066620503,\n    \"currency\": \"string\",\n    \"status\": \"FAILED\",\n    \"errorCode\": \"string\",\n    \"errorMsg\": \"string\",\n    \"remark\": \"string\",\n    \"channelInvoiceNo\": \"string\",\n    \"cashInBank\": \"string\",\n    \"settleDate\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "c02cbdae-1476-4b08-a287-ee2d5b0cfd78",
+          "createdAt": "2026-10-22T02:56:21.000Z",
+          "updatedAt": "2026-10-22T02:56:21.000Z",
+          "uid": "35240-c02cbdae-1476-4b08-a287-ee2d5b0cfd78"
         }
       ],
-      "event": []
+      "id": "73809a93-42f0-4d00-90fe-d0c3f3647c98",
+      "createdAt": "2026-10-22T02:56:21.000Z",
+      "updatedAt": "2026-10-22T02:56:21.000Z",
+      "uid": "35240-73809a93-42f0-4d00-90fe-d0c3f3647c98"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "cb37afe3-045a-45bc-b623-611a488438b1",
-    "name": "TRADING Account Collections - QRPH API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

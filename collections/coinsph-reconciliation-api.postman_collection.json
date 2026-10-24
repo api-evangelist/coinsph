@@ -1,243 +1,331 @@
 {
+  "info": {
+    "_postman_id": "79e5c083-6997-405a-bbd1-3bf3d361556f",
+    "name": "Payment Reconciliation API",
+    "description": "Coins.ph Partner Integration API v2.7\n\n## Authentication\nAll requests must include the following headers:\n- `X-COINS-APIKEY`: Your API key\n- `Timestamp`: Unix timestamp of the request\n- `Signature`: HMAC-SHA256 signature of the request\n\nRequests and webhook payloads must be signed using HMAC-SHA256 with the API secret.\n\n## Environments\n- **Sandbox**: `https://api.9001.pl-qa.coinsxyz.me`\n- **Production**: `https://api.pro.coins.ph`\n\nContact Support:\n Name: Coins.ph Tech Ops\n Email: tech_ops@coins.ph",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:57:26.000Z",
+    "updatedAt": "2026-10-22T02:57:26.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-79e5c083-6997-405a-bbd1-3bf3d361556f"
+  },
   "item": [
     {
-      "id": "1b925b25-f4a9-45e2-b186-37cd95228083",
-      "name": "Reconciliation",
-      "description": {
-        "content": "Reconciliation report",
-        "type": "text/plain"
-      },
+      "name": "openapi",
       "item": [
         {
-          "id": "5a980c24-3f7e-4208-987b-0b6392e3e2a7",
-          "name": "Apply for Report",
-          "request": {
-            "name": "Apply for Report",
-            "description": {
-              "content": "Apply for the reconciliation report. The transaction statement file for the previous day is generated after 10:00 AM (UTC+8) each day.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "apply",
-                "merchant_bill"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"requestId\": \"<string>\",\n  \"fileType\": \"<string>\",\n  \"billDate\": \"<date>\",\n  \"operateType\": \"<integer>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "fiat",
+          "item": [
             {
-              "id": "51332dd8-303c-446d-85ec-8802c598a5a1",
-              "name": "Successful response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "apply",
-                    "merchant_bill"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"fileType\": \"Transaction Report\",\n  \"billDate\": \"2026-02-02\",\n  \"operateType\": \"<integer>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "name": "v1",
+              "item": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "name": "apply",
+                  "item": [
+                    {
+                      "name": "merchant_bill",
+                      "item": [
+                        {
+                          "name": "Apply for Report",
+                          "id": "50f5cc78-5504-4262-8395-bac5e8c3f83d",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"requestId\": \"<string>\",\n  \"fileType\": \"<string>\",\n  \"billDate\": \"<date>\",\n  \"operateType\": \"<integer>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/apply/merchant_bill?recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "apply",
+                                "merchant_bill"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "description": "Apply for the reconciliation report. The transaction statement file for the previous day is generated after 10:00 AM (UTC+8) each day."
+                          },
+                          "response": [
+                            {
+                              "id": "8fd55881-7d0e-4fee-8ddf-eb944e437f6c",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"requestId\": \"<string>\",\n  \"fileType\": \"<string>\",\n  \"billDate\": \"<date>\",\n  \"operateType\": \"<integer>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/apply/merchant_bill?recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "apply",
+                                    "merchant_bill"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": \"<integer>\",\n  \"error\": \"<string>\",\n  \"params\": \"<object,null>\",\n  \"data\": {\n    \"requestId\": \"<string>\",\n    \"downloadUrl\": \"<string>\",\n    \"tips\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:57:26.000Z",
+                              "updatedAt": "2026-10-22T02:57:26.000Z",
+                              "uid": "35240-8fd55881-7d0e-4fee-8ddf-eb944e437f6c"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:57:26.000Z",
+                          "updatedAt": "2026-10-22T02:57:26.000Z",
+                          "uid": "35240-50f5cc78-5504-4262-8395-bac5e8c3f83d"
+                        }
+                      ],
+                      "id": "82d6489f-56c7-47df-899b-47a355c49786",
+                      "createdAt": "2026-10-22T02:57:26.000Z",
+                      "updatedAt": "2026-10-22T02:57:26.000Z",
+                      "uid": "35240-82d6489f-56c7-47df-899b-47a355c49786"
+                    }
+                  ],
+                  "id": "1b90af00-7eb5-491a-87d5-3349f9b413fa",
+                  "createdAt": "2026-10-22T02:57:26.000Z",
+                  "updatedAt": "2026-10-22T02:57:26.000Z",
+                  "uid": "35240-1b90af00-7eb5-491a-87d5-3349f9b413fa"
+                },
+                {
+                  "name": "download",
+                  "item": [
+                    {
+                      "name": "merchant_bill",
+                      "item": [
+                        {
+                          "name": "Retrieve the Report",
+                          "id": "f69fbc70-d495-4ece-b57d-81181c9fd7e3",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/zip"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/openapi/fiat/v1/download/merchant_bill?fileKey=<string>&recvWindow=<long>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "openapi",
+                                "fiat",
+                                "v1",
+                                "download",
+                                "merchant_bill"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Unique download file key.",
+                                  "key": "fileKey",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                  "key": "recvWindow",
+                                  "value": "<long>"
+                                }
+                              ]
+                            },
+                            "description": "Download the reconciliation report file (ZIP format). The download link is valid for 30 minutes."
+                          },
+                          "response": [
+                            {
+                              "id": "21502258-be41-4986-b74f-9b052fffb0a5",
+                              "name": "ZIP file download",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/zip"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "X-COINS-APIKEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/openapi/fiat/v1/download/merchant_bill?fileKey=<string>&recvWindow=<long>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "openapi",
+                                    "fiat",
+                                    "v1",
+                                    "download",
+                                    "merchant_bill"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Unique download file key.",
+                                      "key": "fileKey",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Validity duration of the request in milliseconds after the timestamp.",
+                                      "key": "recvWindow",
+                                      "value": "<long>"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/zip"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "<binary>",
+                              "createdAt": "2026-10-22T02:57:26.000Z",
+                              "updatedAt": "2026-10-22T02:57:26.000Z",
+                              "uid": "35240-21502258-be41-4986-b74f-9b052fffb0a5"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:57:26.000Z",
+                          "updatedAt": "2026-10-22T02:57:26.000Z",
+                          "uid": "35240-f69fbc70-d495-4ece-b57d-81181c9fd7e3"
+                        }
+                      ],
+                      "id": "cbf49d17-e31d-43a3-a319-10301c863a7d",
+                      "createdAt": "2026-10-22T02:57:26.000Z",
+                      "updatedAt": "2026-10-22T02:57:26.000Z",
+                      "uid": "35240-cbf49d17-e31d-43a3-a319-10301c863a7d"
+                    }
+                  ],
+                  "id": "e1212df5-960f-4d0a-a14d-108795d92656",
+                  "createdAt": "2026-10-22T02:57:26.000Z",
+                  "updatedAt": "2026-10-22T02:57:26.000Z",
+                  "uid": "35240-e1212df5-960f-4d0a-a14d-108795d92656"
                 }
               ],
-              "body": "{\n  \"status\": 0,\n  \"error\": \"OK\",\n  \"params\": {},\n  \"data\": {\n    \"requestId\": \"string\",\n    \"downloadUrl\": \"string\",\n    \"tips\": \"string\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "5f41e6c8-531d-4a2a-9fd6-94df08750e6f",
+              "createdAt": "2026-10-22T02:57:26.000Z",
+              "updatedAt": "2026-10-22T02:57:26.000Z",
+              "uid": "35240-5f41e6c8-531d-4a2a-9fd6-94df08750e6f"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "b1012053-e85a-469a-afe8-5b019c737831",
-          "name": "Retrieve the Report",
-          "request": {
-            "name": "Retrieve the Report",
-            "description": {
-              "content": "Download the reconciliation report file (ZIP format). The download link is valid for 30 minutes.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "openapi",
-                "fiat",
-                "v1",
-                "download",
-                "merchant_bill"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "fileKey",
-                  "value": "<string>",
-                  "description": "(Required) Unique download file key."
-                },
-                {
-                  "disabled": false,
-                  "key": "recvWindow",
-                  "value": "<long>",
-                  "description": "Validity duration of the request in milliseconds after the timestamp."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/zip"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "700199e7-68ff-4496-b16c-32921d7f214f",
-              "name": "ZIP file download",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "openapi",
-                    "fiat",
-                    "v1",
-                    "download",
-                    "merchant_bill"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "fileKey",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "recvWindow",
-                      "value": "<long>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/zip"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/zip"
-                }
-              ],
-              "body": "string",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "c2aff66e-7525-4148-9e84-ece32ffbf4dd",
+          "createdAt": "2026-10-22T02:57:26.000Z",
+          "updatedAt": "2026-10-22T02:57:26.000Z",
+          "uid": "35240-c2aff66e-7525-4148-9e84-ece32ffbf4dd"
         }
       ],
-      "event": []
+      "id": "d6f6eddf-e916-4b9e-9e15-e5d9878cbee0",
+      "createdAt": "2026-10-22T02:57:26.000Z",
+      "updatedAt": "2026-10-22T02:57:26.000Z",
+      "uid": "35240-d6f6eddf-e916-4b9e-9e15-e5d9878cbee0"
     }
   ],
-  "event": [],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-COINS-APIKEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.pro.coins.ph",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.pro.coins.ph"
     }
-  ],
-  "info": {
-    "_postman_id": "9c4e441d-9763-436a-a0ab-63c7624128db",
-    "name": "TRADING Account Reconciliation API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "API reference for Account management — Coins.ph",
-      "type": "text/plain"
-    }
-  }
+  ]
 }
