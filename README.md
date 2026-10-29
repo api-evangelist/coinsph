@@ -64,6 +64,189 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Coins.ph is a company surfaced as a portfolio company of pantera-capital, ribbit-capital and added to the API Evangelist network as a stub for enrichment. Sector: crypto. This profile is a lead awaiting the enrichment pipeline.
+Coins.ph is a BSP-regulated Philippine fintech super app combining a licensed crypto exchange (Coins Pro), an e-wallet for pesos and 170+ cryptocurrencies, and a merchant/partner payments platform. Its public developer platform exposes a Partner Integration / Payment API (QRPH collections, checkout, disbursements, refunds, virtual accounts, reconciliation) and the Coins Pro exchange API (spot trading, wallets, market data, convert, sub-accounts, and a WebSocket user-data stream), plus an on/off ramp API. All requests are authenticated with an API key and HMAC-SHA256 request signing (X-COINS-APIKEY, Timestamp, Signature). Backed by Pantera Capital and Ribbit Capital.
 
-Backed by: pantera-capital, ribbit-capital — https://coins.ph/
+**Areas:** Company · Cryptocurrency · Cryptocurrency Exchange · Payments · Fintech · Wallets · Philippines · Trading
+
+## Coins.ph on APIs.io
+
+Everything profiled for Coins.ph is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/coinsph/](https://apis.io/providers/coinsph/)** — or go straight to one of the APIs or properties below.
+
+### APIs (26)
+
+- [Coins.ph Account API](https://apis.io/apis/coinsph/coinsph-account-api/) — Account management APIs.
+- [Coins.ph Account Validation API](https://apis.io/apis/coinsph/coinsph-account-validation-api/) — The Account Validation API from Coins.ph — 2 operation(s) for account validation.
+- [Coins.ph Checkout API](https://apis.io/apis/coinsph/coinsph-checkout-api/) — Checkout creation and management
+- [Coins.ph Checkout Refund API](https://apis.io/apis/coinsph/coinsph-checkout-refund-api/) — Checkout refund operations
+- [Coins.ph Collections - Crypto API](https://apis.io/apis/coinsph/coinsph-collections-crypto-api/) — Crypto deposit address
+- [Coins.ph Collections - QRPH API](https://apis.io/apis/coinsph/coinsph-collections-qrph-api/) — QRPH code generation and management
+- [Coins.ph Convert API](https://apis.io/apis/coinsph/coinsph-convert-api/) — Convert quote and acceptance operations.
+- [Coins.ph Disbursements API](https://apis.io/apis/coinsph/coinsph-disbursements-api/) — Cash-out and disbursement operations
+- [Coins.ph General API](https://apis.io/apis/coinsph/coinsph-general-api/) — General endpoints for connectivity, server time, system status, and user IP.
+- [Coins.ph Listens API](https://apis.io/apis/coinsph/coinsph-listens-api/) — Manage user data stream listenKeys for WebSocket connections. A listenKey is required to establish a private WebSocket connection for receiving real-time…
+- [Coins.ph Markets API](https://apis.io/apis/coinsph/coinsph-markets-api/) — Market data APIs.
+- [Coins.ph ON/OFF Ramp API](https://apis.io/apis/coinsph/coinsph-on-off-ramp-api/) — Fiat-to-crypto and crypto-to-fiat ramp operations
+- [Coins.ph Order History API](https://apis.io/apis/coinsph/coinsph-order-history-api/) — Order history and details
+- [Coins.ph Ramp Callback API](https://apis.io/apis/coinsph/coinsph-ramp-callback-api/) — Webhook callbacks sent to the merchant's configured callback URL when order status changes
+- [Coins.ph Reconciliation API](https://apis.io/apis/coinsph/coinsph-reconciliation-api/) — Reconciliation report
+- [Coins.ph Refund API](https://apis.io/apis/coinsph/coinsph-refund-api/) — Refund operations
+- [Coins.ph Scan to Pay API](https://apis.io/apis/coinsph/coinsph-scan-to-pay-api/) — QR code scan-to-pay payment operations
+- [Coins.ph Spot API](https://apis.io/apis/coinsph/coinsph-spot-api/) — Spot trading operations including order placement, querying, cancellation, and trade history.
+- [Coins.ph Sub Account API](https://apis.io/apis/coinsph/coinsph-sub-account-api/) — Sub Account deposit, withdrawal, and transfer operations.
+- [Coins.ph Tokenized Checkout API](https://apis.io/apis/coinsph/coinsph-tokenized-checkout-api/) — Password-free (auto-debit) checkout
+- [Coins.ph Trading - Convert API](https://apis.io/apis/coinsph/coinsph-trading-convert-api/) — Convert trading operations
+- [Coins.ph Trading - OTC API](https://apis.io/apis/coinsph/coinsph-trading-otc-api/) — OTC trading for Business Account
+- [Coins.ph Transfers API](https://apis.io/apis/coinsph/coinsph-transfers-api/) — The Transfers API from Coins.ph — 2 operation(s) for transfers.
+- [Coins.ph Utility API](https://apis.io/apis/coinsph/coinsph-utility-api/) — Account balance, transfers, and utility endpoints
+- [Coins.ph Virtual Account API](https://apis.io/apis/coinsph/coinsph-virtual-account-api/) — Virtual account creation and management
+- [Coins.ph Wallet API](https://apis.io/apis/coinsph/coinsph-wallet-api/) — Convert, Deposit, Withdraw, Transfers, and Sub Account Transfer operations.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Coinsph Webhooks](https://apis.io/asyncapis/coinsph/coinsph-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [coinsph](https://apis.io/servers/coinsph/coinsph/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Coinsph Agentic Access](https://apis.io/agentic-access/coinsph/coinsph-agentic-access/)
+
+#### Collections (26)
+
+Postman and Open Collection request collections.
+
+- [TRADING Account API](https://apis.io/collections/coinsph/open-coinsph-account-api/)
+- [TRADING Account Account Validation API](https://apis.io/collections/coinsph/open-coinsph-account-validation-api/)
+- [TRADING Account Checkout API](https://apis.io/collections/coinsph/open-coinsph-checkout-api/)
+- [TRADING Account Checkout Refund API](https://apis.io/collections/coinsph/open-coinsph-checkout-refund-api/)
+- [TRADING Account Collections - Crypto API](https://apis.io/collections/coinsph/open-coinsph-collections-crypto-api/)
+- [TRADING Account Collections - QRPH API](https://apis.io/collections/coinsph/open-coinsph-collections-qrph-api/)
+- [TRADING Account Convert API](https://apis.io/collections/coinsph/open-coinsph-convert-api/)
+- [TRADING Account Disbursements API](https://apis.io/collections/coinsph/open-coinsph-disbursements-api/)
+- [TRADING Account General API](https://apis.io/collections/coinsph/open-coinsph-general-api/)
+- [TRADING Account Listens API](https://apis.io/collections/coinsph/open-coinsph-listens-api/)
+- [TRADING Account Markets API](https://apis.io/collections/coinsph/open-coinsph-markets-api/)
+- [TRADING Account ON/OFF Ramp API](https://apis.io/collections/coinsph/open-coinsph-on-off-ramp-api/)
+- [TRADING Account Order History API](https://apis.io/collections/coinsph/open-coinsph-order-history-api/)
+- [TRADING Account Ramp Callback API](https://apis.io/collections/coinsph/open-coinsph-ramp-callback-api/)
+- [TRADING Account Reconciliation API](https://apis.io/collections/coinsph/open-coinsph-reconciliation-api/)
+- [TRADING Account Refund API](https://apis.io/collections/coinsph/open-coinsph-refund-api/)
+- [TRADING Account Scan to Pay API](https://apis.io/collections/coinsph/open-coinsph-scan-to-pay-api/)
+- [TRADING Account Spot API](https://apis.io/collections/coinsph/open-coinsph-spot-api/)
+- [TRADING Account Sub Account API](https://apis.io/collections/coinsph/open-coinsph-sub-account-api/)
+- [TRADING Account Tokenized Checkout API](https://apis.io/collections/coinsph/open-coinsph-tokenized-checkout-api/)
+- [TRADING Account Trading - Convert API](https://apis.io/collections/coinsph/open-coinsph-trading-convert-api/)
+- [TRADING Account Trading - OTC API](https://apis.io/collections/coinsph/open-coinsph-trading-otc-api/)
+- [TRADING Account Transfers API](https://apis.io/collections/coinsph/open-coinsph-transfers-api/)
+- [TRADING Account Utility API](https://apis.io/collections/coinsph/open-coinsph-utility-api/)
+- [TRADING Account Virtual Account API](https://apis.io/collections/coinsph/open-coinsph-virtual-account-api/)
+- …and 1 more published on APIs.io
+
+#### Overlays (11)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Coinsph Account Overlay](https://apis.io/overlays/coinsph/coinsph-account-overlay/)
+- [Coinsph Account Validation Overlay](https://apis.io/overlays/coinsph/coinsph-account-validation-overlay/)
+- [Coinsph Convert Overlay](https://apis.io/overlays/coinsph/coinsph-convert-overlay/)
+- [Coinsph Listenkey Overlay](https://apis.io/overlays/coinsph/coinsph-listenkey-overlay/)
+- [Coinsph Markets Overlay](https://apis.io/overlays/coinsph/coinsph-markets-overlay/)
+- [Coinsph Payment Overlay](https://apis.io/overlays/coinsph/coinsph-payment-overlay/)
+- [Coinsph Ramp Overlay](https://apis.io/overlays/coinsph/coinsph-ramp-overlay/)
+- [Coinsph Spot Overlay](https://apis.io/overlays/coinsph/coinsph-spot-overlay/)
+- [Coinsph Sub Account Overlay](https://apis.io/overlays/coinsph/coinsph-sub-account-overlay/)
+- [Coinsph System Overlay](https://apis.io/overlays/coinsph/coinsph-system-overlay/)
+- [Coinsph Wallet Overlay](https://apis.io/overlays/coinsph/coinsph-wallet-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Coinsph Authentication](https://apis.io/security/coinsph/coinsph-authentication/)
+- [Coinsph Domain Security](https://apis.io/security/coinsph/coinsph-domain-security/)
+- [Coinsph Vulnerability Disclosure](https://apis.io/security/coinsph/coinsph-vulnerability-disclosure/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://coins.ph/)
+- [Documentation](https://api.docs.coins.ph)
+- [Getting started](https://api.docs.coins.ph)
+- [API reference](https://api.docs.coins.ph)
+- [Pricing](https://coins.ph/en-ph/fees)
+- [Support](https://support.coins.ph/hc/en-us)
+- [Changelog](https://api.docs.coins.ph/changelog)
+- [Blog](https://coins.ph/en-ph/blog)
+- [Security](https://coins.ph/en-ph/bug-bounty)
+- [Terms of service](https://coins.ph/en-ph/legal)
+- [Privacy policy](https://coins.ph/en-ph/legal#privacy)
+- [GitHub](https://github.com/coinsph)
+- [Status](https://status.coins.ph)
+
+## API Evangelist rating
+
+**Kin Score 50.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 58.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 54.2 |
+| Access clarity | 31.6 |
+
+**Agent readiness 35.1** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 27.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/coinsph/](https://apis.io/providers/coinsph/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Coins.ph: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/coinsph/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
